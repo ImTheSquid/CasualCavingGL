@@ -2,15 +2,15 @@ package org.level;
 
 import org.loader.ImageResource;
 
-public class Level {
+public abstract class Level {
     private ImageResource[] backgrounds;
 
     public Level(ImageResource[] backgrounds){
         this.backgrounds=backgrounds;
     }
 
-    public void update(){/*Implement in subclass*/}
+    public abstract void update();
 
-    public void render(){/*Implement in subclass*/}
+    public abstract void render();
 
 }

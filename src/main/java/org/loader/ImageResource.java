@@ -25,7 +25,7 @@ public class ImageResource {
         }
     }
 
-    Texture getTexture(){
+    public Texture getTexture(){
         if(image==null)return null;
         if(texture==null)texture= AWTTextureIO.newTexture(Render.getProfile(),image,true);
         return texture;

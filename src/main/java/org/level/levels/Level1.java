@@ -7,4 +7,12 @@ public class Level1 extends Level {
     public Level1(ImageResource[] backgrounds) {
         super(backgrounds);
     }
+
+    public void update() {
+
+    }
+
+    public void render() {
+
+    }
 }

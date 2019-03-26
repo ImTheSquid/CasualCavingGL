@@ -8,11 +8,11 @@ public class World {
     private static ConcurrentLinkedQueue<Entity> entites=new ConcurrentLinkedQueue<Entity>();
 
 
-    public void update(){
+    public static void update(){
 
     }
 
-    public void render(){
+    public static void render(){
 
     }
 

@@ -1,5 +1,8 @@
 package org.engine;
 
+import org.graphics.Render;
+import org.world.World;
+
 public class GameLoop {
     private boolean running=true;
     private int updates=0;
@@ -12,18 +15,34 @@ public class GameLoop {
         Thread game=new Thread(){
             public void run(){
                 lastUpdateTime=System.nanoTime();
-                int fps=0;
+                int fps=0;//TODO Implement FPS counter
                 long lastFpsCheck=System.nanoTime();
                 while(running){
                     long currentTime=System.nanoTime();
                     //Lag protection
                     updates=0;
                     while(currentTime-lastUpdateTime>=targetTime){
-                        
+                        World.update();
+                        lastUpdateTime+=targetTime;
+                        updates++;
+                        if(updates>MAX_UPDATES)break;
+                    }
+
+                    long startTime=System.nanoTime();
+                    Render.render();
+                    long timeTaken=System.nanoTime()-startTime;
+                    if(timeTaken<targetTime){
+                        try {
+                            Thread.sleep((targetTime-timeTaken)/1000000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
         };
+        game.setName("GameLoop");
+        game.start();
     }
 
     public void setRunning(boolean running) {
