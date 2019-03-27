@@ -13,18 +13,20 @@ public class World {
     }
 
     public static void render(){
-
+        for(Entity e:entites){
+            e.render();
+        }
     }
 
-    public void addEntity(Entity e){
+    public static void addEntity(Entity e){
         entites.offer(e);
     }
 
-    public void removeEntity(Entity e){
+    public static void removeEntity(Entity e){
         entites.remove(e);
     }
 
-    public void clearEntites(){
+    public static void clearEntites(){
         entites.clear();
     }
 

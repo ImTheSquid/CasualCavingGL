@@ -12,7 +12,15 @@ import java.io.IOException;
 public class ImageResource {
     private Texture texture=null;
     private BufferedImage image=null;
-    ImageResource(File f){
+    public ImageResource(File f){
+        readFile(f);
+    }
+
+    public ImageResource(String path){
+        readFile(new File(path));
+    }
+
+    private void readFile(File f){
         try{
             image= ImageIO.read(f);
         }catch(IOException e){

@@ -13,8 +13,8 @@ public class Render implements GLEventListener {
     private static GLProfile profile;
     private static final int screenWidth=1280,screenHeight=720;
     private static GL2 gl2;
-    private static float unitsWide=10,unitsTall;
-    private static float cameraX=0,cameraY=0;
+    public static float unitsWide=10,unitsTall;
+    public static float cameraX=0,cameraY=0;
     private static GameLoop gameLoop=new GameLoop();
     public Render(){
         profile=GLProfile.get(GLProfile.GL2);
@@ -32,6 +32,10 @@ public class Render implements GLEventListener {
 
     public static GLProfile getProfile() {
         return profile;
+    }
+
+    public static GLWindow getWindow(){
+        return window;
     }
 
     public static void render(){
