@@ -8,28 +8,34 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 public class ImageResource {
     private Texture texture=null;
     private BufferedImage image=null;
     public ImageResource(File f){
-        readFile(f);
+        readFile(f.getPath());
     }
 
     public ImageResource(String path){
-        readFile(new File(path));
+        readFile(path);
     }
 
-    private void readFile(File f){
+    public ImageResource(URL url){
+        readFile(url.getFile());
+    }
+
+    private void readFile(String p){
+        URL url=ImageResource.class.getResource(p);
         try{
-            image= ImageIO.read(f);
+            image= ImageIO.read(url);
         }catch(IOException e){
             e.printStackTrace();
         }
         if(image!=null){
             image.flush();
         }else{
-            System.err.println("Error! Image is null.");
+            System.err.println("[CASUAL-CAVING/ERROR] Image is null.");
         }
     }
 

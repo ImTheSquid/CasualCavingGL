@@ -1,5 +1,6 @@
 package org.loader.harold;
 
+import org.entities.Harold;
 import org.loader.ImageResource;
 
 public class HaroldLoader {
@@ -7,7 +8,7 @@ public class HaroldLoader {
     void setDirection(boolean dir){
         direction=dir;
     }
-    private ImageResource harold=new ImageResource("/src/main/resources/Casual Caving/Entities/Harold/Harold.png");
+    private ImageResource harold=new ImageResource("/CasualCaving/Entities/Harold/Harold.png");
     public ImageResource getHarold(){
         return harold;
     }

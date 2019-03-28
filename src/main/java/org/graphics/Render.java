@@ -13,7 +13,7 @@ public class Render implements GLEventListener {
     private static GLProfile profile;
     private static final int screenWidth=1280,screenHeight=720;
     private static GL2 gl2;
-    public static float unitsWide=10,unitsTall;
+    public static float unitsWide=100,unitsTall;
     public static float cameraX=0,cameraY=0;
     private static GameLoop gameLoop=new GameLoop();
     public Render(){
@@ -42,7 +42,7 @@ public class Render implements GLEventListener {
         if(window!=null)window.display();
     }
 
-    public static GL2 getGL2(){
+    static GL2 getGL2(){
         return gl2;
     }
 
@@ -69,10 +69,10 @@ public class Render implements GLEventListener {
     public void reshape(GLAutoDrawable glAutoDrawable, int i, int i1, int i2, int i3) {
         GL2 gl=glAutoDrawable.getGL().getGL2();
         if(window.getWidth()!=screenWidth||window.getHeight()!=screenHeight)window.setSize(screenWidth,screenHeight);
+        unitsTall=window.getHeight()/(window.getWidth()/unitsTall);
         gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
-        unitsTall=window.getHeight()/(window.getWidth()/unitsTall);
-        gl.glOrthof(-unitsWide/2,unitsWide/2,-unitsTall/2,unitsTall/2,-1,1);
+        gl.glOrthof(0.0f, unitsWide, 0.0f, unitsTall, 0.0f, 1.0f);
         gl.glMatrixMode(GL2.GL_MODELVIEW);
     }
 }

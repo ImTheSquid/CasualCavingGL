@@ -4,14 +4,17 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.texture.Texture;
 import org.loader.ImageResource;
 
+import static org.graphics.Render.unitsTall;
+import static org.graphics.Render.unitsWide;
+
 public class Graphics {
     private static float red=0,green=0,blue=0,alpha=0;
     private static float rotation=0;
 
     public static void drawRect(float x,float y,float width,float height){
         GL2 gl=Render.getGL2();
-        gl.glTranslatef(x,y,0);
         gl.glRotatef(-rotation,0,0,1);//Rotation needed to be reversed
+        gl.glColor4f(red,green,blue,alpha);
         gl.glBegin(GL2.GL_QUADS);
         gl.glVertex2f(x,y);
         gl.glVertex2f(x+width,y);
@@ -20,11 +23,18 @@ public class Graphics {
         gl.glEnd();
         gl.glFlush();
         gl.glRotatef(rotation,0,0,1);
-        gl.glTranslatef(-x,-y,0);
+    }
+
+    public static float convertWorldHeight(float height){
+        return height/(Render.getWindow().getHeight()/ unitsTall);
+    }
+
+    public static float convertWorldWidth(float width){
+        return width/(Render.getWindow().getWidth()/ unitsWide);
     }
 
     public static void drawImage(ImageResource image,float x,float y){
-        drawImage(image,x,y,image.getTexture().getWidth(),image.getTexture().getHeight());
+        drawImage(image,x,y,convertWorldWidth(image.getTexture().getWidth()),convertWorldHeight(image.getTexture().getHeight()));
     }
 
     public static void drawImage(ImageResource image,float x,float y, float width,float height){
@@ -32,8 +42,6 @@ public class Graphics {
         Texture tex=image.getTexture();
         //TODO implement hiding code if image not needed
         if(tex!=null)gl.glBindTexture(GL2.GL_TEXTURE_2D,tex.getTextureObject());
-        gl.glTranslatef(x,y,0);
-        gl.glRotatef(-rotation,0,0,1);
         gl.glColor4f(red,green,blue,alpha);
         gl.glBegin(GL2.GL_QUADS);
         gl.glTexCoord2f(0,1);
@@ -48,7 +56,6 @@ public class Graphics {
         gl.glFlush();
         gl.glBindTexture(GL2.GL_TEXTURE_2D,0);
         gl.glRotatef(-rotation,0,0,1);
-        gl.glTranslatef(-x,-y,0);
     }
 
     public static void setColor(float red,float green,float blue,float alpha){
