@@ -68,8 +68,7 @@ public class Render implements GLEventListener {
 
     public void reshape(GLAutoDrawable glAutoDrawable, int i, int i1, int i2, int i3) {
         GL2 gl=glAutoDrawable.getGL().getGL2();
-        if(window.getWidth()!=screenWidth||window.getHeight()!=screenHeight)window.setSize(screenWidth,screenHeight);
-        unitsTall=window.getHeight()/(window.getWidth()/unitsTall);
+        unitsTall=window.getHeight()/(window.getWidth()/unitsWide);
         gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
         gl.glOrthof(0.0f, unitsWide, 0.0f, unitsTall, 0.0f, 1.0f);
