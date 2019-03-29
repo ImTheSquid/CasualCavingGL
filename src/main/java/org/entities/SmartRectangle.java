@@ -1,12 +1,29 @@
 package org.entities;
 
-public class SmartRectangle extends Entity{
-    public void update() {
+import org.input.Mouse;
 
+public class SmartRectangle extends Entity{
+    private boolean isPressed=false,isVisible=true;
+    public SmartRectangle(float x,float y,float width,float height){
+        this.x=x;
+        this.y=y;
+        this.width=width;
+        this.height=height;
+    }
+    public void update() {
+        if(isVisible)isPressed=contains(Mouse.getX(),Mouse.getY())&&Mouse.isMousePressed();
+        else isPressed=false;
     }
 
     public void render() {
-
+        
     }
-    //Class for adding a rectangle with detection capabilities
+
+    public boolean isPressed(){
+        return isPressed;
+    }
+
+    public void setVisible(boolean visible) {
+        isVisible = visible;
+    }
 }

@@ -144,7 +144,7 @@ public class Graphics {
         Graphics.rotation=rotation;
     }
 
-    public static void setText(int text){
+    public static void setFont(int text){
         textSelector=text;
     }
 }

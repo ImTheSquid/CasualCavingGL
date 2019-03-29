@@ -6,18 +6,21 @@ import org.graphics.Render;
 
 public class Mouse implements MouseListener {
     private static int x=0,y=0;
+    private static boolean mousePressed=false;
 
-    /*public static float getWorldX(){
-        return Render.unitsWide/Render.getWindow().getWidth()*x-Render.unitsWide/2 - Render.cameraX;
+    public static float getX(){
+        return x*Render.unitsWide/Render.getWindow().getWidth();
     }
-    //Outdated code
-    public static float getWorldY(){
-        float unitsTall=Render.unitsWide*((float)Render.getWindow().getHeight()/Render.getWindow().getWidth());
-        return -(unitsTall/ Render.getWindow().getHeight()*y-unitsTall/2)+Render.cameraY;
-    }*/
+
+    public static float getY(){
+        return y*Render.unitsTall/Render.getWindow().getHeight();
+    }
+
+    public static boolean isMousePressed() {
+        return mousePressed;
+    }
+
     public void mouseClicked(MouseEvent mouseEvent) {
-        x=mouseEvent.getX();
-        y=mouseEvent.getY();
         //System.out.println(getWorldX()+"/"+getWorldY());
     }
 
@@ -30,15 +33,16 @@ public class Mouse implements MouseListener {
     }
 
     public void mousePressed(MouseEvent mouseEvent) {
-
+        mousePressed=true;
     }
 
     public void mouseReleased(MouseEvent mouseEvent) {
-
+        mousePressed=false;
     }
 
     public void mouseMoved(MouseEvent mouseEvent) {
-
+        x=mouseEvent.getX();
+        y=mouseEvent.getY();
     }
 
     public void mouseDragged(MouseEvent mouseEvent) {

@@ -9,10 +9,14 @@ public class World {
 
 
     public static void update(){
-
+        //TODO implement render stages (pre-render,render,post-render)
+        for(Entity e:entites){
+            e.update();
+        }
     }
 
     public static void render(){
+        //TODO implement render stages (pre-render,render,post-render)
         for(Entity e:entites){
             e.render();
         }
