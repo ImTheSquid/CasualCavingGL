@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Keyboard implements KeyListener {
-    Set<Short> keys=new HashSet<Short>();
+    public static Set<Short> keys=new HashSet<Short>();
     public void keyPressed(KeyEvent keyEvent) {
         keys.add(keyEvent.getKeyCode());
     }

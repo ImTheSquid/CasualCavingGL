@@ -69,7 +69,7 @@ public class Graphics {
 
     //Draw centered image with preselected width and height
     public static void drawImageCentered(ImageResource image,float x,float y,float width,float height){
-        drawImage(image,x- convertToWorldWidth(image.getTexture().getWidth())/2f,y-convertToWorldHeight(image.getTexture().getWidth())/2f,width,height);
+        drawImage(image,x- width/2f,y-height/2f,width,height);
     }
 
     //Draws an image
