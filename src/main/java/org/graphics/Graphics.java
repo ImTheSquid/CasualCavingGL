@@ -23,7 +23,11 @@ public class Graphics {
     private static TextRenderer regular=new TextRenderer(new Font("Constantia",Font.PLAIN,40));
     private static TextRenderer[] fonts={title,regular};
 
-    public static void drawRect(float x,float y,float width,float height){
+    public static void fillRectCentered(float x, float y, float width, float height){
+        fillRect(x-width/2f,y-height/2f,width,height);
+    }
+
+    public static void fillRect(float x, float y, float width, float height){
         GL2 gl=Render.getGL2();
         gl.glRotatef(-rotation,0,0,1);//Rotation needed to be reversed
         gl.glColor4f(red,green,blue,alpha);
@@ -37,11 +41,11 @@ public class Graphics {
         gl.glRotatef(rotation,0,0,1);
     }
 
-    private static float convertToWorldHeight(float height){
+    public static float convertToWorldHeight(float height){
         return height/(Render.getWindow().getHeight()/ unitsTall);
     }
 
-    private static float convertToWorldWidth(float width){
+    public static float convertToWorldWidth(float width){
         return width/(Render.getWindow().getWidth()/ unitsWide);
     }
 
@@ -101,7 +105,7 @@ public class Graphics {
     //Draws text with specified wrapping width
     public static void drawText(String text,float x, float y, float wrap){
         StringBuilder currentString=new StringBuilder();
-        ArrayList<String> strings=new ArrayList<String>();
+        ArrayList<String> strings=new ArrayList<>();
         for(int i=0;i<text.length();i++){
             if(text.charAt(i)==' '||i==0){
                 StringBuilder testString=new StringBuilder();
@@ -127,6 +131,10 @@ public class Graphics {
             drawText(s,x,y-convertToWorldY(fonts[textSelector].getFont().getSize()*iteration));
             iteration++;
         }
+    }
+
+    public static void drawTextCentered(String text,float x,float y){
+        drawText(text,x-(convertToWorldWidth((float)fonts[textSelector].getBounds(text).getWidth())/2f),y-convertToWorldHeight((float)fonts[textSelector].getBounds(text).getHeight())/2f);
     }
 
     //Draws text

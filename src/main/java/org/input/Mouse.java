@@ -13,7 +13,7 @@ public class Mouse implements MouseListener {
     }
 
     public static float getY(){
-        return y*Render.unitsTall/Render.getWindow().getHeight();
+        return Render.unitsTall-(y*Render.unitsTall/Render.getWindow().getHeight());
     }
 
     public static boolean isMousePressed() {

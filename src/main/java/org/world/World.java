@@ -1,6 +1,7 @@
 package org.world;
 
 import org.entities.Entity;
+import org.graphics.FadeIO;
 import org.graphics.Graphics;
 import org.graphics.Render;
 import org.input.Keyboard;
@@ -11,10 +12,11 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import static com.jogamp.newt.event.KeyEvent.VK_R;
 
 public class World {
+    private static FadeIO master=new FadeIO(0,1,1,0.01f,35);
     private static float brightness=1f;//Controls master brightness
     private static int level=0,subLevel=0;
     private static boolean game=false,pause=false;//Set whether in game or menu. Set pause status
-    private static ConcurrentLinkedQueue<Entity> entites=new ConcurrentLinkedQueue<Entity>();
+    private static ConcurrentLinkedQueue<Entity> entites=new ConcurrentLinkedQueue<>();
 
     public static void update(){
         if(Render.getWindow().getWidth()!=Render.screenWidth||Render.getWindow().getHeight()!=Render.screenHeight){
@@ -28,13 +30,16 @@ public class World {
         for(Entity e:entites){
             if((pause||!game)&&e.getNonGameUpdate())e.update();
         }
+
+        //Master brightness code
+        master.update();
     }
 
     public static void render(){
         if(Render.getWindow().getWidth()!=Render.screenWidth||Render.getWindow().getHeight()!=Render.screenHeight){
             Graphics.setColor(.9f,0,0,1);
             Graphics.setFont(Graphics.REGULAR_FONT);
-            Graphics.drawText("Please resize your window to 1280x720, or press R",0,Graphics.convertToWorldY(Render.getWindow().getHeight()-90));
+            Graphics.drawText("Please resize your window to 1280x720, or press R to automatically resize.",0,Graphics.convertToWorldY(Render.getWindow().getHeight()-90));
             return;
         }
 
@@ -45,8 +50,8 @@ public class World {
         }
 
         //Master brightness, always do last
-        Graphics.setColor(0,0,0,1-brightness);
-        Graphics.drawRect(0,0, Render.unitsWide,Render.unitsTall);
+        Graphics.setColor(0,0,0,1-master.getCurrent());
+        Graphics.fillRect(0,0, Render.unitsWide,Render.unitsTall);
         Graphics.setColor(1,1,1,1);//Reset color
     }
 
@@ -89,4 +94,6 @@ public class World {
     public static int getSubLevel() {
         return subLevel;
     }
+
+    public static FadeIO getMaster(){return master;}
 }

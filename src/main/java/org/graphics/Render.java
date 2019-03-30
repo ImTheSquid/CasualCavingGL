@@ -14,7 +14,7 @@ public class Render implements GLEventListener {
     public static final int screenWidth=1280,screenHeight=720;
     private static GL2 gl2;
     public static float unitsWide=100,unitsTall;
-    public static float cameraX=0,cameraY=0;
+    private static float cameraX=0,cameraY=0;
     private static GameLoop gameLoop=new GameLoop();
     public Render(){
         profile=GLProfile.get(GLProfile.GL2);
@@ -48,7 +48,7 @@ public class Render implements GLEventListener {
 
     public void init(GLAutoDrawable glAutoDrawable) {
         GL2 gl=glAutoDrawable.getGL().getGL2();
-        gl.glClearColor(.25f,.25f,.25f,1);
+        gl.glClearColor(0f,0f,0f,1f);
         gl.glEnable(GL2.GL_BLEND);
         gl.glEnable(GL2.GL_TEXTURE_2D);
         gl.glBlendFunc(GL2.GL_SRC_ALPHA,GL2.GL_ONE_MINUS_SRC_ALPHA);
@@ -74,5 +74,9 @@ public class Render implements GLEventListener {
         gl.glLoadIdentity();
         gl.glOrthof(0.0f, unitsWide, 0.0f, unitsTall, 0.0f, 1.0f);
         gl.glMatrixMode(GL2.GL_MODELVIEW);
+    }
+
+    public static GameLoop getGameLoop() {
+        return gameLoop;
     }
 }

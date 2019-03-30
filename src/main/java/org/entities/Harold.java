@@ -25,6 +25,6 @@ public class Harold extends Entity{
         Graphics.drawImage(harold,x,y);
         Graphics.setColor(1,1,1,1);
         Graphics.setFont(Graphics.TITLE_FONT);
-        Graphics.drawRect(20,20,20,20);
+        Graphics.fillRect(20,20,20,20);
     }
 }
