@@ -45,8 +45,12 @@ public class Graphics {
         return width/(Render.getWindow().getWidth()/ unitsWide);
     }
 
-    private static float convertToWorldY(float y){
+    public static float convertToWorldY(float y){
         return y/(Render.getWindow().getWidth()/ unitsWide);
+    }
+
+    public static float convertToWorldX(float x){
+        return x/(Render.getWindow().getWidth()/ unitsWide);
     }
 
     private static float convertFromWorldX(float x){

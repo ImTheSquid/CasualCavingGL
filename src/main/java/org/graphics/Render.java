@@ -11,7 +11,7 @@ import org.world.World;
 public class Render implements GLEventListener {
     private static GLWindow window;
     private static GLProfile profile;
-    private static final int screenWidth=1280,screenHeight=720;
+    public static final int screenWidth=1280,screenHeight=720;
     private static GL2 gl2;
     public static float unitsWide=100,unitsTall;
     public static float cameraX=0,cameraY=0;
@@ -68,6 +68,7 @@ public class Render implements GLEventListener {
 
     public void reshape(GLAutoDrawable glAutoDrawable, int i, int i1, int i2, int i3) {
         GL2 gl=glAutoDrawable.getGL().getGL2();
+        //TODO prevent window resizing
         unitsTall=window.getHeight()/(window.getWidth()/unitsWide);
         gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();

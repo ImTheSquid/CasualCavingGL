@@ -1,14 +1,17 @@
 package org.loader;
 
 import org.loader.harold.HaroldLoader;
+import org.loader.levels.LevelLoader;
 
 public class ResourceHandler {
     private static HaroldLoader haroldLoader =new HaroldLoader();
-    private static final ImageResource[] level1={};
-    private static final ImageResource[] level2={};
-    private static final ImageResource[] level3={};
+    private static LevelLoader levelLoader=new LevelLoader();
 
     public static HaroldLoader getHaroldLoader(){
         return haroldLoader;
+    }
+
+    public static LevelLoader getLevelLoader() {
+        return levelLoader;
     }
 }

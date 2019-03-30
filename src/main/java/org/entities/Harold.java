@@ -21,6 +21,7 @@ public class Harold extends Entity{
 
     public void render() {
         ImageResource harold= ResourceHandler.getHaroldLoader().getHarold();
+        Graphics.setColor(1,1,1,1);
         Graphics.drawImage(harold,x,y);
         Graphics.setColor(1,1,1,1);
         Graphics.setFont(Graphics.TITLE_FONT);

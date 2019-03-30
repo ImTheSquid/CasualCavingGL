@@ -8,11 +8,11 @@ public class Level1 extends Level {
         super(backgrounds);
     }
 
-    public void update() {
+    public void update(int subLevel) {
 
     }
 
-    public void render() {
+    public void render(int subLevel) {
 
     }
 }
