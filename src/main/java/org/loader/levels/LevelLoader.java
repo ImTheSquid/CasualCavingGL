@@ -6,7 +6,14 @@ public class LevelLoader {
     private final ImageResource[] title={new ImageResource("/CasualCaving/Levels/Title/LoadScreen.png"),
     new ImageResource("/CasualCaving/Levels/Title/TitleScreen.png")};
     private final ImageResource[] titleForeground={new ImageResource("/CasualCaving/Levels/Title/LunanLogo.png")};
-    private final ImageResource[] level1={};
+    private final ImageResource[] level1={new ImageResource("/CasualCaving/Levels/Level1/Lvl1Bg1.png"),
+            new ImageResource("/CasualCaving/Levels/Level1/Lvl1Bg2.png"),
+            new ImageResource("/CasualCaving/Levels/Level1/Lvl1Bg3.png"),
+            new ImageResource("/CasualCaving/Levels/Level1/Lvl1Bg4.png"),
+            new ImageResource("/CasualCaving/Levels/Level1/Lvl1Bg5.png"),
+            new ImageResource("/CasualCaving/Levels/Level1/Lvl1Bg6.png"),
+            new ImageResource("/CasualCaving/Levels/Level1/Lvl1Bg6Dusk.png")
+    };
     private final ImageResource[] level2={};
     private final ImageResource[] level3={};
 
@@ -16,5 +23,9 @@ public class LevelLoader {
 
     public ImageResource[] getTitleForeground() {
         return titleForeground;
+    }
+
+    public ImageResource[] getLevel1() {
+        return level1;
     }
 }

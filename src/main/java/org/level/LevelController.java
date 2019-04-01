@@ -1,10 +1,12 @@
 package org.level;
 
+import org.level.levels.Level1;
 import org.level.levels.Title;
 import org.loader.ResourceHandler;
 
 public class LevelController {
-    private static Level[] levels={new Title(ResourceHandler.getLevelLoader().getTitle(),ResourceHandler.getLevelLoader().getTitleForeground())};
+    private static Level[] levels={new Title(ResourceHandler.getLevelLoader().getTitle(),ResourceHandler.getLevelLoader().getTitleForeground()),
+    new Level1(ResourceHandler.getLevelLoader().getLevel1())};
 
     public static void update(int level,int subLevel){
         levels[level].update(subLevel);

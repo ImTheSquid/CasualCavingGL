@@ -12,7 +12,7 @@ import org.world.World;
 import static com.jogamp.newt.event.KeyEvent.VK_SPACE;
 
 public class Title extends Level {
-    private FadeIO logo = new FadeIO(0, 1, 0, 0.01f, 30);
+    private FadeIO logo = new FadeIO(0, 1, 0, 0.01f, 40);
     private SmartRectangle start=new SmartRectangle(Render.unitsWide/2,30,20,7,true);
     private SmartRectangle quit=new SmartRectangle(Render.unitsWide/2,5,7,4,true);
     private boolean gameReady = false;
@@ -54,6 +54,9 @@ public class Title extends Level {
             }
             start.update();
             if(start.isPressed()){
+                World.setGame(true);
+                World.getMaster().setActive(false);
+                World.getMaster().setCurrent(1f);
                 World.setLevel(1);
                 World.setSubLevel(0);
             }
@@ -73,9 +76,12 @@ public class Title extends Level {
 
     private void loadingScreen() {
         Graphics.setColor(1, 1, 1, 1);
-        Graphics.drawImage(backgrounds[0], 0, 0);
+        Graphics.drawImage(backgrounds[0], 0, 0,Render.unitsWide,Render.unitsTall);
         Graphics.setColor(1, 1, 1, logo.getCurrent());
         Graphics.drawImageCentered(foregrounds[0], Render.unitsWide / 2, 55);
+        Graphics.setColor(1,1,1,1);
+        Graphics.setFont(Graphics.SMALL_FONT);
+        Graphics.drawText("SPACE to skip",0.1f,0.7f);
     }
 
     private void titleScreen() {
@@ -91,5 +97,7 @@ public class Title extends Level {
         Graphics.setColor(1,1,1,1);
         Graphics.setFont(Graphics.REGULAR_FONT);
         Graphics.drawTextCentered("Quit",Render.unitsWide/2,5.3f);
+        Graphics.setFont(Graphics.SMALL_FONT);
+        Graphics.drawText("Casual Caving 0.0.0a",0.1f,0.7f);
     }
 }

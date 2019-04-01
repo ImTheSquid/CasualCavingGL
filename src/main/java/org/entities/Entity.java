@@ -1,7 +1,7 @@
 package org.entities;
 
 public abstract class Entity {
-    protected float x,y,vX,vY,width,height;
+    protected float x=5,y=7,vX,vY,width,height;
     protected float red=1,green=1,blue=1,alpha=1;
     protected int health;
     private boolean nonGameUpdate=false,nonGameRender=false;

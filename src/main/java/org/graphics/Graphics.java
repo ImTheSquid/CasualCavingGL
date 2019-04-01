@@ -15,13 +15,15 @@ public class Graphics {
     //Font vars
     public static int TITLE_FONT=0;
     public static int REGULAR_FONT=1;
+    public static int SMALL_FONT=2;
 
     private static float red=0,green=0,blue=0,alpha=0;
     private static float rotation=0;
     private static int textSelector=0;
     private static TextRenderer title=new TextRenderer(new Font("Constantia",Font.PLAIN,100));
     private static TextRenderer regular=new TextRenderer(new Font("Constantia",Font.PLAIN,40));
-    private static TextRenderer[] fonts={title,regular};
+    private static TextRenderer small=new TextRenderer(new Font("Constantia",Font.PLAIN,20));
+    private static TextRenderer[] fonts={title,regular,small};
 
     public static void fillRectCentered(float x, float y, float width, float height){
         fillRect(x-width/2f,y-height/2f,width,height);

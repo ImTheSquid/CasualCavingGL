@@ -12,10 +12,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import static com.jogamp.newt.event.KeyEvent.VK_R;
 
 public class World {
-    private static FadeIO master=new FadeIO(0,1,1,0.01f,35);
-    private static float brightness=1f;//Controls master brightness
+    private static FadeIO master=new FadeIO(0,1,1,0.02f,35);
     private static int level=0,subLevel=0;
     private static boolean game=false,pause=false;//Set whether in game or menu. Set pause status
+    private static float gravity=0.5f;
     private static ConcurrentLinkedQueue<Entity> entites=new ConcurrentLinkedQueue<>();
 
     public static void update(){
@@ -28,7 +28,8 @@ public class World {
         LevelController.update(level,subLevel);
         //TODO implement render stages (pre-update,update,post-update)
         for(Entity e:entites){
-            if((pause||!game)&&e.getNonGameUpdate())e.update();
+            if(!(pause||!game))e.update();
+            else if(e.getNonGameUpdate())e.update();
         }
 
         //Master brightness code
@@ -46,7 +47,8 @@ public class World {
         LevelController.render(level,subLevel);
         //TODO implement render stages (pre-render,render,post-render)
         for(Entity e:entites){
-            if((pause||!game)&&e.getNonGameRender())e.render();
+            if(!(pause||!game))e.render();
+            else if(e.getNonGameRender())e.render();
         }
 
         //Master brightness, always do last
@@ -75,10 +77,6 @@ public class World {
         World.pause = pause;
     }
 
-    public static void setBrightness(float brightness) {
-        World.brightness = brightness;
-    }
-
     public static void setLevel(int level) {
         World.level = level;
     }
@@ -96,4 +94,8 @@ public class World {
     }
 
     public static FadeIO getMaster(){return master;}
+
+    public static float getGravity() {
+        return gravity;
+    }
 }
