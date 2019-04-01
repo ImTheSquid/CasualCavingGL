@@ -30,6 +30,11 @@ public class Level1 extends Level {
         }
     }
 
+    @Override
+    public void reset() {
+
+    }
+
     private void render0(){
     }
 }

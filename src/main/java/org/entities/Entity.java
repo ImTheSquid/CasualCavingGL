@@ -4,7 +4,7 @@ public abstract class Entity {
     protected float x=5,y=7,vX,vY,width,height;
     protected float red=1,green=1,blue=1,alpha=1;
     protected int health;
-    private boolean nonGameUpdate=false,nonGameRender=false;
+    private boolean nonGameUpdate=false,nonGameRender=false,pauseUpdate=false,pauseRender=true;
     public abstract void update();
     public abstract void render();
 
@@ -25,6 +25,10 @@ public abstract class Entity {
     public boolean getNonGameRender(){
         return nonGameRender;
     }
+
+    public boolean getPauseUpdate(){return pauseUpdate;}
+
+    public boolean getPauseRender(){return pauseRender;}
 
 
 }

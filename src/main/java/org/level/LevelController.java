@@ -15,4 +15,12 @@ public class LevelController {
     public static void render(int level,int subLevel){
         levels[level].render(subLevel);
     }
+
+    public static Level[] getLevels(){return levels;}
+
+    public static void resetAll(){
+        for(Level l:levels){
+            l.reset();
+        }
+    }
 }

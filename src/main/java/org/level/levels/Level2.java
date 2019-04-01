@@ -15,4 +15,9 @@ public class Level2 extends Level {
     public void render(int subLevel) {
 
     }
+
+    @Override
+    public void reset() {
+
+    }
 }

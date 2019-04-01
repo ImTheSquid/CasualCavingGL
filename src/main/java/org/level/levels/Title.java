@@ -48,6 +48,7 @@ public class Title extends Level {
                 World.getMaster().setCurrent(0);
                 World.getMaster().setActive(true);
             }
+            if(World.getMaster().getCurrent()>0.5f&&!quit.isActive())quit.setActive(true);
             quit.update();
             if(quit.isPressed()){
                 Render.getGameLoop().setRunning(false);
@@ -74,6 +75,15 @@ public class Title extends Level {
         }
     }
 
+    @Override
+    public void reset() {
+        World.setGame(false);
+        quit.setActive(false);
+        World.getMaster().setCurrent(0f);
+        World.getMaster().setDirection(true);
+        World.getMaster().setActive(true);
+    }
+
     private void loadingScreen() {
         Graphics.setColor(1, 1, 1, 1);
         Graphics.drawImage(backgrounds[0], 0, 0,Render.unitsWide,Render.unitsTall);
@@ -87,17 +97,17 @@ public class Title extends Level {
     private void titleScreen() {
         Graphics.setColor(1,1,1,1);
         Graphics.drawImage(backgrounds[1],0,0);
-        Graphics.setColor(0,0.5f,0,1);
-        Graphics.fillRectCentered(Render.unitsWide/2,30,20,7);
+        start.setColor(0,0.5f,0,1);
+        start.render();
         Graphics.setColor(1,1,1,1);
         Graphics.setFont(Graphics.TITLE_FONT);
         Graphics.drawTextCentered("Start",Render.unitsWide/2,30);
-        Graphics.setColor(0.5f,0,0,1);
-        Graphics.fillRectCentered(Render.unitsWide/2,5,7,4);
+        quit.setColor(0.5f,0,0,1);
+        quit.render();
         Graphics.setColor(1,1,1,1);
         Graphics.setFont(Graphics.REGULAR_FONT);
         Graphics.drawTextCentered("Quit",Render.unitsWide/2,5.3f);
         Graphics.setFont(Graphics.SMALL_FONT);
-        Graphics.drawText("Casual Caving 0.0.0a",0.1f,0.7f);
+        Graphics.drawText("Casual Caving 0.0.1",0.1f,0.7f);
     }
 }
