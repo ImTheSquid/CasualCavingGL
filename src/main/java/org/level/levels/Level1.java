@@ -3,13 +3,20 @@ package org.level.levels;
 import org.graphics.Graphics;
 import org.level.Level;
 import org.loader.ImageResource;
+import org.loader.ResourceHandler;
 
 public class Level1 extends Level {
     public Level1(ImageResource[] backgrounds) {
         super(backgrounds,6);
     }
+    private ImageResource[] sprites= ResourceHandler.getLevelLoader().getLevel1Sprites();
 
     public void update(int subLevel) {
+        if(subLevel==0){
+            leftBound=65;
+        }else{
+            leftBound=0;
+        }
         switch(subLevel){
             case 0:
                 update0();
@@ -30,11 +37,13 @@ public class Level1 extends Level {
         }
     }
 
+    private void render0(){
+        Graphics.drawImage(sprites[0],6,7);
+        Graphics.drawImage(sprites[1],40,7);
+    }
+
     @Override
     public void reset() {
 
-    }
-
-    private void render0(){
     }
 }

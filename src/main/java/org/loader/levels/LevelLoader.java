@@ -14,6 +14,8 @@ public class LevelLoader {
             new ImageResource("/CasualCaving/Levels/Level1/Lvl1Bg6.png"),
             new ImageResource("/CasualCaving/Levels/Level1/Lvl1Bg6Dusk.png")
     };
+    private final ImageResource[] level1Sprites={new ImageResource("/CasualCaving/Levels/Level1/Sprites/BossMan.png"),
+            new ImageResource("/CasualCaving/Levels/Level1/Sprites/Crowd.png")};
     private final ImageResource[] level2={};
     private final ImageResource[] level3={};
 
@@ -27,5 +29,9 @@ public class LevelLoader {
 
     public ImageResource[] getLevel1() {
         return level1;
+    }
+
+    public ImageResource[] getLevel1Sprites() {
+        return level1Sprites;
     }
 }

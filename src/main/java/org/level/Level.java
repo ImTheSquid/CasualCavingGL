@@ -1,10 +1,12 @@
 package org.level;
 
+import org.graphics.Render;
 import org.loader.ImageResource;
 
 public abstract class Level {
     protected int subLevels;
     protected boolean decreaseAllowed=true,increaseAllowed=true;
+    protected float leftBound=0,rightBound=Render.unitsWide;
     protected ImageResource[] backgrounds,foregrounds;
 
     public Level(ImageResource[] backgrounds,int subLevels){
@@ -32,5 +34,13 @@ public abstract class Level {
 
     public boolean isIncreaseAllowed() {
         return increaseAllowed;
+    }
+
+    public float getLeftBound() {
+        return leftBound;
+    }
+
+    public float getRightBound() {
+        return rightBound;
     }
 }
