@@ -46,6 +46,8 @@ public class Harold extends Entity{
         }
 
         Level currentLevel=LevelController.getLevels()[World.getLevel()];
+        if(x<currentLevel.getLeftLimit())x=currentLevel.getLeftLimit();
+        if(x+width>currentLevel.getRightLimit())x=currentLevel.getRightLimit()-width;
         if(x<currentLevel.getLeftBound()){
             if(!currentLevel.isDecreaseAllowed())x=currentLevel.getLeftBound();
             else if(World.getSubLevel()>0){

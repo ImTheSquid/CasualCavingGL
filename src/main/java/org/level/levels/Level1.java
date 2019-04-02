@@ -1,6 +1,7 @@
 package org.level.levels;
 
 import org.graphics.Graphics;
+import org.graphics.Render;
 import org.level.Level;
 import org.loader.ImageResource;
 import org.loader.ResourceHandler;
@@ -10,6 +11,7 @@ public class Level1 extends Level {
         super(backgrounds,6);
     }
     private ImageResource[] sprites= ResourceHandler.getLevelLoader().getLevel1Sprites();
+    private boolean bridge=false,wood=true;
 
     public void update(int subLevel) {
         if(subLevel==0){
@@ -17,15 +19,27 @@ public class Level1 extends Level {
         }else{
             leftBound=0;
         }
+        if(subLevel!=3)rightLimit= Render.unitsWide+1;
         switch(subLevel){
             case 0:
                 update0();
+                break;
+            case 3:
+                update3();
                 break;
         }
     }
 
     private void update0(){
 
+    }
+
+    private void update3(){
+        if(!bridge){
+            rightLimit=45;
+        }else{
+            rightLimit=Render.unitsWide;
+        }
     }
 
     public void render(int subLevel) {
@@ -40,6 +54,7 @@ public class Level1 extends Level {
     private void render0(){
         Graphics.drawImage(sprites[0],6,7);
         Graphics.drawImage(sprites[1],40,7);
+        Graphics.drawText("Alright guys, you know what to do, we're looking for a precious yellow gem located in a nearby cave, now go!",20,48,18);
     }
 
     @Override

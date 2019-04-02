@@ -51,6 +51,10 @@ public class Graphics {
         return width/(Render.getWindow().getWidth()/ unitsWide);
     }
 
+    public static float convertFromWorldWidth(float width){return (Render.getWindow().getWidth()*width)/unitsWide;}
+
+    public static float convertFromWorldHeight(float height){return (Render.getWindow().getHeight()*height)/unitsTall;}
+
     public static float convertToWorldY(float y){
         return y/(Render.getWindow().getWidth()/ unitsWide);
     }
@@ -105,13 +109,14 @@ public class Graphics {
     }
 
     //Draws text with specified wrapping width
-    public static void drawText(String text,float x, float y, float wrap){
+    public static void drawText(String text,float x, float y, float wrapWidth){
+        float wrap=convertFromWorldWidth(wrapWidth);
         StringBuilder currentString=new StringBuilder();
         ArrayList<String> strings=new ArrayList<>();
         for(int i=0;i<text.length();i++){
+            StringBuilder testString=new StringBuilder();
+            String s;
             if(text.charAt(i)==' '||i==0){
-                StringBuilder testString=new StringBuilder();
-                String s;
                 if(i==0)s=text.substring(i);
                 else s=text.substring(i+1);
                 int index=0;
@@ -127,6 +132,8 @@ public class Graphics {
                 }
             }
         }
+        strings.add(currentString.toString());//Clears buffer after loop
+        strings.set(0,strings.get(0).substring(1));//Gets rid of space at beginning of first line
         int iteration=0;
         //Draw the text in the array
         for(String s:strings){

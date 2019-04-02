@@ -6,7 +6,8 @@ import org.loader.ImageResource;
 public abstract class Level {
     protected int subLevels;
     protected boolean decreaseAllowed=true,increaseAllowed=true;
-    protected float leftBound=0,rightBound=Render.unitsWide;
+    protected float leftBound=0,rightBound=Render.unitsWide;//Points to trigger switch to next sublevel
+    protected float leftLimit=-1,rightLimit=Render.unitsWide+1;//Points that entities can't go past
     protected ImageResource[] backgrounds,foregrounds;
 
     public Level(ImageResource[] backgrounds,int subLevels){
@@ -42,5 +43,13 @@ public abstract class Level {
 
     public float getRightBound() {
         return rightBound;
+    }
+
+    public float getLeftLimit() {
+        return leftLimit;
+    }
+
+    public float getRightLimit() {
+        return rightLimit;
     }
 }
