@@ -5,7 +5,7 @@ import org.loader.ImageResource;
 
 public class Level2 extends Level {
     public Level2(ImageResource[] backgrounds) {
-        super(backgrounds);
+        super(backgrounds,6);
     }
 
     public void update(int subLevel) {

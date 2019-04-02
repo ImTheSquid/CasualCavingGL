@@ -2,21 +2,25 @@ package org.entities;
 
 import com.jogamp.newt.event.KeyEvent;
 import org.graphics.Graphics;
+import org.graphics.Render;
 import org.input.Keyboard;
+import org.level.Level;
+import org.level.LevelController;
 import org.loader.ImageResource;
 import org.loader.ResourceHandler;
 import org.world.World;
 
 public class Harold extends Entity{
+    private SmartRectangle hitbox;
     public Harold(){
         health=3;
     }
     public void update() {
         if(Keyboard.keys.contains(KeyEvent.VK_A)){
-            vX=-0.6f;
+            vX=-0.5f;
         }
         if(Keyboard.keys.contains(KeyEvent.VK_D)){
-            vX=0.6f;
+            vX=0.5f;
         }
 
         x+=vX;
@@ -29,10 +33,31 @@ public class Harold extends Entity{
             if(vX+World.getGravity()>0)vX=0;
             else vX+=World.getGravity();
         }
+
+        Level currentLevel=LevelController.getLevels()[World.getLevel()];
+        if(x<0){
+            if(!currentLevel.isDecreaseAllowed())x=0;
+            else if(World.getSubLevel()>0){
+                World.setSubLevel(World.getSubLevel()-1);
+                x=85;
+            }
+            else x=0;
+        }
+        if(x+width> Render.unitsWide){
+            if(!currentLevel.isIncreaseAllowed()) x=Render.unitsWide-width;
+            else if(World.getSubLevel()< currentLevel.getSublevels()-1){
+                World.setSubLevel(World.getSubLevel()+1);
+                x=5;
+            }else{
+                x=Render.unitsWide-width;
+            }
+        }
     }
 
     public void render() {
         ImageResource harold= ResourceHandler.getHaroldLoader().getHarold();
+        width=Graphics.convertToWorldWidth(harold.getTexture().getWidth());
+        height=Graphics.convertToWorldHeight(harold.getTexture().getHeight());
         Graphics.setColor(1,1,1,1);
         Graphics.drawImage(harold,x,y);
     }

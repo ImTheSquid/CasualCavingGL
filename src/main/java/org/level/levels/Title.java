@@ -18,7 +18,7 @@ public class Title extends Level {
     private boolean gameReady = false;
 
     public Title(ImageResource[] backgrounds, ImageResource[] foregrounds) {
-        super(backgrounds);
+        super(backgrounds,2);
         super.foregrounds = foregrounds;
         logo.setActive(true);
     }

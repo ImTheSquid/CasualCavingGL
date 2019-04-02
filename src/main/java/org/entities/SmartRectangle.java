@@ -22,6 +22,14 @@ public class SmartRectangle extends Entity{
         this.width=width;
         this.height=height;
     }
+
+    public void updateBounds(float x,float y,float width,float height){
+        this.x=x;
+        this.y=y;
+        this.width=width;
+        this.height=height;
+    }
+
     public void update() {
         if(isActive){
             isPressed=contains(Mouse.getX(),Mouse.getY())&&Mouse.isMousePressed();
