@@ -37,15 +37,13 @@ public class Animator {
         if(!active)return;
         if(currentTime>lastFrameTime+1000000000/fps){
             if(direction){
-                if(currentFrame>=frames.length){
-                    currentFrame=frames.length-1;
+                if(currentFrame==frames.length-1){
                     direction=false;
                 }else{
                     currentFrame++;
                 }
             }else{
-                if(currentFrame<0){
-                    currentFrame=0;
+                if(currentFrame==0){
                     direction=true;
                 }else{
                     currentFrame--;

@@ -11,7 +11,8 @@ import org.loader.ResourceHandler;
 import org.world.World;
 
 public class Harold extends Entity{
-    private Animator haroldAnimator=new Animator(ResourceHandler.getHaroldLoader().getHaroldWalk(),20);
+    private Animator haroldAnimator=new Animator(ResourceHandler.getHaroldLoader().getHaroldWalk(),12);
+    private ImageResource harold;
 
     public Harold(){
         health=3;
@@ -27,6 +28,13 @@ public class Harold extends Entity{
         x+=vX;
         y+=vY;
         //vY-=World.getGravity(); //still need to implement height map
+
+        if(vX==0){
+            harold= ResourceHandler.getHaroldLoader().getHarold();
+        }else{
+            harold=haroldAnimator.getCurrentFrame();
+        }
+
         if(vX>0){
             ResourceHandler.getHaroldLoader().setDirection(true);
             if(vX-World.getGravity()<0)vX=0;
@@ -55,16 +63,11 @@ public class Harold extends Entity{
                 x=currentLevel.getRightBound()-width;
             }
         }
-
+        haroldAnimator.setFrames(ResourceHandler.getHaroldLoader().getHaroldWalk());
+        haroldAnimator.update();
     }
 
     public void render() {
-        ImageResource harold;
-        if(vX==0){
-            harold= ResourceHandler.getHaroldLoader().getHarold();
-        }else{
-            harold=haroldAnimator.getCurrentFrame();
-        }
         width=Graphics.convertToWorldWidth(harold.getTexture().getWidth());
         height=Graphics.convertToWorldHeight(harold.getTexture().getHeight());
         Graphics.setColor(1,1,1,1);
