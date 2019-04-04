@@ -3,27 +3,24 @@ package org.world;
 import org.entities.SmartRectangle;
 
 public class HeightMap {
-    private static float[][] heights;
-    private static float soloHeight=0;
+    private static float[][] heights={{0,7}};
     private static boolean singleHeight=false;
 
     public static void setHeights(float[][] heights) {
         HeightMap.heights = heights;
+        processHeights();
     }
 
     private static void processHeights(){
-        if(heights.length==1){
-            soloHeight=heights[0][1];
-            singleHeight=true;
-        }else{
-            singleHeight=false;
-        }
+        singleHeight= heights.length == 1;
     }
 
     public static HeightReturn onGround(SmartRectangle r){
         for(int i=0;i<heights.length;i++){
-            if(singleHeight){
-
+            if(r.getX()>=heights[i][0]||singleHeight){
+                if(singleHeight){
+                    if(r.getY()<=7)return new HeightReturn(true,7);
+                }
             }
         }
         return new HeightReturn(false);

@@ -12,11 +12,11 @@ public class HeightReturn {
         groundLevel=height;
     }
 
-    boolean isOnGround() {
+    public boolean isOnGround() {
         return onGround;
     }
 
-    float getGroundLevel() {
+    public float getGroundLevel() {
         return groundLevel;
     }
 }

@@ -9,6 +9,7 @@ import org.level.Level;
 import org.loader.ImageResource;
 import org.world.World;
 
+import static com.jogamp.newt.event.KeyEvent.VK_ENTER;
 import static com.jogamp.newt.event.KeyEvent.VK_SPACE;
 
 public class Title extends Level {
@@ -54,7 +55,7 @@ public class Title extends Level {
                 Render.getGameLoop().setRunning(false);
             }
             start.update();
-            if(start.isPressed()){
+            if(start.isPressed()||Keyboard.keys.contains(VK_ENTER)){
                 World.setGame(true);
                 World.getMaster().setActive(false);
                 World.getMaster().setCurrent(1f);

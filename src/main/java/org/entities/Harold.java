@@ -8,26 +8,52 @@ import org.level.Level;
 import org.level.LevelController;
 import org.loader.ImageResource;
 import org.loader.ResourceHandler;
+import org.world.HeightMap;
+import org.world.HeightReturn;
 import org.world.World;
 
 public class Harold extends Entity{
     private Animator haroldAnimator=new Animator(ResourceHandler.getHaroldLoader().getHaroldWalk(),12);
     private ImageResource harold;
+    private boolean jump=false,jumpEnd=false;
+    private SmartRectangle hitbox=new SmartRectangle(x,y,width,height);
 
     public Harold(){
         health=3;
     }
     public void update() {
+        HeightReturn h=HeightMap.onGround(hitbox);
         if(Keyboard.keys.contains(KeyEvent.VK_A)){
             vX=-0.5f;
         }
         if(Keyboard.keys.contains(KeyEvent.VK_D)){
             vX=0.5f;
         }
+        if(Keyboard.keys.contains(KeyEvent.VK_SPACE)&&!jump) {
+            jumpEnd=false;
+            if(h.isOnGround()) {
+                vY = 2.5f;
+                jump=true;
+            }
+        }else if(!Keyboard.keys.contains(KeyEvent.VK_SPACE)&&jump){
+            jump=false;
+            jumpEnd=true;
+            if(vY<-.5f){
+                vY=-.5f;
+            }
+        }
 
         x+=vX;
         y+=vY;
-        //vY-=World.getGravity(); //still need to implement height map
+        vY-=World.getGravity();
+        if(h.isOnGround()&&!jump){
+            y=h.getGroundLevel();
+            vY=0;
+            jump=false;
+            jumpEnd=false;
+        }else if(h.isOnGround()&&jump){
+            vY=2.5f;
+        }
 
         if(vX==0){
             harold= ResourceHandler.getHaroldLoader().getHarold();
@@ -72,6 +98,7 @@ public class Harold extends Entity{
     public void render() {
         width=Graphics.convertToWorldWidth(harold.getTexture().getWidth());
         height=Graphics.convertToWorldHeight(harold.getTexture().getHeight());
+        hitbox.updateBounds(x,y,width,height);
         Graphics.setColor(1,1,1,1);
         Graphics.drawImage(harold,x,y);
     }

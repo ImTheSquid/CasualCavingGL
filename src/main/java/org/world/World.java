@@ -17,7 +17,7 @@ public class World {
     private static FadeIO master=new FadeIO(0,1,1,0.02f,35);
     private static int level=0,subLevel=0;
     private static boolean game=false,pause=false;//Set whether in game or menu. Set pause status
-    private static float gravity=0.5f;
+    private static float gravity=0.15f;
     private static ConcurrentLinkedQueue<Entity> entites=new ConcurrentLinkedQueue<>();
     private static SmartRectangle pauseReturn=new SmartRectangle(Render.unitsWide/2,30,20,5,true);
     private static SmartRectangle pauseTitleReturn=new SmartRectangle(Render.unitsWide/2,6.6f,18,4,true);
