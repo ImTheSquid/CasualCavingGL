@@ -25,6 +25,9 @@ public class Level1 extends Level {
             case 0:
                 update0();
                 break;
+            case 1:
+                update1();
+                break;
             case 2:
                 update2();
                 break;
@@ -38,8 +41,10 @@ public class Level1 extends Level {
         HeightMap.setHeights(new float[][]{{0f,7f}});
     }
 
+    private void update1() {HeightMap.setHeights(new float[][]{{0f,7f}});}
+
     private void update2(){
-        HeightMap.setHeights(new float[][]{{0f,7f},{75f,9f},{80f,7f}});
+        HeightMap.setHeights(new float[][]{{0f,7f},{25f,9f},{80f,7f}});
     }
 
     private void update3(){
