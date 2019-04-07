@@ -11,7 +11,6 @@ public class HeightMap {
 
     public static void setHeights(float[][] heights) {
         HeightMap.heights=convertHeights(heights);
-        System.out.println(HeightMap.heights.length);
         processHeights();
     }
 
@@ -58,5 +57,36 @@ public class HeightMap {
         }
         return temp;
     }
+
+    /*
+     * check if anywhere on player interferes with height map, stop if true
+     */
+
+    //Returns true if collision detected, false if not
+    public static boolean checkRightCollision(SmartRectangle r){
+        float xCheck=r.getX()+r.getWidth();
+        HeightVal current=findApplicable(xCheck,true);
+        if(current==null)return false;
+        return !(r.getY()>current.getHeight());
+    }
+
+    public static boolean checkLeftCollision(SmartRectangle r){
+        HeightVal current=findApplicable(r.getX(),false);
+        if(current==null)return false;
+        return !(r.getY()>current.getHeight());
+    }
+
+    public static HeightVal findApplicable(float xPos,boolean right){
+        HeightVal val=null;
+        for(int i=0;i<heights.length;i++){
+            if(xPos>=heights[i].getStartX()&&xPos<=heights[i].getEndX()){
+                if(right&&i+1<heights.length)val=heights[i+1];
+                else if(!right&&i-1>=0)val=heights[i-1];
+                break;
+            }
+        }
+        return val;
+    }
+
 
 }

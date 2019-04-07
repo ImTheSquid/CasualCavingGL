@@ -44,7 +44,7 @@ public class Level1 extends Level {
     private void update1() {HeightMap.setHeights(new float[][]{{0f,7f}});}
 
     private void update2(){
-        HeightMap.setHeights(new float[][]{{0f,7f},{25f,9f},{80f,7f}});
+        HeightMap.setHeights(new float[][]{{0f,7f},{25f,30f},{80f,7f}});
     }
 
     private void update3(){
@@ -62,6 +62,9 @@ public class Level1 extends Level {
             case 0:
                 render0();
                 break;
+            case 1:
+                render1();
+                break;
         }
     }
 
@@ -70,6 +73,10 @@ public class Level1 extends Level {
         Graphics.drawImage(sprites[1],40,7);
         Graphics.setFont(Graphics.SMALL_FONT);
         Graphics.drawText("Alright guys, you know what to do, we're looking for a precious yellow gem located in a nearby cave, now go!",20,48,18);
+    }
+
+    private void render1(){
+
     }
 
     @Override

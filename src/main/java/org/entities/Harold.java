@@ -15,7 +15,7 @@ import org.world.World;
 public class Harold extends Entity{
     private Animator haroldAnimator=new Animator(ResourceHandler.getHaroldLoader().getHaroldWalk(),12);
     private ImageResource harold;
-    private boolean jump=false,jumpEnd=false;
+    private boolean jump=false;
     private SmartRectangle hitbox=new SmartRectangle(x,y,width,height);
 
     public Harold(){
@@ -30,27 +30,48 @@ public class Harold extends Entity{
             vX=0.5f;
         }
         if(Keyboard.keys.contains(KeyEvent.VK_SPACE)&&!jump) {
-            jumpEnd=false;
             if(h.isOnGround()) {
                 vY = 2.5f;
                 jump=true;
             }
         }else if(!Keyboard.keys.contains(KeyEvent.VK_SPACE)&&jump){
             jump=false;
-            jumpEnd=true;
             if(vY<-.5f){
                 vY=-.5f;
             }
         }
 
-        x+=vX;
         y+=vY;
         vY-=World.getGravity();
+
+        //X-velocity stuff
+        boolean doXCalc=true;
+
+        if (HeightMap.checkRightCollision(hitbox)) {
+            if (x + width + 0.5>= HeightMap.findApplicable(x,true).getStartX()) {
+                if (vX < 0) x += vX;
+                else vX=0;
+                doXCalc=false;
+            }
+        }
+        if(HeightMap.checkLeftCollision(hitbox)){
+            if(x-0.5<=HeightMap.findApplicable(x,false).getEndX()){
+                if(vX>0)x+=vX;
+                else vX=0;
+                doXCalc=false;
+            }
+        }
+
+        if(doXCalc){
+            x+=vX;
+            doXCalc();
+        }
+
+
         if(h.isOnGround()&&!jump){
             y=h.getGroundLevel();
             vY=0;
             jump=false;
-            jumpEnd=false;
         }else if(h.isOnGround()&&jump){
             vY=2.5f;
         }
@@ -59,16 +80,6 @@ public class Harold extends Entity{
             harold= ResourceHandler.getHaroldLoader().getHarold();
         }else{
             harold=haroldAnimator.getCurrentFrame();
-        }
-
-        if(vX>0){
-            ResourceHandler.getHaroldLoader().setDirection(true);
-            if(vX-World.getGravity()<0)vX=0;
-            else vX-=World.getGravity();
-        }else if(vX<0){
-            ResourceHandler.getHaroldLoader().setDirection(false);
-            if(vX+World.getGravity()>0)vX=0;
-            else vX+=World.getGravity();
         }
 
         Level currentLevel=LevelController.getLevels()[World.getLevel()];
@@ -93,6 +104,18 @@ public class Harold extends Entity{
         }
         haroldAnimator.setFrames(ResourceHandler.getHaroldLoader().getHaroldWalk());
         haroldAnimator.update();
+    }
+
+    private void doXCalc(){
+        if(vX>0){
+            ResourceHandler.getHaroldLoader().setDirection(true);
+            if(vX-World.getGravity()<0)vX=0;
+            else vX-=World.getGravity();
+        }else if(vX<0){
+            ResourceHandler.getHaroldLoader().setDirection(false);
+            if(vX+World.getGravity()>0)vX=0;
+            else vX+=World.getGravity();
+        }
     }
 
     public void render() {
