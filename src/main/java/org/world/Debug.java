@@ -1,0 +1,32 @@
+package org.world;
+
+import org.engine.Main;
+import org.graphics.Graphics;
+import org.graphics.Render;
+import org.input.Keyboard;
+
+import static com.jogamp.newt.event.KeyEvent.VK_F3;
+
+public class Debug {
+    private static boolean show=false;
+    static void update(){
+        if(Keyboard.keys.contains(VK_F3)){
+            show=!show;
+            while(Keyboard.keys.contains(VK_F3)){}
+        }
+    }
+
+    static void render(){
+        if(!show)return;
+        if(World.getLevel()>0){
+            Graphics.setColor(.2f, .2f, .2f, .5f);
+            Graphics.fillRect(0, Render.unitsTall - 6f, 25, 6f);
+            Graphics.setColor(1,1,1,1);
+            Graphics.setFont(Graphics.DEBUG_SMALL);
+            float charHeight=Graphics.convertToWorldHeight((float)Graphics.getCurrentFont().getBounds("TEST").getHeight());
+            Graphics.drawText("FPS: "+Render.getGameLoop().getCurrentFPS(),.5f,Render.unitsTall-charHeight-.5f);
+            Graphics.drawText("X,Y: "+Main.getHarold().getX()+","+Main.getHarold().getY(),.5f,Render.unitsTall-2*charHeight-1);
+            Graphics.drawText("Lvl,Sublvl: "+World.getLevel()+","+World.getSubLevel(),.5f,Render.unitsTall-3*charHeight-1.5f);
+        }
+    }
+}
