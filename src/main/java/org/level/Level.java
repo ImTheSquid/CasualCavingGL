@@ -25,9 +25,10 @@ public abstract class Level {
         this.foregrounds=foregrounds;
     }
 
-    public int getSublevels(){
+    public int getNumSublevels(){
         return subLevels;
     }
+
 
     public boolean isDecreaseAllowed() {
         return decreaseAllowed;

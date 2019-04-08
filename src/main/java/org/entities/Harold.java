@@ -95,7 +95,7 @@ public class Harold extends Entity{
         }
         if(x+width> currentLevel.getRightBound()){
             if(!currentLevel.isIncreaseAllowed()) x=currentLevel.getRightBound()-width;
-            else if(World.getSubLevel()< currentLevel.getSublevels()-1){
+            else if(World.getSubLevel()< currentLevel.getNumSublevels()-1){
                 World.setSubLevel(World.getSubLevel()+1);
                 x=5;
             }else{

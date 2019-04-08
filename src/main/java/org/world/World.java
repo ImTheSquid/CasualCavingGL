@@ -129,10 +129,6 @@ public class World {
         World.game = game;
     }
 
-    public static void setPause(boolean pause) {
-        World.pause = pause;
-    }
-
     public static void setLevel(int level) {
         World.level = level;
     }
@@ -154,4 +150,8 @@ public class World {
     public static float getGravity() {
         return gravity;
     }
+
+    public static int getNumLevels(){return LevelController.getNumLevels();}
+
+    public static int getNumSubLevels(){return LevelController.getNumSubLevels();}
 }
