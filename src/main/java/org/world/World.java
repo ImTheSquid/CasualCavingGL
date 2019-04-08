@@ -23,6 +23,7 @@ public class World {
     private static SmartRectangle pauseTitleReturn=new SmartRectangle(Render.unitsWide/2,6.6f,18,4,true);
 
     public static void update(){
+        Debug.update();
         if(Render.getWindow().getWidth()!=Render.screenWidth||Render.getWindow().getHeight()!=Render.screenHeight){
             if(Keyboard.keys.contains(VK_R))Render.getWindow().setSize(Render.screenWidth,Render.screenHeight);
             return;
@@ -108,6 +109,7 @@ public class World {
         //Master brightness, always do last
         Graphics.setColor(0,0,0,1-master.getCurrent());
         Graphics.fillRect(0,0, Render.unitsWide,Render.unitsTall);
+        Debug.render();
         Graphics.setColor(1,1,1,1);//Reset color
     }
 
@@ -125,10 +127,6 @@ public class World {
 
     public static void setGame(boolean game) {
         World.game = game;
-    }
-
-    public static void setPause(boolean pause) {
-        World.pause = pause;
     }
 
     public static void setLevel(int level) {
@@ -152,4 +150,8 @@ public class World {
     public static float getGravity() {
         return gravity;
     }
+
+    public static int getNumLevels(){return LevelController.getNumLevels();}
+
+    public static int getNumSubLevels(){return LevelController.getNumSubLevels();}
 }

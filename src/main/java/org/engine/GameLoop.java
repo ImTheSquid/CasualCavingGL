@@ -5,7 +5,7 @@ import org.world.World;
 
 public class GameLoop {
     private boolean running=true;
-    private int updates=0;
+    private int updates=0,currentFPS=0;
     private final int MAX_UPDATES=5;
 
     private long lastUpdateTime=0;
@@ -30,6 +30,15 @@ public class GameLoop {
 
                     long startTime=System.nanoTime();
                     Render.render();
+
+                    //FPS counter
+                    fps++;
+                    if (System.nanoTime() >= lastFpsCheck + 1000000000) {
+                        currentFPS=fps;
+                        fps=0;
+                        lastFpsCheck=System.nanoTime();
+                    }
+
                     long timeTaken=System.nanoTime()-startTime;
                     if(timeTaken<targetTime){
                         try {
@@ -47,5 +56,9 @@ public class GameLoop {
 
     public void setRunning(boolean running) {
         this.running = running;
+    }
+
+    public int getCurrentFPS() {
+        return currentFPS;
     }
 }
