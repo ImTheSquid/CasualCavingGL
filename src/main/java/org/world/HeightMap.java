@@ -9,6 +9,8 @@ public class HeightMap {
     private static HeightVal[] heights={new HeightVal(0,7,Render.unitsWide)};
     private static boolean singleHeight=false;
 
+    //TODO Add variable to store whether HM entry is opaque or transparent (able to be passed under/through), check on analysis
+
     public static void setHeights(float[][] heights) {
         HeightMap.heights=convertHeights(heights);
         processHeights();
