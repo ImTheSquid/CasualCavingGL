@@ -72,8 +72,6 @@ public class Harold extends Entity{
             y=h.getGroundLevel();
             vY=0;
             jump=false;
-        }else if(h.isOnGround()&&jump){
-            vY=2.5f;
         }
 
         if(vX==0){
