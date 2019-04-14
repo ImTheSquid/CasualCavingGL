@@ -6,6 +6,7 @@ import org.level.Level;
 import org.loader.ImageResource;
 import org.loader.ResourceHandler;
 import org.world.HeightMap;
+import org.world.HeightVal;
 
 public class Level1 extends Level {
     public Level1(ImageResource[] backgrounds) {
@@ -38,17 +39,17 @@ public class Level1 extends Level {
     }
 
     private void update0(){
-        HeightMap.setHeights(new float[][]{{0f,7f}});
+        HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7,Render.unitsWide,true)});
     }
 
-    private void update1() {HeightMap.setHeights(new float[][]{{0f,7f}});}
+    private void update1() {HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7,Render.unitsWide,true)});}
 
     private void update2(){
-        HeightMap.setHeights(new float[][]{{0f,7f},{25f,30f},{80f,7f}});
+        HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7,20,true),new HeightVal(20,30,80,false),new HeightVal(20,7,80,true),new HeightVal(80,7,Render.unitsWide,true)});
     }
 
     private void update3(){
-        HeightMap.setHeights(new float[][]{{0f,7f}});
+        HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7,Render.unitsWide,true)});
         if(!bridge){
             rightLimit=45;
         }else{

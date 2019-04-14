@@ -48,14 +48,14 @@ public class Harold extends Entity{
         boolean doXCalc=true;
 
         if (HeightMap.checkRightCollision(hitbox)) {
-            if (x + width + 0.5>= HeightMap.findApplicable(x,true).getStartX()) {
+            if (x + width + 0.5>= HeightMap.findApplicable(hitbox,true).getStartX()) {
                 if (vX < 0) x += vX;
                 else vX=0;
                 doXCalc=false;
             }
         }
         if(HeightMap.checkLeftCollision(hitbox)){
-            if(x-0.5<=HeightMap.findApplicable(x,false).getEndX()){
+            if(x-0.5<=HeightMap.findApplicable(hitbox,false).getEndX()){
                 if(vX>0)x+=vX;
                 else vX=0;
                 doXCalc=false;
@@ -68,7 +68,7 @@ public class Harold extends Entity{
         }
 
 
-        if(h.isOnGround()&&!jump){
+        if(h.isOnGround()&&vY<0){
             y=h.getGroundLevel();
             vY=0;
             jump=false;
