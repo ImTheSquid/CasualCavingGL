@@ -1,5 +1,6 @@
 package org.world;
 
+import org.engine.Main;
 import org.entities.Entity;
 import org.entities.SmartRectangle;
 import org.graphics.FadeIO;
@@ -23,6 +24,7 @@ public class World {
     private static SmartRectangle pauseTitleReturn=new SmartRectangle(Render.unitsWide/2,6.6f,18,4,true);
 
     public static void update(){
+        if(!entites.contains(Main.getHarold()))World.addEntity(Main.getHarold());
         Debug.update();
         if(Render.getWindow().getWidth()!=Render.screenWidth||Render.getWindow().getHeight()!=Render.screenHeight){
             if(Keyboard.keys.contains(VK_R))Render.getWindow().setSize(Render.screenWidth,Render.screenHeight);
@@ -89,6 +91,8 @@ public class World {
             }
         }
 
+        if(level>0)Main.getHarold().render();
+
         if(pause){
             Graphics.setColor(.25f,.25f,.25f,.4f);
             Graphics.fillRect(0,0,Render.unitsWide,Render.unitsTall);
@@ -154,4 +158,8 @@ public class World {
     public static int getNumLevels(){return LevelController.getNumLevels();}
 
     public static int getNumSubLevels(){return LevelController.getNumSubLevels();}
+
+    public static ConcurrentLinkedQueue<Entity> getEntites() {
+        return entites;
+    }
 }
