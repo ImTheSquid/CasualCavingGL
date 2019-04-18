@@ -122,6 +122,6 @@ public class Title extends Level {
         Graphics.setFont(Graphics.REGULAR_FONT);
         Graphics.drawTextCentered("Quit",Render.unitsWide/2,5.3f);
         Graphics.setFont(Graphics.SMALL_FONT);
-        Graphics.drawText("Casual Caving 0.0.3",0.1f,0.7f);
+        Graphics.drawText("Casual Caving 0.0.4",0.1f,0.7f);
     }
 }
