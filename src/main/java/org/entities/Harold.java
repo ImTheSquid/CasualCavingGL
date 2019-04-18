@@ -123,4 +123,8 @@ public class Harold extends Entity{
         Graphics.setColor(1,1,1,1);
         Graphics.drawImage(harold,x,y);
     }
+
+    public SmartRectangle getHitbox() {
+        return hitbox;
+    }
 }

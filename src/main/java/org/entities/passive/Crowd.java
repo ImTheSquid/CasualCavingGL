@@ -6,14 +6,18 @@ import org.entities.SmartRectangle;
 import org.graphics.Animator;
 import org.graphics.Graphics;
 import org.graphics.Render;
+import org.input.Keyboard;
 import org.loader.ImageResource;
 import org.loader.ResourceHandler;
+import org.loader.harold.HaroldLoader;
 import org.world.World;
+
+import static com.jogamp.newt.event.KeyEvent.VK_E;
 
 public class Crowd extends Entity {
     private Animator crowdAnimator=new Animator(ResourceHandler.getCrowdLoader().getCrowdWalk(),12);
     private ImageResource crowd;
-    private boolean start=false,wood=true;
+    private boolean start=false,wood=true,chainsaw=false,cartIntersect=false;
     private float cartWidth =0, cartHeight =0;
     private SmartRectangle cart=new SmartRectangle(x+24,y, cartWidth, cartHeight);
     public Crowd(){
@@ -28,6 +32,7 @@ public class Crowd extends Entity {
         }else{
             crowd=crowdAnimator.getCurrentFrame();
         }
+        cartIntersect=cart.intersects(Main.getHarold().getHitbox());
         switch(World.getSubLevel()){
             case 1:
                 if(Main.getHarold().getX()> Render.unitsWide/2)start=true;
@@ -35,6 +40,10 @@ public class Crowd extends Entity {
                 break;
             case 2:
                 if(x<5)vX=0.6f;
+                if(cartIntersect&& Keyboard.keys.contains(VK_E)&&!chainsaw){
+                    ResourceHandler.getHaroldLoader().setState(HaroldLoader.CHAINSAW);
+                    chainsaw=true;
+                }
                 break;
         }
         x+=vX;
@@ -46,8 +55,8 @@ public class Crowd extends Entity {
 
     @Override
     public void render() {
-        cartWidth =ResourceHandler.getCrowdLoader().getCart().getTexture().getWidth();
-        cartHeight =ResourceHandler.getCrowdLoader().getCart().getTexture().getHeight();
+        cartWidth =Graphics.convertToWorldWidth(ResourceHandler.getCrowdLoader().getCart().getTexture().getWidth());
+        cartHeight =Graphics.convertToWorldHeight(ResourceHandler.getCrowdLoader().getCart().getTexture().getHeight());
         if(World.getSubLevel()!=subLevel)return;
         Graphics.setColor(1,1,1,1);
         Graphics.drawImage(crowd,x,y);
@@ -56,6 +65,7 @@ public class Crowd extends Entity {
             Graphics.setColor(1,1,1,1);
             Graphics.setFont(Graphics.SMALL_FONT);
             Graphics.drawText("Hey, we won't be able to get the cart over that log. You should use some tools.",8,35,20);
+            if(cartIntersect&&!chainsaw)Graphics.drawText("Press E to pick up chainsaw",32,29);
         }
     }
 
