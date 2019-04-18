@@ -58,6 +58,7 @@ public class World {
             if(pauseReturn.isPressed())pause=false;
             if(pauseTitleReturn.isPressed()){
                 LevelController.resetAll();
+                Main.getHarold().reset();
                 level = 0;
                 subLevel = 1;
                 pause = false;

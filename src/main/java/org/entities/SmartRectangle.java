@@ -54,6 +54,11 @@ public class SmartRectangle extends Entity{
         Graphics.fillRect(x,y,width,height);
     }
 
+    @Override
+    public void reset() {
+
+    }
+
     public boolean isPressed(){
         return isPressed;
     }

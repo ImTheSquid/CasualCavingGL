@@ -8,6 +8,7 @@ import org.level.Level;
 import org.level.LevelController;
 import org.loader.ImageResource;
 import org.loader.ResourceHandler;
+import org.loader.harold.HaroldLoader;
 import org.world.HeightMap;
 import org.world.HeightReturn;
 import org.world.World;
@@ -122,6 +123,11 @@ public class Harold extends Entity{
         hitbox.updateBounds(x,y,width,height);
         Graphics.setColor(1,1,1,1);
         Graphics.drawImage(harold,x,y);
+    }
+
+    @Override
+    public void reset() {
+        ResourceHandler.getHaroldLoader().setState(HaroldLoader.NORMAL);
     }
 
     public SmartRectangle getHitbox() {

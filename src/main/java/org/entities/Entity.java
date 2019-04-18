@@ -7,6 +7,7 @@ public abstract class Entity {
     private boolean nonGameUpdate=false,nonGameRender=false,pauseUpdate=false,pauseRender=true;
     public abstract void update();
     public abstract void render();
+    public abstract void reset();
 
     protected void setNonGameUpdate(boolean update){
         nonGameUpdate=update;

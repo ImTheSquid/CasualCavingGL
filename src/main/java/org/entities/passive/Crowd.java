@@ -64,9 +64,14 @@ public class Crowd extends Entity {
         if(subLevel==2&&vX==0){
             Graphics.setColor(1,1,1,1);
             Graphics.setFont(Graphics.SMALL_FONT);
-            Graphics.drawText("Hey, we won't be able to get the cart over that log. You should use some tools.",8,35,20);
+            if(wood)Graphics.drawText("Hey, we won't be able to get the cart over that log. You should use some tools.",8,35,20);
             if(cartIntersect&&!chainsaw)Graphics.drawText("Press E to pick up chainsaw",32,29);
         }
+    }
+
+    @Override
+    public void reset() {
+
     }
 
     public void updateSublevel(int newSub){

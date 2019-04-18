@@ -1,14 +1,20 @@
 package org.level.levels;
 
+import org.engine.Main;
+import org.entities.SmartRectangle;
 import org.entities.passive.Crowd;
 import org.graphics.Graphics;
 import org.graphics.Render;
+import org.input.Keyboard;
 import org.level.Level;
 import org.loader.ImageResource;
 import org.loader.ResourceHandler;
+import org.loader.harold.HaroldLoader;
 import org.world.HeightMap;
 import org.world.HeightVal;
 import org.world.World;
+
+import static com.jogamp.newt.event.KeyEvent.VK_E;
 
 public class Level1 extends Level {
     public Level1(ImageResource[] backgrounds) {
@@ -17,6 +23,7 @@ public class Level1 extends Level {
     private ImageResource[] sprites= ResourceHandler.getLevelLoader().getLevel1Sprites();
     private boolean bridge=false,wood=true;
     private Crowd crowd=new Crowd();
+    private SmartRectangle log=new SmartRectangle(68,7,10,11);
 
     public void update(int subLevel) {
         if(!World.getEntites().contains(crowd))World.addEntity(crowd);
@@ -55,14 +62,23 @@ public class Level1 extends Level {
         crowd.setWood(wood);
         if(wood)HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7,70,true),new HeightVal(70,13,76,true),new HeightVal(76,7,Render.unitsWide,true)});
         else HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7,Render.unitsWide,true)});
+        if(ResourceHandler.getHaroldLoader().getState()== HaroldLoader.CHAINSAW&&log.intersects(Main.getHarold().getHitbox())&&
+        Keyboard.keys.contains(VK_E)){
+            wood=false;
+            ResourceHandler.getHaroldLoader().setState(HaroldLoader.WOOD);
+        }
     }
 
     private void update3(){
         HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7,Render.unitsWide,true)});
+        if(!wood&&new SmartRectangle(44,0,56,Render.unitsTall).intersects(Main.getHarold().getHitbox())&&Keyboard.keys.contains(VK_E)){
+            bridge=true;
+            ResourceHandler.getHaroldLoader().setState(HaroldLoader.NORMAL);
+        }
         if(!bridge){
             rightLimit=45;
         }else{
-            rightLimit=Render.unitsWide;
+            rightLimit=Render.unitsWide+1;
         }
     }
 
@@ -77,6 +93,9 @@ public class Level1 extends Level {
                 break;
             case 2:
                 render2();
+                break;
+            case 3:
+                render3();
                 break;
         }
     }
@@ -94,11 +113,26 @@ public class Level1 extends Level {
 
     private void render2(){
         Graphics.setColor(1,1,1,1);
-        if(wood)Graphics.drawImage(sprites[2],70,7);
+        if(wood){
+            Graphics.drawImage(sprites[2],70,7);
+            Graphics.setFont(Graphics.SMALL_FONT);
+            if(log.intersects(Main.getHarold().getHitbox())&&ResourceHandler.getHaroldLoader().getState()==HaroldLoader.CHAINSAW)Graphics.drawText("Press E to cut",70,20);
+        }
+    }
+
+    private void render3(){
+        Graphics.setColor(1,1,1,1);
+        Graphics.setFont(Graphics.SMALL_FONT);
+        if(!bridge){
+            SmartRectangle temp=new SmartRectangle(40,0,60,Render.unitsTall);
+            if(ResourceHandler.getHaroldLoader().getState()==HaroldLoader.WOOD&&temp.intersects(Main.getHarold().getHitbox()))Graphics.drawText("Press E to place wood",47,20);
+        }else{
+            Graphics.drawImage(sprites[3],41,5);
+        }
     }
 
     @Override
     public void reset() {
-
+        crowd.reset();
     }
 }
