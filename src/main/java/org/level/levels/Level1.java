@@ -18,23 +18,28 @@ import static com.jogamp.newt.event.KeyEvent.VK_E;
 
 public class Level1 extends Level {
     public Level1(ImageResource[] backgrounds) {
-        super(backgrounds,6);
+        super(backgrounds,7);
     }
     private ImageResource[] sprites= ResourceHandler.getLevelLoader().getLevel1Sprites();
     private boolean bridge=false,wood=true;
     private Crowd crowd=new Crowd();
     private SmartRectangle log=new SmartRectangle(68,7,10,11);
+    private SmartRectangle river=new SmartRectangle(40,0,60,Render.unitsTall);
 
     public void update(int subLevel) {
-        if(!World.getEntites().contains(crowd))World.addEntity(crowd);
+        if(!World.getEntites().contains(crowd)&&crowd.getSubLevel()<6)World.addEntity(crowd);
+        else if(crowd.getSubLevel()==6)World.removeEntity(crowd);
         if(subLevel==0){
             leftBound=65;
         }else{
             leftBound=0;
         }
-        if(subLevel!=3){
+        if(subLevel!=3&&!(subLevel>=5)){
             rightLimit= Render.unitsWide+1;
             crowd.updateSublevel(World.getSubLevel());
+        }else if(subLevel>=5){
+            rightLimit=Render.unitsWide;
+            leftLimit=0;
         }
         switch(subLevel){
             case 0:
@@ -48,6 +53,15 @@ public class Level1 extends Level {
                 break;
             case 3:
                 update3();
+                break;
+            case 4:
+                update4();
+                break;
+            case 5:
+                update5();
+                break;
+            case 6:
+                update6();
                 break;
         }
     }
@@ -71,7 +85,7 @@ public class Level1 extends Level {
 
     private void update3(){
         HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7,Render.unitsWide,true)});
-        if(!wood&&new SmartRectangle(44,0,56,Render.unitsTall).intersects(Main.getHarold().getHitbox())&&Keyboard.keys.contains(VK_E)){
+        if(!wood&&river.intersects(Main.getHarold().getHitbox())&&Keyboard.keys.contains(VK_E)){
             bridge=true;
             ResourceHandler.getHaroldLoader().setState(HaroldLoader.NORMAL);
         }
@@ -79,7 +93,36 @@ public class Level1 extends Level {
             rightLimit=45;
         }else{
             rightLimit=Render.unitsWide+1;
+            crowd.updateSublevel(World.getSubLevel());
         }
+    }
+
+    private void update4(){
+        HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7,Render.unitsWide,true)});
+        crowd.updateSublevel(World.getSubLevel());
+    }
+
+    private void update5(){
+        HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7,Render.unitsWide,true)});
+        crowd.updateSublevel(World.getSubLevel());
+        if(World.getMaster().getCurrent()==0){
+            World.setSubLevel(World.getSubLevel()+1);
+            Main.getHarold().setX(50);
+        }
+    }
+
+    private void update6(){
+        HeightMap.setHeights(new HeightVal[]{new HeightVal(0,14,24,true),new HeightVal(24,7,Render.unitsWide,true)});
+        if(!World.getMaster().getDirection()&&Main.getHarold().getX()<=80){
+            World.getMaster().setDirection(true);
+            World.getMaster().setSecondDelay(1);
+        }
+        if(Main.getHarold().getX()>80&&World.getMaster().getCurrent()==1){
+            World.getMaster().setDirection(false);
+            World.getMaster().setActive(true);
+            Main.getHarold().setMovement(false);
+        }
+        if(!World.getMaster().getDirection()&&World.getMaster().getCurrent()==0)World.setLevelTransition(true);
     }
 
     public void render(int subLevel) {
@@ -97,6 +140,17 @@ public class Level1 extends Level {
             case 3:
                 render3();
                 break;
+            case 6:
+                render6();
+                break;
+        }
+    }
+
+    @Override
+    public void renderForeground(int subLevel) {
+        if(World.getSubLevel()==6){
+            Graphics.drawImage(sprites[7],2,2);
+            Graphics.drawImage(sprites[8],70,2);
         }
     }
 
@@ -124,15 +178,21 @@ public class Level1 extends Level {
         Graphics.setColor(1,1,1,1);
         Graphics.setFont(Graphics.SMALL_FONT);
         if(!bridge){
-            SmartRectangle temp=new SmartRectangle(40,0,60,Render.unitsTall);
-            if(ResourceHandler.getHaroldLoader().getState()==HaroldLoader.WOOD&&temp.intersects(Main.getHarold().getHitbox()))Graphics.drawText("Press E to place wood",47,20);
+            if(ResourceHandler.getHaroldLoader().getState()==HaroldLoader.WOOD&& river.intersects(Main.getHarold().getHitbox()))Graphics.drawText("Press E to place wood",47,20);
         }else{
             Graphics.drawImage(sprites[3],41,5);
         }
     }
 
+    private void render6(){
+        Graphics.drawImage(sprites[5],28,17);
+        Graphics.drawImage(sprites[6],50,-3);
+        Graphics.drawImage(sprites[4],80,40);
+    }
+
     @Override
     public void reset() {
         crowd.reset();
+
     }
 }

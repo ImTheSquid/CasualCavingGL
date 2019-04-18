@@ -23,6 +23,7 @@ public class Harold extends Entity{
         health=3;
     }
     public void update() {
+        if(!movement)return;
         HeightReturn h=HeightMap.onGround(hitbox);
         if(Keyboard.keys.contains(KeyEvent.VK_A)){
             vX=-0.5f;

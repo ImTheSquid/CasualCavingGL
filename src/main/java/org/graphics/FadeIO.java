@@ -45,6 +45,10 @@ public class FadeIO {
         else this.delay=delay;
     }
 
+    public void setSecondDelay(long delay){
+        if(delay>0)this.delay=delay*fps;
+    }
+
     public void setCurrent(float c){
         current=c;
     }

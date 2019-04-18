@@ -5,7 +5,7 @@ import org.loader.ImageResource;
 public class LevelLoader {
     private final ImageResource[] title={new ImageResource("/CasualCaving/Levels/Title/LoadScreen.png"),
     new ImageResource("/CasualCaving/Levels/Title/TitleScreen.png")};
-    private final ImageResource[] titleForeground={new ImageResource("/CasualCaving/Levels/Title/LunanLogo.png")};
+    private final ImageResource[] titleLogo ={new ImageResource("/CasualCaving/Levels/Title/LunanLogo.png")};
     private final ImageResource[] level1={new ImageResource("/CasualCaving/Levels/Level1/Lvl1Bg1.png"),
             new ImageResource("/CasualCaving/Levels/Level1/Lvl1Bg2.png"),
             new ImageResource("/CasualCaving/Levels/Level1/Lvl1Bg3.png"),
@@ -17,7 +17,12 @@ public class LevelLoader {
     private final ImageResource[] level1Sprites={new ImageResource("/CasualCaving/Levels/Level1/Sprites/BossMan.png"),
             new ImageResource("/CasualCaving/Levels/Level1/Sprites/Crowd.png"),
             new ImageResource("/CasualCaving/Levels/Level1/Sprites/Log.png"),
-            new ImageResource("/CasualCaving/Levels/Level1/Sprites/Bridge.png")};
+            new ImageResource("/CasualCaving/Levels/Level1/Sprites/Bridge.png"),
+            new ImageResource("/CasualCaving/Levels/Level1/Sprites/RedTent.png"),
+            new ImageResource("/CasualCaving/Levels/Level1/Sprites/MintTent.png"),
+            new ImageResource("/CasualCaving/Levels/Level1/Sprites/LavenderTent.png"),
+            new ImageResource("/CasualCaving/Levels/Level1/Sprites/AquaTent.png"),
+            new ImageResource("/CasualCaving/Levels/Level1/Sprites/HaroldTent.png")};
     private final ImageResource[] level2={};
     private final ImageResource[] level3={};
 
@@ -25,8 +30,8 @@ public class LevelLoader {
         return title;
     }
 
-    public ImageResource[] getTitleForeground() {
-        return titleForeground;
+    public ImageResource[] getTitleLogo() {
+        return titleLogo;
     }
 
     public ImageResource[] getLevel1() {
@@ -35,5 +40,13 @@ public class LevelLoader {
 
     public ImageResource[] getLevel1Sprites() {
         return level1Sprites;
+    }
+
+    public ImageResource[] getLevel2() {
+        return level2;
+    }
+
+    public ImageResource[] getLevel3() {
+        return level3;
     }
 }

@@ -68,7 +68,6 @@ public class Render implements GLEventListener {
 
     public void reshape(GLAutoDrawable glAutoDrawable, int i, int i1, int i2, int i3) {
         GL2 gl=glAutoDrawable.getGL().getGL2();
-        //TODO prevent window resizing
         unitsTall=window.getHeight()/(window.getWidth()/unitsWide);
         gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();

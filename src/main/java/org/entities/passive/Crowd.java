@@ -17,7 +17,7 @@ import static com.jogamp.newt.event.KeyEvent.VK_E;
 public class Crowd extends Entity {
     private Animator crowdAnimator=new Animator(ResourceHandler.getCrowdLoader().getCrowdWalk(),12);
     private ImageResource crowd;
-    private boolean start=false,wood=true,chainsaw=false,cartIntersect=false;
+    private boolean start=false,wood=true,chainsaw=false,cartIntersect=false,fadeDelaySet=false;
     private float cartWidth =0, cartHeight =0;
     private SmartRectangle cart=new SmartRectangle(x+24,y, cartWidth, cartHeight);
     public Crowd(){
@@ -39,10 +39,25 @@ public class Crowd extends Entity {
                 if(x<5&&start)vX=0.6f;
                 break;
             case 2:
-                if(x<5)vX=0.6f;
+                if(x<5&&subLevel==2)vX=0.6f;
                 if(cartIntersect&& Keyboard.keys.contains(VK_E)&&!chainsaw){
                     ResourceHandler.getHaroldLoader().setState(HaroldLoader.CHAINSAW);
                     chainsaw=true;
+                }
+                break;
+            case 3:
+                if(x<5&&subLevel==3)vX=0.6f;
+                break;
+            case 4:
+                if(x<5&&subLevel==4)vX=0.6f;
+                break;
+            case 5:
+                if(x<5&&subLevel==5)vX=0.6f;
+                if(vX==0&&!fadeDelaySet){
+                    fadeDelaySet=true;
+                    World.getMaster().setSecondDelay(4);
+                    World.getMaster().setDirection(false);
+                    World.getMaster().setActive(true);
                 }
                 break;
         }
@@ -67,10 +82,16 @@ public class Crowd extends Entity {
             if(wood)Graphics.drawText("Hey, we won't be able to get the cart over that log. You should use some tools.",8,35,20);
             if(cartIntersect&&!chainsaw)Graphics.drawText("Press E to pick up chainsaw",32,29);
         }
+        if(subLevel==5&&vX==0){
+            Graphics.setColor(1,1,1,1);
+            Graphics.setFont(Graphics.SMALL_FONT);
+            Graphics.drawText("This looks like a good place to set up camp. Let's put our stuff down.",8,35,20);
+        }
     }
 
     @Override
     public void reset() {
+        subLevel=1;
 
     }
 

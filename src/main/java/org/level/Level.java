@@ -19,6 +19,8 @@ public abstract class Level {
 
     public abstract void render(int subLevel);
 
+    public abstract void renderForeground(int subLevel);
+
     public abstract void reset();
 
     public void setForegrounds(ImageResource[] foregrounds){
