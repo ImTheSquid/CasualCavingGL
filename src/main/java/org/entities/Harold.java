@@ -129,6 +129,8 @@ public class Harold extends Entity{
     @Override
     public void reset() {
         ResourceHandler.getHaroldLoader().setState(HaroldLoader.NORMAL);
+        movement=true;
+        x=5;
     }
 
     public SmartRectangle getHitbox() {

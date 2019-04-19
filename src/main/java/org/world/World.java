@@ -32,7 +32,7 @@ public class World {
             return;
         }
 
-        if(Keyboard.keys.contains(VK_ESCAPE)&&game){
+        if(Keyboard.keys.contains(VK_ESCAPE)&&game&&!levelTransition){
             pause=!pause;
             master.setActive(!pause);
             while(Keyboard.keys.contains(VK_ESCAPE)){}//Wait for key release
@@ -83,7 +83,13 @@ public class World {
             }else if(tFade.getCurrent()==0){
                 transititonDir=true;
                 levelTransition=false;
+                LevelController.cleanup(level);
                 level++;
+                subLevel=0;
+                Main.getHarold().setMovement(true);
+                Main.getHarold().setX(5);
+                master.setActive(false);
+                master.setCurrent(1);
             }
         }
 

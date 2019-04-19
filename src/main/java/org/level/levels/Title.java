@@ -90,6 +90,11 @@ public class Title extends Level {
     }
 
     @Override
+    public void cleanup() {
+
+    }
+
+    @Override
     public void reset() {
         World.setGame(false);
         quit.setActive(false);

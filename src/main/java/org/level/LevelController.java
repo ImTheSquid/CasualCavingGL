@@ -21,6 +21,8 @@ public class LevelController {
 
     public static void renderForeground(int level,int subLevel){levels[level].renderForeground(subLevel);}
 
+    public static void cleanup(int level){levels[level].cleanup();}
+
     public static Level[] getLevels(){return levels;}
 
     public static void resetAll(){

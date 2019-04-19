@@ -92,7 +92,13 @@ public class Crowd extends Entity {
     @Override
     public void reset() {
         subLevel=1;
-
+        level=1;
+        start=false;
+        wood=true;
+        chainsaw=false;
+        cartIntersect=false;
+        fadeDelaySet=false;
+        x=-55;
     }
 
     public void updateSublevel(int newSub){

@@ -154,6 +154,11 @@ public class Level1 extends Level {
         }
     }
 
+    @Override
+    public void cleanup() {
+        World.removeEntity(crowd);
+    }
+
     private void render0(){
         Graphics.drawImage(sprites[0],6,7);
         Graphics.drawImage(sprites[1],40,7);
@@ -193,6 +198,7 @@ public class Level1 extends Level {
     @Override
     public void reset() {
         crowd.reset();
-
+        bridge=false;
+        wood=true;
     }
 }
