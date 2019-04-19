@@ -41,9 +41,22 @@ public class SmartRectangle extends Entity{
         }
     }
 
+    public boolean contains(float x1,float y1){
+        return (y1 >= y && y1 <= y + height)&&(x1>=x&&x1<=x+width);
+    }
+
+    public boolean intersects(SmartRectangle r){
+        return x < r.getX() + r.getWidth() && x + width > r.getX() && y < r.getY() + r.getHeight() && y + height > r.getY();
+    }
+
     public void render() {
         Graphics.setColor(red,green,blue,alpha);
         Graphics.fillRect(x,y,width,height);
+    }
+
+    @Override
+    public void reset() {
+
     }
 
     public boolean isPressed(){

@@ -8,6 +8,7 @@ import org.level.Level;
 import org.level.LevelController;
 import org.loader.ImageResource;
 import org.loader.ResourceHandler;
+import org.loader.harold.HaroldLoader;
 import org.world.HeightMap;
 import org.world.HeightReturn;
 import org.world.World;
@@ -22,6 +23,7 @@ public class Harold extends Entity{
         health=3;
     }
     public void update() {
+        if(!movement)return;
         HeightReturn h=HeightMap.onGround(hitbox);
         if(Keyboard.keys.contains(KeyEvent.VK_A)){
             vX=-0.5f;
@@ -122,5 +124,16 @@ public class Harold extends Entity{
         hitbox.updateBounds(x,y,width,height);
         Graphics.setColor(1,1,1,1);
         Graphics.drawImage(harold,x,y);
+    }
+
+    @Override
+    public void reset() {
+        ResourceHandler.getHaroldLoader().setState(HaroldLoader.NORMAL);
+        movement=true;
+        x=5;
+    }
+
+    public SmartRectangle getHitbox() {
+        return hitbox;
     }
 }

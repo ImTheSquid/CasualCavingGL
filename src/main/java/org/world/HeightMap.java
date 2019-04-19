@@ -9,17 +9,6 @@ public class HeightMap {
     private static HeightVal[] heights={new HeightVal(0,7,Render.unitsWide,true)};
     private static boolean singleHeight=false;
 
-    //TODO Add variable to store whether HM entry is opaque or transparent (able to be passed under/through), check on analysis
-
-    /*
-    Get height val (if not jumping)
-    Go top to bottom to see what level player is on
-
-    For collision check (LR)
-    See if player x collides with OPAQUE object
-    If so, stop
-     */
-
     public static void setHeights(HeightVal[] heights) {
         HeightMap.heights=heights;
         processHeights();
@@ -41,6 +30,7 @@ public class HeightMap {
         return new HeightReturn(false);
     }
 
+    //For being able to drop below platforms
     public static HeightVal onPlatform(SmartRectangle r){
         if(singleHeight||!onGround(r).isOnGround())return null;
         ArrayList<HeightVal> temp=findBounds(r);
@@ -54,11 +44,9 @@ public class HeightMap {
 
     private static ArrayList<HeightVal> findBounds(SmartRectangle r) {
         ArrayList<HeightVal> temp = new ArrayList<>();
-        for (HeightVal h : heights) {
-            boolean xBound = (r.getX() > h.getStartX() && r.getX() <= h.getEndX());
-            boolean widthBound = (r.getX() + r.getWidth() > h.getStartX() && r.getX() + r.getWidth() <= h.getEndX());
-            if (xBound || widthBound) temp.add(h);
-        }
+        for (HeightVal h : heights)
+            if (new SmartRectangle(h.getStartX(), h.getHeight(), h.getEndX() - h.getStartX(), 1).intersects(r))
+                temp.add(h);
         return sort(temp);
     }
 
@@ -99,7 +87,6 @@ public class HeightMap {
             if(xPos>=heights[i].getStartX()&&xPos<=heights[i].getEndX()){
                 if(right&&i+1<heights.length&&r.getY()<heights[i+1].getHeight())val=heights[i+1];
                 else if(!right&&i-1>=0&&r.getY()<heights[i-1].getHeight())val=heights[i-1];
-                //break;
             }
         }
         if(val!=null&&!val.isOpaque())return null;

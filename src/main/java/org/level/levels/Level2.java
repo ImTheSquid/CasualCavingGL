@@ -17,6 +17,16 @@ public class Level2 extends Level {
     }
 
     @Override
+    public void renderForeground(int subLevel) {
+
+    }
+
+    @Override
+    public void cleanup() {
+
+    }
+
+    @Override
     public void reset() {
 
     }

@@ -26,42 +26,50 @@ public class Title extends Level {
 
     public void update(int subLevel) {
         if (subLevel == 0) {
-            if (logo.getDirection() || (logo.getCurrent() > 0)) {
-                logo.update();
-            } else {
-                World.setSubLevel(1);
-            }
-            if (logo.getCurrent() == 1) {
-                if(logo.getFrameDelay()==0&&logo.getDirection()){
-                    logo.setFrameDelay(60);
-                    logo.setDirection(false);
-                }
-            }
-            if(Keyboard.keys.contains(VK_SPACE)){
-                logo.setActive(false);
-                logo.setCurrent(0);
-                logo.setDirection(true);
-                World.setSubLevel(1);
-            }
+            updateLoad();
         } else {
-            if(World.getMaster().isActive())gameReady=true;
-            if(World.getMaster().getDirection()&&World.getMaster().getCurrent()==1f&&!gameReady) {
-                World.getMaster().setCurrent(0);
-                World.getMaster().setActive(true);
+            updateTitle();
+        }
+    }
+
+    private void updateLoad(){
+        if (logo.getDirection() || (logo.getCurrent() > 0)) {
+            logo.update();
+        } else {
+            World.setSubLevel(1);
+        }
+        if (logo.getCurrent() == 1) {
+            if(logo.getFrameDelay()==0&&logo.getDirection()){
+                logo.setFrameDelay(60);
+                logo.setDirection(false);
             }
-            if(World.getMaster().getCurrent()>0.5f&&!quit.isActive())quit.setActive(true);
-            quit.update();
-            if(quit.isPressed()){
-                Render.getGameLoop().setRunning(false);
-            }
-            start.update();
-            if(start.isPressed()||Keyboard.keys.contains(VK_ENTER)){
-                World.setGame(true);
-                World.getMaster().setActive(false);
-                World.getMaster().setCurrent(1f);
-                World.setLevel(1);
-                World.setSubLevel(0);
-            }
+        }
+        if(Keyboard.keys.contains(VK_SPACE)){
+            logo.setActive(false);
+            logo.setCurrent(0);
+            logo.setDirection(true);
+            World.setSubLevel(1);
+        }
+    }
+
+    private void updateTitle(){
+        if(World.getMaster().isActive())gameReady=true;
+        if(World.getMaster().getDirection()&&World.getMaster().getCurrent()==1f&&!gameReady) {
+            World.getMaster().setCurrent(0);
+            World.getMaster().setActive(true);
+        }
+        if(World.getMaster().getCurrent()>0.5f&&!quit.isActive())quit.setActive(true);
+        quit.update();
+        if(quit.isPressed()){
+            Render.getGameLoop().setRunning(false);
+        }
+        start.update();
+        if(start.isPressed()||Keyboard.keys.contains(VK_ENTER)){
+            World.setGame(true);
+            World.getMaster().setActive(false);
+            World.getMaster().setCurrent(1f);
+            World.setLevel(1);
+            World.setSubLevel(0);
         }
     }
 
@@ -74,6 +82,16 @@ public class Title extends Level {
                 titleScreen();
                 break;
         }
+    }
+
+    @Override
+    public void renderForeground(int subLevel) {
+
+    }
+
+    @Override
+    public void cleanup() {
+
     }
 
     @Override
@@ -109,6 +127,6 @@ public class Title extends Level {
         Graphics.setFont(Graphics.REGULAR_FONT);
         Graphics.drawTextCentered("Quit",Render.unitsWide/2,5.3f);
         Graphics.setFont(Graphics.SMALL_FONT);
-        Graphics.drawText("Casual Caving 0.0.2",0.1f,0.7f);
+        Graphics.drawText("Casual Caving 0.0.4",0.1f,0.7f);
     }
 }

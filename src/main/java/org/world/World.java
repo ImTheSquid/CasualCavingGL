@@ -1,5 +1,6 @@
 package org.world;
 
+import org.engine.Main;
 import org.entities.Entity;
 import org.entities.SmartRectangle;
 import org.graphics.FadeIO;
@@ -15,22 +16,25 @@ import static com.jogamp.newt.event.KeyEvent.VK_R;
 
 public class World {
     private static FadeIO master=new FadeIO(0,1,1,0.02f,35);
+    private static FadeIO tFade=new FadeIO(0,1,0,0.02f,35);//Fade controller for level transitions
     private static int level=0,subLevel=0;
-    private static boolean game=false,pause=false;//Set whether in game or menu. Set pause status
+    private static boolean game=false,pause=false,levelTransition=false,transititonDir=true;//Set whether in game or menu. Set pause status
     private static float gravity=0.15f;
-    private static ConcurrentLinkedQueue<Entity> entites=new ConcurrentLinkedQueue<>();
-    private static SmartRectangle pauseReturn=new SmartRectangle(Render.unitsWide/2,30,20,5,true);
+    private static ConcurrentLinkedQueue<Entity> entites=new ConcurrentLinkedQueue<>();//Entity registry
+    private static SmartRectangle pauseReturn=new SmartRectangle(Render.unitsWide/2,30,20,5,true);//Button detectors
     private static SmartRectangle pauseTitleReturn=new SmartRectangle(Render.unitsWide/2,6.6f,18,4,true);
 
     public static void update(){
+        if(!entites.contains(Main.getHarold()))World.addEntity(Main.getHarold());
         Debug.update();
         if(Render.getWindow().getWidth()!=Render.screenWidth||Render.getWindow().getHeight()!=Render.screenHeight){
             if(Keyboard.keys.contains(VK_R))Render.getWindow().setSize(Render.screenWidth,Render.screenHeight);
             return;
         }
 
-        if(Keyboard.keys.contains(VK_ESCAPE)&&game){
+        if(Keyboard.keys.contains(VK_ESCAPE)&&game&&!levelTransition){
             pause=!pause;
+            master.setActive(!pause);
             while(Keyboard.keys.contains(VK_ESCAPE)){}//Wait for key release
         }
 
@@ -56,6 +60,7 @@ public class World {
             if(pauseReturn.isPressed())pause=false;
             if(pauseTitleReturn.isPressed()){
                 LevelController.resetAll();
+                Main.getHarold().reset();
                 level = 0;
                 subLevel = 1;
                 pause = false;
@@ -65,8 +70,32 @@ public class World {
             pauseTitleReturn.setActive(false);
         }
 
+        if(levelTransition){
+            if(transititonDir) {
+                if (tFade.getCurrent() == 1) {
+                    transititonDir = false;
+                    tFade.setSecondDelay(2);
+                    tFade.setDirection(false);
+                } else {
+                    tFade.setDirection(true);
+                    tFade.setActive(true);
+                }
+            }else if(tFade.getCurrent()==0){
+                transititonDir=true;
+                levelTransition=false;
+                LevelController.cleanup(level);
+                level++;
+                subLevel=0;
+                Main.getHarold().setMovement(true);
+                Main.getHarold().setX(5);
+                master.setActive(false);
+                master.setCurrent(1);
+            }
+        }
+
         //Master brightness code
         master.update();
+        tFade.update();
     }
 
     public static void render(){
@@ -89,6 +118,20 @@ public class World {
             }
         }
 
+        if(level>0)Main.getHarold().render();
+
+        LevelController.renderForeground(level,subLevel);
+
+        //Master brightness, always do last
+        Graphics.setColor(0,0,0,1-master.getCurrent());
+        Graphics.fillRect(0,0, Render.unitsWide,Render.unitsTall);
+        Graphics.setColor(1,1,1,1);//Reset color
+
+        //Special case level transition
+        if(levelTransition){
+            levelTransition();
+        }
+
         if(pause){
             Graphics.setColor(.25f,.25f,.25f,.4f);
             Graphics.fillRect(0,0,Render.unitsWide,Render.unitsTall);
@@ -105,12 +148,14 @@ public class World {
             Graphics.setColor(1,1,1,1);
             Graphics.drawTextCentered("Quit to Title",Render.unitsWide/2,7);
         }
-
-        //Master brightness, always do last
-        Graphics.setColor(0,0,0,1-master.getCurrent());
-        Graphics.fillRect(0,0, Render.unitsWide,Render.unitsTall);
         Debug.render();
-        Graphics.setColor(1,1,1,1);//Reset color
+        Graphics.setColor(1,1,1,1);
+    }
+
+    private static void levelTransition(){
+        Graphics.setColor(1,1,1,tFade.getCurrent());
+        Graphics.setFont(Graphics.TITLE_FONT);
+        Graphics.drawTextCentered("Part "+(level+1),50,35);
     }
 
     public static void addEntity(Entity e){
@@ -154,4 +199,12 @@ public class World {
     public static int getNumLevels(){return LevelController.getNumLevels();}
 
     public static int getNumSubLevels(){return LevelController.getNumSubLevels();}
+
+    public static ConcurrentLinkedQueue<Entity> getEntites() {
+        return entites;
+    }
+
+    public static void setLevelTransition(boolean levelTransition) {
+        World.levelTransition = levelTransition;
+    }
 }
