@@ -15,6 +15,18 @@ public abstract class Level {
         this.subLevels=subLevels;
     }
 
+    public Level(ImageResource[][] backgrounds,int subLevels){
+        ImageResource[] fore=new ImageResource[subLevels];
+        ImageResource[] back=new ImageResource[subLevels];
+        for(int i=0;i<fore.length;i++){
+            back[i]=backgrounds[i][0];
+            if(backgrounds[i].length>1)fore[i]=backgrounds[i][1];
+        }
+        this.backgrounds=back;
+        this.foregrounds=fore;
+        this.subLevels=subLevels;
+    }
+
     public abstract void update(int subLevel);
 
     public abstract void render(int subLevel);
@@ -25,10 +37,6 @@ public abstract class Level {
     public abstract void cleanup();
 
     public abstract void reset();
-
-    public void setForegrounds(ImageResource[] foregrounds){
-        this.foregrounds=foregrounds;
-    }
 
     public int getNumSublevels(){
         return subLevels;
