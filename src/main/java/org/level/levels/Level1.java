@@ -117,12 +117,10 @@ public class Level1 extends Level {
             World.getMaster().setDirection(true);
             World.getMaster().setSecondDelay(1);
         }
-        if(Main.getHarold().getX()>80&&World.getMaster().getCurrent()==1){
-            World.getMaster().setDirection(false);
-            World.getMaster().setActive(true);
+        if(Main.getHarold().getX()>80){
+            World.setLevelTransition(true);
             Main.getHarold().setMovement(false);
         }
-        if(!World.getMaster().getDirection()&&World.getMaster().getCurrent()==0)World.setLevelTransition(true);
     }
 
     public void render(int subLevel) {

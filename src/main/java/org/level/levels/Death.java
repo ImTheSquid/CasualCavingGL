@@ -55,6 +55,8 @@ public class Death extends Level {
     @Override
     public void cleanup() {
         fadeDir=true;
+        Main.getHarold().setVisible(true);
+        Main.getHarold().setMovement(true);
     }
 
     @Override

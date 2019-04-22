@@ -71,6 +71,10 @@ public class World {
         }
 
         if(levelTransition){
+            if(master.getCurrent()>0){
+                master.setDirection(false);
+                master.setActive(true);
+            }else
             if(transititonDir) {
                 if (tFade.getCurrent() == 1) {
                     transititonDir = false;

@@ -7,6 +7,8 @@ import org.graphics.Render;
 import org.input.Keyboard;
 import org.level.Level;
 import org.loader.ImageResource;
+import org.loader.ResourceHandler;
+import org.loader.harold.HaroldLoader;
 import org.world.World;
 
 import static com.jogamp.newt.event.KeyEvent.VK_ENTER;
@@ -65,6 +67,7 @@ public class Title extends Level {
         }
         start.update();
         if(start.isPressed()||Keyboard.keys.contains(VK_ENTER)){
+            ResourceHandler.getHaroldLoader().setState(HaroldLoader.NORMAL);
             World.setGame(true);
             World.getMaster().setActive(false);
             World.getMaster().setCurrent(1f);

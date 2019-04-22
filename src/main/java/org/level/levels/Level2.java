@@ -15,6 +15,7 @@ import org.world.HeightVal;
 import org.world.World;
 
 import static com.jogamp.newt.event.KeyEvent.VK_E;
+import static com.jogamp.newt.event.KeyEvent.VK_Q;
 
 public class Level2 extends Level {
     private FadeIO subBlink=new FadeIO(0,4,0,1,3);
@@ -23,7 +24,7 @@ public class Level2 extends Level {
     private SmartRectangle cart=new SmartRectangle(33,21,23,19);
     private SmartRectangle edge=new SmartRectangle(70,0,30,Render.unitsTall);
     private SmartRectangle stoneBox=new SmartRectangle(64,23,13,14);
-    private boolean anchor=false,choiceMade=false,choiceDir=true;
+    private boolean anchor=false,choiceMade=false,choiceDir=true,ePressed=false;
     public Level2(ImageResource[][] backgrounds) {
         super(backgrounds,9);
     }
@@ -139,15 +140,30 @@ public class Level2 extends Level {
     private void update8(){
         Main.getHarold().setVisible(false);
         Main.getHarold().setMovement(false);
-
+        choiceFade();
     }
 
     private void choiceFade(){
         if(choiceDir){
-
+            if(Keyboard.keys.contains(VK_E)||Keyboard.keys.contains(VK_Q)){
+                choiceDir=false;
+                choice.setDirection(false);
+                ePressed=Keyboard.keys.contains(VK_E);
+            }else{
+                choice.setDirection(true);
+                choice.setActive(true);
+            }
         }else if(choice.getCurrent()==0){
-
+            choice.setActive(false);
+            choiceDir=true;
+            choiceMade=true;
+            if(ePressed){
+                World.setLevelTransition(true);
+            }else{
+                World.setSubLevel(7);
+            }
         }
+        choice.update();
     }
 
     private void updateDarkness(){
@@ -219,6 +235,7 @@ public class Level2 extends Level {
     }
 
     private void render7Post(){
+        Graphics.drawImage(sprites[2],0,0);
 
     }
 
