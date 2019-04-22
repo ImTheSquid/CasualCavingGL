@@ -57,6 +57,32 @@ public class HaroldLoader {
             new ImageResource("/CasualCaving/Entities/Harold/Face_Left/Attack/HaroldA2Left.png"),
             new ImageResource("/CasualCaving/Entities/Harold/Face_Left/Attack/HaroldA3Left.png"),
             new ImageResource("/CasualCaving/Entities/Harold/Face_Left/Attack/HaroldA4Left.png")};
+    private ImageResource[] fallDeath={new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling1.png"),
+            new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling2.png"),
+            new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling3.png"),
+            new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling4.png"),
+            new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling5.png"),
+            new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling6.png"),
+            new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling7.png"),
+            new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling8.png"),
+            new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling9.png"),
+            new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling10.png"),
+            new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling11.png"),
+            new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling12.png"),
+            new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling13.png"),
+            new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling14.png"),
+            new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling15.png"),
+            new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling16.png"),
+            new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling17.png"),
+            new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling18.png"),
+            new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling19.png"),
+            new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling20.png"),
+            new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling21.png"),
+            new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling22.png"),
+            new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling23.png"),
+            new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling24.png"),
+            new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling25.png"),
+            new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling26.png"),};
     public ImageResource getHarold(){
         int dir;
         if(direction)dir=0;
@@ -95,6 +121,10 @@ public class HaroldLoader {
 
     public boolean isFacingRight() {
         return direction;
+    }
+
+    public ImageResource[] getFallDeath() {
+        return fallDeath;
     }
 
     public int getState() {
