@@ -6,7 +6,7 @@
 
     <groupId>org.casualcaving</groupId>
     <artifactId>casual-caving</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.6</version>
 
     <dependencies>
         <dependency>

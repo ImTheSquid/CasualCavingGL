@@ -18,6 +18,10 @@ public class Death extends Level {
 
     @Override
     public void update(int subLevel) {
+        if(World.getMaster().isActive()){
+            World.getMaster().setActive(false);
+            World.getMaster().setCurrent(1);
+        }
         Main.getHarold().setVisible(false);
         Main.getHarold().setMovement(false);
         if(fadeDir){
@@ -54,7 +58,6 @@ public class Death extends Level {
 
     @Override
     public void cleanup() {
-        fadeDir=true;
         Main.getHarold().setVisible(true);
         Main.getHarold().setMovement(true);
     }

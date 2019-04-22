@@ -24,13 +24,13 @@ public class Level2 extends Level {
     private SmartRectangle cart=new SmartRectangle(33,21,23,19);
     private SmartRectangle edge=new SmartRectangle(70,0,30,Render.unitsTall);
     private SmartRectangle stoneBox=new SmartRectangle(64,23,13,14);
-    private boolean anchor=false,choiceMade=false,choiceDir=true,ePressed=false;
+    private boolean choiceMade=false,choiceDir=true,ePressed=false;
     public Level2(ImageResource[][] backgrounds) {
-        super(backgrounds,9);
+        super(backgrounds,8);
     }
 
     public void update(int subLevel) {
-        if(subLevel!=8){
+        if(subLevel!=7){
             Main.getHarold().setVisible(true);
             Main.getHarold().setMovement(true);
         }
@@ -48,15 +48,12 @@ public class Level2 extends Level {
             case 3:
                 update3();
                 break;
-            case 4:
-                update4();
+            case 6:
+                if(choiceMade) update6Post();
+                else update6Pre();
                 break;
             case 7:
-                if(choiceMade)update7Post();
-                else update7Pre();
-                break;
-            case 8:
-                update8();
+                update7();
                 break;
         }
     }
@@ -65,17 +62,16 @@ public class Level2 extends Level {
         switch(subLevel){
             case 2:
             case 3:
-            case 4:
                 rightLimit=80;
                 leftLimit=0;
                 break;
-            case 5:
+            case 4:
                 leftLimit=16;
                 rightLimit=Render.unitsWide+1;
                 ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);//Set Harold to lantern light mode
                 break;
+            case 6:
             case 7:
-            case 8:
                 rightLimit=Render.unitsWide;
                 leftLimit=0;
                 ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);//Set Harold to lantern light mode
@@ -112,7 +108,7 @@ public class Level2 extends Level {
         }
     }
 
-    private void update3(){
+    /*private void update3(){
         HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7, Render.unitsWide,true)});
         if(cart.intersects(Main.getHarold().getHitbox())&&!anchor&& Keyboard.keys.contains(VK_E))anchor=true;
         if(edge.intersects(Main.getHarold().getHitbox())&&Keyboard.keys.contains(VK_E)){
@@ -120,24 +116,37 @@ public class Level2 extends Level {
             if(anchor)World.setSubLevel(World.getSubLevel()+1);
             else World.setLevel(-1);
         }
-    }
+    }*/
 
-    private void update4(){
+    private void update3(){
         if(edge.intersects(Main.getHarold().getHitbox())&&Keyboard.keys.contains(VK_E)){
             World.setSubLevel(World.getSubLevel()+1);
             Main.getHarold().setX(22);
         }
     }
 
-    private void update7Pre(){
-        if(stoneBox.intersects(Main.getHarold().getHitbox())&&Keyboard.keys.contains(VK_E))World.setSubLevel(World.getSubLevel()+1);
+    private void update6Pre(){
+        if(stoneBox.intersects(Main.getHarold().getHitbox())&&Keyboard.keys.contains(VK_E)){
+            while(Keyboard.keys.contains(VK_E)){}
+            World.setSubLevel(World.getSubLevel()+1);
+        }
     }
 
-    private void update7Post(){
-
+    private boolean fadeTime =false;
+    private void update6Post(){
+        World.getMaster().setDirection(false);
+        World.getMaster().setActive(true);
+        if(!fadeTime){
+            fadeTime =true;
+            World.getMaster().setSecondDelay(4);
+        }
+        if(World.getMaster().getCurrent()==0){
+            World.setLevel(-1);
+            fadeTime=false;
+        }
     }
 
-    private void update8(){
+    private void update7(){
         Main.getHarold().setVisible(false);
         Main.getHarold().setMovement(false);
         choiceFade();
@@ -155,12 +164,11 @@ public class Level2 extends Level {
             }
         }else if(choice.getCurrent()==0){
             choice.setActive(false);
-            choiceDir=true;
             choiceMade=true;
             if(ePressed){
                 World.setLevelTransition(true);
             }else{
-                World.setSubLevel(7);
+                World.setSubLevel(6);
             }
         }
         choice.update();
@@ -182,6 +190,7 @@ public class Level2 extends Level {
 
     public void render(int subLevel) {
         Graphics.drawImage(backgrounds[subLevel],0,0);
+        Graphics.setFont(Graphics.SMALL_FONT);
         switch(subLevel){
             case 1:
                 render1();
@@ -192,15 +201,12 @@ public class Level2 extends Level {
             case 3:
                 render3();
                 break;
-            case 4:
-                render4();
+            case 6:
+                if(choiceMade) render6Post();
+                else render6Pre();
                 break;
             case 7:
-                if(choiceMade)render7Post();
-                else render7Pre();
-                break;
-            case 8:
-                render8();
+                render7();
                 break;
         }
     }
@@ -217,29 +223,19 @@ public class Level2 extends Level {
     }
 
     private void render3(){
-        Graphics.setFont(Graphics.SMALL_FONT);
-        if(cart.intersects(Main.getHarold().getHitbox())&&!anchor)Graphics.drawText("Press E to pick up anchor",33,42);
-        else if(edge.intersects(Main.getHarold().getHitbox())){
-            if(anchor)Graphics.drawText("Press E to place anchor",81,24);
-            else Graphics.drawText("Press E to descend",81,24);
-        }
-    }
-
-    private void render4(){
-        Graphics.setFont(Graphics.SMALL_FONT);
         if(edge.intersects(Main.getHarold().getHitbox()))Graphics.drawText("Press E to descend",81,24);
     }
 
-    private void render7Pre(){
+    private void render6Pre(){
         if(stoneBox.intersects(Main.getHarold().getHitbox()))Graphics.drawText("Press E to interact",64,39);
     }
 
-    private void render7Post(){
+    private void render6Post(){
         Graphics.drawImage(sprites[2],0,0);
-
+        Graphics.drawText("Good thing you called. I heard that stone is cursed!",35,40,20);
     }
 
-    private void render8(){
+    private void render7(){
         Graphics.setColor(1,1,1,choice.getCurrent());
         Graphics.drawImage(sprites[3],0,0);
         Graphics.setColor(1,1,1,1);
@@ -254,12 +250,13 @@ public class Level2 extends Level {
     public void cleanup() {
         Main.getHarold().setVisible(true);
         Main.getHarold().setMovement(true);
+        choiceDir=true;
     }
 
     @Override
     public void reset() {
         subBlink.setCurrent(0);
-        anchor=false;
+        fadeTime=false;
         choiceMade=false;
     }
 }

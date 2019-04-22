@@ -1,9 +1,6 @@
 package org.level;
 
-import org.level.levels.Death;
-import org.level.levels.Level1;
-import org.level.levels.Level2;
-import org.level.levels.Title;
+import org.level.levels.*;
 import org.loader.ResourceHandler;
 import org.world.World;
 
@@ -11,7 +8,8 @@ public class LevelController {
     private static Level[] levels={new Death(),
             new Title(ResourceHandler.getLevelLoader().getTitle(),ResourceHandler.getLevelLoader().getTitleLogo()),
             new Level1(ResourceHandler.getLevelLoader().getLevel1()),
-            new Level2(ResourceHandler.getLevelLoader().getLevel2())};
+            new Level2(ResourceHandler.getLevelLoader().getLevel2()),
+            new Level3(ResourceHandler.getLevelLoader().getLevel3())};
 
     public static void update(int level,int subLevel){
         levels[level+1].update(subLevel);

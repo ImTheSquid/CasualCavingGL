@@ -4,8 +4,8 @@ import org.level.Level;
 import org.loader.ImageResource;
 
 public class Level3 extends Level {
-    public Level3(ImageResource[] backgrounds, int subLevels) {
-        super(backgrounds, subLevels);
+    public Level3(ImageResource[] backgrounds) {
+        super(backgrounds,4);
     }
 
     @Override
