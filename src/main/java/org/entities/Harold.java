@@ -82,7 +82,7 @@ public class Harold extends Entity{
             harold=haroldAnimator.getCurrentFrame();
         }
 
-        Level currentLevel=LevelController.getLevels()[World.getLevel()];
+        Level currentLevel=LevelController.getLevels()[World.getLevel()+1];
         if(x<currentLevel.getLeftLimit())x=currentLevel.getLeftLimit();
         if(x+width>currentLevel.getRightLimit())x=currentLevel.getRightLimit()-width;
         if(x<currentLevel.getLeftBound()){
@@ -122,6 +122,7 @@ public class Harold extends Entity{
         width=Graphics.convertToWorldWidth(harold.getTexture().getWidth());
         height=Graphics.convertToWorldHeight(harold.getTexture().getHeight());
         hitbox.updateBounds(x,y,width,height);
+        if(!visible)return;
         Graphics.setColor(1,1,1,1);
         Graphics.drawImage(harold,x,y);
     }

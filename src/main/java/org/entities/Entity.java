@@ -4,7 +4,7 @@ public abstract class Entity {
     protected float x=5,y=7,vX,vY,width,height;
     protected float red=1,green=1,blue=1,alpha=1;
     protected int health,level=0,subLevel=0;
-    protected boolean nonGameUpdate=false,nonGameRender=false,pauseUpdate=false,pauseRender=true,movement=true;
+    protected boolean nonGameUpdate=false,nonGameRender=false,pauseUpdate=false,pauseRender=true,movement=true,visible=true;
     public abstract void update();
     public abstract void render();
     public abstract void reset();
@@ -53,5 +53,17 @@ public abstract class Entity {
 
     public void setMovement(boolean movement) {
         this.movement = movement;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
+    public void setvX(float vX) {
+        this.vX = vX;
+    }
+
+    public void setvY(float vY) {
+        this.vY = vY;
     }
 }

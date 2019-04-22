@@ -23,8 +23,22 @@ public class LevelLoader {
             new ImageResource("/CasualCaving/Levels/Level1/Sprites/LavenderTent.png"),
             new ImageResource("/CasualCaving/Levels/Level1/Sprites/AquaTent.png"),
             new ImageResource("/CasualCaving/Levels/Level1/Sprites/HaroldTent.png")};
-    private final ImageResource[] level2={};
-    private final ImageResource[] level3={};
+    private final ImageResource[][] level2={{new ImageResource("/CasualCaving/Levels/Level2/Lvl2Bg1.png"),new ImageResource("/CasualCaving/Levels/Level2/Lvl2Bg1Foreground.png")},
+            {new ImageResource("/CasualCaving/Levels/Level2/Lvl2Bg2.png")},
+            {new ImageResource("/CasualCaving/Levels/Level2/Lvl2Bg3.png")},
+            {new ImageResource("/CasualCaving/Levels/Level2/Lvl2Bg3Anchor.png")},
+            {new ImageResource("/CasualCaving/Levels/Level2/Lvl2Bg4.png")},
+            {new ImageResource("/CasualCaving/Levels/Level2/Lvl2Bg5.png")},
+            {new ImageResource("/CasualCaving/Levels/Level2/Lvl2Bg6.png")},
+            {new ImageResource("/CasualCaving/Levels/Level2/Sun Stone.png")}};
+    private final ImageResource[] level2Sprites={new ImageResource("/CasualCaving/Levels/Level2/Sprites/Spark.png"),
+            new ImageResource("/CasualCaving/Levels/Level2/Sprites/Miners1.png"),
+            new ImageResource("/CasualCaving/Levels/Level2/Sprites/Lavender Savior.png"),
+            new ImageResource("/CasualCaving/Levels/Level2/Sprites/QESunStone.png")};
+    private final ImageResource[] level3={new ImageResource("/CasualCaving/Levels/Level3/Lvl3Bg1.png"),
+            new ImageResource("/CasualCaving/Levels/Level3/Lvl3Bg2.png"),
+            new ImageResource("/CasualCaving/Levels/Level3/Lv3Bg3.png"),
+            new ImageResource("/CasualCaving/Levels/Level3/Lv3Bg4.png")};
 
     public ImageResource[] getTitle(){
         return title;
@@ -42,8 +56,12 @@ public class LevelLoader {
         return level1Sprites;
     }
 
-    public ImageResource[] getLevel2() {
+    public ImageResource[][] getLevel2() {
         return level2;
+    }
+
+    public ImageResource[] getLevel2Sprites() {
+        return level2Sprites;
     }
 
     public ImageResource[] getLevel3() {
