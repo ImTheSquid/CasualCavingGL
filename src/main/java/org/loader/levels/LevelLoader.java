@@ -32,6 +32,10 @@ public class LevelLoader {
             {new ImageResource("/CasualCaving/Levels/Level2/Lvl2Bg5.png")},
             {new ImageResource("/CasualCaving/Levels/Level2/Lvl2Bg6.png")},
             {new ImageResource("/CasualCaving/Levels/Level2/Sun Stone.png")}};
+    private final ImageResource[] level2Sprites={new ImageResource("/CasualCaving/Levels/Level2/Sprites/Spark.png"),
+            new ImageResource("/CasualCaving/Levels/Level2/Sprites/Miners1.png"),
+            new ImageResource("/CasualCaving/Levels/Level2/Sprites/Lavender Savior.png"),
+            new ImageResource("/CasualCaving/Levels/Level2/Sprites/QESunStone.png")};
     private final ImageResource[] level3={};
 
     public ImageResource[] getTitle(){
@@ -52,6 +56,10 @@ public class LevelLoader {
 
     public ImageResource[][] getLevel2() {
         return level2;
+    }
+
+    public ImageResource[] getLevel2Sprites() {
+        return level2Sprites;
     }
 
     public ImageResource[] getLevel3() {

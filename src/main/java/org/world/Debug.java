@@ -20,7 +20,7 @@ public class Debug {
         if(Keyboard.keys.contains(VK_L)&&World.getLevel()>0){
             if(!cheatsUsed)cheatsUsed=firstRunEvent();
             if(cheatsUsed) {
-                Integer[] levels = new Integer[World.getNumLevels() - 1];
+                Integer[] levels = new Integer[World.getNumLevels() - 2];
                 for (int i = 0; i < levels.length; i++) {
                     levels[i] = i+1;
                 }
