@@ -3,7 +3,7 @@ package org.loader.harold;
 import org.loader.ImageResource;
 
 public class HaroldLoader {
-    public static final int NORMAL=0,CHAINSAW=1,WOOD=2,LANTERN=3,ROPE=4,ATTACK=5;
+    public static final int NORMAL=0,CHAINSAW=1,WOOD=2,LANTERN=3,ROPE=4,ATTACK=5,TURN=6;
     private boolean direction=true;
     private int state=0;
     public void setDirection(boolean dir){
@@ -83,6 +83,7 @@ public class HaroldLoader {
             new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling24.png"),
             new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling25.png"),
             new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling26.png"),};
+    private ImageResource[] turn={};
     public ImageResource getHarold(){
         int dir;
         if(direction)dir=0;
