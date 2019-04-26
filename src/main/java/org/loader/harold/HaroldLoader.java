@@ -83,7 +83,8 @@ public class HaroldLoader {
             new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling24.png"),
             new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling25.png"),
             new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling26.png"),};
-    private ImageResource[] turn={};
+    private ImageResource[] turn={new ImageResource("/CasualCaving/Entities/Harold/Turn/HaroldTurn1.png"),
+            new ImageResource("/CasualCaving/Entities/Harold/Turn/HaroldTurn2.png")};
     public ImageResource getHarold(){
         int dir;
         if(direction)dir=0;
@@ -118,6 +119,10 @@ public class HaroldLoader {
                 if(direction)return haroldWalkRight;
                 else return haroldWalkLeft;
         }
+    }
+
+    public ImageResource[] getTurn() {
+        return turn;
     }
 
     public boolean isFacingRight() {

@@ -56,4 +56,6 @@ public class Animator {
     public ImageResource getCurrentFrame(){
         return frames[currentFrame];
     }
+
+    public int getCurrentFrameNum(){return currentFrame;}
 }

@@ -7,6 +7,7 @@ import org.level.Level;
 import org.loader.ImageResource;
 import org.loader.ResourceHandler;
 import org.loader.harold.HaroldLoader;
+import org.world.World;
 
 public class Level3 extends Level {
     private FadeIO isolsi=new FadeIO(0,1,0,0.02f,35);
@@ -21,6 +22,7 @@ public class Level3 extends Level {
 
     @Override
     public void update(int subLevel) {
+        World.addMultipleEntities(entityRegister);
         if(subLevel!=1)ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
         switch (subLevel){
             case 1:
@@ -30,8 +32,10 @@ public class Level3 extends Level {
     }
 
     private void update1(){
-        if(Main.getHarold().getX()>50)fadeActive=true;
+        if(Main.getHarold().getX()>50&&igneox.getCurrent()<1)fadeActive=true;
         if(fadeActive) {
+            Main.getHarold().setMovement(false);
+            ResourceHandler.getHaroldLoader().setState(HaroldLoader.TURN);
             switch(switchFade){
                 case 0:
                     if(isolsi.getCurrent()<1){
@@ -60,6 +64,9 @@ public class Level3 extends Level {
                         fadeActive=false;
                     }
             }
+        }else{
+            Main.getHarold().setMovement(true);
+            ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
         }
     }
 

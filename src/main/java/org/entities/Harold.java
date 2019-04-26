@@ -123,6 +123,11 @@ public class Harold extends Entity{
         height=Graphics.convertToWorldHeight(harold.getTexture().getHeight());
         hitbox.updateBounds(x,y,width,height);
         if(!visible)return;
+        if(ResourceHandler.getHaroldLoader().getState()==HaroldLoader.TURN){
+            haroldAnimator.setFrames(ResourceHandler.getHaroldLoader().getTurn());
+            harold=haroldAnimator.getCurrentFrame();
+            if(haroldAnimator.getCurrentFrameNum()!=1)haroldAnimator.update();
+        }
         Graphics.setColor(1,1,1,1);
         Graphics.drawImage(harold,x,y);
     }

@@ -1,7 +1,10 @@
 package org.level;
 
+import org.entities.Entity;
 import org.graphics.Render;
 import org.loader.ImageResource;
+
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public abstract class Level {
     protected int subLevels;
@@ -9,6 +12,7 @@ public abstract class Level {
     protected float leftBound=0,rightBound=Render.unitsWide;//Points to trigger switch to next sublevel
     protected float leftLimit=-1,rightLimit=Render.unitsWide+1;//Points that entities can't go past
     protected ImageResource[] backgrounds,foregrounds;
+    protected ConcurrentLinkedQueue<Entity> entityRegister=new ConcurrentLinkedQueue<>();
 
     public Level(ImageResource[] backgrounds,int subLevels){
         this.backgrounds=backgrounds;

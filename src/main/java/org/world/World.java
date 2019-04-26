@@ -9,6 +9,7 @@ import org.graphics.Render;
 import org.input.Keyboard;
 import org.level.LevelController;
 
+import java.util.Collection;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static com.jogamp.newt.event.KeyEvent.VK_ESCAPE;
@@ -34,7 +35,6 @@ public class World {
 
         if(Keyboard.keys.contains(VK_ESCAPE)&&game&&!levelTransition){
             pause=!pause;
-            master.setActive(!pause);
             while(Keyboard.keys.contains(VK_ESCAPE)){}//Wait for key release
         }
 
@@ -98,7 +98,7 @@ public class World {
         }
 
         //Master brightness code
-        master.update();
+        if(!pause)master.update();
         tFade.update();
     }
 
@@ -163,7 +163,13 @@ public class World {
     }
 
     public static void addEntity(Entity e){
-        entites.offer(e);
+        if(!entites.contains(e))entites.offer(e);
+    }
+
+    public static void addMultipleEntities(Collection<? extends Entity> list){
+        for(Entity e:list){
+            addEntity(e);
+        }
     }
 
     public static void removeEntity(Entity e){
