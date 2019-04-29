@@ -166,7 +166,7 @@ public class World {
         if(!entites.contains(e))entites.offer(e);
     }
 
-    public static void addMultipleEntities(Collection<? extends Entity> list){
+    public static void addEntities(Collection<? extends Entity> list){
         for(Entity e:list){
             addEntity(e);
         }

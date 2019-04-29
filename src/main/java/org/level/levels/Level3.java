@@ -22,7 +22,7 @@ public class Level3 extends Level {
 
     @Override
     public void update(int subLevel) {
-        World.addMultipleEntities(entityRegister);
+        World.addEntities(entityRegister);
         if(subLevel!=1)ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
         switch (subLevel){
             case 1:

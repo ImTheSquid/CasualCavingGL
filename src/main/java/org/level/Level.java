@@ -70,4 +70,13 @@ public abstract class Level {
     public float getRightLimit() {
         return rightLimit;
     }
+
+    public Entity[] getEntityRegister() {
+        Object[] registerArr=entityRegister.toArray();
+        Entity[] arr=new Entity[registerArr.length];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i]=(Entity) registerArr[i];
+        }
+        return arr;
+    }
 }
