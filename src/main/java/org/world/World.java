@@ -27,7 +27,7 @@ public class World {
     private static SmartRectangle pauseTitleReturn=new SmartRectangle(Render.unitsWide/2,6.6f,18,4,true);
 
     public static void update(){
-        if(!entites.contains(Main.getHarold()))World.addEntity(Main.getHarold());
+        //if(!entites.contains(Main.getHarold()))World.addEntity(Main.getHarold());
         Debug.update();
         if(Render.getWindow().getWidth()!=Render.screenWidth||Render.getWindow().getHeight()!=Render.screenHeight){
             if(Keyboard.keys.contains(VK_R))Render.getWindow().setSize(Render.screenWidth,Render.screenHeight);
@@ -44,6 +44,7 @@ public class World {
         LevelController.update(level,subLevel);
         //TODO implement render stages (pre-update,update,post-update)
         for(Entity e:entites){
+            if(e.getSubLevel()!=subLevel)continue;
             if(pause){
                 if(e.getPauseUpdate())e.update();
             }else if(!game){
@@ -52,6 +53,8 @@ public class World {
                 e.update();
             }
         }
+
+        if(level>0)Main.getHarold().update();
 
         if(pause){
             pauseReturn.setActive(true);
@@ -114,6 +117,7 @@ public class World {
         LevelController.render(level,subLevel);
         //TODO implement render stages (pre-render,render,post-render)
         for(Entity e:entites){
+            if(e.getSubLevel()!=subLevel)continue;
             if(pause){
                 if(e.getPauseRender())e.render();
             }else if(!game){
