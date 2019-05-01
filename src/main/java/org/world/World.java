@@ -21,6 +21,7 @@ public class World {
     private static int level=0,subLevel=0;
     private static boolean game=false,pause=false,levelTransition=false,transititonDir=true;//Set whether in game or menu. Set pause status
     private static float gravity=0.15f;
+    private static float masterRed=0,masterGreen=0,masterBlue=0;
     private static ConcurrentLinkedQueue<Entity> entites=new ConcurrentLinkedQueue<>();//Entity registry
     private static SmartRectangle pauseReturn=new SmartRectangle(Render.unitsWide/2,30,20,5,true);//Button detectors
     private static SmartRectangle pauseTitleReturn=new SmartRectangle(Render.unitsWide/2,6.6f,18,4,true);
@@ -127,7 +128,7 @@ public class World {
         LevelController.renderForeground(level,subLevel);
 
         //Master brightness, always do last
-        Graphics.setColor(0,0,0,1-master.getCurrent());
+        Graphics.setColor(masterRed,masterGreen,masterBlue,1-master.getCurrent());
         Graphics.fillRect(0,0, Render.unitsWide,Render.unitsTall);
         Graphics.setColor(1,1,1,1);//Reset color
 
@@ -168,6 +169,12 @@ public class World {
 
     public static void addEntities(Collection<? extends Entity> list){
         for(Entity e:list){
+            addEntity(e);
+        }
+    }
+
+    public static void addEntities(Entity[] array){
+        for(Entity e:array){
             addEntity(e);
         }
     }
@@ -216,5 +223,11 @@ public class World {
 
     public static void setLevelTransition(boolean levelTransition) {
         World.levelTransition = levelTransition;
+    }
+
+    public static void setMasterColor(float red,float green,float blue){
+        masterRed=red;
+        masterBlue=blue;
+        masterGreen=green;
     }
 }

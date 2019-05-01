@@ -3,7 +3,9 @@ package org.level;
 import org.entities.Entity;
 import org.graphics.Render;
 import org.loader.ImageResource;
+import org.world.World;
 
+import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public abstract class Level {
@@ -73,10 +75,20 @@ public abstract class Level {
 
     public Entity[] getEntityRegister() {
         Object[] registerArr=entityRegister.toArray();
-        Entity[] arr=new Entity[registerArr.length];
+        ArrayList<Entity> applicable=new ArrayList<>();
+        for(Object o:registerArr){
+            if(((Entity)o).getSubLevel()== World.getSubLevel()){
+                applicable.add((Entity)o);
+            }
+        }
+        Entity[] arr=new Entity[applicable.size()];
         for (int i = 0; i < arr.length; i++) {
-            arr[i]=(Entity) registerArr[i];
+            arr[i]=applicable.get(i);
         }
         return arr;
+    }
+
+    public void clearEntityRegister(){
+        entityRegister.clear();
     }
 }

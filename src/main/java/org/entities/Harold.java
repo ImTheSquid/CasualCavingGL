@@ -9,9 +9,12 @@ import org.level.LevelController;
 import org.loader.ImageResource;
 import org.loader.ResourceHandler;
 import org.loader.harold.HaroldLoader;
+import org.world.Attack;
 import org.world.HeightMap;
 import org.world.HeightReturn;
 import org.world.World;
+
+import static com.jogamp.newt.event.KeyEvent.VK_W;
 
 public class Harold extends Entity{
     private Animator haroldAnimator=new Animator(ResourceHandler.getHaroldLoader().getHaroldWalk(),12);
@@ -41,6 +44,9 @@ public class Harold extends Entity{
             if(vY<-.5f){
                 vY=-.5f;
             }
+        }
+        if(Keyboard.keys.contains(VK_W)&&ResourceHandler.getHaroldLoader().getState()==HaroldLoader.LANTERN){
+            ResourceHandler.getHaroldLoader().setState(HaroldLoader.ATTACK);
         }
 
         y+=vY;
@@ -76,11 +82,14 @@ public class Harold extends Entity{
             jump=false;
         }
 
-        if(vX==0){
+        if(vX==0&&ResourceHandler.getHaroldLoader().getState()!=HaroldLoader.ATTACK){
             harold= ResourceHandler.getHaroldLoader().getHarold();
         }else{
             harold=haroldAnimator.getCurrentFrame();
         }
+
+        if(ResourceHandler.getHaroldLoader().getState()==HaroldLoader.ATTACK&&haroldAnimator.getCurrentFrameNum()==3)
+            Attack.attack(this,1,5);
 
         Level currentLevel=LevelController.getLevels()[World.getLevel()+1];
         if(x<currentLevel.getLeftLimit())x=currentLevel.getLeftLimit();
@@ -124,12 +133,23 @@ public class Harold extends Entity{
         hitbox.updateBounds(x,y,width,height);
         if(!visible)return;
         if(ResourceHandler.getHaroldLoader().getState()==HaroldLoader.TURN){
+            if(haroldAnimator.getCurrentFrameNum()>0&&haroldAnimator.getFrames()!=ResourceHandler.getHaroldLoader().getTurn())haroldAnimator.setCurrentFrame(0);
             haroldAnimator.setFrames(ResourceHandler.getHaroldLoader().getTurn());
             harold=haroldAnimator.getCurrentFrame();
             if(haroldAnimator.getCurrentFrameNum()!=1)haroldAnimator.update();
         }
-        Graphics.setColor(1,1,1,1);
+        if(damageTakenFrame >0){
+            Graphics.setColor(1f,.0f,.0f,1);
+            damageTakenFrame--;
+        }
+        else Graphics.setColor(1,1,1,1);
         Graphics.drawImage(harold,x,y);
+        renderHealth();
+    }
+
+    private void renderHealth(){
+        Graphics.setColor(1,1,1,1);
+
     }
 
     @Override

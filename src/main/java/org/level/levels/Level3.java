@@ -1,6 +1,7 @@
 package org.level.levels;
 
 import org.engine.Main;
+import org.entities.aggressive.BlueGolem;
 import org.graphics.FadeIO;
 import org.graphics.Graphics;
 import org.level.Level;
@@ -17,16 +18,21 @@ public class Level3 extends Level {
     private boolean fadeActive=false;
     private int switchFade=0;
     public Level3(ImageResource[] backgrounds) {
-        super(backgrounds,4);
+        super(backgrounds,5);
+        reset();
     }
 
     @Override
     public void update(int subLevel) {
-        World.addEntities(entityRegister);
+        World.addEntities(super.getEntityRegister());
         if(subLevel!=1)ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
+        if(subLevel!=2)leftLimit=-1;
         switch (subLevel){
             case 1:
                 update1();
+                break;
+            case 2:
+                update2();
                 break;
         }
     }
@@ -62,12 +68,23 @@ public class Level3 extends Level {
                     }else{
                         igneox.setActive(false);
                         fadeActive=false;
+                        World.setMasterColor(1,1,1);
+                        World.getMaster().setDirection(false);
+                        World.getMaster().setActive(true);
                     }
             }
         }else{
-            Main.getHarold().setMovement(true);
-            ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
+            if(switchFade>0&&World.getMaster().getCurrent()==0) {
+                World.setSubLevel(World.getSubLevel() + 1);
+                World.getMaster().setDirection(true);
+                Main.getHarold().setMovement(true);
+                ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
+            }
         }
+    }
+
+    private void update2(){
+        leftLimit=0;
     }
 
     @Override
@@ -119,6 +136,7 @@ public class Level3 extends Level {
 
     @Override
     public void reset() {
-
+        clearEntityRegister();
+        entityRegister.add(new BlueGolem(false,4,5,15));
     }
 }

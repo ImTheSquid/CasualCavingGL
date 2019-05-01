@@ -26,6 +26,7 @@ public class LevelController {
     public static Level[] getLevels(){return levels;}
 
     public static void resetAll(){
+        World.setMasterColor(0,0,0);
         for(Level l:levels){
             l.reset();
         }

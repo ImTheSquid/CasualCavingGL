@@ -13,6 +13,7 @@ public class Animator {
     }
 
     public void setFrames(ImageResource[] frames) {
+        if(currentFrame>=frames.length)currentFrame=0;
         this.frames = frames;
     }
 
@@ -58,4 +59,8 @@ public class Animator {
     }
 
     public int getCurrentFrameNum(){return currentFrame;}
+
+    public ImageResource[] getFrames() {
+        return frames;
+    }
 }
