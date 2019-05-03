@@ -17,13 +17,18 @@ public class Death extends Level {
     }
 
     @Override
-    public void update(int subLevel) {
+    public void init() {
         if(World.getMaster().isActive()){
             World.getMaster().setActive(false);
             World.getMaster().setCurrent(1);
         }
         Main.getHarold().setVisible(false);
         Main.getHarold().setMovement(false);
+        fadeDir=true;
+    }
+
+    @Override
+    public void update(int subLevel) {
         if(fadeDir){
             if (textHandler.getCurrent() == 1) {
                 fadeDir = false;

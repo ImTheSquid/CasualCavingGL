@@ -1,5 +1,6 @@
 package org.entities.aggressive;
 
+import org.engine.Main;
 import org.entities.Autonomous;
 import org.entities.SmartRectangle;
 import org.graphics.Animator;
@@ -8,6 +9,7 @@ import org.level.Level;
 import org.level.LevelController;
 import org.loader.ImageResource;
 import org.loader.ResourceHandler;
+import org.world.Attack;
 import org.world.HeightMap;
 import org.world.HeightReturn;
 import org.world.World;
@@ -21,16 +23,23 @@ public class BlueGolem extends Autonomous {
         super.subLevel=subLevel;
         x=spawnX;
         y=spawnY;
+        health=2;
     }
     @Override
     public void update() {
         HeightReturn h= HeightMap.onGround(hitbox);
 
         //Action input
-        if(direction){
-            vX=.25f;
+        if(damageTakenFrame==0) {
+            if (direction) {
+                vX = .25f;
+            } else {
+                vX = -.25f;
+            }
         }else{
-            vX=-.25f;
+            //TODO Fix knockback
+            if(direction)vX=-.1f;
+            else vX=.1f;
         }
 
         //Calculations
@@ -60,11 +69,14 @@ public class BlueGolem extends Autonomous {
             doXCalc();
         }
 
+        if(damageCooldown>0)damageCooldown--;
+
         //Y-velocity and ground calc
         if(h.isOnGround()&&vY<0){
             y=h.getGroundLevel();
             vY=0;
         }
+        doAttackCalc();
 
         if(vX==0) {
             blueGolem=ResourceHandler.getGolemLoader().getBlueGolem(direction);
@@ -80,17 +92,44 @@ public class BlueGolem extends Autonomous {
         if(x<l.getLeftLimit()||x+width>l.getRightLimit())direction=!direction;
     }
 
+    private void doAttackCalc(){
+        if(attackCooldown>0){
+            attackCooldown--;
+            return;
+        }
+        if(direction){
+            if(Main.getHarold().getX()>=x&&Main.getHarold().getX()<=x+width+3){
+                Attack.attack(this,1,3);
+                attackCooldown=100;
+            }
+        }else{
+            if(Main.getHarold().getX()+Main.getHarold().getWidth()<=x&&Main.getHarold().getWidth()+Main.getHarold().getX()>=x-3){
+                Attack.attack(this,1,3);
+                attackCooldown=100;
+            }
+        }
+    }
+
     @Override
     public void render() {
         width=Graphics.convertToWorldWidth(blueGolem.getTexture().getWidth());
         height=Graphics.convertToWorldHeight(blueGolem.getTexture().getHeight());
         hitbox.updateBounds(x,y,width,height);
-        Graphics.setColor(1,1,1,1);
+        if(damageTakenFrame>0){
+            Graphics.setColor(1,0,0,1);//Set damage color if needed
+            damageTakenFrame--;
+        }
+        else Graphics.setColor(1,1,1,1);
         Graphics.drawImage(blueGolem,x,y);
     }
 
     @Override
     public void reset() {
 
+    }
+
+    @Override
+    public String toString() {
+        return "Blue Golem @ "+x+","+y;
     }
 }

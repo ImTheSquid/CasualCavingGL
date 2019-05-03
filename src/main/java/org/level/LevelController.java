@@ -23,6 +23,8 @@ public class LevelController {
 
     public static void cleanup(int level){levels[level+1].cleanup();}
 
+    public static void init(int level){levels[level+1].init();}
+
     public static Level[] getLevels(){return levels;}
 
     public static void resetAll(){

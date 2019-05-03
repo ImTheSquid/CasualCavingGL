@@ -113,4 +113,9 @@ public class Crowd extends Entity {
     public void setWood(boolean wood){
         this.wood=wood;
     }
+
+    @Override
+    public String toString() {
+        return "Crowd @ "+x+","+y;
+    }
 }

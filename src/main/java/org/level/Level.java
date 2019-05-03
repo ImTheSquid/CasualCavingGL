@@ -33,6 +33,8 @@ public abstract class Level {
         this.subLevels=subLevels;
     }
 
+    public abstract void init();
+
     public abstract void update(int subLevel);
 
     public abstract void render(int subLevel);

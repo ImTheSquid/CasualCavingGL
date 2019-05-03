@@ -4,10 +4,13 @@ import org.engine.Main;
 import org.entities.aggressive.BlueGolem;
 import org.graphics.FadeIO;
 import org.graphics.Graphics;
+import org.graphics.Render;
 import org.level.Level;
 import org.loader.ImageResource;
 import org.loader.ResourceHandler;
 import org.loader.harold.HaroldLoader;
+import org.world.HeightMap;
+import org.world.HeightVal;
 import org.world.World;
 
 public class Level3 extends Level {
@@ -23,8 +26,18 @@ public class Level3 extends Level {
     }
 
     @Override
+    public void init() {
+
+    }
+
+    @Override
     public void update(int subLevel) {
-        World.addEntities(super.getEntityRegister());
+        entityRegister.removeIf(n->n.getHealth()<=0);//Remove entities if health <=0
+        HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7, Render.unitsWide,true)});//Set heights
+        if(World.getEntites().size()!=entityRegister.size()){//Resend register if updated
+            World.clearEntites();
+            World.addEntities(super.getEntityRegister());
+        }
         if(subLevel!=1)ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
         if(subLevel!=2)leftLimit=-1;
         switch (subLevel){

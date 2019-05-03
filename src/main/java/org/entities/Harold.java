@@ -27,7 +27,12 @@ public class Harold extends Entity{
     }
     public void update() {
         if(!movement)return;
+        if(health<=0){//Am I dead?
+            World.clearEntites();
+            World.setLevel(-1);
+        }
         HeightReturn h=HeightMap.onGround(hitbox);
+        //Movement keys
         if(Keyboard.keys.contains(KeyEvent.VK_A)){
             vX=-0.5f;
         }
@@ -45,9 +50,13 @@ public class Harold extends Entity{
                 vY=-.5f;
             }
         }
-        if(Keyboard.keys.contains(VK_W)&&ResourceHandler.getHaroldLoader().getState()==HaroldLoader.LANTERN){
+        //Attack key
+        if(Keyboard.keys.contains(VK_W)&&ResourceHandler.getHaroldLoader().getState()==HaroldLoader.LANTERN&&attackCooldown<=0){
+            haroldAnimator.setCurrentFrame(0);
             ResourceHandler.getHaroldLoader().setState(HaroldLoader.ATTACK);
+            attackCooldown=20;
         }
+        Keyboard.keys.remove(VK_W);//Fallback if key gets stuck
 
         y+=vY;
         vY-=World.getGravity();
@@ -75,6 +84,7 @@ public class Harold extends Entity{
             doXCalc();
         }
 
+        if(damageCooldown>0)damageCooldown--;
 
         if(h.isOnGround()&&vY<0){
             y=h.getGroundLevel();
@@ -82,16 +92,22 @@ public class Harold extends Entity{
             jump=false;
         }
 
+        if(attackCooldown>0&&ResourceHandler.getHaroldLoader().getState()==HaroldLoader.LANTERN)
+            attackCooldown--;
+
         if(vX==0&&ResourceHandler.getHaroldLoader().getState()!=HaroldLoader.ATTACK){
             harold= ResourceHandler.getHaroldLoader().getHarold();
         }else{
             harold=haroldAnimator.getCurrentFrame();
         }
 
-        if(ResourceHandler.getHaroldLoader().getState()==HaroldLoader.ATTACK&&haroldAnimator.getCurrentFrameNum()==3)
-            Attack.attack(this,1,5);
+        if(ResourceHandler.getHaroldLoader().getState()==HaroldLoader.ATTACK&&haroldAnimator.getCurrentFrameNum()==3) {
+            Attack.attack(this, 1, 5);
+            ResourceHandler.getHaroldLoader().disableAttackPause();
+        }
 
         Level currentLevel=LevelController.getLevels()[World.getLevel()+1];
+        //TODO cleanup usages
         if(x<currentLevel.getLeftLimit())x=currentLevel.getLeftLimit();
         if(x+width>currentLevel.getRightLimit())x=currentLevel.getRightLimit()-width;
         if(x<currentLevel.getLeftBound()){
@@ -117,10 +133,12 @@ public class Harold extends Entity{
 
     private void doXCalc(){
         if(vX>0){
+            direction=true;
             ResourceHandler.getHaroldLoader().setDirection(true);
             if(vX-World.getGravity()<0)vX=0;
             else vX-=World.getGravity();
         }else if(vX<0){
+            direction=false;
             ResourceHandler.getHaroldLoader().setDirection(false);
             if(vX+World.getGravity()>0)vX=0;
             else vX+=World.getGravity();
@@ -144,12 +162,15 @@ public class Harold extends Entity{
         }
         else Graphics.setColor(1,1,1,1);
         Graphics.drawImage(harold,x,y);
-        renderHealth();
     }
 
-    private void renderHealth(){
+    public void renderHealth(){
+        if(!visible||World.getLevel()<1)return;
         Graphics.setColor(1,1,1,1);
-
+        for(int i=0;i<health;i++){
+            float x=0.5f+(5.5f)*i;
+            Graphics.drawImage(ResourceHandler.getHaroldLoader().getHealth(),x,0.5f,5,5);
+        }
     }
 
     @Override
@@ -157,6 +178,15 @@ public class Harold extends Entity{
         ResourceHandler.getHaroldLoader().setState(HaroldLoader.NORMAL);
         movement=true;
         x=5;
+        System.out.println("RESET");
+        health=3;
+        vX=0;
+        vY=0;
+    }
+
+    @Override
+    public String toString() {
+        return "Harold @ "+x+","+y;
     }
 
     public SmartRectangle getHitbox() {

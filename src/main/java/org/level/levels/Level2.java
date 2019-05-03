@@ -29,6 +29,11 @@ public class Level2 extends Level {
         super(backgrounds,8);
     }
 
+    @Override
+    public void init() {
+
+    }
+
     public void update(int subLevel) {
         if(subLevel!=7){
             Main.getHarold().setVisible(true);

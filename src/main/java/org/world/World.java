@@ -63,10 +63,10 @@ public class World {
             pauseTitleReturn.update();
             if(pauseReturn.isPressed())pause=false;
             if(pauseTitleReturn.isPressed()){
-                LevelController.resetAll();
-                Main.getHarold().reset();
                 level = 0;
                 subLevel = 1;
+                LevelController.resetAll();
+                Main.getHarold().reset();
                 pause = false;
             }
         }else{
@@ -93,6 +93,7 @@ public class World {
                 levelTransition=false;
                 LevelController.cleanup(level);
                 level++;
+                LevelController.init(level);
                 subLevel=0;
                 Main.getHarold().setMovement(true);
                 Main.getHarold().setX(5);
@@ -130,6 +131,8 @@ public class World {
         if(level>0)Main.getHarold().render();
 
         LevelController.renderForeground(level,subLevel);
+
+        Main.getHarold().renderHealth();
 
         //Master brightness, always do last
         Graphics.setColor(masterRed,masterGreen,masterBlue,1-master.getCurrent());
@@ -197,6 +200,7 @@ public class World {
 
     public static void setLevel(int level) {
         World.level = level;
+        LevelController.init(level);
     }
 
     public static void setSubLevel(int subLevel) {
