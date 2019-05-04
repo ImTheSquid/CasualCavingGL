@@ -21,7 +21,7 @@ public class Level3 extends Level {
     private boolean fadeActive=false;
     private int switchFade=0;
     public Level3(ImageResource[] backgrounds) {
-        super(backgrounds,5);
+        super(backgrounds,8);
         reset();
     }
 
