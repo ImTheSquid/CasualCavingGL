@@ -178,10 +178,13 @@ public class Harold extends Entity{
         ResourceHandler.getHaroldLoader().setState(HaroldLoader.NORMAL);
         movement=true;
         x=5;
+        y=7;
         System.out.println("RESET");
         health=3;
         vX=0;
         vY=0;
+        damageTakenFrame=0;
+        damageCooldown=0;
     }
 
     @Override

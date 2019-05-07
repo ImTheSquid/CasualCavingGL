@@ -41,6 +41,7 @@ public class Death extends Level {
         }else if(textHandler.getCurrent()==0){
             fadeDir=true;
             cleanup();
+            World.clearEntites();
             LevelController.resetAll();
             World.setLevel(World.getLevel()+1);
             World.setSubLevel(1);
@@ -65,6 +66,7 @@ public class Death extends Level {
     public void cleanup() {
         Main.getHarold().setVisible(true);
         Main.getHarold().setMovement(true);
+        Main.getHarold().reset();
     }
 
     @Override

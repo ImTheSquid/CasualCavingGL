@@ -21,7 +21,7 @@ public class Level3 extends Level {
     private boolean fadeActive=false;
     private int switchFade=0;
     public Level3(ImageResource[] backgrounds) {
-        super(backgrounds,8);
+        super(backgrounds,7);
         reset();
     }
 
@@ -33,7 +33,8 @@ public class Level3 extends Level {
     @Override
     public void update(int subLevel) {
         entityRegister.removeIf(n->n.getHealth()<=0);//Remove entities if health <=0
-        HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7, Render.unitsWide,true)});//Set heights
+        if(subLevel!=6)HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7, Render.unitsWide,true)});//Set heights
+        else HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7,87,true),new HeightVal(63,29,Render.unitsWide,false),new HeightVal(87,29,Render.unitsWide,true)});
         if(World.getEntites().size()!=entityRegister.size()){//Resend register if updated
             World.clearEntites();
             World.addEntities(super.getEntityRegister());
@@ -103,10 +104,8 @@ public class Level3 extends Level {
     @Override
     public void render(int subLevel) {
         Graphics.drawImage(backgrounds[subLevel],0,0);
-        switch(subLevel){
-            case 1:
-                render1();
-                break;
+        if (subLevel == 1) {
+            render1();
         }
     }
 
@@ -150,6 +149,6 @@ public class Level3 extends Level {
     @Override
     public void reset() {
         clearEntityRegister();
-        entityRegister.add(new BlueGolem(false,4,5,15));
+        entityRegister.add(new BlueGolem(false,5,20,15));
     }
 }

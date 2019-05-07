@@ -12,18 +12,18 @@ public class Attack {
         if(e instanceof Harold)
         for(Entity x:applicable){
             if(x==e||x.getY()>e.getY()+e.getHeight()||x.getY()+x.getHeight()<e.getY())continue;
-            if(e.isFacingRight()&&e.getX()+e.getWidth()+range>=x.getX()){
+            if(e.isFacingRight()&&e.getX()+e.getWidth()+range>=x.getX()&&x.getX()>=e.getX()+e.getWidth()){
                 x.doDamage(damage);
-            }else if(!e.isFacingRight()&&x.getX()+x.getWidth()>=e.getX()-range){
+            }else if(!e.isFacingRight()&&x.getX()+x.getWidth()>=e.getX()-range&&x.getX()+x.getWidth()<=e.getX()){
                 x.doDamage(damage);
             }
         }
         else {
             Entity x = Main.getHarold();
             if (e != x && !(x.getY() > e.getY() + e.getHeight() || x.getY() + x.getHeight() < e.getY())) {
-                if (e.isFacingRight() && e.getX() + e.getWidth() + range >= x.getX()) {
+                if (e.isFacingRight() && e.getX() + e.getWidth() + range >= x.getX()&&x.getX()>=e.getX()+e.getWidth()) {
                     x.doDamage(damage);
-                } else if (!e.isFacingRight() && x.getX() + x.getWidth() >= e.getX() - range) {
+                } else if (!e.isFacingRight() && x.getX() + x.getWidth() >= e.getX() - range&&x.getX()+x.getWidth()<=e.getX()) {
                     x.doDamage(damage);
                 }
             }
