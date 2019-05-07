@@ -20,7 +20,7 @@ public class BlueGolem extends Autonomous {
     private SmartRectangle hitbox=new SmartRectangle(x,y,width,height);
     public BlueGolem(boolean lockHeightVal,int subLevel,float spawnX,float spawnY){
         super(lockHeightVal);
-        super.subLevel=subLevel;
+        this.subLevel=subLevel;
         x=spawnX;
         y=spawnY;
         health=2;
@@ -83,8 +83,13 @@ public class BlueGolem extends Autonomous {
         }else{
             blueGolem=golemAnimator.getCurrentFrame();
         }
-        golemAnimator.setFrames(ResourceHandler.getGolemLoader().getBlueGolemWalk(direction));
+        if(state==0)golemAnimator.setFrames(ResourceHandler.getGolemLoader().getBlueGolemWalk(direction));
+        else if(state==1)golemAnimator.setFrames(ResourceHandler.getGolemLoader().getBlueGolemAttack(direction));
         golemAnimator.update();
+        if(state==1&&golemAnimator.getCurrentFrameNum()==3){
+            state=0;
+            Attack.attack(this,1,3);
+        }
     }
 
     private void doXCalc(){
@@ -99,12 +104,12 @@ public class BlueGolem extends Autonomous {
         }
         if(direction){
             if(Main.getHarold().getX()>=x&&Main.getHarold().getX()<=x+width+3){
-                Attack.attack(this,1,3);
+                state=1;
                 attackCooldown=100;
             }
         }else{
             if(Main.getHarold().getX()+Main.getHarold().getWidth()<=x&&Main.getHarold().getWidth()+Main.getHarold().getX()>=x-3){
-                Attack.attack(this,1,3);
+                state=1;
                 attackCooldown=100;
             }
         }
