@@ -2,6 +2,7 @@ package org.level.levels;
 
 import org.engine.Main;
 import org.entities.aggressive.BlueGolem;
+import org.entities.aggressive.GreenGolem;
 import org.graphics.FadeIO;
 import org.graphics.Graphics;
 import org.graphics.Render;
@@ -150,5 +151,6 @@ public class Level3 extends Level {
     public void reset() {
         clearEntityRegister();
         entityRegister.add(new BlueGolem(5,20,15));
+        entityRegister.add(new GreenGolem(6,79,34));
     }
 }

@@ -37,12 +37,24 @@ public class GolemLoader {
 
     //Green Golem
 
-    private ImageResource[] greenGolem={};
-    private ImageResource[] greenGolemKnockback={};
-    private ImageResource[] greenGolemLeft={};
-    private ImageResource[] greenGolemRight={};
-    private ImageResource[] greenGolemLeftAttack={};
-    private ImageResource[] greenGolemRightAttack={};
+    private ImageResource[] greenGolem={new ImageResource("/CasualCaving/Entities/GreenGolem/GreenGolemStill.png"),
+            new ImageResource("/CasualCaving/Entities/GreenGolem/GreenGolemStillFL.png")};
+    private ImageResource[] greenGolemKnockback={new ImageResource("/CasualCaving/Entities/GreenGolem/GreenGolemKnockBackFR.png"),
+            new ImageResource("/CasualCaving/Entities/GreenGolem/GreenGolemKnockBack.png")};
+    private ImageResource[] greenGolemLeft={new ImageResource("/CasualCaving/Entities/GreenGolem/GreenGolemW1FL.png"),
+            new ImageResource("/CasualCaving/Entities/GreenGolem/GreenGolemW2FL.png"),
+            new ImageResource("/CasualCaving/Entities/GreenGolem/GreenGolemW3FL.png")};
+    private ImageResource[] greenGolemRight={new ImageResource("/CasualCaving/Entities/GreenGolem/GreenGolemW1.png"),
+            new ImageResource("/CasualCaving/Entities/GreenGolem/GreenGolemW2.png"),
+            new ImageResource("/CasualCaving/Entities/GreenGolem/GreenGolemW3.png")};
+    private ImageResource[] greenGolemLeftAttack={new ImageResource("/CasualCaving/Entities/GreenGolem/GreenGolemA1FL.png"),
+            new ImageResource("/CasualCaving/Entities/GreenGolem/GreenGolemA2FL.png"),
+            new ImageResource("/CasualCaving/Entities/GreenGolem/GreenGolemA3FL.png"),
+            new ImageResource("/CasualCaving/Entities/GreenGolem/GreenGolemA4FL.png")};
+    private ImageResource[] greenGolemRightAttack={new ImageResource("/CasualCaving/Entities/GreenGolem/GreenGolemA1.png"),
+            new ImageResource("/CasualCaving/Entities/GreenGolem/GreenGolemA2.png"),
+            new ImageResource("/CasualCaving/Entities/GreenGolem/GreenGolemA3.png"),
+            new ImageResource("/CasualCaving/Entities/GreenGolem/GreenGolemA4.png")};
 
     public ImageResource getGreenGolem(boolean faceRight){return faceRight?greenGolem[0]:greenGolem[1];}
 

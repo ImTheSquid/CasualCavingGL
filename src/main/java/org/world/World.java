@@ -43,6 +43,7 @@ public class World {
 
         LevelController.update(level,subLevel);
         //TODO implement render stages (pre-update,update,post-update)
+        entites.removeIf(n->n.getHealth()<=0);
         for(Entity e:entites){
             if(e.getSubLevel()!=subLevel)continue;
             if(pause){

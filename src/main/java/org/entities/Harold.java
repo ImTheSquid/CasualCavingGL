@@ -33,11 +33,16 @@ public class Harold extends Entity{
         }
         HeightReturn h=HeightMap.onGround(hitbox);
         //Movement keys
-        if(Keyboard.keys.contains(KeyEvent.VK_A)){
-            vX=-0.5f;
-        }
-        if(Keyboard.keys.contains(KeyEvent.VK_D)){
-            vX=0.5f;
+        if(damageTakenFrame==0) {
+            if (Keyboard.keys.contains(KeyEvent.VK_A)) {
+                vX = -0.5f;
+            }
+            if (Keyboard.keys.contains(KeyEvent.VK_D)) {
+                vX = 0.5f;
+            }
+        }else{
+            if((direction&&!attackerBehind)||(!direction&&attackerBehind))vX=-.3f;
+            else vX=.3f;
         }
         if(Keyboard.keys.contains(KeyEvent.VK_SPACE)&&!jump) {
             if(h.isOnGround()) {
@@ -179,7 +184,6 @@ public class Harold extends Entity{
         movement=true;
         x=5;
         y=7;
-        System.out.println("RESET");
         health=3;
         vX=0;
         vY=0;

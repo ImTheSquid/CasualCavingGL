@@ -35,8 +35,8 @@ public class BlueGolem extends Autonomous {
             }
         }else{
             //TODO Fix knockback
-            if(direction)vX=-.1f;
-            else vX=.1f;
+            if((direction&&!attackerBehind)||(!direction&&attackerBehind))vX=-.7f;
+            else vX=.7f;
         }
 
         //Calculations
@@ -89,7 +89,7 @@ public class BlueGolem extends Autonomous {
         golemAnimator.update();
         if(state==1&&golemAnimator.getCurrentFrameNum()==3){
             state=0;
-            Attack.attack(this,1,3);
+            Attack.attack(this,1,4);
         }
     }
 
@@ -105,13 +105,15 @@ public class BlueGolem extends Autonomous {
         }
         if(Main.getHarold().getY()>y+height||Main.getHarold().getY()+Main.getHarold().getWidth()<y)return;
         if(direction){
-            if(Main.getHarold().getX()>=x&&Main.getHarold().getX()<=x+width+3){
+            if(Main.getHarold().getX()>=x&&Main.getHarold().getX()<=x+width+4){
                 state=1;
+                golemAnimator.setCurrentFrame(0);
                 attackCooldown=100;
             }
         }else{
-            if(Main.getHarold().getX()+Main.getHarold().getWidth()<=x&&Main.getHarold().getWidth()+Main.getHarold().getX()>=x-3){
+            if(Main.getHarold().getX()+Main.getHarold().getWidth()<=x+width&&Main.getHarold().getWidth()+Main.getHarold().getX()>=x-4){
                 state=1;
+                golemAnimator.setCurrentFrame(0);
                 attackCooldown=100;
             }
         }
