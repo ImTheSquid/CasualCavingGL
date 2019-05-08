@@ -149,6 +149,6 @@ public class Level3 extends Level {
     @Override
     public void reset() {
         clearEntityRegister();
-        entityRegister.add(new BlueGolem(false,5,20,15));
+        entityRegister.add(new BlueGolem(5,20,15));
     }
 }

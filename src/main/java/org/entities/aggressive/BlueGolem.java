@@ -18,11 +18,8 @@ public class BlueGolem extends Autonomous {
     private Animator golemAnimator=new Animator(ResourceHandler.getGolemLoader().getBlueGolemWalk(direction),10);
     private ImageResource blueGolem;
     private SmartRectangle hitbox=new SmartRectangle(x,y,width,height);
-    public BlueGolem(boolean lockHeightVal,int subLevel,float spawnX,float spawnY){
-        super(lockHeightVal);
-        this.subLevel=subLevel;
-        x=spawnX;
-        y=spawnY;
+    public BlueGolem(int subLevel,float spawnX,float spawnY){
+        super(subLevel,spawnX,spawnY);
         health=2;
     }
     @Override
@@ -54,6 +51,8 @@ public class BlueGolem extends Autonomous {
                 if (vX < 0) x += vX;
                 else vX=0;
                 doXCalc=false;
+                direction=!direction;
+                x-=.25f;
             }
         }
         if(HeightMap.checkLeftCollision(hitbox)){
@@ -61,6 +60,8 @@ public class BlueGolem extends Autonomous {
                 if(vX>0)x+=vX;
                 else vX=0;
                 doXCalc=false;
+                direction=!direction;
+                x+=.25f;
             }
         }
 
@@ -102,6 +103,7 @@ public class BlueGolem extends Autonomous {
             attackCooldown--;
             return;
         }
+        if(Main.getHarold().getY()>y+height||Main.getHarold().getY()+Main.getHarold().getWidth()<y)return;
         if(direction){
             if(Main.getHarold().getX()>=x&&Main.getHarold().getX()<=x+width+3){
                 state=1;

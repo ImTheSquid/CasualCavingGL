@@ -34,4 +34,21 @@ public class GolemLoader {
     public ImageResource[] getBlueGolemAttack(boolean faceRight){
         return faceRight?blueGolemRightAttack:blueGolemLeftAttack;
     }
+
+    //Green Golem
+
+    private ImageResource[] greenGolem={};
+    private ImageResource[] greenGolemKnockback={};
+    private ImageResource[] greenGolemLeft={};
+    private ImageResource[] greenGolemRight={};
+    private ImageResource[] greenGolemLeftAttack={};
+    private ImageResource[] greenGolemRightAttack={};
+
+    public ImageResource getGreenGolem(boolean faceRight){return faceRight?greenGolem[0]:greenGolem[1];}
+
+    public ImageResource[] getGreenGolemWalk(boolean faceRight){return faceRight?greenGolemRight:greenGolemLeft;}
+
+    public ImageResource[] getGreenGolemAttack(boolean faceRight){return faceRight?greenGolemRightAttack:greenGolemLeftAttack;}
+
+    public ImageResource getGreenGolemKnockback(boolean faceRight){return faceRight?greenGolemKnockback[0]:greenGolemKnockback[1];}
 }
