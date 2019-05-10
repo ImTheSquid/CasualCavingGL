@@ -87,7 +87,8 @@ public abstract class Entity {
         health-=damage;
         damageTakenFrame =10;
         damageCooldown=20;
-        attackerBehind=attacker.getX()+attacker.getWidth()<x;
+        if(direction)attackerBehind=attacker.getX()<x;
+        else attackerBehind=attacker.getX()>x;
     }
 
 }

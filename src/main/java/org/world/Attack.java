@@ -38,11 +38,10 @@ public class Attack {
             if(x==e)continue;//Skip if entity is itself
             if(e.isFacingRight()&&x.getX()>=e.getX()){
                 applicable.add(x);
-            }else if(!e.isFacingRight()&&x.getX()+x.getWidth()<=e.getX()){
+            }else if(!e.isFacingRight()&&x.getX()<=e.getX()){
                 applicable.add(x);
             }
         }
-        System.out.println("First Check:"+applicable);
         Entity[] out=new Entity[applicable.size()];
         for (int i = 0; i < out.length; i++) {
             out[i]=applicable.get(i);

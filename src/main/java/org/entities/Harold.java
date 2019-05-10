@@ -23,7 +23,7 @@ public class Harold extends Entity{
     private SmartRectangle hitbox=new SmartRectangle(x,y,width,height);
 
     public Harold(){
-        health=3;
+        health=30;
     }
     public void update() {
         if(!movement)return;
@@ -41,8 +41,9 @@ public class Harold extends Entity{
                 vX = 0.5f;
             }
         }else{
-            if((direction&&!attackerBehind)||(!direction&&attackerBehind))vX=-.3f;
-            else vX=.3f;
+            if((direction&&!attackerBehind)||(!direction&&attackerBehind))vX=-1f;
+            else vX=1f;
+            damageTakenFrame--;
         }
         if(Keyboard.keys.contains(KeyEvent.VK_SPACE)&&!jump) {
             if(h.isOnGround()) {
@@ -100,6 +101,8 @@ public class Harold extends Entity{
         if(attackCooldown>0&&ResourceHandler.getHaroldLoader().getState()==HaroldLoader.LANTERN)
             attackCooldown--;
 
+        if(damageTakenFrame==0)ResourceHandler.getHaroldLoader().setDirection(direction);
+
         if((vX==0||damageTakenFrame>0)&&ResourceHandler.getHaroldLoader().getState()!=HaroldLoader.ATTACK){
             harold= ResourceHandler.getHaroldLoader().getHarold();
         }else{
@@ -137,16 +140,19 @@ public class Harold extends Entity{
     }
 
     private void doXCalc(){
-        if(vX>0){
-            direction=true;
-            ResourceHandler.getHaroldLoader().setDirection(true);
-            if(vX-World.getGravity()<0)vX=0;
+        if(damageTakenFrame==0) {
+            if (vX > 0) {
+                direction = true;
+                if (vX - World.getGravity() < 0) vX = 0;
+                else vX -= World.getGravity();
+            } else if (vX < 0) {
+                direction = false;
+                if (vX + World.getGravity() > 0) vX = 0;
+                else vX += World.getGravity();
+            }
+        }else{
+            if((direction&&!attackerBehind)||(!direction&&attackerBehind))vX+=World.getGravity();
             else vX-=World.getGravity();
-        }else if(vX<0){
-            direction=false;
-            ResourceHandler.getHaroldLoader().setDirection(false);
-            if(vX+World.getGravity()>0)vX=0;
-            else vX+=World.getGravity();
         }
     }
 
@@ -163,7 +169,6 @@ public class Harold extends Entity{
         }
         if(damageTakenFrame >0){
             Graphics.setColor(1f,.0f,.0f,1);
-            damageTakenFrame--;
         }
         else Graphics.setColor(1,1,1,1);
         Graphics.drawImage(harold,x,y);

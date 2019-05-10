@@ -57,7 +57,7 @@ public class Debug {
     }
     //Returns true if going ahead with cheats, returns false to exit
     private static boolean firstRunEvent(){
-        int x=JOptionPane.showConfirmDialog(null,"Are you sure you want to enable cheats? The game may become unstable.","Are you sure?",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+        int x=JOptionPane.showConfirmDialog(null,"Are you sure you want to enable cheats?\nThe game may become unstable.","Are you sure?",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
         return x != JOptionPane.NO_OPTION;
     }
 
