@@ -22,6 +22,7 @@ public class GameLoop {
                     //Lag protection
                     updates=0;
                     while(currentTime-lastUpdateTime>=targetTime){
+                        //TODO Fix bug where game updates too much after interacting with dialog boxes outside of game
                         World.update();
                         lastUpdateTime+=targetTime;
                         updates++;

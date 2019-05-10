@@ -100,7 +100,7 @@ public class Harold extends Entity{
         if(attackCooldown>0&&ResourceHandler.getHaroldLoader().getState()==HaroldLoader.LANTERN)
             attackCooldown--;
 
-        if(vX==0&&ResourceHandler.getHaroldLoader().getState()!=HaroldLoader.ATTACK){
+        if((vX==0||damageTakenFrame>0)&&ResourceHandler.getHaroldLoader().getState()!=HaroldLoader.ATTACK){
             harold= ResourceHandler.getHaroldLoader().getHarold();
         }else{
             harold=haroldAnimator.getCurrentFrame();
@@ -172,10 +172,12 @@ public class Harold extends Entity{
     public void renderHealth(){
         if(!visible||World.getLevel()<1)return;
         Graphics.setColor(1,1,1,1);
+        if(!invincible)
         for(int i=0;i<health;i++){
             float x=0.5f+(5.5f)*i;
             Graphics.drawImage(ResourceHandler.getHaroldLoader().getHealth(),x,0.5f,5,5);
         }
+        else Graphics.drawImage(ResourceHandler.getHaroldLoader().getInfiniteHealth(),0.5f,0.5f,5,5);
     }
 
     @Override

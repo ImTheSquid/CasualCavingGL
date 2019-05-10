@@ -20,7 +20,7 @@ public class BlueGolem extends Autonomous {
     private SmartRectangle hitbox=new SmartRectangle(x,y,width,height);
     public BlueGolem(int subLevel,float spawnX,float spawnY){
         super(subLevel,spawnX,spawnY);
-        health=2;
+        health=20;//Set back to 2 later
     }
     @Override
     public void update() {
@@ -34,10 +34,13 @@ public class BlueGolem extends Autonomous {
                 vX = -.25f;
             }
         }else{
+            System.out.println(direction+"/"+attackerBehind);
             //TODO Fix knockback
             if((direction&&!attackerBehind)||(!direction&&attackerBehind))vX=-.7f;
             else vX=.7f;
         }
+
+        System.out.println(direction);
 
         //Calculations
         y+=vY;

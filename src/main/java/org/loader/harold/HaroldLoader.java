@@ -86,6 +86,7 @@ public class HaroldLoader {
     private ImageResource[] turn={new ImageResource("/CasualCaving/Entities/Harold/Turn/HaroldTurn1.png"),
             new ImageResource("/CasualCaving/Entities/Harold/Turn/HaroldTurn2.png")};
     private ImageResource health=new ImageResource("/CasualCaving/Entities/Harold/Health_Heart.png");
+    private ImageResource infiniteHealth=new ImageResource("/CasualCaving/Entities/Harold/Health_Heart_Infinite.png");
     public ImageResource getHarold(){
         int dir;
         if(direction)dir=0;
@@ -101,6 +102,10 @@ public class HaroldLoader {
 
     public ImageResource getHealth() {
         return health;
+    }
+
+    public ImageResource getInfiniteHealth() {
+        return infiniteHealth;
     }
 
     public ImageResource[] getHaroldWalk() {

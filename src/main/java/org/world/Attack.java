@@ -12,7 +12,7 @@ public class Attack {
             Entity[] applicable=sortRegister(e);//Finds entities in range
             for (Entity x : applicable) {
                 if (x == e || x.getY() > e.getY() + e.getHeight() || x.getY() + x.getHeight() < e.getY())
-                    continue;//Return if y-val is out of range
+                    continue;//Skip if y-val is out of range
                 if (e.isFacingRight() && e.getX() + e.getWidth() + range >= x.getX()) {
                     x.doDamage(e, damage);
                 } else if (!e.isFacingRight() && x.getX() + x.getWidth() + range >= e.getX()) {
