@@ -65,7 +65,7 @@ public class Title extends Level {
             World.getMaster().setCurrent(0);
             World.getMaster().setActive(true);
         }
-        if(World.getMaster().getCurrent()>0.5f&&!quit.isActive())quit.setActive(true);
+        if(World.getMaster().getCurrent()>0.25f&&!quit.isActive())quit.setActive(true);
         quit.update();
         if(quit.isPressed()){
             Render.getGameLoop().setRunning(false);

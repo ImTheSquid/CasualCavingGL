@@ -23,7 +23,7 @@ public class Harold extends Entity{
     private SmartRectangle hitbox=new SmartRectangle(x,y,width,height);
 
     public Harold(){
-        health=30;
+        reset();
     }
     public void update() {
         if(!movement)return;
@@ -189,7 +189,7 @@ public class Harold extends Entity{
     public void reset() {
         ResourceHandler.getHaroldLoader().setState(HaroldLoader.NORMAL);
         movement=true;
-        x=5;
+        x=65;
         y=7;
         health=3;
         vX=0;
