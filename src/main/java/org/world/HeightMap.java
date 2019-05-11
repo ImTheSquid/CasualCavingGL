@@ -11,13 +11,10 @@ public class HeightMap {
 
     public static void setHeights(HeightVal[] heights) {
         HeightMap.heights=heights;
-        processHeights();
-    }
-
-    private static void processHeights(){
         singleHeight= heights.length == 1;
     }
 
+    //Checks for whether a SmartRectangle is on the ground
     public static HeightReturn onGround(SmartRectangle r){
         if(singleHeight){
             if(r.getY()<=heights[0].getHeight())return new HeightReturn(true,heights[0].getHeight());
@@ -31,6 +28,7 @@ public class HeightMap {
     }
 
     //For being able to drop below platforms
+    //Calculates the HeightVal below the platform, if there is one
     public static HeightVal onPlatform(SmartRectangle r){
         if(singleHeight||!onGround(r).isOnGround())return null;
         ArrayList<HeightVal> temp=findBounds(r);
@@ -42,6 +40,18 @@ public class HeightMap {
         return null;
     }
 
+    //Returns whether a SmartRectangle is on the edge of a platform
+    public static boolean onEdge(SmartRectangle r,boolean right){
+        ArrayList<HeightVal> applicable=findBounds(r);
+        if(applicable.size()==0)return false;
+        if(right){
+            return applicable.size() == 1 && r.getX() + r.getWidth() > applicable.get(0).getEndX();
+        }else{
+            return applicable.size() == 1 && r.getX() < applicable.get(0).getStartX();
+        }
+    }
+
+    //Find all HeightMaps that a SmartRectangle intersects with
     private static ArrayList<HeightVal> findBounds(SmartRectangle r) {
         ArrayList<HeightVal> temp = new ArrayList<>();
         for (HeightVal h : heights)
@@ -50,6 +60,7 @@ public class HeightMap {
         return sort(temp);
     }
 
+    //Sorts an ArrayList of Heights from lowest to highest
     private static ArrayList<HeightVal> sort(ArrayList<HeightVal> input){
         int n=input.size();
         for(int i=0;i<n;i++){
@@ -64,7 +75,6 @@ public class HeightMap {
         return input;
     }
 
-
     //Returns true if collision detected, false if not
     public static boolean checkRightCollision(SmartRectangle r){
         HeightVal current=findApplicable(r,true);
@@ -78,6 +88,7 @@ public class HeightMap {
         return !(r.getY()>current.getHeight());
     }
 
+    //Calculates the current height map (if opaque)
     public static HeightVal findApplicable(SmartRectangle r,boolean right){
         float xPos;
         if(right)xPos=r.getX()+r.getWidth();

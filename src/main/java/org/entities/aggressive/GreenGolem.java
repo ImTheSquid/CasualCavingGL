@@ -95,7 +95,7 @@ public class GreenGolem extends Autonomous {
 
     private void doXCalc(){
         Level l= LevelController.getLevels()[World.getLevel()];
-        if(x<l.getLeftLimit()||x+width>l.getRightLimit())direction=!direction;
+        if(x<l.getLeftLimit()||x+width>l.getRightLimit()||HeightMap.onEdge(hitbox,direction))direction=!direction;
     }
 
     private void doAttackCalc(){
