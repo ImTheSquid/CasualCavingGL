@@ -98,7 +98,7 @@ public class Harold extends Entity{
             jump=false;
         }
 
-        if(attackCooldown>0&&ResourceHandler.getHaroldLoader().getState()==HaroldLoader.LANTERN)
+        if(attackCooldown>0)
             attackCooldown--;
 
         if(damageTakenFrame==0)ResourceHandler.getHaroldLoader().setDirection(direction);

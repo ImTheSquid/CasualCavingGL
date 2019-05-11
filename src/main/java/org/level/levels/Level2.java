@@ -69,6 +69,7 @@ public class Level2 extends Level {
             case 3:
                 rightLimit=80;
                 leftLimit=0;
+                if(ResourceHandler.getHaroldLoader().getState()!=HaroldLoader.ROPE)ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
                 break;
             case 4:
                 leftLimit=16;

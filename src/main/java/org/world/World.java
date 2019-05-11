@@ -55,7 +55,7 @@ public class World {
             }
         }
 
-        if(level>0)Main.getHarold().update();
+        if(level>0&&!pause)Main.getHarold().update();
 
         if(pause){
             pauseReturn.setActive(true);
