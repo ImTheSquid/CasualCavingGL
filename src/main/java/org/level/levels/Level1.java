@@ -26,6 +26,11 @@ public class Level1 extends Level {
     private SmartRectangle log=new SmartRectangle(68,7,10,11);
     private SmartRectangle river=new SmartRectangle(40,0,60,Render.unitsTall);
 
+    @Override
+    public void init() {
+
+    }
+
     public void update(int subLevel) {
         if(!World.getEntites().contains(crowd)&&crowd.getSubLevel()<6)World.addEntity(crowd);
         else if(crowd.getSubLevel()==6)World.removeEntity(crowd);

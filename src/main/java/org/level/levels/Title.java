@@ -26,6 +26,11 @@ public class Title extends Level {
         logo.setActive(true);
     }
 
+    @Override
+    public void init() {
+
+    }
+
     public void update(int subLevel) {
         if (subLevel == 0) {
             updateLoad();
@@ -60,7 +65,7 @@ public class Title extends Level {
             World.getMaster().setCurrent(0);
             World.getMaster().setActive(true);
         }
-        if(World.getMaster().getCurrent()>0.5f&&!quit.isActive())quit.setActive(true);
+        if(World.getMaster().getCurrent()>0.25f&&!quit.isActive())quit.setActive(true);
         quit.update();
         if(quit.isPressed()){
             Render.getGameLoop().setRunning(false);
@@ -130,6 +135,7 @@ public class Title extends Level {
         Graphics.setFont(Graphics.REGULAR_FONT);
         Graphics.drawTextCentered("Quit",Render.unitsWide/2,5.3f);
         Graphics.setFont(Graphics.SMALL_FONT);
-        Graphics.drawText("Casual Caving 0.0.6",0.1f,0.7f);
+        Graphics.drawText("Casual Caving 0.1.0",0.1f,0.7f);
+        Graphics.drawText("Lunan Productions",Render.unitsWide-Graphics.convertToWorldWidth((float)Graphics.getCurrentFont().getBounds("Lunan Productions").getWidth())-.1f,.7f);
     }
 }

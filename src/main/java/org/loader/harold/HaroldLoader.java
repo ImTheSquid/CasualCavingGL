@@ -3,8 +3,8 @@ package org.loader.harold;
 import org.loader.ImageResource;
 
 public class HaroldLoader {
-    public static final int NORMAL=0,CHAINSAW=1,WOOD=2,LANTERN=3,ROPE=4,ATTACK=5;
-    private boolean direction=true;
+    public static final int NORMAL=0,CHAINSAW=1,WOOD=2,LANTERN=3,ROPE=4,ATTACK=5,TURN=6;
+    private boolean direction=true,attackPause=false;
     private int state=0;
     public void setDirection(boolean dir){
         direction=dir;
@@ -83,6 +83,10 @@ public class HaroldLoader {
             new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling24.png"),
             new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling25.png"),
             new ImageResource("/CasualCaving/Entities/Harold/Falling/HaroldFalling26.png"),};
+    private ImageResource[] turn={new ImageResource("/CasualCaving/Entities/Harold/Turn/HaroldTurn1.png"),
+            new ImageResource("/CasualCaving/Entities/Harold/Turn/HaroldTurn2.png")};
+    private ImageResource health=new ImageResource("/CasualCaving/Entities/Harold/Health_Heart.png");
+    private ImageResource infiniteHealth=new ImageResource("/CasualCaving/Entities/Harold/Health_Heart_Infinite.png");
     public ImageResource getHarold(){
         int dir;
         if(direction)dir=0;
@@ -94,6 +98,14 @@ public class HaroldLoader {
             case 3:return lantern[dir];
             case 4:return rope[dir];
         }
+    }
+
+    public ImageResource getHealth() {
+        return health;
+    }
+
+    public ImageResource getInfiniteHealth() {
+        return infiniteHealth;
     }
 
     public ImageResource[] getHaroldWalk() {
@@ -119,6 +131,10 @@ public class HaroldLoader {
         }
     }
 
+    public ImageResource[] getTurn() {
+        return turn;
+    }
+
     public boolean isFacingRight() {
         return direction;
     }
@@ -132,6 +148,12 @@ public class HaroldLoader {
     }
 
     public void setState(int state) {
+        if(attackPause)return;
         this.state = state;
+        if(state==ATTACK)attackPause=true;
+    }
+
+    public void disableAttackPause(){
+        attackPause=false;
     }
 }

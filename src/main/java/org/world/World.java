@@ -9,6 +9,7 @@ import org.graphics.Render;
 import org.input.Keyboard;
 import org.level.LevelController;
 
+import java.util.Collection;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static com.jogamp.newt.event.KeyEvent.VK_ESCAPE;
@@ -20,12 +21,13 @@ public class World {
     private static int level=0,subLevel=0;
     private static boolean game=false,pause=false,levelTransition=false,transititonDir=true;//Set whether in game or menu. Set pause status
     private static float gravity=0.15f;
+    private static float masterRed=0,masterGreen=0,masterBlue=0;
     private static ConcurrentLinkedQueue<Entity> entites=new ConcurrentLinkedQueue<>();//Entity registry
     private static SmartRectangle pauseReturn=new SmartRectangle(Render.unitsWide/2,30,20,5,true);//Button detectors
     private static SmartRectangle pauseTitleReturn=new SmartRectangle(Render.unitsWide/2,6.6f,18,4,true);
 
     public static void update(){
-        if(!entites.contains(Main.getHarold()))World.addEntity(Main.getHarold());
+        //if(!entites.contains(Main.getHarold()))World.addEntity(Main.getHarold());
         Debug.update();
         if(Render.getWindow().getWidth()!=Render.screenWidth||Render.getWindow().getHeight()!=Render.screenHeight){
             if(Keyboard.keys.contains(VK_R))Render.getWindow().setSize(Render.screenWidth,Render.screenHeight);
@@ -34,7 +36,6 @@ public class World {
 
         if(Keyboard.keys.contains(VK_ESCAPE)&&game&&!levelTransition){
             pause=!pause;
-            master.setActive(!pause);
             while(Keyboard.keys.contains(VK_ESCAPE)){}//Wait for key release
         }
 
@@ -42,7 +43,9 @@ public class World {
 
         LevelController.update(level,subLevel);
         //TODO implement render stages (pre-update,update,post-update)
+        entites.removeIf(n->n.getHealth()<=0);
         for(Entity e:entites){
+            if(e.getSubLevel()!=subLevel)continue;
             if(pause){
                 if(e.getPauseUpdate())e.update();
             }else if(!game){
@@ -52,6 +55,8 @@ public class World {
             }
         }
 
+        if(level>0&&!pause)Main.getHarold().update();
+
         if(pause){
             pauseReturn.setActive(true);
             pauseReturn.update();
@@ -59,10 +64,10 @@ public class World {
             pauseTitleReturn.update();
             if(pauseReturn.isPressed())pause=false;
             if(pauseTitleReturn.isPressed()){
-                LevelController.resetAll();
-                Main.getHarold().reset();
                 level = 0;
                 subLevel = 1;
+                LevelController.resetAll();
+                Main.getHarold().reset();
                 pause = false;
             }
         }else{
@@ -89,6 +94,7 @@ public class World {
                 levelTransition=false;
                 LevelController.cleanup(level);
                 level++;
+                LevelController.init(level);
                 subLevel=0;
                 Main.getHarold().setMovement(true);
                 Main.getHarold().setX(5);
@@ -98,7 +104,7 @@ public class World {
         }
 
         //Master brightness code
-        master.update();
+        if(!pause)master.update();
         tFade.update();
     }
 
@@ -113,6 +119,7 @@ public class World {
         LevelController.render(level,subLevel);
         //TODO implement render stages (pre-render,render,post-render)
         for(Entity e:entites){
+            if(e.getSubLevel()!=subLevel)continue;
             if(pause){
                 if(e.getPauseRender())e.render();
             }else if(!game){
@@ -126,8 +133,10 @@ public class World {
 
         LevelController.renderForeground(level,subLevel);
 
+        Main.getHarold().renderHealth();
+
         //Master brightness, always do last
-        Graphics.setColor(0,0,0,1-master.getCurrent());
+        Graphics.setColor(masterRed,masterGreen,masterBlue,1-master.getCurrent());
         Graphics.fillRect(0,0, Render.unitsWide,Render.unitsTall);
         Graphics.setColor(1,1,1,1);//Reset color
 
@@ -163,7 +172,19 @@ public class World {
     }
 
     public static void addEntity(Entity e){
-        entites.offer(e);
+        if(!entites.contains(e))entites.offer(e);
+    }
+
+    public static void addEntities(Collection<? extends Entity> list){
+        for(Entity e:list){
+            addEntity(e);
+        }
+    }
+
+    public static void addEntities(Entity[] array){
+        for(Entity e:array){
+            addEntity(e);
+        }
     }
 
     public static void removeEntity(Entity e){
@@ -180,6 +201,7 @@ public class World {
 
     public static void setLevel(int level) {
         World.level = level;
+        LevelController.init(level);
     }
 
     public static void setSubLevel(int subLevel) {
@@ -210,5 +232,11 @@ public class World {
 
     public static void setLevelTransition(boolean levelTransition) {
         World.levelTransition = levelTransition;
+    }
+
+    public static void setMasterColor(float red,float green,float blue){
+        masterRed=red;
+        masterBlue=blue;
+        masterGreen=green;
     }
 }

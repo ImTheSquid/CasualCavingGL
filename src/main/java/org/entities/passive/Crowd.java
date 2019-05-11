@@ -74,8 +74,10 @@ public class Crowd extends Entity {
         cartHeight =Graphics.convertToWorldHeight(ResourceHandler.getCrowdLoader().getCart().getTexture().getHeight());
         if(World.getSubLevel()!=subLevel)return;
         Graphics.setColor(1,1,1,1);
-        Graphics.drawImage(crowd,x,y);
-        Graphics.drawImage(ResourceHandler.getCrowdLoader().getCart(),x+24,y);
+        if(crowd!=null&&ResourceHandler.getCrowdLoader().getCart()!=null) {
+            Graphics.drawImage(crowd, x, y);
+            Graphics.drawImage(ResourceHandler.getCrowdLoader().getCart(), x + 24, y);
+        }
         if(subLevel==2&&vX==0){
             Graphics.setColor(1,1,1,1);
             Graphics.setFont(Graphics.SMALL_FONT);
@@ -110,5 +112,10 @@ public class Crowd extends Entity {
 
     public void setWood(boolean wood){
         this.wood=wood;
+    }
+
+    @Override
+    public String toString() {
+        return "Crowd @ "+x+","+y;
     }
 }

@@ -1,7 +1,12 @@
 package org.level;
 
+import org.entities.Entity;
 import org.graphics.Render;
 import org.loader.ImageResource;
+import org.world.World;
+
+import java.util.ArrayList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public abstract class Level {
     protected int subLevels;
@@ -9,6 +14,7 @@ public abstract class Level {
     protected float leftBound=0,rightBound=Render.unitsWide;//Points to trigger switch to next sublevel
     protected float leftLimit=-1,rightLimit=Render.unitsWide+1;//Points that entities can't go past
     protected ImageResource[] backgrounds,foregrounds;
+    protected ConcurrentLinkedQueue<Entity> entityRegister=new ConcurrentLinkedQueue<>();
 
     public Level(ImageResource[] backgrounds,int subLevels){
         this.backgrounds=backgrounds;
@@ -26,6 +32,8 @@ public abstract class Level {
         this.foregrounds=fore;
         this.subLevels=subLevels;
     }
+
+    public abstract void init();
 
     public abstract void update(int subLevel);
 
@@ -65,5 +73,24 @@ public abstract class Level {
 
     public float getRightLimit() {
         return rightLimit;
+    }
+
+    public Entity[] getEntityRegister() {
+        Object[] registerArr=entityRegister.toArray();
+        ArrayList<Entity> applicable=new ArrayList<>();
+        for(Object o:registerArr){
+            if(((Entity)o).getSubLevel()== World.getSubLevel()){
+                applicable.add((Entity)o);
+            }
+        }
+        Entity[] arr=new Entity[applicable.size()];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i]=applicable.get(i);
+        }
+        return arr;
+    }
+
+    public void clearEntityRegister(){
+        entityRegister.clear();
     }
 }

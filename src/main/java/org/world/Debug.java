@@ -18,6 +18,7 @@ public class Debug {
             while(Keyboard.keys.contains(VK_F3)){}
         }
         if(Keyboard.keys.contains(VK_L)&&World.getLevel()>0){
+            while(Keyboard.keys.contains(VK_L)){}
             if(!cheatsUsed)cheatsUsed=firstRunEvent();
             if(cheatsUsed) {
                 Integer[] levels = new Integer[World.getNumLevels() - 2];
@@ -31,9 +32,9 @@ public class Debug {
                     World.clearEntites();
                 }
             }
-            Keyboard.keys.remove(VK_L);
         }
         if(Keyboard.keys.contains(VK_SEMICOLON)&&World.getLevel()>0){
+            while(Keyboard.keys.contains(VK_SEMICOLON)){}
             if(!cheatsUsed)cheatsUsed=firstRunEvent();
             if(cheatsUsed){
                 Integer[] sublevels=new Integer[World.getNumSubLevels()];
@@ -45,12 +46,18 @@ public class Debug {
                     World.setSubLevel(x);
                 }
             }
-            Keyboard.keys.remove(VK_SEMICOLON);
+        }
+        if(Keyboard.keys.contains(VK_H)&&World.getLevel()>0){
+            while(Keyboard.keys.contains(VK_H)){}
+            if(!cheatsUsed)cheatsUsed=firstRunEvent();
+            if(cheatsUsed){
+                Main.getHarold().setInvincible(!Main.getHarold().isInvincible());
+            }
         }
     }
     //Returns true if going ahead with cheats, returns false to exit
     private static boolean firstRunEvent(){
-        int x=JOptionPane.showConfirmDialog(null,"Are you sure you want to enable cheats?","Are you sure?",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+        int x=JOptionPane.showConfirmDialog(null,"Are you sure you want to enable cheats?\nThe game may become unstable.","Are you sure?",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
         return x != JOptionPane.NO_OPTION;
     }
 

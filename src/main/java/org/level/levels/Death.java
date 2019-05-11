@@ -17,13 +17,18 @@ public class Death extends Level {
     }
 
     @Override
-    public void update(int subLevel) {
+    public void init() {
         if(World.getMaster().isActive()){
             World.getMaster().setActive(false);
             World.getMaster().setCurrent(1);
         }
         Main.getHarold().setVisible(false);
         Main.getHarold().setMovement(false);
+        fadeDir=true;
+    }
+
+    @Override
+    public void update(int subLevel) {
         if(fadeDir){
             if (textHandler.getCurrent() == 1) {
                 fadeDir = false;
@@ -36,6 +41,7 @@ public class Death extends Level {
         }else if(textHandler.getCurrent()==0){
             fadeDir=true;
             cleanup();
+            World.clearEntites();
             LevelController.resetAll();
             World.setLevel(World.getLevel()+1);
             World.setSubLevel(1);
@@ -60,6 +66,7 @@ public class Death extends Level {
     public void cleanup() {
         Main.getHarold().setVisible(true);
         Main.getHarold().setMovement(true);
+        Main.getHarold().reset();
     }
 
     @Override

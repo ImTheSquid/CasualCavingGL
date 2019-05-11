@@ -35,10 +35,19 @@ public class LevelLoader {
             new ImageResource("/CasualCaving/Levels/Level2/Sprites/Miners1.png"),
             new ImageResource("/CasualCaving/Levels/Level2/Sprites/Lavender Savior.png"),
             new ImageResource("/CasualCaving/Levels/Level2/Sprites/QESunStone.png")};
-    private final ImageResource[] level3={new ImageResource("/CasualCaving/Levels/Level3/Lvl3Bg1.png"),
-            new ImageResource("/CasualCaving/Levels/Level3/Lvl3Bg2.png"),
+    private final ImageResource[] level3={new ImageResource("/CasualCaving/Levels/Level3/Lv3Bg1.png"),
+            new ImageResource("/CasualCaving/Levels/Level3/Lv3Bg2.png"),
             new ImageResource("/CasualCaving/Levels/Level3/Lv3Bg3.png"),
-            new ImageResource("/CasualCaving/Levels/Level3/Lv3Bg4.png")};
+            new ImageResource("/CasualCaving/Levels/Level3/Lv3Bg4.png"),
+            new ImageResource("/CasualCaving/Levels/Level3/Lv3Bg5.png"),
+            new ImageResource("/CasualCaving/Levels/Level3/Lv3Bg6.png"),
+            new ImageResource("/CasualCaving/Levels/Level3/Lv3Bg7.png")};
+    private final ImageResource[] level3Sprites={new ImageResource("/CasualCaving/Levels/Level3/Sun Golem Fade/Isolsi_Eyes.png"),
+            new ImageResource("/CasualCaving/Levels/Level3/Sun Golem Fade/Hematus_Eyes.png"),
+            new ImageResource("/CasualCaving/Levels/Level3/Sun Golem Fade/Igneox_Eyes_1.png"),
+            new ImageResource("/CasualCaving/Levels/Level3/Sun Golem Fade/Igneox_Eyes_2.png"),
+            new ImageResource("/CasualCaving/Levels/Level3/Sun Golem Fade/Igneox_Eyes_3.png"),
+            new ImageResource("/CasualCaving/Levels/Level3/Sun Golem Fade/Igneox_Eyes_4.png")};
 
     public ImageResource[] getTitle(){
         return title;
@@ -66,5 +75,9 @@ public class LevelLoader {
 
     public ImageResource[] getLevel3() {
         return level3;
+    }
+
+    public ImageResource[] getLevel3Sprites() {
+        return level3Sprites;
     }
 }
