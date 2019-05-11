@@ -264,5 +264,7 @@ public class Level2 extends Level {
         subBlink.setCurrent(0);
         fadeTime=false;
         choiceMade=false;
+        choiceDir=true;
+        ePressed=false;
     }
 }
