@@ -43,6 +43,8 @@ public class Title extends Level {
         if (logo.getDirection() || (logo.getCurrent() > 0)) {
             logo.update();
         } else {
+            World.getMaster().setCurrent(0);
+            World.getMaster().setActive(true);
             World.setSubLevel(1);
         }
         if (logo.getCurrent() == 1) {
@@ -55,16 +57,14 @@ public class Title extends Level {
             logo.setActive(false);
             logo.setCurrent(0);
             logo.setDirection(true);
+            World.getMaster().setCurrent(0);
+            World.getMaster().setActive(true);
             World.setSubLevel(1);
         }
     }
 
     private void updateTitle(){
         if(World.getMaster().isActive())gameReady=true;
-        if(World.getMaster().getDirection()&&World.getMaster().getCurrent()==1f&&!gameReady) {
-            World.getMaster().setCurrent(0);
-            World.getMaster().setActive(true);
-        }
         if(World.getMaster().getCurrent()>0.25f&&!quit.isActive())quit.setActive(true);
         quit.update();
         if(quit.isPressed()){
