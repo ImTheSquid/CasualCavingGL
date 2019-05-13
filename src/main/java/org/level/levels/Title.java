@@ -1,11 +1,13 @@
 package org.level.levels;
 
+import org.engine.Main;
 import org.entities.SmartRectangle;
 import org.graphics.FadeIO;
 import org.graphics.Graphics;
 import org.graphics.Render;
 import org.input.Keyboard;
 import org.level.Level;
+import org.level.LevelController;
 import org.loader.ImageResource;
 import org.loader.ResourceHandler;
 import org.loader.harold.HaroldLoader;
@@ -18,10 +20,9 @@ public class Title extends Level {
     private FadeIO logo = new FadeIO(0, 1, 0, 0.01f, 40);
     private SmartRectangle start=new SmartRectangle(Render.unitsWide/2,30,20,7,true);
     private SmartRectangle quit=new SmartRectangle(Render.unitsWide/2,5,7,4,true);
-    private boolean gameReady = false;
 
     public Title(ImageResource[] backgrounds, ImageResource[] foregrounds) {
-        super(backgrounds,2);
+        super(backgrounds,backgrounds.length);
         super.foregrounds = foregrounds;
         logo.setActive(true);
     }
@@ -64,7 +65,6 @@ public class Title extends Level {
     }
 
     private void updateTitle(){
-        if(World.getMaster().isActive())gameReady=true;
         if(World.getMaster().getCurrent()>0.25f&&!quit.isActive())quit.setActive(true);
         quit.update();
         if(quit.isPressed()){
@@ -73,6 +73,8 @@ public class Title extends Level {
         start.update();
         if(start.isPressed()||Keyboard.keys.contains(VK_ENTER)){
             ResourceHandler.getHaroldLoader().setState(HaroldLoader.NORMAL);
+            LevelController.resetAll();
+            Main.getHarold().reset();
             World.setGame(true);
             World.getMaster().setActive(false);
             World.getMaster().setCurrent(1f);

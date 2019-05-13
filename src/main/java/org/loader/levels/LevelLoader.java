@@ -48,6 +48,13 @@ public class LevelLoader {
             new ImageResource("/CasualCaving/Levels/Level3/Sun Golem Fade/Igneox_Eyes_2.png"),
             new ImageResource("/CasualCaving/Levels/Level3/Sun Golem Fade/Igneox_Eyes_3.png"),
             new ImageResource("/CasualCaving/Levels/Level3/Sun Golem Fade/Igneox_Eyes_4.png")};
+    private final ImageResource[][] level4={{new ImageResource("/CasualCaving/Levels/Level4/Lv4Bg1.png")},
+            {new ImageResource("/CasualCaving/Levels/Level4/Lv4Bg2.png")},
+            {new ImageResource("/CasualCaving/Levels/Level4/Lv4Bg3.png")},
+            {new ImageResource("/CasualCaving/Levels/Level4/Lv4Bg4.png")},
+            {new ImageResource("/CasualCaving/Levels/Level4/Lv4Bg5.png"),new ImageResource("/CasualCaving/Levels/Level4/Lv4Bg5_Fascade.png")},
+            {new ImageResource("/CasualCaving/Levels/Level4/Lv4Bg6.png"),new ImageResource("/CasualCaving/Levels/Level4/Lv4Bg6_Fascade.png")},
+            {new ImageResource("/CasualCaving/Levels/Level4/Lv4Bg7.png"),new ImageResource("/CasualCaving/Levels/Level4/Lv4Bg7_Fascade.png")}};
 
     public ImageResource[] getTitle(){
         return title;
@@ -79,5 +86,9 @@ public class LevelLoader {
 
     public ImageResource[] getLevel3Sprites() {
         return level3Sprites;
+    }
+
+    public ImageResource[][] getLevel4() {
+        return level4;
     }
 }

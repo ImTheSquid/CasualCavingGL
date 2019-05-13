@@ -63,4 +63,8 @@ public class GolemLoader {
     public ImageResource[] getGreenGolemAttack(boolean faceRight){return faceRight?greenGolemRightAttack:greenGolemLeftAttack;}
 
     public ImageResource getGreenGolemKnockback(boolean faceRight){return faceRight?greenGolemKnockback[0]:greenGolemKnockback[1];}
+
+    //Red Golem
+
+
 }

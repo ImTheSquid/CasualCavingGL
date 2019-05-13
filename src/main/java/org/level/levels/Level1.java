@@ -18,7 +18,7 @@ import static com.jogamp.newt.event.KeyEvent.VK_E;
 
 public class Level1 extends Level {
     public Level1(ImageResource[] backgrounds) {
-        super(backgrounds,7);
+        super(backgrounds,backgrounds.length);
     }
     private ImageResource[] sprites= ResourceHandler.getLevelLoader().getLevel1Sprites();
     private boolean bridge=false,wood=true;

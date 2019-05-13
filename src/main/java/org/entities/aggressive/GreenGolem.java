@@ -70,7 +70,12 @@ public class GreenGolem extends Autonomous {
             doXCalc();
         }
 
-        if(damageCooldown>0)damageCooldown--;
+        if(damageCooldown>0){
+            damageCooldown--;
+            state=2;
+        }else if(state==2){
+            state=0;
+        }
 
         //Y-velocity and ground calc
         if(h.isOnGround()&&vY<0){
@@ -86,6 +91,7 @@ public class GreenGolem extends Autonomous {
         }
         if(state==0)golemAnimator.setFrames(ResourceHandler.getGolemLoader().getGreenGolemWalk(direction));
         else if(state==1)golemAnimator.setFrames(ResourceHandler.getGolemLoader().getGreenGolemAttack(direction));
+        else if(state==2)golemAnimator.setFrames(new ImageResource[]{ResourceHandler.getGolemLoader().getGreenGolemKnockback(direction)});
         golemAnimator.update();
         if(state==1&&golemAnimator.getCurrentFrameNum()==3){
             state=0;
@@ -99,7 +105,7 @@ public class GreenGolem extends Autonomous {
     }
 
     private void doAttackCalc(){
-        if(attackCooldown>0){
+        if(attackCooldown>0||damageCooldown>0){
             attackCooldown--;
             return;
         }

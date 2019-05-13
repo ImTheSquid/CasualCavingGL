@@ -22,13 +22,15 @@ public class Level3 extends Level {
     private boolean fadeActive=false;
     private int switchFade=0;
     public Level3(ImageResource[] backgrounds) {
-        super(backgrounds,7);
+        super(backgrounds,backgrounds.length);
         reset();
     }
 
     @Override
     public void init() {
-
+        ResourceHandler.getHaroldLoader().disableAttackPause();
+        World.clearEntites();
+        World.addEntities(super.getEntityRegister());
     }
 
     @Override
@@ -36,10 +38,8 @@ public class Level3 extends Level {
         entityRegister.removeIf(n->n.getHealth()<=0);//Remove entities if health <=0
         if(subLevel!=6)HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7, Render.unitsWide,true)});//Set heights
         else HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7,87,true),new HeightVal(63,29,Render.unitsWide,false),new HeightVal(87,29,Render.unitsWide,true)});
-        if(World.getEntites().size()!=entityRegister.size()){//Resend register if updated
-            World.clearEntites();
-            World.addEntities(super.getEntityRegister());
-        }
+        World.clearEntites();
+        World.addEntities(super.getEntityRegister());
         if(subLevel!=1)ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
         if(subLevel!=2)leftLimit=-1;
         switch (subLevel){
@@ -48,6 +48,9 @@ public class Level3 extends Level {
                 break;
             case 2:
                 update2();
+                break;
+            case 6:
+                update6();
                 break;
         }
     }
@@ -100,6 +103,10 @@ public class Level3 extends Level {
 
     private void update2(){
         leftLimit=0;
+    }
+
+    private void update6(){
+        if(Main.getHarold().getWidth()+Main.getHarold().getX()==Render.unitsWide)World.setLevelTransition(true);
     }
 
     @Override

@@ -26,12 +26,12 @@ public class Level2 extends Level {
     private SmartRectangle stoneBox=new SmartRectangle(64,23,13,14);
     private boolean choiceMade=false,choiceDir=true,ePressed=false;
     public Level2(ImageResource[][] backgrounds) {
-        super(backgrounds,8);
+        super(backgrounds,backgrounds.length);
     }
 
     @Override
     public void init() {
-
+        ResourceHandler.getHaroldLoader().disableAttackPause();
     }
 
     public void update(int subLevel) {
