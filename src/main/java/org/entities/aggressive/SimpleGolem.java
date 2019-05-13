@@ -160,7 +160,7 @@ public class SimpleGolem extends Autonomous {
     }
 
     private void doXCalc(){
-        Level l= LevelController.getLevels()[World.getLevel()];
+        Level l= LevelController.getCurrentLevel();
         if(x<l.getLeftLimit()||x+width>l.getRightLimit())direction=!direction;
         if(golemType==GREEN&&HeightMap.onEdge(hitbox,direction))direction=!direction;
     }

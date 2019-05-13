@@ -91,4 +91,8 @@ public abstract class Entity {
         else attackerBehind=attacker.getX()>x;
     }
 
+    public void giveHealth(int health){
+        this.health+=health;
+    }
+
 }

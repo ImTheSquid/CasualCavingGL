@@ -28,6 +28,8 @@ public class LevelController {
 
     public static Level[] getLevels(){return levels;}
 
+    public static Level getCurrentLevel(){return levels[World.getLevel()+1];}
+
     public static void resetAll(){
         World.setMasterColor(0,0,0);
         for(Level l:levels){

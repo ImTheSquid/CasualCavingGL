@@ -29,7 +29,7 @@ public class Level3 extends Level {
     public void init() {
         ResourceHandler.getHaroldLoader().disableAttackPause();
         World.clearEntites();
-        World.addEntities(super.getEntityRegister());
+        World.addEntities(super.getEntityRegisterArray());
     }
 
     @Override
@@ -38,7 +38,7 @@ public class Level3 extends Level {
         if(subLevel!=6)HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7, Render.unitsWide,true)});//Set heights
         else HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7,87,true),new HeightVal(63,29,Render.unitsWide,false),new HeightVal(87,29,Render.unitsWide,true)});
         World.clearEntites();
-        World.addEntities(super.getEntityRegister());
+        World.addEntities(super.getEntityRegisterArray());
         if(subLevel!=1)ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
         if(subLevel!=2)leftLimit=-1;
         switch (subLevel){

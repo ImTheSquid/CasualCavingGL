@@ -21,17 +21,20 @@ public class Level4 extends Level {
         reset();
         ResourceHandler.getHaroldLoader().disableAttackPause();
         World.clearEntites();
-        World.addEntities(super.getEntityRegister());
+        World.addEntities(super.getEntityRegisterArray());
     }
 
     @Override
     public void update(int subLevel) {
         entityRegister.removeIf(n->n.getHealth()<=0);
         World.clearEntites();
-        World.addEntities(super.getEntityRegister());
+        World.addEntities(super.getEntityRegisterArray());
         ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
+        if(subLevel!=4)rightBound=Render.unitsWide;
+        if(subLevel!=5)leftLimit=-1;
         switch(subLevel){
             case 0:
+            case 6:
                 HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7, Render.unitsWide,true)});
                 break;
             case 1:
@@ -46,6 +49,22 @@ public class Level4 extends Level {
                         new HeightVal(89,30,94,true),
                         new HeightVal(94,35,98,true),
                         new HeightVal(98,41,Render.unitsWide,true)});
+                break;
+            case 3:
+                HeightMap.setHeights(new HeightVal[]{new HeightVal(0,20,24,true),
+                        new HeightVal(36,30,66,false),
+                        new HeightVal(77,20,Render.unitsWide,true)});
+                break;
+            case 4:
+                HeightMap.setHeights(new HeightVal[]{new HeightVal(0,32,25,true),
+                        new HeightVal(26,8,76,true),
+                        new HeightVal(76,14,84,true)});
+                rightBound=84;
+                break;
+            case 5:
+                HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7,Render.unitsWide,true)});
+                leftLimit=0;
+                break;
         }
     }
 

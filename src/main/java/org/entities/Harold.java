@@ -114,7 +114,7 @@ public class Harold extends Entity{
             ResourceHandler.getHaroldLoader().disableAttackPause();
         }
 
-        Level currentLevel=LevelController.getLevels()[World.getLevel()+1];
+        Level currentLevel=LevelController.getCurrentLevel();
         //TODO cleanup usages
         if(x<currentLevel.getLeftLimit())x=currentLevel.getLeftLimit();
         if(x+width>currentLevel.getRightLimit())x=currentLevel.getRightLimit()-width;
