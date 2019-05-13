@@ -27,7 +27,7 @@ public class Harold extends Entity{
     }
     public void update() {
         if(!movement)return;
-        if(health<=0){//Am I dead?
+        if(health<=0||y+height<-10){//Am I dead?
             World.clearEntites();
             World.setLevel(-1);
         }

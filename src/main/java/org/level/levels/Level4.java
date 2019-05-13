@@ -1,6 +1,6 @@
 package org.level.levels;
 
-import org.entities.aggressive.BlueGolem;
+import org.entities.aggressive.SimpleGolem;
 import org.graphics.Graphics;
 import org.graphics.Render;
 import org.level.Level;
@@ -18,7 +18,6 @@ public class Level4 extends Level {
 
     @Override
     public void init() {
-        System.out.println("CALLED");
         reset();
         ResourceHandler.getHaroldLoader().disableAttackPause();
         World.clearEntites();
@@ -35,6 +34,18 @@ public class Level4 extends Level {
             case 0:
                 HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7, Render.unitsWide,true)});
                 break;
+            case 1:
+                HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7,30,true),new HeightVal(34,29,72,false),new HeightVal(74,7,Render.unitsWide,true)});
+                break;
+            case 2:
+                HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7,78,true),
+                        new HeightVal(20,30,58,false),
+                        new HeightVal(78,12,81,true),
+                        new HeightVal(81,17,86,true),
+                        new HeightVal(86,25,89,true),
+                        new HeightVal(89,30,94,true),
+                        new HeightVal(94,35,98,true),
+                        new HeightVal(98,41,Render.unitsWide,true)});
         }
     }
 
@@ -56,6 +67,8 @@ public class Level4 extends Level {
     @Override
     public void reset() {
         clearEntityRegister();
-        entityRegister.add(new BlueGolem(0,25,7));
+        entityRegister.add(new SimpleGolem(SimpleGolem.BLUE,0,25,7));
+        entityRegister.add(new SimpleGolem(SimpleGolem.RED,0,50,7));
+        entityRegister.add(new SimpleGolem(SimpleGolem.GREEN,1,50,29));
     }
 }

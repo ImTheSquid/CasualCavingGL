@@ -66,5 +66,38 @@ public class GolemLoader {
 
     //Red Golem
 
+    private final ImageResource[] redGolem={new ImageResource("/CasualCaving/Entities/RedGolem/RedGolemStill.png"),
+            new ImageResource("/CasualCaving/Entities/RedGolem/RedGolemStillFL.png")};
+    private final ImageResource[] redGolemKnockback={new ImageResource("/CasualCaving/Entities/RedGolem/RedGolemKnockBackFR.png"),
+            new ImageResource("/CasualCaving/Entities/RedGolem/RedGolemKnockBack.png")};
+    private final ImageResource[] redGolemLeft={new ImageResource("/CasualCaving/Entities/RedGolem/RedGolemW1FL.png"),
+            new ImageResource("/CasualCaving/Entities/RedGolem/RedGolemW2FL.png"),
+            new ImageResource("/CasualCaving/Entities/RedGolem/RedGolemW3FL.png")};
+    private final ImageResource[] redGolemRight={new ImageResource("/CasualCaving/Entities/RedGolem/RedGolemW1.png"),
+            new ImageResource("/CasualCaving/Entities/RedGolem/RedGolemW2.png"),
+            new ImageResource("/CasualCaving/Entities/RedGolem/RedGolemW3.png")};
+    private final ImageResource[] redGolemAttackLeft={new ImageResource("/CasualCaving/Entities/RedGolem/RedGolemA1FL.png"),
+            new ImageResource("/CasualCaving/Entities/RedGolem/RedGolemA2FL.png"),
+            new ImageResource("/CasualCaving/Entities/RedGolem/RedGolemA3FL.png"),
+            new ImageResource("/CasualCaving/Entities/RedGolem/RedGolemA4FL.png")};
+    private final ImageResource[] redGolemAttackRight={new ImageResource("/CasualCaving/Entities/RedGolem/RedGolemA1.png"),
+            new ImageResource("/CasualCaving/Entities/RedGolem/RedGolemA2.png"),
+            new ImageResource("/CasualCaving/Entities/RedGolem/RedGolemA3.png"),
+            new ImageResource("/CasualCaving/Entities/RedGolem/RedGolemA4.png")};
 
+    public ImageResource getRedGolem(boolean faceRight){
+        return faceRight?redGolem[0]:redGolem[1];
+    }
+
+    public ImageResource[] getRedGolemWalk(boolean faceRight){
+        return faceRight?redGolemRight:redGolemLeft;
+    }
+
+    public ImageResource[] getRedGolemAttack(boolean faceRight){
+        return faceRight?redGolemAttackRight:redGolemAttackLeft;
+    }
+
+    public ImageResource getRedGolemKnockback(boolean faceRight){
+        return faceRight?redGolemKnockback[0]:redGolemKnockback[1];
+    }
 }

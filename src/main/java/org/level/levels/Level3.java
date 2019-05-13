@@ -1,8 +1,7 @@
 package org.level.levels;
 
 import org.engine.Main;
-import org.entities.aggressive.BlueGolem;
-import org.entities.aggressive.GreenGolem;
+import org.entities.aggressive.SimpleGolem;
 import org.graphics.FadeIO;
 import org.graphics.Graphics;
 import org.graphics.Render;
@@ -157,7 +156,7 @@ public class Level3 extends Level {
     @Override
     public void reset() {
         clearEntityRegister();
-        entityRegister.add(new BlueGolem(5,20,15));
-        entityRegister.add(new GreenGolem(6,79,34));
+        entityRegister.add(new SimpleGolem(SimpleGolem.BLUE,5,20,7));
+        entityRegister.add(new SimpleGolem(SimpleGolem.GREEN,6,79,34));
     }
 }
