@@ -3,7 +3,7 @@ package org.entities;
 public abstract class Entity {
     protected float x=5,y=7,vX,vY,width,height;
     float red=1,green=1,blue=1,alpha=1;
-    protected int health=1,level=0,subLevel=0, damageTakenFrame =0,damageCooldown=0,attackCooldown=0;
+    protected int health=1,maxHealth=-1,level=0,subLevel=0, damageTakenFrame =0,damageCooldown=0,attackCooldown=0;
     protected boolean nonGameUpdate=false,nonGameRender=false,pauseUpdate=false,pauseRender=true,movement=true,visible=true,direction=true,attackerBehind=false,invincible=false;
     public abstract void update();
     public abstract void render();
@@ -92,7 +92,12 @@ public abstract class Entity {
     }
 
     public void giveHealth(int health){
-        this.health+=health;
+        if(maxHealth==-1||this.health+health<=maxHealth)this.health+=health;
     }
 
+    public void handleDeath(){}
+
+    public int getMaxHealth() {
+        return maxHealth;
+    }
 }

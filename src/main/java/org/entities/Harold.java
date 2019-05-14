@@ -23,6 +23,7 @@ public class Harold extends Entity{
     private SmartRectangle hitbox=new SmartRectangle(x,y,width,height);
 
     public Harold(){
+        maxHealth=3;
         reset();
     }
     public void update() {

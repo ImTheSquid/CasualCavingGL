@@ -22,6 +22,8 @@ public class GolemLoader {
             new ImageResource("/CasualCaving/Entities/BlueGolem/BlueGolemA2.png"),
             new ImageResource("/CasualCaving/Entities/BlueGolem/BlueGolemA3.png"),
             new ImageResource("/CasualCaving/Entities/BlueGolem/BlueGolemA4.png")};
+    private ImageResource[] blueGolemKnockback={new ImageResource("/CasualCaving/Entities/BlueGolem/BlueGolemKnockBackFR.png"),
+            new ImageResource("/CasualCaving/Entities/BlueGolem/BlueGolemKnockBack.png")};
 
     public ImageResource getBlueGolem(boolean faceRight){
         return faceRight?blueGolem[0]:blueGolem[1];
@@ -34,6 +36,8 @@ public class GolemLoader {
     public ImageResource[] getBlueGolemAttack(boolean faceRight){
         return faceRight?blueGolemRightAttack:blueGolemLeftAttack;
     }
+
+    public ImageResource getBlueGolemKnockback(boolean faceRight){return faceRight?blueGolemKnockback[0]:blueGolemKnockback[1];}
 
     //Green Golem
 

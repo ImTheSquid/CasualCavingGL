@@ -34,7 +34,7 @@ public class Level3 extends Level {
 
     @Override
     public void update(int subLevel) {
-        entityRegister.removeIf(n->n.getHealth()<=0);//Remove entities if health <=0
+        checkHealthVals();
         if(subLevel!=6)HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7, Render.unitsWide,true)});//Set heights
         else HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7,87,true),new HeightVal(63,29,Render.unitsWide,false),new HeightVal(87,29,Render.unitsWide,true)});
         World.clearEntites();

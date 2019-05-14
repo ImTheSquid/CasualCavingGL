@@ -144,10 +144,13 @@ public class SimpleGolem extends Autonomous {
             }
         }else if(state==2){
             switch (golemType) {
-                case 1:
+                case BLUE:
+                    golemAnimator.setFrames(new ImageResource[]{ResourceHandler.getGolemLoader().getBlueGolemKnockback(direction)});
+                    break;
+                case GREEN:
                     golemAnimator.setFrames(new ImageResource[]{ResourceHandler.getGolemLoader().getGreenGolemKnockback(direction)});
                     break;
-                case 2:
+                case RED:
                     golemAnimator.setFrames(new ImageResource[]{ResourceHandler.getGolemLoader().getRedGolemKnockback(direction)});
                     break;
             }
@@ -206,11 +209,11 @@ public class SimpleGolem extends Autonomous {
     @Override
     public String toString() {
         switch(golemType) {
-            case 0:
+            case BLUE:
                 return "Blue Golem @ " + x + "," + y;
-            case 1:
+            case GREEN:
                 return "Green Golem @ " + x + "," + y;
-            case 2:
+            case RED:
                 return "Red Golem @ " + x + "," + y;
             default:
                 return "Golem @ " + x + "," + y;

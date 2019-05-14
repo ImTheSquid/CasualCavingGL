@@ -1,6 +1,7 @@
 package org.level.levels;
 
 import org.entities.aggressive.SimpleGolem;
+import org.entities.passive.LifeCrystal;
 import org.graphics.Graphics;
 import org.graphics.Render;
 import org.level.Level;
@@ -26,7 +27,7 @@ public class Level4 extends Level {
 
     @Override
     public void update(int subLevel) {
-        entityRegister.removeIf(n->n.getHealth()<=0);
+        checkHealthVals();
         World.clearEntites();
         World.addEntities(super.getEntityRegisterArray());
         ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
@@ -75,7 +76,7 @@ public class Level4 extends Level {
 
     @Override
     public void renderForeground(int subLevel) {
-
+        if(foregrounds[subLevel]!=null)Graphics.drawImage(foregrounds[subLevel],0,0);
     }
 
     @Override
@@ -89,5 +90,8 @@ public class Level4 extends Level {
         entityRegister.add(new SimpleGolem(SimpleGolem.BLUE,0,25,7));
         entityRegister.add(new SimpleGolem(SimpleGolem.RED,0,50,7));
         entityRegister.add(new SimpleGolem(SimpleGolem.GREEN,1,50,29));
+        entityRegister.add(new LifeCrystal(1,84,8));
+        entityRegister.add(new LifeCrystal(3,38,30));
+        entityRegister.add(new SimpleGolem(SimpleGolem.GREEN,3,52,30));
     }
 }

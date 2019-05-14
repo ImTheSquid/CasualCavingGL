@@ -11,11 +11,14 @@ import org.world.World;
 
 public class Health extends Autonomous {
     private SmartRectangle hitbox;
-    public Health(int subLevel, float spawnX, float spawnY) {
+    private int bounceWait=60;
+    Health(int subLevel, float spawnX, float spawnY) {
         super(subLevel, spawnX, spawnY);
-        width=10;
-        height=10;
+        width=6;
+        height=6;
         health=1;
+        vY=1;
+        invincible=true;
         hitbox=new SmartRectangle(x,y,width,height);
     }
 
@@ -23,6 +26,10 @@ public class Health extends Autonomous {
     public void update() {
         HeightReturn h=HeightMap.onGround(hitbox);
         //Calculations
+        if(bounceWait==0){
+            vY=1;
+            bounceWait=60;
+        }else bounceWait--;
         y+=vY;
         vY-= World.getGravity();
         //Y-velocity and ground calc
@@ -31,16 +38,17 @@ public class Health extends Autonomous {
             vY=0;
         }
 
-        if(Main.getHarold().getHitbox().intersects(hitbox)){
+        if(Main.getHarold().getHitbox().intersects(hitbox)&&Main.getHarold().getHealth()+1<=Main.getHarold().getMaxHealth()){
             health=0;
             Main.getHarold().giveHealth(1);
         }
+        hitbox.updateBounds(x,y,width,height);
     }
 
     @Override
     public void render() {
         Graphics.setColor(1,1,1,1);
-        Graphics.drawImageCentered(ResourceHandler.getMiscLoader().getHealthHeart(),x,y,width,height);
+        Graphics.drawImage(ResourceHandler.getMiscLoader().getHealthHeart(),x,y,width,height);
     }
 
     @Override

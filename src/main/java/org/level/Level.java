@@ -95,4 +95,13 @@ public abstract class Level {
     public void clearEntityRegister(){
         entityRegister.clear();
     }
+
+    protected void checkHealthVals(){
+        for(Entity e:entityRegister){
+            if(e.getHealth()<=0||e.getY()+e.getHeight()<-10){
+                e.handleDeath();
+                entityRegister.remove(e);
+            }
+        }
+    }
 }
