@@ -166,7 +166,7 @@ public class Level1 extends Level {
         Graphics.drawImage(sprites[0],6,7);
         Graphics.drawImage(sprites[1],40,7);
         Graphics.setFont(Graphics.SMALL_FONT);
-        Graphics.drawText("Alright guys, you know what to do; we're looking for a precious yellow gem located in a nearby cave. Go!",20,48,18);
+        Graphics.drawText("Alright guys, you know what to do; we're looking for a precious yellow gem located in a nearby cave. Go!",20,48,18,true);
     }
 
     private void render1(){
@@ -178,7 +178,7 @@ public class Level1 extends Level {
         if(wood){
             Graphics.drawImage(sprites[2],70,7);
             Graphics.setFont(Graphics.SMALL_FONT);
-            if(log.intersects(Main.getHarold().getHitbox())&&ResourceHandler.getHaroldLoader().getState()==HaroldLoader.CHAINSAW)Graphics.drawText("Press E to cut",70,20);
+            if(log.intersects(Main.getHarold().getHitbox())&&ResourceHandler.getHaroldLoader().getState()==HaroldLoader.CHAINSAW)Graphics.drawTextWithBox("Press E to cut",70,20);
         }
     }
 
@@ -186,7 +186,7 @@ public class Level1 extends Level {
         Graphics.setColor(1,1,1,1);
         Graphics.setFont(Graphics.SMALL_FONT);
         if(!bridge){
-            if(ResourceHandler.getHaroldLoader().getState()==HaroldLoader.WOOD&& river.intersects(Main.getHarold().getHitbox()))Graphics.drawText("Press E to place wood",47,20);
+            if(ResourceHandler.getHaroldLoader().getState()==HaroldLoader.WOOD&& river.intersects(Main.getHarold().getHitbox()))Graphics.drawTextWithBox("Press E to place wood",47,20);
         }else{
             Graphics.drawImage(sprites[3],41,5);
         }

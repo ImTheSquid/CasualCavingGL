@@ -81,13 +81,13 @@ public class Crowd extends Entity {
         if(subLevel==2&&vX==0){
             Graphics.setColor(1,1,1,1);
             Graphics.setFont(Graphics.SMALL_FONT);
-            if(wood)Graphics.drawText("Hey, we won't be able to get the cart over that log. You should use some tools.",8,35,20);
-            if(cartIntersect&&!chainsaw)Graphics.drawText("Press E to pick up chainsaw",32,29);
+            if(wood)Graphics.drawText("Hey, we won't be able to get the cart over that log. You should use some tools.",8,35,20,true);
+            if(cartIntersect&&!chainsaw)Graphics.drawTextWithBox("Press E to pick up chainsaw",32,29);
         }
         if(subLevel==5&&vX==0){
             Graphics.setColor(1,1,1,1);
             Graphics.setFont(Graphics.SMALL_FONT);
-            Graphics.drawText("This looks like a good place to set up camp. Let's put our stuff down.",8,35,20);
+            Graphics.drawText("This looks like a good place to set up camp. Let's put our stuff down.",8,35,20,true);
         }
     }
 
