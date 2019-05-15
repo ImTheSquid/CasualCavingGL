@@ -79,16 +79,16 @@ public class HeightMap {
     public static boolean checkRightCollision(SmartRectangle r){
         HeightVal current=findApplicable(r,true);
         if(current==null)return false;
-        return !(r.getY()>current.getHeight());
+        return r.getY()<current.getHeight();
     }
 
     public static boolean checkLeftCollision(SmartRectangle r){
         HeightVal current=findApplicable(r,false);
         if(current==null)return false;
-        return !(r.getY()>current.getHeight());
+        return r.getY()<current.getHeight();
     }
 
-    //Calculates the current height map (if opaque)
+    //Calculates the next height map (if opaque)
     public static HeightVal findApplicable(SmartRectangle r,boolean right){
         float xPos;
         if(right)xPos=r.getX()+r.getWidth();

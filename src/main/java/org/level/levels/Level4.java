@@ -57,7 +57,7 @@ public class Level4 extends Level {
                         new HeightVal(77,20,Render.unitsWide,true)});
                 break;
             case 4:
-                HeightMap.setHeights(new HeightVal[]{new HeightVal(0,32,25,true),
+                HeightMap.setHeights(new HeightVal[]{new HeightVal(0,32,26,true),
                         new HeightVal(26,8,76,true),
                         new HeightVal(76,14,84,true)});
                 rightBound=84;
