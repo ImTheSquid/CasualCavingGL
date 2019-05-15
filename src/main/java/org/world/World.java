@@ -135,8 +135,6 @@ public class World {
 
         LevelController.renderForeground(level,subLevel);
 
-        Main.getHarold().renderHealth();
-
         //Master brightness, always do last
         Graphics.setColor(masterRed,masterGreen,masterBlue,1-master.getCurrent());
         Graphics.fillRect(0,0, Render.unitsWide,Render.unitsTall);
@@ -145,7 +143,7 @@ public class World {
         //Special case level transition
         if(levelTransition){
             levelTransition();
-        }
+        }else Main.getHarold().renderHealth();
 
         if(pause){
             Graphics.setColor(.25f,.25f,.25f,.4f);

@@ -61,7 +61,7 @@ public class Harold extends Entity{
         if(Keyboard.keys.contains(VK_W)&&ResourceHandler.getHaroldLoader().getState()==HaroldLoader.LANTERN&&attackCooldown<=0){
             haroldAnimator.setCurrentFrame(0);
             ResourceHandler.getHaroldLoader().setState(HaroldLoader.ATTACK);
-            attackCooldown=20;
+            attackCooldown=30;
         }
         Keyboard.keys.remove(VK_W);//Fallback if key gets stuck
 
