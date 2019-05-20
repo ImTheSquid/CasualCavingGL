@@ -1,6 +1,6 @@
 package org.level.levels;
 
-import org.entities.aggressive.SimpleGolem;
+import org.entities.aggressive.ShortGolem;
 import org.entities.passive.LifeCrystal;
 import org.graphics.Graphics;
 import org.graphics.Render;
@@ -87,11 +87,13 @@ public class Level4 extends Level {
     @Override
     public void reset() {
         clearEntityRegister();
-        entityRegister.add(new SimpleGolem(SimpleGolem.BLUE,0,25,7));
-        entityRegister.add(new SimpleGolem(SimpleGolem.RED,0,50,7));
-        entityRegister.add(new SimpleGolem(SimpleGolem.GREEN,1,50,29));
+        entityRegister.add(new ShortGolem(ShortGolem.BLUE,0,25,7));
+        entityRegister.add(new ShortGolem(ShortGolem.RED,0,50,7));
+        entityRegister.add(new ShortGolem(ShortGolem.GREEN,1,50,29));
+        entityRegister.add(new ShortGolem(ShortGolem.PURPLE,2,24,31));
+        entityRegister.add(new ShortGolem(ShortGolem.GREEN,3,52,30));
         entityRegister.add(new LifeCrystal(1,84,8));
-        entityRegister.add(new LifeCrystal(3,38,30));
-        entityRegister.add(new SimpleGolem(SimpleGolem.GREEN,3,52,30));
+        entityRegister.add(new LifeCrystal(3,38,32));
+        entityRegister.add(new LifeCrystal(6,77,7));
     }
 }

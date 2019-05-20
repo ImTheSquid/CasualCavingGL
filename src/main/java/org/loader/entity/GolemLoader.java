@@ -104,4 +104,31 @@ public class GolemLoader {
     public ImageResource getRedGolemKnockback(boolean faceRight){
         return faceRight?redGolemKnockback[0]:redGolemKnockback[1];
     }
+
+    //Purple Golem
+
+    private final ImageResource[] purpleGolem={new ImageResource("/CasualCaving/Entities/PurpleGolem/PurpleGolemStill.png"),
+            new ImageResource("/CasualCaving/Entities/PurpleGolem/PurpleGolemStillFL.png")};
+    private final ImageResource[] purpleGolemKnockback={new ImageResource("/CasualCaving/Entities/PurpleGolem/PurpleGolemKnockBackFR.png"),
+            new ImageResource("/CasualCaving/Entities/PurpleGolem/PurpleGolemKnockBack.png")};
+    private final ImageResource[] purpleGolemLeft={new ImageResource("/CasualCaving/Entities/PurpleGolem/PurpleGolemW1FL.png"),
+            new ImageResource("/CasualCaving/Entities/PurpleGolem/PurpleGolemW2FL.png"),
+            new ImageResource("/CasualCaving/Entities/PurpleGolem/PurpleGolemW3FL.png")};
+    private final ImageResource[] purpleGolemRight={new ImageResource("/CasualCaving/Entities/PurpleGolem/PurpleGolemW1.png"),
+            new ImageResource("/CasualCaving/Entities/PurpleGolem/PurpleGolemW2.png"),
+            new ImageResource("/CasualCaving/Entities/PurpleGolem/PurpleGolemW3.png")};
+    private final ImageResource[] purpleGolemAttackLeft={new ImageResource("/CasualCaving/Entities/PurpleGolem/PurpleGolemA1FL.png"),
+            new ImageResource("/CasualCaving/Entities/PurpleGolem/PurpleGolemA2FL.png"),
+            new ImageResource("/CasualCaving/Entities/PurpleGolem/PurpleGolemA3FL.png")};
+    private final ImageResource[] purpleGolemAttackRight={new ImageResource("/CasualCaving/Entities/PurpleGolem/PurpleGolemA1.png"),
+            new ImageResource("/CasualCaving/Entities/PurpleGolem/PurpleGolemA2.png"),
+            new ImageResource("/CasualCaving/Entities/PurpleGolem/PurpleGolemA3.png")};
+
+    public ImageResource getPurpleGolem(boolean faceRight){return faceRight?purpleGolem[0]:purpleGolem[1];}
+
+    public ImageResource[] getPurpleGolemWalk(boolean faceRight){return faceRight?purpleGolemRight:purpleGolemLeft;}
+
+    public ImageResource[] getPurpleGolemAttack(boolean faceRight){return faceRight?purpleGolemAttackRight:purpleGolemAttackLeft;}
+
+    public ImageResource getPurpleGolemKnockback(boolean faceRight){return faceRight?purpleGolemKnockback[0]:purpleGolemKnockback[1];}
 }

@@ -2,6 +2,7 @@ package org.entities.aggressive;
 
 import org.engine.Main;
 import org.entities.Autonomous;
+import org.entities.Entity;
 import org.entities.SmartRectangle;
 import org.graphics.Animator;
 import org.graphics.Graphics;
@@ -16,13 +17,13 @@ import org.world.World;
 
 //This class encompasses the blue, green, and red golems, as their classes are very similar
 
-public class SimpleGolem extends Autonomous {
-    public static final int BLUE=0,GREEN=1,RED=2;
+public class ShortGolem extends Autonomous {
+    public static final int BLUE=0,GREEN=1,RED=2,PURPLE=3;
     private int golemType;
     private Animator golemAnimator;
     private ImageResource golem;
     private SmartRectangle hitbox=new SmartRectangle(x,y,width,height);
-    public SimpleGolem(int golemType, int subLevel, float spawnX, float spawnY) {
+    public ShortGolem(int golemType, int subLevel, float spawnX, float spawnY) {
         super(subLevel, spawnX, spawnY);
         this.golemType=golemType;
         switch(golemType){
@@ -37,6 +38,10 @@ public class SimpleGolem extends Autonomous {
             case RED:
                 health=3;
                 golemAnimator=new Animator(ResourceHandler.getGolemLoader().getRedGolemWalk(direction),10);
+                break;
+            case PURPLE:
+                health=2;
+                golemAnimator=new Animator(ResourceHandler.getGolemLoader().getPurpleGolemWalk(direction),10);
                 break;
         }
     }
@@ -114,6 +119,9 @@ public class SimpleGolem extends Autonomous {
                 case RED:
                     golem = ResourceHandler.getGolemLoader().getRedGolem(direction);
                     break;
+                case PURPLE:
+                    golem=ResourceHandler.getGolemLoader().getPurpleGolem(direction);
+                    break;
             }
         }else{
             golem=golemAnimator.getCurrentFrame();
@@ -129,6 +137,9 @@ public class SimpleGolem extends Autonomous {
                 case RED:
                     golemAnimator.setFrames(ResourceHandler.getGolemLoader().getRedGolemWalk(direction));
                     break;
+                case PURPLE:
+                    golemAnimator.setFrames(ResourceHandler.getGolemLoader().getPurpleGolemWalk(direction));
+                    break;
             }
         }else if(state==1){
             switch(golemType) {
@@ -140,6 +151,9 @@ public class SimpleGolem extends Autonomous {
                     break;
                 case RED:
                     golemAnimator.setFrames(ResourceHandler.getGolemLoader().getRedGolemAttack(direction));
+                    break;
+                case PURPLE:
+                    golemAnimator.setFrames(ResourceHandler.getGolemLoader().getPurpleGolemAttack(direction));
                     break;
             }
         }else if(state==2){
@@ -153,10 +167,13 @@ public class SimpleGolem extends Autonomous {
                 case RED:
                     golemAnimator.setFrames(new ImageResource[]{ResourceHandler.getGolemLoader().getRedGolemKnockback(direction)});
                     break;
+                case PURPLE:
+                    golemAnimator.setFrames(new ImageResource[]{ResourceHandler.getGolemLoader().getPurpleGolemKnockback(direction)});
+                    break;
             }
         }
         golemAnimator.update();
-        if(state==1&&golemAnimator.getCurrentFrameNum()==3){
+        if(state==1&&golemAnimator.getCurrentFrameNum()==golemAnimator.getFrames().length-1){
             state=0;
             Attack.attack(this,1,4);
         }
@@ -173,7 +190,10 @@ public class SimpleGolem extends Autonomous {
             attackCooldown--;
             return;
         }
-        if(Main.getHarold().getY()>y+height||Main.getHarold().getY()+Main.getHarold().getWidth()<y)return;
+        if(Main.getHarold().getY()>y+height||Main.getHarold().getY()+Main.getHarold().getWidth()<y){
+            state=0;
+            return;
+        }
         if(direction){
             if(Main.getHarold().getX()>=x&&Main.getHarold().getX()<=x+width+4){
                 state=1;
@@ -215,8 +235,21 @@ public class SimpleGolem extends Autonomous {
                 return "Green Golem @ " + x + "," + y;
             case RED:
                 return "Red Golem @ " + x + "," + y;
+            case PURPLE:
+                return "Purple Golem @ "+x+","+y;
             default:
                 return "Golem @ " + x + "," + y;
+        }
+    }
+
+    @Override
+    public void doDamage(Entity attacker, int damage) {
+        if(golemType!=PURPLE)super.doDamage(attacker, damage);
+        else{
+            if(direction)attackerBehind=attacker.getX()<x;
+            else attackerBehind=attacker.getX()>x;
+            if(attackerBehind)direction=!direction;
+            else if(!invincible)super.doDamage(attacker,damage);
         }
     }
 }
