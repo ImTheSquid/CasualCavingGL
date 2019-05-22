@@ -32,7 +32,10 @@ public class Level4 extends Level {
         World.clearEntites();
         World.addEntities(super.getEntityRegisterArray());
         ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
-        if(subLevel!=4)rightBound=Render.unitsWide;
+        if(subLevel!=4){
+            rightBound=Render.unitsWide;
+            rightLimit=Render.unitsWide+1;
+        }
         if(subLevel!=5)leftLimit=-1;
         switch(subLevel){
             case 0:
@@ -62,6 +65,7 @@ public class Level4 extends Level {
                         new HeightVal(26,8,76,true),
                         new HeightVal(76,14,84,true)});
                 rightBound=84;
+                rightLimit=84;
                 break;
             case 5:
                 HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7,Render.unitsWide,true)});
@@ -88,14 +92,16 @@ public class Level4 extends Level {
     @Override
     public void reset() {
         clearEntityRegister();
-        entityRegister.add(new TallGolem(TallGolem.BLUE,0,25,7));
+        entityRegister.add(new LifeCrystal(1,84,8));
+        entityRegister.add(new LifeCrystal(3,38,32));
+        entityRegister.add(new LifeCrystal(6,77,7));
         entityRegister.add(new ShortGolem(ShortGolem.BLUE,0,25,7));
         entityRegister.add(new ShortGolem(ShortGolem.RED,0,50,7));
         entityRegister.add(new ShortGolem(ShortGolem.GREEN,1,50,29));
         entityRegister.add(new ShortGolem(ShortGolem.PURPLE,2,24,31));
         entityRegister.add(new ShortGolem(ShortGolem.GREEN,3,52,30));
-        entityRegister.add(new LifeCrystal(1,84,8));
-        entityRegister.add(new LifeCrystal(3,38,32));
-        entityRegister.add(new LifeCrystal(6,77,7));
+        entityRegister.add(new TallGolem(ShortGolem.BLUE,4,44,10));
+        entityRegister.add(new TallGolem(TallGolem.BLUE,6,18,46));
+        entityRegister.add(new TallGolem(TallGolem.BLUE,6,60,46));
     }
 }

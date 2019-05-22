@@ -173,6 +173,7 @@ public class Harold extends Entity{
         }
         else Graphics.setColor(1,1,1,1);
         Graphics.drawImage(harold,x,y);
+        Graphics.setColor(1,1,1,1);
     }
 
     public void renderHealth(){
@@ -188,6 +189,7 @@ public class Harold extends Entity{
 
     @Override
     public void reset() {
+        ResourceHandler.getHaroldLoader().disableAttackPause();
         ResourceHandler.getHaroldLoader().setState(HaroldLoader.NORMAL);
         movement=true;
         x=65;

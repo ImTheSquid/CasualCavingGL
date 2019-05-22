@@ -223,6 +223,7 @@ public class ShortGolem extends Autonomous {
         }
         else Graphics.setColor(1,1,1,1);
         Graphics.drawImage(golem,x,y);
+        Graphics.setColor(1,1,1,1);
     }
 
     @Override

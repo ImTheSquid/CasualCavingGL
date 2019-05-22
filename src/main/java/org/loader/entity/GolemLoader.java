@@ -173,7 +173,7 @@ public class GolemLoader {
 
     public ImageResource[] getTallBlueGolemWalk(boolean faceRight){return faceRight?tbgWalkRight:tbgWalkLeft;}
 
-    public ImageResource[] getTallBueGolemJump(boolean faceRight){return faceRight?tbgJumpRight:tbgJumpLeft;}
+    public ImageResource[] getTallBlueGolemJump(boolean faceRight){return faceRight?tbgJumpRight:tbgJumpLeft;}
 
     public ImageResource getTallBlueGolemKnockback(boolean faceRight){return faceRight?tbgDamage[0]:tbgDamage[1];}
 }

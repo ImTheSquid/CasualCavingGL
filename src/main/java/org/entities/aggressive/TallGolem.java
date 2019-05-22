@@ -17,6 +17,7 @@ public class TallGolem extends Autonomous {
     private Animator golemAnimator;
     private SmartRectangle hitbox=new SmartRectangle(x,y,width,height);
     private ImageResource golem;
+    private boolean jump=false;
     public TallGolem(int golemType, int subLevel, float spawnX, float spawnY) {
         super(subLevel, spawnX, spawnY);
         this.golemType=golemType;
@@ -47,6 +48,13 @@ public class TallGolem extends Autonomous {
             damageTakenFrame--;
         }
 
+        if(damageCooldown>0){
+            damageCooldown--;
+            state=2;
+        }else if(state==2){
+            state=0;
+        }
+
         //Y-Velocity Calculations
         y+=vY;
         vY-= World.getGravity();
@@ -60,8 +68,8 @@ public class TallGolem extends Autonomous {
                 if (vX < 0) x += vX;
                 else vX=0;
                 doXCalc=false;
-                if(hv.getHeight()>y+height*2)direction=!direction;
-                //else vY=2.5f;
+                if(hv.getHeight()>y+height*1.25)direction=!direction;
+                else if(state!=3)state=3;
                 x-=.25f;
             }
         }
@@ -71,13 +79,11 @@ public class TallGolem extends Autonomous {
                 if(vX>0)x+=vX;
                 else vX=0;
                 doXCalc=false;
-                if(hv.getHeight()>y+height*2)direction=!direction;
-                //else vY=2.5f;
+                if(hv.getHeight()>y+height*1.25)direction=!direction;
+                else if(state!=3)state=3;
                 x+=.25f;
             }
         }
-        if(vY>0)state=3;
-
         if(doXCalc){
             x+=vX;
             doXCalc();
@@ -87,6 +93,8 @@ public class TallGolem extends Autonomous {
         if(h.isOnGround()&&vY<0){
             y=h.getGroundLevel();
             vY=0;
+            if(state==3&&golemAnimator.getCurrentFrameNum()==golemAnimator.getFrames().length-1)
+                state=0;
         }
 
         doAttackCalc();
@@ -114,13 +122,35 @@ public class TallGolem extends Autonomous {
                         break;
                 }
                 break;
+            case 2:
+                switch(golemType){
+                    case BLUE:
+                        golemAnimator.setFrames(new ImageResource[]{ResourceHandler.getGolemLoader().getTallBlueGolemKnockback(direction)});
+                        break;
+                }
+                break;
+            case 3:
+                switch(golemType){
+                    case BLUE:
+                        golemAnimator.setFrames(ResourceHandler.getGolemLoader().getTallBlueGolemJump(direction));
+                        break;
+                }
+                break;
         }
 
-        golemAnimator.update();
+        if (state != 3 || golemAnimator.getCurrentFrameNum() != golemAnimator.getFrames().length - 1) {
+            golemAnimator.update();
+        }
 
         if(state==1&&golemAnimator.getCurrentFrameNum()==golemAnimator.getFrames().length-1){
             state=0;
             Attack.attack(this,1,4);
+        }
+        if(state==3&&golemAnimator.getCurrentFrameNum()==golemAnimator.getFrames().length-1){
+            if(vY==0){
+                vY=2.5f;
+                jump=true;
+            }
         }
     }
 
@@ -130,6 +160,7 @@ public class TallGolem extends Autonomous {
     }
 
     private void doAttackCalc(){
+        if(state!=0)return;
         if(attackCooldown>0){
             attackCooldown--;
             return;
@@ -166,6 +197,7 @@ public class TallGolem extends Autonomous {
         }
         else Graphics.setColor(1,1,1,1);
         Graphics.drawImage(golem,x,y);
+        Graphics.setColor(1,1,1,1);
     }
 
     @Override
@@ -175,6 +207,11 @@ public class TallGolem extends Autonomous {
 
     @Override
     public String toString() {
-        return null;
+        switch(golemType) {
+            case 0:
+                return "Tall Blue Golem @ " + x + "," + y;
+            default:
+                return "Tall Golem @ "+x+","+y;
+        }
     }
 }
