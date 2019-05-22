@@ -30,18 +30,22 @@ public class ShortGolem extends Autonomous {
             case BLUE:
                 health=2;
                 golemAnimator=new Animator(ResourceHandler.getGolemLoader().getBlueGolemWalk(direction),10);
+                displayName="Blue Golem";
                 break;
             case GREEN:
                 health=2;
                 golemAnimator=new Animator(ResourceHandler.getGolemLoader().getGreenGolemWalk(direction),10);
+                displayName="Green Golem";
                 break;
             case RED:
                 health=3;
                 golemAnimator=new Animator(ResourceHandler.getGolemLoader().getRedGolemWalk(direction),10);
+                displayName="Red Golem";
                 break;
             case PURPLE:
                 health=2;
                 golemAnimator=new Animator(ResourceHandler.getGolemLoader().getPurpleGolemWalk(direction),10);
+                displayName="Purple Golem";
                 break;
         }
     }

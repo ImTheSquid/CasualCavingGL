@@ -4,6 +4,7 @@ import org.loader.ImageResource;
 
 public class GolemLoader {
 
+    //REGULAR GOLEMS
     //Blue Golem
 
     private ImageResource[] blueGolem={new ImageResource("/CasualCaving/Entities/BlueGolem/BlueGolemStill.png"),
@@ -131,4 +132,48 @@ public class GolemLoader {
     public ImageResource[] getPurpleGolemAttack(boolean faceRight){return faceRight?purpleGolemAttackRight:purpleGolemAttackLeft;}
 
     public ImageResource getPurpleGolemKnockback(boolean faceRight){return faceRight?purpleGolemKnockback[0]:purpleGolemKnockback[1];}
+
+    //TALL GOLEMS
+    //Tall Blue Golem
+
+    private final ImageResource[] tbgStill={new ImageResource("/CasualCaving/Entities/BlueTallGolem/TallGolemBlueStillFR.png"),
+            new ImageResource("/CasualCaving/Entities/BlueTallGolem/TallGolemBlueStillFL.png")};
+    private final ImageResource[] tbgDamage={new ImageResource("/CasualCaving/Entities/BlueTallGolem/TallGolemBlueTakingDamageFR.png"),
+            new ImageResource("/CasualCaving/Entities/BlueTallGolem/TallGolemBlueTakingDamage.png")};
+    private final ImageResource[] tbgAttackLeft={new ImageResource("/CasualCaving/Entities/BlueTallGolem/TallGolemBlueA1FL.png"),
+            new ImageResource("/CasualCaving/Entities/BlueTallGolem/TallGolemBlueA2FL.png"),
+            new ImageResource("/CasualCaving/Entities/BlueTallGolem/TallGolemBlueA3FL.png")};
+    private final ImageResource[] tbgAttackRight={new ImageResource("/CasualCaving/Entities/BlueTallGolem/TallGolemBlueA1FR.png"),
+            new ImageResource("/CasualCaving/Entities/BlueTallGolem/TallGolemBlueA2FR.png"),
+            new ImageResource("/CasualCaving/Entities/BlueTallGolem/TallGolemBlueA3FR.png")};
+    private final ImageResource[] tbgJumpLeft={new ImageResource("/CasualCaving/Entities/BlueTallGolem/TallGolemBlueJ1FL.png"),
+            new ImageResource("/CasualCaving/Entities/BlueTallGolem/TallGolemBlueJ2FL.png"),
+            new ImageResource("/CasualCaving/Entities/BlueTallGolem/TallGolemBlueJ4FL.png"),
+            new ImageResource("/CasualCaving/Entities/BlueTallGolem/TallGolemBlueJ5FL.png"),
+            new ImageResource("/CasualCaving/Entities/BlueTallGolem/TallGolemBlueJ6FL.png")};
+    private final ImageResource[] tbgJumpRight={new ImageResource("/CasualCaving/Entities/BlueTallGolem/TallGolemBlueJ1FR.png"),
+            new ImageResource("/CasualCaving/Entities/BlueTallGolem/TallGolemBlueJ2FR.png"),
+            new ImageResource("/CasualCaving/Entities/BlueTallGolem/TallGolemBlueJ4FR.png"),
+            new ImageResource("/CasualCaving/Entities/BlueTallGolem/TallGolemBlueJ5FR.png"),
+            new ImageResource("/CasualCaving/Entities/BlueTallGolem/TallGolemBlueJ6FR.png")};
+    private final ImageResource[] tbgWalkLeft={new ImageResource("/CasualCaving/Entities/BlueTallGolem/TallGolemBlueW1FL.png"),
+            new ImageResource("/CasualCaving/Entities/BlueTallGolem/TallGolemBlueW2FL.png"),
+            new ImageResource("/CasualCaving/Entities/BlueTallGolem/TallGolemBlueW3FL.png"),
+            new ImageResource("/CasualCaving/Entities/BlueTallGolem/TallGolemBlueW4FL.png"),
+            new ImageResource("/CasualCaving/Entities/BlueTallGolem/TallGolemBlueW5FL.png")};
+    private final ImageResource[] tbgWalkRight={new ImageResource("/CasualCaving/Entities/BlueTallGolem/TallGolemBlueW1FR.png"),
+            new ImageResource("/CasualCaving/Entities/BlueTallGolem/TallGolemBlueW2FR.png"),
+            new ImageResource("/CasualCaving/Entities/BlueTallGolem/TallGolemBlueW3FR.png"),
+            new ImageResource("/CasualCaving/Entities/BlueTallGolem/TallGolemBlueW4FR.png"),
+            new ImageResource("/CasualCaving/Entities/BlueTallGolem/TallGolemBlueW5FR.png")};
+
+    public ImageResource getTallBlueGolem(boolean faceRight){return faceRight?tbgStill[0]:tbgStill[1];}
+
+    public ImageResource[] getTallBlueGolemAttack(boolean faceRight){return faceRight?tbgAttackRight:tbgAttackLeft;}
+
+    public ImageResource[] getTallBlueGolemWalk(boolean faceRight){return faceRight?tbgWalkRight:tbgWalkLeft;}
+
+    public ImageResource[] getTallBueGolemJump(boolean faceRight){return faceRight?tbgJumpRight:tbgJumpLeft;}
+
+    public ImageResource getTallBlueGolemKnockback(boolean faceRight){return faceRight?tbgDamage[0]:tbgDamage[1];}
 }
