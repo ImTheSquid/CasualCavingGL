@@ -62,6 +62,7 @@ public class TallGolem extends Autonomous {
         //X-Velocity and Jumping Calculations
         boolean doXCalc=true;
 
+        if(state != 3 || golemAnimator.getCurrentFrameNum() == golemAnimator.getFrames().length - 1)
         if (HeightMap.checkRightCollision(hitbox)) {
             HeightVal hv=HeightMap.findApplicable(hitbox,true);
             if (x + width + 0.5>= hv.getStartX()) {
