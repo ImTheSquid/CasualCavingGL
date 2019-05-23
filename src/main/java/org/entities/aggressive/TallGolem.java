@@ -68,19 +68,24 @@ public class TallGolem extends Autonomous {
                 if (vX < 0) x += vX;
                 else vX=0;
                 doXCalc=false;
-                if(hv.getHeight()>y+height*1.25)direction=!direction;
-                else if(state!=3)state=3;
+                if(hv.getHeight()>y+height*1.3)direction=!direction;
+                else if(state!=3){
+                    state=3;
+                }
                 x-=.25f;
             }
         }
+        if(state != 3 || golemAnimator.getCurrentFrameNum() == golemAnimator.getFrames().length - 1)
         if(HeightMap.checkLeftCollision(hitbox)){
             HeightVal hv=HeightMap.findApplicable(hitbox,false);
             if(x-0.5<=hv.getEndX()){
                 if(vX>0)x+=vX;
                 else vX=0;
                 doXCalc=false;
-                if(hv.getHeight()>y+height*1.25)direction=!direction;
-                else if(state!=3)state=3;
+                if(hv.getHeight()>y+height*1.3)direction=!direction;
+                else if(state!=3){
+                    state=3;
+                }
                 x+=.25f;
             }
         }
