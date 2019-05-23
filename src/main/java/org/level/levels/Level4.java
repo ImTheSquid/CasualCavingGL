@@ -64,7 +64,7 @@ public class Level4 extends Level {
                 HeightMap.setHeights(new HeightVal[]{new HeightVal(0,32,26,true),
                         new HeightVal(26,8,76,true),
                         new HeightVal(76,14,84,true)});
-                rightBound=84;
+                rightBound=83;
                 rightLimit=84;
                 break;
             case 5:
