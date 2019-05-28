@@ -104,5 +104,14 @@ public class HeightMap {
         return val;
     }
 
+    public static HeightVal findNextWall(SmartRectangle r,boolean right){
+        ArrayList<HeightVal> applicable=new ArrayList<>();
+        if(right){
 
+        }else{
+            for(HeightVal h:heights){
+                if(h.getEndX()<=r.getX()&&!h.isOpaque())applicable.add(h);
+            }
+        }
+    }
 }
