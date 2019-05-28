@@ -29,7 +29,7 @@ public class HeightMap {
 
     //For being able to drop below platforms
     //Calculates the HeightVal below the platform, if there is one
-    public static HeightVal onPlatform(SmartRectangle r){
+    private static HeightVal onPlatform(SmartRectangle r){
         if(singleHeight||!onGround(r).isOnGround())return null;
         ArrayList<HeightVal> temp=findBounds(r);
         for(HeightVal h:temp){
@@ -106,12 +106,21 @@ public class HeightMap {
 
     public static HeightVal findNextWall(SmartRectangle r,boolean right){
         ArrayList<HeightVal> applicable=new ArrayList<>();
+        HeightVal out=null;
+        if(onPlatform(r)!=null)return null;
         if(right){
-
+            for(HeightVal h:heights){
+                if(h.getStartX()>=r.getX()+r.getWidth()&&h.isOpaque())applicable.add(h);
+            }
         }else{
             for(HeightVal h:heights){
-                if(h.getEndX()<=r.getX()&&!h.isOpaque())applicable.add(h);
+                if(h.getEndX()<=r.getX()&&h.isOpaque())applicable.add(h);
             }
         }
+        if(applicable.size()==0)return null;
+        for(HeightVal h:applicable){
+            if(h.getHeight()>r.getY())out=h;
+        }
+        return out;
     }
 }

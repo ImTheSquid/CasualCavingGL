@@ -17,7 +17,6 @@ public class TallGolem extends Autonomous {
     private Animator golemAnimator;
     private SmartRectangle hitbox=new SmartRectangle(x,y,width,height);
     private ImageResource golem;
-    private boolean jump=false;
     public TallGolem(int golemType, int subLevel, float spawnX, float spawnY) {
         super(subLevel, spawnX, spawnY);
         this.golemType=golemType;
@@ -62,34 +61,40 @@ public class TallGolem extends Autonomous {
         //X-Velocity and Jumping Calculations
         boolean doXCalc=true;
 
-        if(state != 3 || golemAnimator.getCurrentFrameNum() == golemAnimator.getFrames().length - 1)
         if (HeightMap.checkRightCollision(hitbox)) {
             HeightVal hv=HeightMap.findApplicable(hitbox,true);
-            if (x + width + 0.5>= hv.getStartX()) {
+            if (hv!=null&&x + width + 0.5>= hv.getStartX()) {
                 if (vX < 0) x += vX;
                 else vX=0;
                 doXCalc=false;
-                if(hv.getHeight()>y+height*1.3)direction=!direction;
-                else if(state!=3){
-                    state=3;
-                }
+                direction=!direction;
                 x-=.25f;
             }
         }
-        if(state != 3 || golemAnimator.getCurrentFrameNum() == golemAnimator.getFrames().length - 1)
         if(HeightMap.checkLeftCollision(hitbox)){
             HeightVal hv=HeightMap.findApplicable(hitbox,false);
-            if(x-0.5<=hv.getEndX()){
+            if(hv!=null&&x-0.5<=hv.getEndX()){
                 if(vX>0)x+=vX;
                 else vX=0;
                 doXCalc=false;
-                if(hv.getHeight()>y+height*1.3)direction=!direction;
-                else if(state!=3){
-                    state=3;
-                }
+                direction=!direction;
                 x+=.25f;
             }
         }
+        HeightVal wall=HeightMap.findNextWall(hitbox,direction);
+        final int jumpDist=5;
+        if(wall !=null&&y+32>=wall.getHeight()) {
+            if (direction) {
+                if (wall.getStartX() - x - width <= jumpDist) {
+                    state = 3;
+                }
+            } else {
+                if (x - wall.getEndX() <= jumpDist) {
+                    state = 3;
+                }
+            }
+        }
+        if(state==3&&golemAnimator.getCurrentFrameNum()<golemAnimator.getFrames().length-1)doXCalc=false;
         if(doXCalc){
             x+=vX;
             doXCalc();
@@ -144,7 +149,7 @@ public class TallGolem extends Autonomous {
                 break;
         }
 
-        if (state != 3 || golemAnimator.getCurrentFrameNum() != golemAnimator.getFrames().length - 1) {
+        if (state != 3 || golemAnimator.getCurrentFrameNum() < golemAnimator.getFrames().length - 1) {
             golemAnimator.update();
         }
 
@@ -154,15 +159,16 @@ public class TallGolem extends Autonomous {
         }
         if(state==3&&golemAnimator.getCurrentFrameNum()==golemAnimator.getFrames().length-1){
             if(vY==0){
-                vY=2.5f;
-                jump=true;
+                vY=3f;
             }
         }
     }
 
     private void doXCalc(){
         Level l= LevelController.getCurrentLevel();
-        if(x<l.getLeftLimit()||x+width>l.getRightLimit())direction=!direction;
+        if(x<l.getLeftLimit()||x+width>l.getRightLimit()){
+            direction=!direction;
+        }
     }
 
     private void doAttackCalc(){

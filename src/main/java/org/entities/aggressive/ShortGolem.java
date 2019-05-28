@@ -10,10 +10,7 @@ import org.level.Level;
 import org.level.LevelController;
 import org.loader.ImageResource;
 import org.loader.ResourceHandler;
-import org.world.Attack;
-import org.world.HeightMap;
-import org.world.HeightReturn;
-import org.world.World;
+import org.world.*;
 
 //This class encompasses the blue, green, and red golems, as their classes are very similar
 
@@ -75,7 +72,8 @@ public class ShortGolem extends Autonomous {
         boolean doXCalc=true;
 
         if (HeightMap.checkRightCollision(hitbox)) {
-            if (x + width + 0.5>= HeightMap.findApplicable(hitbox,true).getStartX()) {
+            HeightVal hv=HeightMap.findApplicable(hitbox,true);
+            if (hv!=null&&x + width + 0.5>= hv.getStartX()) {
                 if (vX < 0) x += vX;
                 else vX=0;
                 doXCalc=false;
@@ -84,7 +82,8 @@ public class ShortGolem extends Autonomous {
             }
         }
         if(HeightMap.checkLeftCollision(hitbox)){
-            if(x-0.5<=HeightMap.findApplicable(hitbox,false).getEndX()){
+            HeightVal hv=HeightMap.findApplicable(hitbox,false);
+            if(hv!=null&&x-0.5<=hv.getEndX()){
                 if(vX>0)x+=vX;
                 else vX=0;
                 doXCalc=false;
