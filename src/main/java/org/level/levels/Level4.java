@@ -1,5 +1,6 @@
 package org.level.levels;
 
+import org.entities.aggressive.RedMajor;
 import org.entities.aggressive.ShortGolem;
 import org.entities.aggressive.TallGolem;
 import org.entities.passive.LifeCrystal;
@@ -14,6 +15,7 @@ import org.world.HeightVal;
 import org.world.World;
 
 public class Level4 extends Level {
+    private RedMajor redMajor=new RedMajor();
     public Level4(ImageResource[][] backgrounds) {
         super(backgrounds, backgrounds.length);
     }
@@ -70,6 +72,8 @@ public class Level4 extends Level {
             case 5:
                 HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7,Render.unitsWide,true)});
                 leftLimit=0;
+                if(redMajor.getHealth()>0)rightLimit=Render.unitsWide;
+                else rightLimit=Render.unitsWide+1;
                 break;
         }
     }
@@ -91,6 +95,7 @@ public class Level4 extends Level {
 
     @Override
     public void reset() {
+        redMajor.reset();
         clearEntityRegister();
         entityRegister.add(new LifeCrystal(1,84,8));
         entityRegister.add(new LifeCrystal(3,38,32));
@@ -103,5 +108,6 @@ public class Level4 extends Level {
         entityRegister.add(new TallGolem(ShortGolem.BLUE,4,44,10));
         entityRegister.add(new TallGolem(TallGolem.BLUE,6,18,46));
         entityRegister.add(new TallGolem(TallGolem.BLUE,6,60,46));
+        entityRegister.add(redMajor);
     }
 }

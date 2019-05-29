@@ -117,36 +117,8 @@ public class TallGolem extends Autonomous {
                     golemAnimator.setFrames(new ImageResource[]{ResourceHandler.getGolemLoader().getTallBlueGolem(direction)});
                     break;
             }
-        }else golem=golemAnimator.getCurrentFrame();
-        switch (state){
-            case 0:
-                switch(golemType){
-                    case BLUE:
-                        golemAnimator.setFrames(ResourceHandler.getGolemLoader().getTallBlueGolemWalk(direction));
-                        break;
-                }
-                break;
-            case 1:
-                switch(golemType){
-                    case BLUE:
-                        golemAnimator.setFrames(ResourceHandler.getGolemLoader().getTallBlueGolemAttack(direction));
-                        break;
-                }
-                break;
-            case 2:
-                switch(golemType){
-                    case BLUE:
-                        golemAnimator.setFrames(new ImageResource[]{ResourceHandler.getGolemLoader().getTallBlueGolemKnockback(direction)});
-                        break;
-                }
-                break;
-            case 3:
-                switch(golemType){
-                    case BLUE:
-                        golemAnimator.setFrames(ResourceHandler.getGolemLoader().getTallBlueGolemJump(direction));
-                        break;
-                }
-                break;
+        }else {
+            doSpriteCalc();
         }
 
         if (state != 3 || golemAnimator.getCurrentFrameNum() < golemAnimator.getFrames().length - 1) {
@@ -161,6 +133,40 @@ public class TallGolem extends Autonomous {
             if(vY==0){
                 vY=3f;
             }
+        }
+    }
+
+    private void doSpriteCalc(){
+        golem = golemAnimator.getCurrentFrame();
+        switch (state) {
+            case 0:
+                switch (golemType) {
+                    case BLUE:
+                        golemAnimator.setFrames(ResourceHandler.getGolemLoader().getTallBlueGolemWalk(direction));
+                        break;
+                }
+                break;
+            case 1:
+                switch (golemType) {
+                    case BLUE:
+                        golemAnimator.setFrames(ResourceHandler.getGolemLoader().getTallBlueGolemAttack(direction));
+                        break;
+                }
+                break;
+            case 2:
+                switch (golemType) {
+                    case BLUE:
+                        golemAnimator.setFrames(new ImageResource[]{ResourceHandler.getGolemLoader().getTallBlueGolemKnockback(direction)});
+                        break;
+                }
+                break;
+            case 3:
+                switch (golemType) {
+                    case BLUE:
+                        golemAnimator.setFrames(ResourceHandler.getGolemLoader().getTallBlueGolemJump(direction));
+                        break;
+                }
+                break;
         }
     }
 

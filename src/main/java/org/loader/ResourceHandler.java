@@ -1,5 +1,6 @@
 package org.loader;
 
+import org.loader.entity.BossLoader;
 import org.loader.entity.CrowdLoader;
 import org.loader.entity.GolemLoader;
 import org.loader.entity.MiscLoader;
@@ -12,6 +13,7 @@ public class ResourceHandler {
     private static CrowdLoader crowdLoader=new CrowdLoader();
     private static GolemLoader golemLoader=new GolemLoader();
     private static MiscLoader miscLoader=new MiscLoader();
+    private static BossLoader bossLoader=new BossLoader();
 
     public static HaroldLoader getHaroldLoader(){
         return haroldLoader;
@@ -31,5 +33,9 @@ public class ResourceHandler {
 
     public static MiscLoader getMiscLoader() {
         return miscLoader;
+    }
+
+    public static BossLoader getBossLoader() {
+        return bossLoader;
     }
 }

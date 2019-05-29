@@ -126,11 +126,20 @@ public class ShortGolem extends Autonomous {
                     golem=ResourceHandler.getGolemLoader().getPurpleGolem(direction);
                     break;
             }
-        }else{
-            golem=golemAnimator.getCurrentFrame();
+        }else {
+            doSpriteCalc();
         }
-        if(state==0){
-            switch(golemType) {
+        golemAnimator.update();
+        if(state==1&&golemAnimator.getCurrentFrameNum()==golemAnimator.getFrames().length-1){
+            state=0;
+            Attack.attack(this,1,4);
+        }
+    }
+
+    private void doSpriteCalc(){
+        golem = golemAnimator.getCurrentFrame();
+        if (state == 0) {
+            switch (golemType) {
                 case BLUE:
                     golemAnimator.setFrames(ResourceHandler.getGolemLoader().getBlueGolemWalk(direction));
                     break;
@@ -144,8 +153,8 @@ public class ShortGolem extends Autonomous {
                     golemAnimator.setFrames(ResourceHandler.getGolemLoader().getPurpleGolemWalk(direction));
                     break;
             }
-        }else if(state==1){
-            switch(golemType) {
+        } else if (state == 1) {
+            switch (golemType) {
                 case BLUE:
                     golemAnimator.setFrames(ResourceHandler.getGolemLoader().getBlueGolemAttack(direction));
                     break;
@@ -159,7 +168,7 @@ public class ShortGolem extends Autonomous {
                     golemAnimator.setFrames(ResourceHandler.getGolemLoader().getPurpleGolemAttack(direction));
                     break;
             }
-        }else if(state==2){
+        } else if (state == 2) {
             switch (golemType) {
                 case BLUE:
                     golemAnimator.setFrames(new ImageResource[]{ResourceHandler.getGolemLoader().getBlueGolemKnockback(direction)});
@@ -174,11 +183,6 @@ public class ShortGolem extends Autonomous {
                     golemAnimator.setFrames(new ImageResource[]{ResourceHandler.getGolemLoader().getPurpleGolemKnockback(direction)});
                     break;
             }
-        }
-        golemAnimator.update();
-        if(state==1&&golemAnimator.getCurrentFrameNum()==golemAnimator.getFrames().length-1){
-            state=0;
-            Attack.attack(this,1,4);
         }
     }
 
