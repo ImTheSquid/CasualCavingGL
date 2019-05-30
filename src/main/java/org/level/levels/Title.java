@@ -74,6 +74,7 @@ public class Title extends Level {
         if(start.isPressed()||Keyboard.keys.contains(VK_ENTER)){
             ResourceHandler.getHaroldLoader().setState(HaroldLoader.NORMAL);
             LevelController.resetAll();
+            World.clearEntites();
             Main.getHarold().reset();
             World.setGame(true);
             World.getMaster().setActive(false);
