@@ -61,6 +61,8 @@ public class RedMajor extends Autonomous {
             if (x < l.getLeftLimit() || x + width > l.getRightLimit()) direction = !direction;
         }
 
+        if(direction&&Main.getHarold().getX()+Main.getHarold().getWidth()<x||!direction&&Main.getHarold().getX()>x+width)direction=!direction;
+
         //Current sprite calculations
         if(damageCooldown>0){
             damageCooldown--;

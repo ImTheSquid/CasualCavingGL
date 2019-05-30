@@ -161,6 +161,7 @@ public class Level3 extends Level {
         hematus.setCurrent(0);
         igneox.setActive(false);
         igneox.setCurrent(0);
+        switchFade=0;
         clearEntityRegister();
         entityRegister.add(new ShortGolem(ShortGolem.BLUE,5,20,7));
         entityRegister.add(new ShortGolem(ShortGolem.GREEN,6,79,34));
