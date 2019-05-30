@@ -19,16 +19,20 @@ public class RedMajor extends Autonomous {
     private Animator redAnimator;
     private ImageResource redMajor;
     private SmartRectangle hitbox=new SmartRectangle(x,y,width,height);
-    private boolean doStartReady=true;
+    private boolean doStartReady=true,startFight=false;
     public RedMajor() {
         super(5, 75, 7);
         reset();
     }
 
+    public void setStartFight(boolean startFight) {
+        this.startFight = startFight;
+    }
+
     @Override
     public void update() {
+        if(!startFight)return;
         HeightReturn heightReturn= HeightMap.onGround(hitbox);
-
         //Determines movement and knockback
         if(damageTakenFrame==0) {
             if (direction) {
@@ -69,7 +73,7 @@ public class RedMajor extends Autonomous {
         if(state==ATTACK&&redAnimator.getCurrentFrameNum()==redAnimator.getFrames().length-1){
             redAnimator.setDelay(7);
             state=NORMAL;
-            Attack.attack(this,1,4);
+            Attack.attack(this,1,5);
         }
 
         if(vX==0)redAnimator.setFrames(new ImageResource[]{ResourceHandler.getBossLoader().getRedMajorStill(direction)});
@@ -104,6 +108,12 @@ public class RedMajor extends Autonomous {
             state=NORMAL;
         }
 
+        if(state==READYING&&redAnimator.getCurrentFrameNum()==redAnimator.getFrames().length-1){
+            redMajor=redAnimator.getCurrentFrame();
+            redAnimator.setDelay(1);
+            state=ATTACK;
+            redAnimator.setCurrentFrame(0);
+        }
         redMajor = redAnimator.getCurrentFrame();
     }
 
@@ -118,13 +128,13 @@ public class RedMajor extends Autonomous {
         }
         if(direction){
             if(Main.getHarold().getX()>=x&&Main.getHarold().getX()<=x+width+5){
-                state=ATTACK;
+                state=READYING;
                 redAnimator.setCurrentFrame(0);
                 attackCooldown=100;
             }
         }else{
             if(Main.getHarold().getX()+Main.getHarold().getWidth()<=x+width&&Main.getHarold().getWidth()+Main.getHarold().getX()>=x-5){
-                state=ATTACK;
+                state=READYING;
                 redAnimator.setCurrentFrame(0);
                 attackCooldown=100;
             }
@@ -148,8 +158,11 @@ public class RedMajor extends Autonomous {
     public void reset() {
         direction=false;
         redAnimator=new Animator(ResourceHandler.getBossLoader().getRedMajorReady(false),1);
+        redMajor=redAnimator.getCurrentFrame();
         health=8;
         state=READYING;
+        doStartReady=true;
+        startFight=false;
         redAnimator.setDelay(60);
         x=75;
         y=7;

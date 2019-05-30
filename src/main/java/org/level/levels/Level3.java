@@ -155,6 +155,12 @@ public class Level3 extends Level {
 
     @Override
     public void reset() {
+        isolsi.setActive(false);
+        isolsi.setCurrent(0);
+        hematus.setActive(false);
+        hematus.setCurrent(0);
+        igneox.setActive(false);
+        igneox.setCurrent(0);
         clearEntityRegister();
         entityRegister.add(new ShortGolem(ShortGolem.BLUE,5,20,7));
         entityRegister.add(new ShortGolem(ShortGolem.GREEN,6,79,34));

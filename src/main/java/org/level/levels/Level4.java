@@ -1,5 +1,6 @@
 package org.level.levels;
 
+import org.engine.Main;
 import org.entities.aggressive.RedMajor;
 import org.entities.aggressive.ShortGolem;
 import org.entities.aggressive.TallGolem;
@@ -72,6 +73,7 @@ public class Level4 extends Level {
             case 5:
                 HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7,Render.unitsWide,true)});
                 leftLimit=0;
+                if(Main.getHarold().getX()>10)redMajor.setStartFight(true);
                 if(redMajor.getHealth()>0)rightLimit=Render.unitsWide;
                 else rightLimit=Render.unitsWide+1;
                 break;

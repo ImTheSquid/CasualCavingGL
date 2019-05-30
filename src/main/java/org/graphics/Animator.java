@@ -44,6 +44,7 @@ public class Animator {
             delay--;
             return;
         }
+        if(delay<0)delay=0;
         if(currentTime>lastFrameTime+1000000000/fps){
             if(direction){
                 if(currentFrame==frames.length-1){
@@ -74,5 +75,9 @@ public class Animator {
 
     public long getDelay() {
         return delay;
+    }
+
+    public int getFps() {
+        return fps;
     }
 }
