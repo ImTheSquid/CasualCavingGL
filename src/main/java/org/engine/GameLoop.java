@@ -15,14 +15,13 @@ public class GameLoop {
         Thread game=new Thread(){
             public void run(){
                 lastUpdateTime=System.nanoTime();
-                int fps=0;//TODO Implement FPS counter
+                int fps=0;
                 long lastFpsCheck=System.nanoTime();
                 while(running){
                     long currentTime=System.nanoTime();
                     //Lag protection
                     updates=0;
                     while(currentTime-lastUpdateTime>=targetTime){
-                        //TODO Fix bug where game updates too much after interacting with dialog boxes outside of game
                         World.update();
                         lastUpdateTime+=targetTime;
                         updates++;
@@ -62,4 +61,6 @@ public class GameLoop {
     public int getCurrentFPS() {
         return currentFPS;
     }
+
+    public void overrideUpdateTime(){lastUpdateTime=System.nanoTime();}
 }

@@ -9,10 +9,7 @@ import org.level.LevelController;
 import org.loader.ImageResource;
 import org.loader.ResourceHandler;
 import org.loader.harold.HaroldLoader;
-import org.world.Attack;
-import org.world.HeightMap;
-import org.world.HeightReturn;
-import org.world.World;
+import org.world.*;
 
 import static com.jogamp.newt.event.KeyEvent.VK_W;
 
@@ -23,11 +20,12 @@ public class Harold extends Entity{
     private SmartRectangle hitbox=new SmartRectangle(x,y,width,height);
 
     public Harold(){
+        maxHealth=3;
         reset();
     }
     public void update() {
         if(!movement)return;
-        if(health<=0){//Am I dead?
+        if(health<=0||y+height<-10){//Am I dead?
             World.clearEntites();
             World.setLevel(-1);
         }
@@ -60,7 +58,7 @@ public class Harold extends Entity{
         if(Keyboard.keys.contains(VK_W)&&ResourceHandler.getHaroldLoader().getState()==HaroldLoader.LANTERN&&attackCooldown<=0){
             haroldAnimator.setCurrentFrame(0);
             ResourceHandler.getHaroldLoader().setState(HaroldLoader.ATTACK);
-            attackCooldown=20;
+            attackCooldown=45;
         }
         Keyboard.keys.remove(VK_W);//Fallback if key gets stuck
 
@@ -71,14 +69,16 @@ public class Harold extends Entity{
         boolean doXCalc=true;
 
         if (HeightMap.checkRightCollision(hitbox)) {
-            if (x + width + 0.5>= HeightMap.findApplicable(hitbox,true).getStartX()) {
+            HeightVal hv=HeightMap.findApplicable(hitbox,true);
+            if (hv!=null&&x + width + 0.5>= hv.getStartX()) {
                 if (vX < 0) x += vX;
                 else vX=0;
                 doXCalc=false;
             }
         }
         if(HeightMap.checkLeftCollision(hitbox)){
-            if(x-0.5<=HeightMap.findApplicable(hitbox,false).getEndX()){
+            HeightVal hv=HeightMap.findApplicable(hitbox,false);
+            if(hv!=null&&x-0.5<=hv.getEndX()){
                 if(vX>0)x+=vX;
                 else vX=0;
                 doXCalc=false;
@@ -114,7 +114,7 @@ public class Harold extends Entity{
             ResourceHandler.getHaroldLoader().disableAttackPause();
         }
 
-        Level currentLevel=LevelController.getLevels()[World.getLevel()+1];
+        Level currentLevel=LevelController.getCurrentLevel();
         //TODO cleanup usages
         if(x<currentLevel.getLeftLimit())x=currentLevel.getLeftLimit();
         if(x+width>currentLevel.getRightLimit())x=currentLevel.getRightLimit()-width;
@@ -172,6 +172,7 @@ public class Harold extends Entity{
         }
         else Graphics.setColor(1,1,1,1);
         Graphics.drawImage(harold,x,y);
+        Graphics.setColor(1,1,1,1);
     }
 
     public void renderHealth(){
@@ -187,6 +188,7 @@ public class Harold extends Entity{
 
     @Override
     public void reset() {
+        ResourceHandler.getHaroldLoader().disableAttackPause();
         ResourceHandler.getHaroldLoader().setState(HaroldLoader.NORMAL);
         movement=true;
         x=65;

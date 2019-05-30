@@ -29,7 +29,7 @@ public class HeightMap {
 
     //For being able to drop below platforms
     //Calculates the HeightVal below the platform, if there is one
-    public static HeightVal onPlatform(SmartRectangle r){
+    private static HeightVal onPlatform(SmartRectangle r){
         if(singleHeight||!onGround(r).isOnGround())return null;
         ArrayList<HeightVal> temp=findBounds(r);
         for(HeightVal h:temp){
@@ -79,16 +79,16 @@ public class HeightMap {
     public static boolean checkRightCollision(SmartRectangle r){
         HeightVal current=findApplicable(r,true);
         if(current==null)return false;
-        return !(r.getY()>current.getHeight());
+        return r.getY()<current.getHeight();
     }
 
     public static boolean checkLeftCollision(SmartRectangle r){
         HeightVal current=findApplicable(r,false);
         if(current==null)return false;
-        return !(r.getY()>current.getHeight());
+        return r.getY()<current.getHeight();
     }
 
-    //Calculates the current height map (if opaque)
+    //Calculates the next height map (if opaque)
     public static HeightVal findApplicable(SmartRectangle r,boolean right){
         float xPos;
         if(right)xPos=r.getX()+r.getWidth();
@@ -104,5 +104,23 @@ public class HeightMap {
         return val;
     }
 
-
+    public static HeightVal findNextWall(SmartRectangle r,boolean right){
+        ArrayList<HeightVal> applicable=new ArrayList<>();
+        HeightVal out=null;
+        if(onPlatform(r)!=null)return null;
+        if(right){
+            for(HeightVal h:heights){
+                if(h.getStartX()>=r.getX()+r.getWidth()&&h.isOpaque())applicable.add(h);
+            }
+        }else{
+            for(HeightVal h:heights){
+                if(h.getEndX()<=r.getX()&&h.isOpaque())applicable.add(h);
+            }
+        }
+        if(applicable.size()==0)return null;
+        for(HeightVal h:applicable){
+            if(h.getHeight()>r.getY())out=h;
+        }
+        return out;
+    }
 }

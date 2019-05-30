@@ -26,12 +26,12 @@ public class Level2 extends Level {
     private SmartRectangle stoneBox=new SmartRectangle(64,23,13,14);
     private boolean choiceMade=false,choiceDir=true,ePressed=false;
     public Level2(ImageResource[][] backgrounds) {
-        super(backgrounds,8);
+        super(backgrounds,backgrounds.length);
     }
 
     @Override
     public void init() {
-
+        ResourceHandler.getHaroldLoader().disableAttackPause();
     }
 
     public void update(int subLevel) {
@@ -113,16 +113,6 @@ public class Level2 extends Level {
             World.setSubLevel(World.getSubLevel()+1);
         }
     }
-
-    /*private void update3(){
-        HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7, Render.unitsWide,true)});
-        if(cart.intersects(Main.getHarold().getHitbox())&&!anchor&& Keyboard.keys.contains(VK_E))anchor=true;
-        if(edge.intersects(Main.getHarold().getHitbox())&&Keyboard.keys.contains(VK_E)){
-            while(Keyboard.keys.contains(VK_E)){}
-            if(anchor)World.setSubLevel(World.getSubLevel()+1);
-            else World.setLevel(-1);
-        }
-    }*/
 
     private void update3(){
         if(edge.intersects(Main.getHarold().getHitbox())&&Keyboard.keys.contains(VK_E)){
@@ -224,21 +214,21 @@ public class Level2 extends Level {
 
     private void render2(){
         Graphics.setFont(Graphics.SMALL_FONT);
-        if(cart.intersects(Main.getHarold().getHitbox())&&ResourceHandler.getHaroldLoader().getState()!=HaroldLoader.ROPE)Graphics.drawText("Press E to pick up rope",33,42);
-        else if(edge.intersects(Main.getHarold().getHitbox())&&ResourceHandler.getHaroldLoader().getState()==HaroldLoader.ROPE)Graphics.drawText("Press E to place rope",81,24);
+        if(cart.intersects(Main.getHarold().getHitbox())&&ResourceHandler.getHaroldLoader().getState()!=HaroldLoader.ROPE)Graphics.drawTextWithBox("Press E to pick up rope",33,42);
+        else if(edge.intersects(Main.getHarold().getHitbox())&&ResourceHandler.getHaroldLoader().getState()==HaroldLoader.ROPE)Graphics.drawTextWithBox("Press E to place rope",81,24);
     }
 
     private void render3(){
-        if(edge.intersects(Main.getHarold().getHitbox()))Graphics.drawText("Press E to descend",81,24);
+        if(edge.intersects(Main.getHarold().getHitbox()))Graphics.drawTextWithBox("Press E to descend",81,24);
     }
 
     private void render6Pre(){
-        if(stoneBox.intersects(Main.getHarold().getHitbox()))Graphics.drawText("Press E to interact",64,39);
+        if(stoneBox.intersects(Main.getHarold().getHitbox()))Graphics.drawTextWithBox("Press E to interact",64,39);
     }
 
     private void render6Post(){
         Graphics.drawImage(sprites[2],0,0);
-        Graphics.drawText("Good thing you called. I heard that stone is cursed!",35,40,20);
+        Graphics.drawText("Good thing you called. I heard that stone is cursed!",35,40,20,true);
     }
 
     private void render7(){

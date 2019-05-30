@@ -35,7 +35,7 @@ public class ImageResource {
         if(image!=null){
             image.flush();
         }else{
-            System.err.println("[CASUAL-CAVING/ERROR] Image is null.");
+            System.err.println("[CASUAL-CAVING/ERROR] Image with path \""+p+"\" is null.");
         }
     }
 

@@ -1,8 +1,7 @@
 package org.level.levels;
 
 import org.engine.Main;
-import org.entities.aggressive.BlueGolem;
-import org.entities.aggressive.GreenGolem;
+import org.entities.aggressive.ShortGolem;
 import org.graphics.FadeIO;
 import org.graphics.Graphics;
 import org.graphics.Render;
@@ -22,24 +21,24 @@ public class Level3 extends Level {
     private boolean fadeActive=false;
     private int switchFade=0;
     public Level3(ImageResource[] backgrounds) {
-        super(backgrounds,7);
+        super(backgrounds,backgrounds.length);
         reset();
     }
 
     @Override
     public void init() {
-
+        ResourceHandler.getHaroldLoader().disableAttackPause();
+        World.clearEntites();
+        World.addEntities(super.getEntityRegisterArray());
     }
 
     @Override
     public void update(int subLevel) {
-        entityRegister.removeIf(n->n.getHealth()<=0);//Remove entities if health <=0
+        checkHealthVals();
         if(subLevel!=6)HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7, Render.unitsWide,true)});//Set heights
         else HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7,87,true),new HeightVal(63,29,Render.unitsWide,false),new HeightVal(87,29,Render.unitsWide,true)});
-        if(World.getEntites().size()!=entityRegister.size()){//Resend register if updated
-            World.clearEntites();
-            World.addEntities(super.getEntityRegister());
-        }
+        World.clearEntites();
+        World.addEntities(super.getEntityRegisterArray());
         if(subLevel!=1)ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
         if(subLevel!=2)leftLimit=-1;
         switch (subLevel){
@@ -48,6 +47,9 @@ public class Level3 extends Level {
                 break;
             case 2:
                 update2();
+                break;
+            case 6:
+                update6();
                 break;
         }
     }
@@ -102,6 +104,10 @@ public class Level3 extends Level {
         leftLimit=0;
     }
 
+    private void update6(){
+        if(Main.getHarold().getWidth()+Main.getHarold().getX()==Render.unitsWide)World.setLevelTransition(true);
+    }
+
     @Override
     public void render(int subLevel) {
         Graphics.drawImage(backgrounds[subLevel],0,0);
@@ -149,8 +155,14 @@ public class Level3 extends Level {
 
     @Override
     public void reset() {
+        isolsi.setActive(false);
+        isolsi.setCurrent(0);
+        hematus.setActive(false);
+        hematus.setCurrent(0);
+        igneox.setActive(false);
+        igneox.setCurrent(0);
         clearEntityRegister();
-        entityRegister.add(new BlueGolem(5,20,15));
-        entityRegister.add(new GreenGolem(6,79,34));
+        entityRegister.add(new ShortGolem(ShortGolem.BLUE,5,20,7));
+        entityRegister.add(new ShortGolem(ShortGolem.GREEN,6,79,34));
     }
 }

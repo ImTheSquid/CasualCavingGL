@@ -8,6 +8,8 @@ import org.graphics.Graphics;
 import org.graphics.Render;
 import org.input.Keyboard;
 import org.level.LevelController;
+import org.loader.ResourceHandler;
+import org.loader.harold.HaroldLoader;
 
 import java.util.Collection;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -133,8 +135,6 @@ public class World {
 
         LevelController.renderForeground(level,subLevel);
 
-        Main.getHarold().renderHealth();
-
         //Master brightness, always do last
         Graphics.setColor(masterRed,masterGreen,masterBlue,1-master.getCurrent());
         Graphics.fillRect(0,0, Render.unitsWide,Render.unitsTall);
@@ -143,7 +143,7 @@ public class World {
         //Special case level transition
         if(levelTransition){
             levelTransition();
-        }
+        }else Main.getHarold().renderHealth();
 
         if(pause){
             Graphics.setColor(.25f,.25f,.25f,.4f);
@@ -166,9 +166,12 @@ public class World {
     }
 
     private static void levelTransition(){
+        setMasterColor(0,0,0);
         Graphics.setColor(1,1,1,tFade.getCurrent());
         Graphics.setFont(Graphics.TITLE_FONT);
         Graphics.drawTextCentered("Part "+(level+1),50,35);
+        if(level==0)ResourceHandler.getHaroldLoader().setState(HaroldLoader.NORMAL);
+        else ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
     }
 
     public static void addEntity(Entity e){

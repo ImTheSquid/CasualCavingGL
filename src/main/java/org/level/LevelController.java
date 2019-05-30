@@ -9,7 +9,8 @@ public class LevelController {
             new Title(ResourceHandler.getLevelLoader().getTitle(),ResourceHandler.getLevelLoader().getTitleLogo()),
             new Level1(ResourceHandler.getLevelLoader().getLevel1()),
             new Level2(ResourceHandler.getLevelLoader().getLevel2()),
-            new Level3(ResourceHandler.getLevelLoader().getLevel3())};
+            new Level3(ResourceHandler.getLevelLoader().getLevel3()),
+            new Level4(ResourceHandler.getLevelLoader().getLevel4())};
 
     public static void update(int level,int subLevel){
         levels[level+1].update(subLevel);
@@ -26,6 +27,8 @@ public class LevelController {
     public static void init(int level){levels[level+1].init();}
 
     public static Level[] getLevels(){return levels;}
+
+    public static Level getCurrentLevel(){return levels[World.getLevel()+1];}
 
     public static void resetAll(){
         World.setMasterColor(0,0,0);

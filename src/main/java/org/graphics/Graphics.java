@@ -6,6 +6,7 @@ import com.jogamp.opengl.util.texture.Texture;
 import org.loader.ImageResource;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import static org.graphics.Render.unitsTall;
@@ -107,8 +108,10 @@ public class Graphics {
         gl.glRotatef(-rotation,0,0,1);
     }
 
+    public static void drawText(String text,float x,float y,float wrapWidth){drawText(text, x, y, wrapWidth,false);}
+
     //Draws text with specified wrapping width
-    public static void drawText(String text,float x, float y, float wrapWidth){
+    public static void drawText(String text,float x, float y, float wrapWidth,boolean box){
         float wrap=convertFromWorldWidth(wrapWidth);
         StringBuilder currentString=new StringBuilder();
         ArrayList<String> strings=new ArrayList<>();
@@ -135,6 +138,17 @@ public class Graphics {
         strings.set(0,strings.get(0).substring(1));//Gets rid of space at beginning of first line
         int iteration=0;
         //Draw the text in the array
+        if(box){
+            float lengthMax=0;
+            for(String s:strings){
+                float newL=convertToWorldWidth((float)fonts[textSelector].getBounds(s).getWidth());
+                if(newL>lengthMax)lengthMax=newL;
+            }
+            Graphics.setColor(0,0,0,0.5f);
+            float yAdjustment=convertToWorldHeight((float)fonts[textSelector].getBounds(text).getHeight()*(strings.size()-1));
+            Graphics.fillRect(x,y-yAdjustment,lengthMax,convertToWorldHeight((float)fonts[textSelector].getBounds(text).getHeight()*(strings.size())));
+            Graphics.setColor(1,1,1,1);
+        }
         for(String s:strings){
             drawText(s,x,y-convertToWorldY(fonts[textSelector].getFont().getSize()*iteration));
             iteration++;
@@ -151,6 +165,14 @@ public class Graphics {
         fonts[textSelector].setColor(red,green,blue,alpha);
         fonts[textSelector].draw(text,(int)convertFromWorldX(x),(int)convertFromWorldY(y));
         fonts[textSelector].endRendering();
+    }
+
+    public static void drawTextWithBox(String text, float x, float y){
+        Graphics.setColor(0,0,0,0.5f);
+        Rectangle2D bounds=fonts[textSelector].getBounds(text);
+        Graphics.fillRect(x,y-0.1f,Graphics.convertToWorldWidth((float)bounds.getWidth()),Graphics.convertToWorldHeight((float)bounds.getHeight())+0.1f);
+        Graphics.setColor(1,1,1,1);
+        drawText(text,x,y);
     }
 
     public static void setColor(float red,float green,float blue,float alpha){

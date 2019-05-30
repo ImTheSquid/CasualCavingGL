@@ -5,7 +5,7 @@ import org.loader.ImageResource;
 public class Animator {
     private ImageResource[] frames;
     private int fps,currentFrame=0;
-    private long lastFrameTime=0;
+    private long lastFrameTime=0,delay=0;
     private boolean direction=true,active=true;
     public Animator(ImageResource[] frames,int fps){
         this.frames=frames;
@@ -33,9 +33,18 @@ public class Animator {
         this.active = active;
     }
 
+    public void setDelay(long delay) {
+        this.delay = delay;
+    }
+
     public void update(){
         long currentTime=System.nanoTime();
         if(!active)return;
+        if(delay>0){
+            delay--;
+            return;
+        }
+        if(delay<0)delay=0;
         if(currentTime>lastFrameTime+1000000000/fps){
             if(direction){
                 if(currentFrame==frames.length-1){
@@ -62,5 +71,13 @@ public class Animator {
 
     public ImageResource[] getFrames() {
         return frames;
+    }
+
+    public long getDelay() {
+        return delay;
+    }
+
+    public int getFps() {
+        return fps;
     }
 }

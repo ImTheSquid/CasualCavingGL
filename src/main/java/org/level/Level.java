@@ -75,7 +75,7 @@ public abstract class Level {
         return rightLimit;
     }
 
-    public Entity[] getEntityRegister() {
+    public Entity[] getEntityRegisterArray() {
         Object[] registerArr=entityRegister.toArray();
         ArrayList<Entity> applicable=new ArrayList<>();
         for(Object o:registerArr){
@@ -90,7 +90,18 @@ public abstract class Level {
         return arr;
     }
 
+    public ConcurrentLinkedQueue<Entity> getEntityRegister(){return entityRegister;}
+
     public void clearEntityRegister(){
         entityRegister.clear();
+    }
+
+    protected void checkHealthVals(){
+        for(Entity e:entityRegister){
+            if(e.getHealth()<=0||e.getY()+e.getHeight()<-10){
+                e.handleDeath();
+                entityRegister.remove(e);
+            }
+        }
     }
 }

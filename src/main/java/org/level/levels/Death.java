@@ -4,10 +4,13 @@ import org.engine.Main;
 import org.graphics.FadeIO;
 import org.graphics.Graphics;
 import org.graphics.Render;
+import org.input.Keyboard;
 import org.level.Level;
 import org.level.LevelController;
 import org.loader.ImageResource;
 import org.world.World;
+
+import static com.jogamp.newt.event.KeyEvent.VK_SPACE;
 
 public class Death extends Level {
     private FadeIO textHandler=new FadeIO(0,1,0,0.02f,35);
@@ -24,6 +27,10 @@ public class Death extends Level {
         }
         Main.getHarold().setVisible(false);
         Main.getHarold().setMovement(false);
+        Main.getHarold().reset();
+        textHandler.setCurrent(0);
+        textHandler.setDirection(true);
+        textHandler.setActive(true);
         fadeDir=true;
     }
 
@@ -39,14 +46,19 @@ public class Death extends Level {
                 textHandler.setActive(true);
             }
         }else if(textHandler.getCurrent()==0){
-            fadeDir=true;
-            cleanup();
-            World.clearEntites();
-            LevelController.resetAll();
-            World.setLevel(World.getLevel()+1);
-            World.setSubLevel(1);
+            finish();
         }
+        if(Keyboard.keys.contains(VK_SPACE))finish();
         textHandler.update();
+    }
+
+    private void finish(){
+        fadeDir=true;
+        cleanup();
+        World.clearEntites();
+        LevelController.resetAll();
+        World.setLevel(World.getLevel()+1);
+        World.setSubLevel(1);
     }
 
     @Override
