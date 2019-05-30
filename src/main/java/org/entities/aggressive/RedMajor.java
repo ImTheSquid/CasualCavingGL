@@ -4,6 +4,7 @@ import org.engine.Main;
 import org.entities.Autonomous;
 import org.entities.SmartRectangle;
 import org.graphics.Animator;
+import org.graphics.BossBar;
 import org.graphics.Graphics;
 import org.level.Level;
 import org.level.LevelController;
@@ -19,6 +20,7 @@ public class RedMajor extends Autonomous {
     private Animator redAnimator;
     private ImageResource redMajor;
     private SmartRectangle hitbox=new SmartRectangle(x,y,width,height);
+    private BossBar bossBar=new BossBar(this);
     private boolean doStartReady=true,startFight=false;
     public RedMajor() {
         super(5, 75, 7);
@@ -31,6 +33,7 @@ public class RedMajor extends Autonomous {
 
     @Override
     public void update() {
+        bossBar.update();
         if(!startFight)return;
         HeightReturn heightReturn= HeightMap.onGround(hitbox);
         //Determines movement and knockback
@@ -159,9 +162,11 @@ public class RedMajor extends Autonomous {
     @Override
     public void reset() {
         direction=false;
+        displayName="Red Major";
         redAnimator=new Animator(ResourceHandler.getBossLoader().getRedMajorReady(false),1);
         redMajor=redAnimator.getCurrentFrame();
         health=8;
+        maxHealth=8;
         state=READYING;
         doStartReady=true;
         startFight=false;
@@ -173,5 +178,14 @@ public class RedMajor extends Autonomous {
     @Override
     public String toString() {
         return "Red Major @ "+x+","+y;
+    }
+
+    public BossBar getBossBar() {
+        return bossBar;
+    }
+
+    @Override
+    public void handleDeath() {
+        bossBar.update();
     }
 }

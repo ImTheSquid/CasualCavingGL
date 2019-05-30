@@ -88,6 +88,7 @@ public class Level4 extends Level {
     @Override
     public void renderForeground(int subLevel) {
         if(foregrounds[subLevel]!=null)Graphics.drawImage(foregrounds[subLevel],0,0);
+        if(subLevel==5)redMajor.getBossBar().render();
     }
 
     @Override
