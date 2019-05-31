@@ -19,7 +19,9 @@ import static com.jogamp.newt.event.KeyEvent.VK_SPACE;
 public class Title extends Level {
     private FadeIO logo = new FadeIO(0, 1, 0, 0.01f, 40);
     private SmartRectangle start=new SmartRectangle(Render.unitsWide/2,30,20,7,true);
-    private SmartRectangle quit=new SmartRectangle(Render.unitsWide/2,5,7,4,true);
+    private SmartRectangle quit=new SmartRectangle(Render.unitsWide/2,3.5f,7,4,true);
+    private SmartRectangle controls=new SmartRectangle(Render.unitsWide/2,8,12.5f,3,true);
+    private boolean controlsVisible=false;
 
     public Title(ImageResource[] backgrounds, ImageResource[] foregrounds) {
         super(backgrounds,backgrounds.length);
@@ -65,6 +67,7 @@ public class Title extends Level {
     }
 
     private void updateTitle(){
+        start.setActive(!controlsVisible);
         if(World.getMaster().getCurrent()>0.25f&&!quit.isActive())quit.setActive(true);
         quit.update();
         if(quit.isPressed()){
@@ -81,6 +84,11 @@ public class Title extends Level {
             World.getMaster().setCurrent(1f);
             World.setLevel(1);
             World.setSubLevel(0);
+        }
+        controls.update();
+        if(controls.isPressed()){
+            controlsVisible=!controlsVisible;
+            while(controls.isPressed())controls.update();
         }
     }
 
@@ -134,11 +142,26 @@ public class Title extends Level {
         Graphics.drawTextCentered("Start",Render.unitsWide/2,30);
         quit.setColor(0.5f,0,0,1);
         quit.render();
+        controls.setColor(0.8f,0.74f,0.03f,1);
+        controls.render();
         Graphics.setColor(1,1,1,1);
         Graphics.setFont(Graphics.REGULAR_FONT);
-        Graphics.drawTextCentered("Quit",Render.unitsWide/2,5.3f);
+        Graphics.drawTextCentered("Quit",Render.unitsWide/2,4f);
+        Graphics.drawTextCentered("Controls",Render.unitsWide/2,8.3f);
         Graphics.setFont(Graphics.SMALL_FONT);
         Graphics.drawText("Casual Caving 0.2",0.1f,0.7f);
         Graphics.drawText("Lunan Productions",Render.unitsWide-Graphics.convertToWorldWidth((float)Graphics.getCurrentFont().getBounds("Lunan Productions").getWidth())-.1f,.7f);
+
+        if(controlsVisible){
+            Graphics.setColor(0.3f,0.3f,0.3f,.7f);
+            Graphics.fillRectCentered(Render.unitsWide/2,Render.unitsTall/2,50,35);
+            Graphics.setColor(1,1,1,1);
+            Graphics.setFont(Graphics.REGULAR_FONT);
+            Graphics.drawTextCentered("Controls",Render.unitsWide/2, Render.unitsTall/2+15);
+            Graphics.setFont(Graphics.SMALL_FONT);
+            Graphics.drawTextCentered("W: Attack (part 2 and above)",Render.unitsWide/2,Render.unitsTall/2+11);
+            Graphics.drawTextCentered("A/D: Left/right",Render.unitsWide/2,Render.unitsTall/2+8);
+            Graphics.drawTextCentered("Space: Jump",Render.unitsWide/2,Render.unitsTall/2+5);
+        }
     }
 }
