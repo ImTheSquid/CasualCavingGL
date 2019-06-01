@@ -10,7 +10,8 @@ public class LevelController {
             new Level1(ResourceHandler.getLevelLoader().getLevel1()),
             new Level2(ResourceHandler.getLevelLoader().getLevel2()),
             new Level3(ResourceHandler.getLevelLoader().getLevel3()),
-            new Level4(ResourceHandler.getLevelLoader().getLevel4())};
+            new Level4(ResourceHandler.getLevelLoader().getLevel4()),
+            new Level5(ResourceHandler.getLevelLoader().getLevel5())};
 
     public static void update(int level,int subLevel){
         levels[level+1].update(subLevel);

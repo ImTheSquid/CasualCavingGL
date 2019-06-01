@@ -8,6 +8,7 @@ import org.loader.ResourceHandler;
 public class LifeCrystal extends Autonomous {
     public LifeCrystal(int subLevel, float spawnX, float spawnY) {
         super(subLevel, spawnX, spawnY);
+        displayName="Life Crystal";
     }
 
     @Override

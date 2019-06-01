@@ -157,8 +157,11 @@ public class Harold extends Entity{
     }
 
     public void render() {
-        width=Graphics.convertToWorldWidth(harold.getTexture().getWidth());
-        height=Graphics.convertToWorldHeight(harold.getTexture().getHeight());
+        if(World.getLevel()==5&&World.getSubLevel()==2)Graphics.setScaleFactor(0.5f);
+        else Graphics.setScaleFactor(1);
+
+        width=Graphics.convertToWorldWidth(harold.getTexture().getWidth())*Graphics.getScaleFactor();
+        height=Graphics.convertToWorldHeight(harold.getTexture().getHeight())*Graphics.getScaleFactor();
         hitbox.updateBounds(x,y,width,height);
         if(!visible)return;
         if(ResourceHandler.getHaroldLoader().getState()==HaroldLoader.TURN){
@@ -173,6 +176,7 @@ public class Harold extends Entity{
         else Graphics.setColor(1,1,1,1);
         Graphics.drawImage(harold,x,y);
         Graphics.setColor(1,1,1,1);
+        Graphics.setScaleFactor(1);
     }
 
     public void renderHealth(){

@@ -17,7 +17,7 @@ public class Graphics {
     public static final int TITLE_FONT=0,REGULAR_FONT=1,SMALL_FONT=2,DEBUG_SMALL=3;
 
     private static float red=0,green=0,blue=0,alpha=0;
-    private static float rotation=0;
+    private static float rotation=0,scaleFactor=1;
     private static int textSelector=0;
     private static TextRenderer title=new TextRenderer(new Font("Constantia",Font.PLAIN,100));
     private static TextRenderer regular=new TextRenderer(new Font("Constantia",Font.PLAIN,40));
@@ -35,9 +35,9 @@ public class Graphics {
         gl.glColor4f(red,green,blue,alpha);
         gl.glBegin(GL2.GL_QUADS);
         gl.glVertex2f(x,y);
-        gl.glVertex2f(x+width,y);
-        gl.glVertex2f(x+width,y+height);
-        gl.glVertex2f(x,y+height);
+        gl.glVertex2f(x+width*scaleFactor,y);
+        gl.glVertex2f(x+width*scaleFactor,y+height*scaleFactor);
+        gl.glVertex2f(x,y+height*scaleFactor);
         gl.glEnd();
         gl.glFlush();
         gl.glRotatef(rotation,0,0,1);
@@ -90,18 +90,17 @@ public class Graphics {
     public static void drawImage(ImageResource image,float x,float y, float width,float height){
         GL2 gl=Render.getGL2();
         Texture tex=image.getTexture();
-        //TODO implement hiding code if image not needed
         if(tex!=null)gl.glBindTexture(GL2.GL_TEXTURE_2D,tex.getTextureObject());
         gl.glColor4f(red,green,blue,alpha);
         gl.glBegin(GL2.GL_QUADS);
         gl.glTexCoord2f(0,1);
         gl.glVertex2f(x,y);
         gl.glTexCoord2f(1,1);
-        gl.glVertex2f(x+width,y);
+        gl.glVertex2f(x+width*scaleFactor,y);
         gl.glTexCoord2f(1,0);
-        gl.glVertex2f(x+width,y+height);
+        gl.glVertex2f(x+width*scaleFactor,y+height*scaleFactor);
         gl.glTexCoord2f(0,0);
-        gl.glVertex2f(x,y+height);
+        gl.glVertex2f(x,y+height*scaleFactor);
         gl.glEnd();
         gl.glFlush();
         gl.glBindTexture(GL2.GL_TEXTURE_2D,0);
@@ -191,4 +190,12 @@ public class Graphics {
     }
 
     public static TextRenderer getCurrentFont(){return fonts[textSelector];}
+
+    public static void setScaleFactor(float scaleFactor) {
+        Graphics.scaleFactor = scaleFactor;
+    }
+
+    public static float getScaleFactor() {
+        return scaleFactor;
+    }
 }

@@ -55,6 +55,9 @@ public class LevelLoader {
             {new ImageResource("/CasualCaving/Levels/Level4/Lv4Bg5.png"),new ImageResource("/CasualCaving/Levels/Level4/Lv4Bg5_Fascade.png")},
             {new ImageResource("/CasualCaving/Levels/Level4/Lv4Bg6.png"),new ImageResource("/CasualCaving/Levels/Level4/Lv4Bg6_Fascade.png")},
             {new ImageResource("/CasualCaving/Levels/Level4/Lv4Bg7.png"),new ImageResource("/CasualCaving/Levels/Level4/Lv4Bg7_Fascade.png")}};
+    private final ImageResource[] level5={new ImageResource("/CasualCaving/Levels/Level5/Lv5Bg1.png"),
+            new ImageResource("/CasualCaving/Levels/Level5/Lv5Bg2.png"),
+            new ImageResource("/CasualCaving/Levels/Level5/Lv5Bg3_-_The_Larano_Boss_Room.png")};
 
     public ImageResource[] getTitle(){
         return title;
@@ -90,5 +93,9 @@ public class LevelLoader {
 
     public ImageResource[][] getLevel4() {
         return level4;
+    }
+
+    public ImageResource[] getLevel5() {
+        return level5;
     }
 }

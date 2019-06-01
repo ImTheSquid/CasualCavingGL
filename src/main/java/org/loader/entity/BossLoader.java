@@ -28,6 +28,8 @@ public class BossLoader {
             new ImageResource("/CasualCaving/Entities/RedMajor/RedMajorStillFR.png")};
     private ImageResource[] redMajorDamage={new ImageResource("/CasualCaving/Entities/RedMajor/RedMajorTakingDamageFL.png"),
             new ImageResource("/CasualCaving/Entities/RedMajor/RedMajorTakingDamage.png")};
+    private ImageResource[] redMajorDeath={new ImageResource("/CasualCaving/Entities/RedMajor/RedMajorDeath.png"),
+            new ImageResource("/CasualCaving/Entities/RedMajor/RedMajorDeathFR.png")};
 
     public ImageResource[] getRedMajorWalk(boolean faceRight){
         return faceRight?redMajorWalkRight:redMajorWalkLeft;
@@ -47,5 +49,9 @@ public class BossLoader {
 
     public ImageResource[] getRedMajorAttack(boolean faceRight){
         return faceRight?redMajorAttackRight:redMajorAttackLeft;
+    }
+
+    public ImageResource getRedMajorDeath(boolean faceRight) {
+        return faceRight?redMajorDeath[1]:redMajorDeath[0];
     }
 }

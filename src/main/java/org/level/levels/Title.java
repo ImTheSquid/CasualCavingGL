@@ -68,7 +68,10 @@ public class Title extends Level {
 
     private void updateTitle(){
         start.setActive(!controlsVisible);
-        if(World.getMaster().getCurrent()>0.25f&&!quit.isActive())quit.setActive(true);
+        if(World.getMaster().getCurrent()>0.25f&&(!quit.isActive()||!controls.isActive())){
+            quit.setActive(true);
+            controls.setActive(true);
+        }
         quit.update();
         if(quit.isPressed()){
             Render.getGameLoop().setRunning(false);
@@ -117,6 +120,7 @@ public class Title extends Level {
     public void reset() {
         World.setGame(false);
         quit.setActive(false);
+        controls.setActive(false);
         World.getMaster().setCurrent(0f);
         World.getMaster().setDirection(true);
         World.getMaster().setActive(true);

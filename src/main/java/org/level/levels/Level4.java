@@ -1,6 +1,7 @@
 package org.level.levels;
 
 import org.engine.Main;
+import org.entities.Entity;
 import org.entities.aggressive.RedMajor;
 import org.entities.aggressive.ShortGolem;
 import org.entities.aggressive.TallGolem;
@@ -42,7 +43,6 @@ public class Level4 extends Level {
         if(subLevel!=5)leftLimit=-1;
         switch(subLevel){
             case 0:
-            case 6:
                 HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7, Render.unitsWide,true)});
                 break;
             case 1:
@@ -76,6 +76,14 @@ public class Level4 extends Level {
                 if(Main.getHarold().getX()>10)redMajor.setStartFight(true);
                 if(redMajor.getHealth()>0)rightLimit=Render.unitsWide;
                 else rightLimit=Render.unitsWide+1;
+                break;
+            case 6:
+                HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7, Render.unitsWide,true)});
+                int count=0;
+                for(Entity e:entityRegister){
+                    if(e.getDisplayName().equals("Tall Blue Golem")&&e.getSubLevel()==6)count++;
+                }
+                if(count==0&&Main.getHarold().getX()+Main.getHarold().getWidth()==Render.unitsWide)World.setLevelTransition(true);
                 break;
         }
     }
