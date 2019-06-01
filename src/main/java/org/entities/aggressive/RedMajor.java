@@ -2,6 +2,7 @@ package org.entities.aggressive;
 
 import org.engine.Main;
 import org.entities.Autonomous;
+import org.entities.Entity;
 import org.entities.SmartRectangle;
 import org.graphics.Animator;
 import org.graphics.BossBar;
@@ -16,7 +17,7 @@ import org.world.HeightReturn;
 import org.world.World;
 
 public class RedMajor extends Autonomous {
-    private final int NORMAL=0,READYING=1,ATTACK=2, DAMAGE =3;
+    private final int NORMAL=0,READYING=1,ATTACK=2, DAMAGE =3,DEATH=4;
     private Animator redAnimator;
     private ImageResource redMajor;
     private SmartRectangle hitbox=new SmartRectangle(x,y,width,height);
@@ -25,6 +26,7 @@ public class RedMajor extends Autonomous {
     public RedMajor() {
         super(5, 75, 7);
         reset();
+
     }
 
     public void setStartFight(boolean startFight) {
@@ -89,6 +91,11 @@ public class RedMajor extends Autonomous {
     }
 
     private void doSpriteCalc(){
+        if(state==DEATH&&redAnimator.getDelay()==0){
+            health=0;
+            return;
+        }
+
         if(redAnimator.getDelay()==0)
         switch (state) {
             case NORMAL:
@@ -102,6 +109,9 @@ public class RedMajor extends Autonomous {
                 break;
             case DAMAGE:
                 redAnimator.setFrames(new ImageResource[]{ResourceHandler.getBossLoader().getRedMajorDamage(direction)});
+                break;
+            case DEATH:
+                redAnimator.setFrames(new ImageResource[]{ResourceHandler.getBossLoader().getRedMajorDeath(direction)});
                 break;
         }
 
@@ -187,5 +197,17 @@ public class RedMajor extends Autonomous {
     @Override
     public void handleDeath() {
         bossBar.update();
+    }
+
+    @Override
+    public void doDamage(Entity attacker, int damage) {
+        if(health>1)super.doDamage(attacker, damage);
+        else{
+            invincible=true;
+            state=DEATH;
+            redAnimator.setDelay(60);
+            redAnimator.setFrames(new ImageResource[]{ResourceHandler.getBossLoader().getRedMajorDeath(direction)});
+            redMajor=redAnimator.getCurrentFrame();
+        }
     }
 }
