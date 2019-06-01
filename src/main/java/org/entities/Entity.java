@@ -84,7 +84,7 @@ public abstract class Entity {
     }
 
     public void doDamage(Entity attacker, int damage){
-        if(invincible)return;
+        if(invincible||damageCooldown>0)return;
         health-=damage;
         damageTakenFrame =10;
         damageCooldown=20;

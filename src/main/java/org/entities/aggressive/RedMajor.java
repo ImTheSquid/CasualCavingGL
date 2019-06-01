@@ -36,7 +36,11 @@ public class RedMajor extends Autonomous {
     @Override
     public void update() {
         bossBar.update();
-        if(!startFight)return;
+        if(state==4){
+            if(redAnimator.getDelay()>0)redAnimator.update();
+            else health=0;
+        }
+        if(!startFight||state==4)return;
         HeightReturn heightReturn= HeightMap.onGround(hitbox);
         //Determines movement and knockback
         if(damageTakenFrame==0) {
@@ -91,11 +95,6 @@ public class RedMajor extends Autonomous {
     }
 
     private void doSpriteCalc(){
-        if(state==DEATH&&redAnimator.getDelay()==0){
-            health=0;
-            return;
-        }
-
         if(redAnimator.getDelay()==0)
         switch (state) {
             case NORMAL:
@@ -109,9 +108,6 @@ public class RedMajor extends Autonomous {
                 break;
             case DAMAGE:
                 redAnimator.setFrames(new ImageResource[]{ResourceHandler.getBossLoader().getRedMajorDamage(direction)});
-                break;
-            case DEATH:
-                redAnimator.setFrames(new ImageResource[]{ResourceHandler.getBossLoader().getRedMajorDeath(direction)});
                 break;
         }
 
@@ -183,6 +179,7 @@ public class RedMajor extends Autonomous {
         redAnimator.setDelay(60);
         x=75;
         y=7;
+        invincible=false;
     }
 
     @Override

@@ -157,7 +157,7 @@ public class Harold extends Entity{
     }
 
     public void render() {
-        if(World.getLevel()==5&&World.getSubLevel()==2)Graphics.setScaleFactor(0.5f);
+        if(World.getLevel()==5&&World.getSubLevel()==2)Graphics.setScaleFactor(0.75f);
         else Graphics.setScaleFactor(1);
 
         width=Graphics.convertToWorldWidth(harold.getTexture().getWidth())*Graphics.getScaleFactor();

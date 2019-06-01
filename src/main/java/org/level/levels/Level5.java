@@ -16,11 +16,12 @@ public class Level5 extends Level {
 
     @Override
     public void init() {
-        ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
+
     }
 
     @Override
     public void update(int subLevel) {
+        ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
         if(subLevel<2) HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7, Render.unitsWide,true)});
         else HeightMap.setHeights(new HeightVal[]{new HeightVal(0,5,Render.unitsWide,true),
                 new HeightVal(15,21,34, false),
