@@ -218,6 +218,7 @@ public class ShortGolem extends Autonomous {
 
     @Override
     public void render() {
+        if(golem==null)return;
         width= Graphics.convertToWorldWidth(golem.getTexture().getWidth());
         height=Graphics.convertToWorldHeight(golem.getTexture().getHeight());
         hitbox.updateBounds(x,y,width,height);

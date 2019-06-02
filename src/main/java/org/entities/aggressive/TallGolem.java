@@ -204,6 +204,7 @@ public class TallGolem extends Autonomous {
 
     @Override
     public void render() {
+        if(golem==null)return;
         //Update hitbox info
         width= Graphics.convertToWorldWidth(golem.getTexture().getWidth());
         height=Graphics.convertToWorldHeight(golem.getTexture().getHeight());

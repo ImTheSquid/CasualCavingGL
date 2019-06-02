@@ -154,6 +154,7 @@ public class RedMajor extends Autonomous {
 
     @Override
     public void render() {
+        if(redMajor==null)return;
         width= Graphics.convertToWorldWidth(redMajor.getTexture().getWidth());
         height=Graphics.convertToWorldHeight(redMajor.getTexture().getHeight());
         hitbox.updateBounds(x,y,width,height);
