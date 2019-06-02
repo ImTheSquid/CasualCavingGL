@@ -1,5 +1,6 @@
 package org.level;
 
+import org.graphics.Graphics;
 import org.level.levels.*;
 import org.loader.ResourceHandler;
 import org.world.World;
@@ -32,6 +33,7 @@ public class LevelController {
     public static Level getCurrentLevel(){return levels[World.getLevel()+1];}
 
     public static void resetAll(){
+        Graphics.setScaleFactor(1);
         World.setMasterColor(0,0,0);
         for(Level l:levels){
             l.reset();
@@ -40,5 +42,5 @@ public class LevelController {
 
     public static int getNumLevels(){return levels.length;}
 
-    public static int getNumSubLevels(){return levels[World.getLevel()].getNumSublevels();}
+    public static int getNumSubLevels(){return levels[World.getLevel()+1].getNumSublevels();}
 }

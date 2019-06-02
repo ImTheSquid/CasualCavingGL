@@ -157,8 +157,8 @@ public class Harold extends Entity{
     }
 
     public void render() {
-        if(World.getLevel()==5&&World.getSubLevel()==2)Graphics.setScaleFactor(0.75f);
-        else Graphics.setScaleFactor(1);
+        //if(World.getLevel()==5&&World.getSubLevel()==2)Graphics.setScaleFactor(0.75f);
+        //else Graphics.setScaleFactor(1);
 
         width=Graphics.convertToWorldWidth(harold.getTexture().getWidth())*Graphics.getScaleFactor();
         height=Graphics.convertToWorldHeight(harold.getTexture().getHeight())*Graphics.getScaleFactor();
@@ -176,11 +176,12 @@ public class Harold extends Entity{
         else Graphics.setColor(1,1,1,1);
         Graphics.drawImage(harold,x,y);
         Graphics.setColor(1,1,1,1);
-        Graphics.setScaleFactor(1);
+        //Graphics.setScaleFactor(1);
     }
 
     public void renderHealth(){
         if(!visible||World.getLevel()<1)return;
+        Graphics.setIgnoreScale(true);
         Graphics.setColor(1,1,1,1);
         if(!invincible)
         for(int i=0;i<health;i++){
@@ -188,6 +189,7 @@ public class Harold extends Entity{
             Graphics.drawImage(ResourceHandler.getHaroldLoader().getHealth(),x,0.5f,5,5);
         }
         else Graphics.drawImage(ResourceHandler.getHaroldLoader().getInfiniteHealth(),0.5f,0.5f,5,5);
+        Graphics.setIgnoreScale(false);
     }
 
     @Override

@@ -28,6 +28,7 @@ public class Debug {
                 }
                 Integer x=(Integer) JOptionPane.showInputDialog(null, "Select Level", "Level Selector", JOptionPane.QUESTION_MESSAGE, null, levels, World.getLevel());
                 if(x!=null){
+                    Graphics.setScaleFactor(1);
                     World.setSubLevel(0);
                     World.setLevel(x);
                     World.clearEntites();
@@ -45,6 +46,7 @@ public class Debug {
                 }
                 Integer x=(Integer) JOptionPane.showInputDialog(null,"Select Sublevel","Level Selector",JOptionPane.QUESTION_MESSAGE,null,sublevels,World.getSubLevel());
                 if(x!=null){
+                    Graphics.setScaleFactor(1);
                     World.setSubLevel(x);
                 }
                 Render.getGameLoop().overrideUpdateTime();
@@ -67,6 +69,7 @@ public class Debug {
 
     static void render(){
         if(!show)return;
+        Graphics.setIgnoreScale(true);
         if(World.getLevel()>0){
             Graphics.setColor(.2f, .2f, .2f, .5f);
             Graphics.fillRect(0, Render.unitsTall - 9f, 25, 9f);
@@ -78,5 +81,6 @@ public class Debug {
             Graphics.drawText("Lvl,Sublvl: "+World.getLevel()+","+World.getSubLevel(),.5f,Render.unitsTall-3*charHeight-1.5f);
             Graphics.drawText("Mouse X,Y: "+ Math.round(Mouse.getX())+","+Math.round(Mouse.getY()),.5f,Render.unitsTall-4*charHeight-2f);
         }
+        Graphics.setIgnoreScale(false);
     }
 }

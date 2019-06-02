@@ -19,6 +19,7 @@ public class Graphics {
     private static float red=0,green=0,blue=0,alpha=0;
     private static float rotation=0,scaleFactor=1;
     private static int textSelector=0;
+    private static boolean ignoreScale=false;
     private static TextRenderer title=new TextRenderer(new Font("Constantia",Font.PLAIN,100));
     private static TextRenderer regular=new TextRenderer(new Font("Constantia",Font.PLAIN,40));
     private static TextRenderer small=new TextRenderer(new Font("Constantia",Font.PLAIN,20));
@@ -30,6 +31,11 @@ public class Graphics {
     }
 
     public static void fillRect(float x, float y, float width, float height){
+        float scaleSave=scaleFactor;
+        if(ignoreScale){
+            scaleFactor=1;
+        }
+
         GL2 gl=Render.getGL2();
         gl.glRotatef(-rotation,0,0,1);//Rotation needed to be reversed
         gl.glColor4f(red,green,blue,alpha);
@@ -41,6 +47,7 @@ public class Graphics {
         gl.glEnd();
         gl.glFlush();
         gl.glRotatef(rotation,0,0,1);
+        scaleFactor=scaleSave;
     }
 
     public static float convertToWorldHeight(float height){
@@ -88,6 +95,11 @@ public class Graphics {
 
     //Draws an image
     public static void drawImage(ImageResource image,float x,float y, float width,float height){
+        float scaleSave=scaleFactor;
+        if(ignoreScale){
+            scaleFactor=1;
+        }
+
         GL2 gl=Render.getGL2();
         Texture tex=image.getTexture();
         if(tex!=null)gl.glBindTexture(GL2.GL_TEXTURE_2D,tex.getTextureObject());
@@ -105,6 +117,8 @@ public class Graphics {
         gl.glFlush();
         gl.glBindTexture(GL2.GL_TEXTURE_2D,0);
         gl.glRotatef(-rotation,0,0,1);
+
+        scaleFactor=scaleSave;
     }
 
     public static void drawText(String text,float x,float y,float wrapWidth){drawText(text, x, y, wrapWidth,false);}
@@ -198,4 +212,8 @@ public class Graphics {
     public static float getScaleFactor() {
         return scaleFactor;
     }
+
+    public static void setIgnoreScale(boolean ignore){ignoreScale=ignore;}
+
+    public static boolean getIgnoreScale(){return ignoreScale;}
 }

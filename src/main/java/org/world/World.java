@@ -146,6 +146,7 @@ public class World {
         }else Main.getHarold().renderHealth();
 
         if(pause){
+            Graphics.setIgnoreScale(true);
             Graphics.setColor(.25f,.25f,.25f,.4f);
             Graphics.fillRect(0,0,Render.unitsWide,Render.unitsTall);
             Graphics.setColor(1,1,1,1);
@@ -160,6 +161,7 @@ public class World {
             pauseTitleReturn.render();
             Graphics.setColor(1,1,1,1);
             Graphics.drawTextCentered("Quit to Title",Render.unitsWide/2,7);
+            Graphics.setIgnoreScale(false);
         }
         Debug.render();
         Graphics.setColor(1,1,1,1);
