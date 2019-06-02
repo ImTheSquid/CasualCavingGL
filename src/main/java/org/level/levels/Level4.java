@@ -33,8 +33,6 @@ public class Level4 extends Level {
     @Override
     public void update(int subLevel) {
         checkHealthVals();
-        World.clearEntites();
-        World.addEntities(super.getEntityRegisterArray());
         ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
         if(subLevel!=4){
             rightBound=Render.unitsWide;
@@ -113,7 +111,7 @@ public class Level4 extends Level {
         entityRegister.add(new LifeCrystal(6,77,7));
         entityRegister.add(new ShortGolem(ShortGolem.BLUE,0,25,7));
         entityRegister.add(new ShortGolem(ShortGolem.RED,0,50,7));
-        entityRegister.add(new ShortGolem(ShortGolem.GREEN,1,50,29));
+        entityRegister.add(new ShortGolem(ShortGolem.GREEN,1,50,32));
         entityRegister.add(new ShortGolem(ShortGolem.PURPLE,2,24,31));
         entityRegister.add(new ShortGolem(ShortGolem.GREEN,3,52,30));
         entityRegister.add(new TallGolem(ShortGolem.BLUE,4,44,10));

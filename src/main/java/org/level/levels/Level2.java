@@ -208,8 +208,8 @@ public class Level2 extends Level {
     }
 
     private void render1(){
+        Graphics.drawImage(sprites[1],0,0);
         if(subBlink.getCurrent()==0)Graphics.drawImage(sprites[0],0,0);
-        else Graphics.drawImage(sprites[1],0,0);
     }
 
     private void render2(){

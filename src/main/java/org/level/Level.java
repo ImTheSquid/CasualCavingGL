@@ -103,5 +103,7 @@ public abstract class Level {
                 entityRegister.remove(e);
             }
         }
+        World.clearEntites();
+        World.addEntities(entityRegister);
     }
 }

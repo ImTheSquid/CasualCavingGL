@@ -1,5 +1,6 @@
 package org.level.levels;
 
+import org.entities.passive.LifeCrystal;
 import org.graphics.Graphics;
 import org.graphics.Render;
 import org.level.Level;
@@ -21,6 +22,7 @@ public class Level5 extends Level {
 
     @Override
     public void update(int subLevel) {
+        checkHealthVals();
         ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
         if(subLevel<2) {
             HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7, Render.unitsWide,true)});
@@ -56,6 +58,8 @@ public class Level5 extends Level {
 
     @Override
     public void reset() {
-
+        clearEntityRegister();
+        entityRegister.add(new LifeCrystal(0,65,7));
+        entityRegister.add(new LifeCrystal(0,85,7));
     }
 }

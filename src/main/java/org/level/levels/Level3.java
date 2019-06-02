@@ -1,6 +1,7 @@
 package org.level.levels;
 
 import org.engine.Main;
+import org.entities.Entity;
 import org.entities.aggressive.ShortGolem;
 import org.graphics.FadeIO;
 import org.graphics.Graphics;
@@ -37,8 +38,6 @@ public class Level3 extends Level {
         checkHealthVals();
         if(subLevel!=6)HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7, Render.unitsWide,true)});//Set heights
         else HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7,87,true),new HeightVal(63,29,Render.unitsWide,false),new HeightVal(87,29,Render.unitsWide,true)});
-        World.clearEntites();
-        World.addEntities(super.getEntityRegisterArray());
         if(subLevel!=1)ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
         if(subLevel!=2)leftLimit=-1;
         switch (subLevel){
@@ -105,7 +104,9 @@ public class Level3 extends Level {
     }
 
     private void update6(){
-        if(Main.getHarold().getWidth()+Main.getHarold().getX()==Render.unitsWide)World.setLevelTransition(true);
+        int count=0;
+        for(Entity e:entityRegister)if(e.getSubLevel()==6&&e.getDisplayName().equals("Green Golem"))count++;
+        if(count==0&&Main.getHarold().getWidth()+Main.getHarold().getX()==Render.unitsWide)World.setLevelTransition(true);
     }
 
     @Override

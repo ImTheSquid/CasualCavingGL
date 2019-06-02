@@ -33,14 +33,14 @@ public class Harold extends Entity{
         //Movement keys
         if(damageTakenFrame==0) {
             if (Keyboard.keys.contains(KeyEvent.VK_A)) {
-                vX = -0.5f;
+                vX = -0.5f*Graphics.getScaleFactor();
             }
             if (Keyboard.keys.contains(KeyEvent.VK_D)) {
-                vX = 0.5f;
+                vX = 0.5f*Graphics.getScaleFactor();
             }
         }else{
-            if((direction&&!attackerBehind)||(!direction&&attackerBehind))vX=-1f;
-            else vX=1f;
+            if((direction&&!attackerBehind)||(!direction&&attackerBehind))vX=-1f*Graphics.getScaleFactor();
+            else vX=1f*Graphics.getScaleFactor();
             damageTakenFrame--;
         }
         if(Keyboard.keys.contains(KeyEvent.VK_SPACE)&&!jump) {
