@@ -54,4 +54,25 @@ public class BossLoader {
     public ImageResource getRedMajorDeath(boolean faceRight) {
         return faceRight?redMajorDeath[1]:redMajorDeath[0];
     }
+
+    //Cine Larano
+
+    private ImageResource[] cineWalk={new ImageResource("/CasualCaving/Entities/CineLarano/LaranoW1.png"),
+            new ImageResource("/CasualCaving/Entities/CineLarano/LaranoW2.png"),
+            new ImageResource("/CasualCaving/Entities/CineLarano/LaranoW3.png")};
+    private ImageResource[] cineExpression={new ImageResource("/CasualCaving/Entities/CineLarano/LaranoAccusing.png"),
+            new ImageResource("/CasualCaving/Entities/CineLarano/LaranoAsking.png"),
+            new ImageResource("/CasualCaving/Entities/CineLarano/LaranoDescribing.png"),
+            new ImageResource("/CasualCaving/Entities/CineLarano/LaranoGesturing.png"),
+            new ImageResource("/CasualCaving/Entities/CineLarano/LaranoIntrigued.png"),
+            new ImageResource("/CasualCaving/Entities/CineLarano/LaranoRealizing.png"),
+            new ImageResource("/CasualCaving/Entities/CineLarano/LaranoStern.png")};
+
+    public ImageResource[] getCineWalk() {
+        return cineWalk;
+    }
+
+    public ImageResource[] getCineExpression() {
+        return cineExpression;
+    }
 }
