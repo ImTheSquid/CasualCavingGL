@@ -153,7 +153,7 @@ public class Title extends Level {
         Graphics.drawTextCentered("Quit",Render.unitsWide/2,4f);
         Graphics.drawTextCentered("Controls",Render.unitsWide/2,8.3f);
         Graphics.setFont(Graphics.SMALL_FONT);
-        Graphics.drawText("Casual Caving 0.2.1",0.1f,0.7f);
+        Graphics.drawText("Casual Caving 0.2.2",0.1f,0.7f);
         Graphics.drawText("Lunan Productions",Render.unitsWide-Graphics.convertToWorldWidth((float)Graphics.getCurrentFont().getBounds("Lunan Productions").getWidth())-.1f,.7f);
 
         if(controlsVisible){
