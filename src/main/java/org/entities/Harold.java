@@ -16,7 +16,7 @@ import static com.jogamp.newt.event.KeyEvent.VK_W;
 public class Harold extends Entity{
     private Animator haroldAnimator=new Animator(ResourceHandler.getHaroldLoader().getHaroldWalk(),12);
     private ImageResource harold;
-    private boolean jump=false;
+    private boolean jump=false,lockControls=false;
     private SmartRectangle hitbox=new SmartRectangle(x,y,width,height);
 
     public Harold(){
@@ -32,10 +32,10 @@ public class Harold extends Entity{
         HeightReturn h=HeightMap.onGround(hitbox);
         //Movement keys
         if(damageTakenFrame==0) {
-            if (Keyboard.keys.contains(KeyEvent.VK_A)) {
+            if (Keyboard.keys.contains(KeyEvent.VK_A)&&!lockControls) {
                 vX = -0.5f*Graphics.getScaleFactor();
             }
-            if (Keyboard.keys.contains(KeyEvent.VK_D)) {
+            if (Keyboard.keys.contains(KeyEvent.VK_D)&&!lockControls) {
                 vX = 0.5f*Graphics.getScaleFactor();
             }
         }else{
@@ -43,7 +43,7 @@ public class Harold extends Entity{
             else vX=1f*Graphics.getScaleFactor();
             damageTakenFrame--;
         }
-        if(Keyboard.keys.contains(KeyEvent.VK_SPACE)&&!jump) {
+        if(Keyboard.keys.contains(KeyEvent.VK_SPACE)&&!jump&&!lockControls) {
             if(h.isOnGround()) {
                 vY = 2.5f;
                 jump=true;
@@ -55,7 +55,7 @@ public class Harold extends Entity{
             }
         }
         //Attack key
-        if(Keyboard.keys.contains(VK_W)&&ResourceHandler.getHaroldLoader().getState()==HaroldLoader.LANTERN&&attackCooldown<=0){
+        if(!lockControls&&Keyboard.keys.contains(VK_W)&&ResourceHandler.getHaroldLoader().getState()==HaroldLoader.LANTERN&&attackCooldown<=0){
             haroldAnimator.setCurrentFrame(0);
             ResourceHandler.getHaroldLoader().setState(HaroldLoader.ATTACK);
             attackCooldown=45;
@@ -204,6 +204,7 @@ public class Harold extends Entity{
         vY=0;
         damageTakenFrame=0;
         damageCooldown=0;
+        lockControls=false;
     }
 
     @Override
@@ -213,5 +214,17 @@ public class Harold extends Entity{
 
     public SmartRectangle getHitbox() {
         return hitbox;
+    }
+
+    public void setHarold(ImageResource harold) {
+        this.harold = harold;
+    }
+
+    public void setLockControls(boolean lockControls) {
+        this.lockControls = lockControls;
+    }
+
+    public boolean areControlsLocked() {
+        return lockControls;
     }
 }

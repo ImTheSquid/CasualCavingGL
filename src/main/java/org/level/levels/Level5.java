@@ -1,5 +1,6 @@
 package org.level.levels;
 
+import org.entities.aggressive.CineLarano;
 import org.entities.passive.LifeCrystal;
 import org.graphics.Graphics;
 import org.graphics.Render;
@@ -11,6 +12,7 @@ import org.world.HeightMap;
 import org.world.HeightVal;
 
 public class Level5 extends Level {
+    private CineLarano cineLarano=new CineLarano();
     public Level5(ImageResource[] backgrounds) {
         super(backgrounds, 3);
     }
@@ -58,8 +60,10 @@ public class Level5 extends Level {
 
     @Override
     public void reset() {
+        cineLarano.reset();
         clearEntityRegister();
         entityRegister.add(new LifeCrystal(0,65,7));
         entityRegister.add(new LifeCrystal(0,85,7));
+        entityRegister.add(cineLarano);
     }
 }

@@ -109,4 +109,8 @@ public abstract class Entity {
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
+
+    public boolean isMobile() {
+        return movement;
+    }
 }

@@ -56,7 +56,7 @@ public class Level3 extends Level {
     private void update1(){
         if(Main.getHarold().getX()>50&&igneox.getCurrent()<1)fadeActive=true;
         if(fadeActive) {
-            Main.getHarold().setMovement(false);
+            Main.getHarold().setLockControls(true);
             ResourceHandler.getHaroldLoader().setState(HaroldLoader.TURN);
             switch(switchFade){
                 case 0:
@@ -93,7 +93,7 @@ public class Level3 extends Level {
             if(switchFade>0&&World.getMaster().getCurrent()==0) {
                 World.setSubLevel(World.getSubLevel() + 1);
                 World.getMaster().setDirection(true);
-                Main.getHarold().setMovement(true);
+                Main.getHarold().setLockControls(false);
                 ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
             }
         }
