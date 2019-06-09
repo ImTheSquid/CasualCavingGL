@@ -78,4 +78,28 @@ public class BossLoader {
     public ImageResource[] getCineExpression() {
         return cineExpression;
     }
+
+    //Larano
+    private ImageResource[] laranoReady=new ImageResource[26];
+
+    public ImageResource[] getLaranoReadying(){
+        if(laranoReady[0]==null){
+            for(int i=0;i<laranoReady.length;i++){
+                laranoReady[i]=new ImageResource("/CasualCaving/Entities/Larano/Readying/CLaranoReadying"+(i+1)+".png");
+            }
+        }
+        return laranoReady;
+    }
+
+    private ImageResource[] laranoWalkLeft={new ImageResource("/CasualCaving/Entities/Larano/CLaranoW1FL.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/CLaranoW2FL.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/CLaranoW3FL.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/CLaranoW4FL.png")};
+
+    private ImageResource[] laranoWalk={new ImageResource("/CasualCaving/Entities/Larano/CLaranoW1.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/CLaranoW2.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/CLaranoW3.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/CLaranoW4.png")};
+
+    public ImageResource[] getLaranoWalk(boolean faceRight){return faceRight?laranoWalk:laranoWalkLeft;}
 }
