@@ -31,7 +31,7 @@ public class Attack {
     }
 
     private static Entity[] sortRegister(Entity e){
-        Object[] levelReg= World.getEntites().toArray();
+        Object[] levelReg= World.getEntities().toArray();
         ArrayList<Entity> applicable=new ArrayList<>();
         for(Object y:levelReg){
             Entity x=(Entity)y;

@@ -21,15 +21,14 @@ public class World {
     private static FadeIO master=new FadeIO(0,1,1,0.02f,35);
     private static FadeIO tFade=new FadeIO(0,1,0,0.02f,35);//Fade controller for level transitions
     private static int level=0,subLevel=0;
-    private static boolean game=false,pause=false,levelTransition=false,transititonDir=true;//Set whether in game or menu. Set pause status
+    private static boolean game=false,pause=false,levelTransition=false, transitionDir =true;//Set whether in game or menu. Set pause status
     private static float gravity=0.15f;
     private static float masterRed=0,masterGreen=0,masterBlue=0;
-    private static ConcurrentLinkedQueue<Entity> entites=new ConcurrentLinkedQueue<>();//Entity registry
+    private static ConcurrentLinkedQueue<Entity> entities =new ConcurrentLinkedQueue<>();//Entity registry
     private static SmartRectangle pauseReturn=new SmartRectangle(Render.unitsWide/2,30,20,5,true);//Button detectors
     private static SmartRectangle pauseTitleReturn=new SmartRectangle(Render.unitsWide/2,6.6f,18,4,true);
 
     public static void update(){
-        //if(!entites.contains(Main.getHarold()))World.addEntity(Main.getHarold());
         Debug.update();
         if(Render.getWindow().getWidth()!=Render.screenWidth||Render.getWindow().getHeight()!=Render.screenHeight){
             if(Keyboard.keys.contains(VK_R))Render.getWindow().setSize(Render.screenWidth,Render.screenHeight);
@@ -45,8 +44,8 @@ public class World {
 
         LevelController.update(level,subLevel);
         //TODO implement render stages (pre-update,update,post-update)
-        entites.removeIf(n->n.getHealth()<=0);
-        for(Entity e:entites){
+        entities.removeIf(n->n.getHealth()<=0);
+        for(Entity e: entities){
             if(e.getSubLevel()!=subLevel)continue;
             if(pause){
                 if(e.getPauseUpdate())e.update();
@@ -82,9 +81,9 @@ public class World {
                 master.setDirection(false);
                 master.setActive(true);
             }else
-            if(transititonDir) {
+            if(transitionDir) {
                 if (tFade.getCurrent() == 1) {
-                    transititonDir = false;
+                    transitionDir = false;
                     tFade.setSecondDelay(2);
                     tFade.setDirection(false);
                 } else {
@@ -92,7 +91,7 @@ public class World {
                     tFade.setActive(true);
                 }
             }else if(tFade.getCurrent()==0){
-                transititonDir=true;
+                transitionDir =true;
                 levelTransition=false;
                 LevelController.cleanup(level);
                 level++;
@@ -120,7 +119,7 @@ public class World {
 
         LevelController.render(level,subLevel);
         //TODO implement render stages (pre-render,render,post-render)
-        for(Entity e:entites){
+        for(Entity e: entities){
             if(e.getSubLevel()!=subLevel)continue;
             if(pause){
                 if(e.getPauseRender())e.render();
@@ -177,7 +176,7 @@ public class World {
     }
 
     public static void addEntity(Entity e){
-        if(!entites.contains(e))entites.offer(e);
+        if(!entities.contains(e)) entities.offer(e);
     }
 
     public static void addEntities(Collection<? extends Entity> list){
@@ -193,11 +192,11 @@ public class World {
     }
 
     public static void removeEntity(Entity e){
-        entites.remove(e);
+        entities.remove(e);
     }
 
     public static void clearEntites(){
-        entites.clear();
+        entities.clear();
     }
 
     public static void setGame(boolean game) {
@@ -231,8 +230,8 @@ public class World {
 
     public static int getNumSubLevels(){return LevelController.getNumSubLevels();}
 
-    public static ConcurrentLinkedQueue<Entity> getEntites() {
-        return entites;
+    public static ConcurrentLinkedQueue<Entity> getEntities() {
+        return entities;
     }
 
     public static void setLevelTransition(boolean levelTransition) {

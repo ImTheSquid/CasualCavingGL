@@ -32,7 +32,7 @@ public class Level1 extends Level {
     }
 
     public void update(int subLevel) {
-        if(!World.getEntites().contains(crowd)&&crowd.getSubLevel()<6)World.addEntity(crowd);
+        if(!World.getEntities().contains(crowd)&&crowd.getSubLevel()<6)World.addEntity(crowd);
         else if(crowd.getSubLevel()==6)World.removeEntity(crowd);
         if(subLevel==0){
             leftBound=65;
