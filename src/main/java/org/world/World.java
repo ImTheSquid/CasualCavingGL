@@ -1,5 +1,6 @@
 package org.world;
 
+import org.engine.AudioManager;
 import org.engine.Main;
 import org.entities.Entity;
 import org.entities.SmartRectangle;
@@ -27,6 +28,7 @@ public class World {
     private static ConcurrentLinkedQueue<Entity> entities =new ConcurrentLinkedQueue<>();//Entity registry
     private static SmartRectangle pauseReturn=new SmartRectangle(Render.unitsWide/2,30,20,5,true);//Button detectors
     private static SmartRectangle pauseTitleReturn=new SmartRectangle(Render.unitsWide/2,6.6f,18,4,true);
+    private static SmartRectangle musicControl=new SmartRectangle(0.5f,0.5f,5,5);
 
     public static void update(){
         Debug.update();
@@ -37,6 +39,7 @@ public class World {
 
         if(Keyboard.keys.contains(VK_ESCAPE)&&game&&!levelTransition){
             pause=!pause;
+            AudioManager.handlePause(pause);
             while(Keyboard.keys.contains(VK_ESCAPE)){}//Wait for key release
         }
 
@@ -65,11 +68,16 @@ public class World {
             pauseTitleReturn.update();
             if(pauseReturn.isPressed())pause=false;
             if(pauseTitleReturn.isPressed()){
-                level = 0;
-                subLevel = 1;
+                setLevel(0);
+                setSubLevel(1);
                 LevelController.resetAll();
                 Main.getHarold().reset();
                 pause = false;
+            }
+            musicControl.update();
+            if(musicControl.isPressed()){
+                AudioManager.setMusicEnabled(!AudioManager.isMusicEnabled());
+                while(musicControl.isPressed())musicControl.update();
             }
         }else{
             pauseReturn.setActive(false);
@@ -101,6 +109,7 @@ public class World {
                 Main.getHarold().setX(5);
                 master.setActive(false);
                 master.setCurrent(1);
+                AudioManager.handleLevelTransition(level);
             }
         }
 
@@ -160,6 +169,7 @@ public class World {
             pauseTitleReturn.render();
             Graphics.setColor(1,1,1,1);
             Graphics.drawTextCentered("Quit to Title",Render.unitsWide/2,7);
+            Graphics.drawImage(ResourceHandler.getMiscLoader().getMusicButton(AudioManager.isMusicEnabled()),0.5f,0.5f,5,5);
             Graphics.setIgnoreScale(false);
         }
         Debug.render();

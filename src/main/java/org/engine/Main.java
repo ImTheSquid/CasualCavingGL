@@ -6,6 +6,8 @@ import org.graphics.Render;
 public class Main {
     private static Harold harold=new Harold();
     public static void main(String[] args) {
+        AudioManager.loadMusic();
+        AudioManager.setMusicVolume(-5);
         new Render();
     }
 

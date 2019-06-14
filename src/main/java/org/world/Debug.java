@@ -1,5 +1,6 @@
 package org.world;
 
+import org.engine.AudioManager;
 import org.engine.Main;
 import org.graphics.Graphics;
 import org.graphics.Render;
@@ -32,6 +33,7 @@ public class Debug {
                     World.setSubLevel(0);
                     World.setLevel(x);
                     World.clearEntites();
+                    AudioManager.handleDebugSwitch(x);
                 }
                 Render.getGameLoop().overrideUpdateTime();
             }

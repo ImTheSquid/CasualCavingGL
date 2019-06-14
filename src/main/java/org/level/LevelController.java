@@ -1,5 +1,6 @@
 package org.level;
 
+import org.engine.AudioManager;
 import org.graphics.Graphics;
 import org.level.levels.*;
 import org.loader.ResourceHandler;
@@ -35,6 +36,7 @@ public class LevelController {
     public static void resetAll(){
         Graphics.setScaleFactor(1);
         World.setMasterColor(0,0,0);
+        AudioManager.resetGame();
         for(Level l:levels){
             l.reset();
         }

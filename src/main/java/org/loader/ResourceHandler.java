@@ -3,7 +3,6 @@ package org.loader;
 import org.loader.entity.BossLoader;
 import org.loader.entity.CrowdLoader;
 import org.loader.entity.GolemLoader;
-import org.loader.entity.MiscLoader;
 import org.loader.harold.HaroldLoader;
 import org.loader.levels.LevelLoader;
 

@@ -1,5 +1,6 @@
 package org.level.levels;
 
+import org.engine.AudioManager;
 import org.engine.Main;
 import org.entities.SmartRectangle;
 import org.graphics.FadeIO;
@@ -15,12 +16,14 @@ import org.world.World;
 
 import static com.jogamp.newt.event.KeyEvent.VK_ENTER;
 import static com.jogamp.newt.event.KeyEvent.VK_SPACE;
+import static org.engine.AudioManager.STOP;
 
 public class Title extends Level {
     private FadeIO logo = new FadeIO(0, 1, 0, 0.01f, 40);
     private SmartRectangle start=new SmartRectangle(Render.unitsWide/2,30,20,7,true);
     private SmartRectangle quit=new SmartRectangle(Render.unitsWide/2,3.5f,7,4,true);
     private SmartRectangle controls=new SmartRectangle(Render.unitsWide/2,8,12.5f,3,true);
+    private SmartRectangle music=new SmartRectangle(0.5f,2,8,8);
     private boolean controlsVisible=false;
 
     public Title(ImageResource[] backgrounds, ImageResource[] foregrounds) {
@@ -35,6 +38,7 @@ public class Title extends Level {
     }
 
     public void update(int subLevel) {
+        AudioManager.setMusicPlayback(STOP);
         if (subLevel == 0) {
             updateLoad();
         } else {
@@ -87,11 +91,17 @@ public class Title extends Level {
             World.getMaster().setCurrent(1f);
             World.setLevel(1);
             World.setSubLevel(0);
+            AudioManager.setMusicPlayback(AudioManager.PLAY);
         }
         controls.update();
         if(controls.isPressed()){
             controlsVisible=!controlsVisible;
             while(controls.isPressed())controls.update();
+        }
+        music.update();
+        if(music.isPressed()){
+            AudioManager.setMusicEnabled(!AudioManager.isMusicEnabled());
+            while(music.isPressed())music.update();
         }
     }
 
@@ -155,6 +165,7 @@ public class Title extends Level {
         Graphics.setFont(Graphics.SMALL_FONT);
         Graphics.drawText("Casual Caving 0.2.2",0.1f,0.7f);
         Graphics.drawText("Lunan Productions",Render.unitsWide-Graphics.convertToWorldWidth((float)Graphics.getCurrentFont().getBounds("Lunan Productions").getWidth())-.1f,.7f);
+        Graphics.drawImage(ResourceHandler.getMiscLoader().getMusicButton(AudioManager.isMusicEnabled()),0.5f,2,5,5);
 
         if(controlsVisible){
             Graphics.setColor(0.3f,0.3f,0.3f,.7f);
