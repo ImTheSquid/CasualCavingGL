@@ -1,6 +1,7 @@
 package org.engine;
 
 import org.loader.AudioResource;
+import org.world.World;
 
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
@@ -8,27 +9,32 @@ import java.util.ArrayList;
 
 public class AudioManager {
     public static final int PLAY=0,PAUSE=1,STOP=2,RESTART=3,RESUME=4;
+    public static final int OVERWORLD=0;
     private static Clip music=null;
     private static ArrayList<Clip> album=new ArrayList<>();
     private static long musicPos=0;
     private static int musicStat=STOP;
     private static boolean musicEnabled=true;
+    private static FloatControl volume=null;
+    private static int currentTrack=0;
+    private static final int[][] musicDirectory={{1,2},
+            {4,5,6,7,8,9}};
 
     static void loadMusic(){
         album.add(new AudioResource("/CasualCaving/Audio/Overworld.wav").getClip());
     }
 
     public static void setMusic(int clip) {
+        currentTrack=clip;
         music = album.get(clip);
-        music.loop(Clip.LOOP_CONTINUOUSLY);
+        music.loop(-1);
     }
 
-    public static void setMusicVolume(int gain){
+    public static void setMusicGain(float gain){
         if(music==null)return;
-        FloatControl volume=(FloatControl)music.getControl(FloatControl.Type.MASTER_GAIN);
+        if(volume==null)volume=(FloatControl)music.getControl(FloatControl.Type.MASTER_GAIN);
         if(gain>volume.getMaximum()||gain<volume.getMinimum())return;
         volume.setValue(gain);
-        System.out.println(volume.getMinimum()+"/"+volume.getValue()+"/"+volume.getMaximum());
     }
 
     public static void setMusicPlayback(int type){
@@ -73,7 +79,7 @@ public class AudioManager {
 
     public static void resetGame(){
         setMusicPlayback(STOP);
-        setMusic(0);
+        setMusic(OVERWORLD);
     }
 
     public static void handlePause(boolean pause){
@@ -87,12 +93,34 @@ public class AudioManager {
         AudioManager.musicEnabled = musicEnabled;
     }
 
+    public static void fadeOut(){
+        setMusicGain(.8f*World.getMaster().getCurrent()*100-80);
+        if(.8f*World.getMaster().getCurrent()*100-80==-80)setMusicPlayback(PAUSE);
+    }
+
     public static void handleLevelTransition(int nextLevel){
-        if(nextLevel!=1)setMusicPlayback(STOP);
+        setMusicGain(0);
+        int next=findNextTrack(nextLevel);
+        if(next==-1)setMusicPlayback(STOP);
         else{
-            setMusic(0);
-            setMusicPlayback(PLAY);
+            if(next!=currentTrack){
+                setMusicPlayback(STOP);
+                setMusic(next);
+                setMusicPlayback(RESTART);
+            }
+            else setMusicPlayback(PLAY);
         }
+    }
+
+    private static int findNextTrack(int nextLevel){
+        for(int i=0;i<musicDirectory.length;i++){
+            for(int level:musicDirectory[i]){
+                if(nextLevel==level){
+                    return i;
+                }
+            }
+        }
+        return -1;
     }
 
     public static void handleDebugSwitch(int nextLevel){

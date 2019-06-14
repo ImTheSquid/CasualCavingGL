@@ -85,6 +85,7 @@ public class World {
         }
 
         if(levelTransition){
+            AudioManager.fadeOut();
             if(master.getCurrent()>0){
                 master.setDirection(false);
                 master.setActive(true);
