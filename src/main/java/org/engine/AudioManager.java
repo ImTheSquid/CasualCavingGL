@@ -94,12 +94,13 @@ public class AudioManager {
     }
 
     public static void fadeOut(){
-        setMusicGain(.8f*World.getMaster().getCurrent()*100-80);
-        if(.8f*World.getMaster().getCurrent()*100-80==-80)setMusicPlayback(PAUSE);
+        float x=-80+.65f*World.getMaster().getCurrent();
+        setMusicGain(x);
+        if(x==-80)setMusicPlayback(PAUSE);
     }
 
     public static void handleLevelTransition(int nextLevel){
-        setMusicGain(0);
+        setMusicGain(-15);
         int next=findNextTrack(nextLevel);
         if(next==-1)setMusicPlayback(STOP);
         else{
