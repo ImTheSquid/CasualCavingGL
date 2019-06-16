@@ -8,6 +8,7 @@ import javax.sound.sampled.FloatControl;
 import java.util.ArrayList;
 
 public class AudioManager {
+    public static final float MUSIC_VOL=-10;
     public static final int PLAY=0,PAUSE=1,STOP=2,RESTART=3,RESUME=4;
     public static final int OVERWORLD=0;
     private static Clip music=null;
@@ -20,7 +21,11 @@ public class AudioManager {
     private static final int[][] musicDirectory={{1,2},
             {4,5,6,7,8,9}};
 
-    static void loadMusic(){
+    static void setup(){
+        loadMusic();
+    }
+
+    private static void loadMusic(){
         album.add(new AudioResource("/CasualCaving/Audio/Overworld.wav").getClip());
     }
 
@@ -35,6 +40,7 @@ public class AudioManager {
         if(volume==null)volume=(FloatControl)music.getControl(FloatControl.Type.MASTER_GAIN);
         if(gain>volume.getMaximum()||gain<volume.getMinimum())return;
         volume.setValue(gain);
+        System.out.println(volume.getValue());
     }
 
     public static void setMusicPlayback(int type){
@@ -79,6 +85,7 @@ public class AudioManager {
 
     public static void resetGame(){
         setMusicPlayback(STOP);
+        setMusicGain(MUSIC_VOL);
         setMusic(OVERWORLD);
     }
 
@@ -94,13 +101,13 @@ public class AudioManager {
     }
 
     public static void fadeOut(){
-        float x=-80+.65f*World.getMaster().getCurrent();
+        float x=-80+Math.abs(volume.getMinimum()-MUSIC_VOL)*World.getMaster().getCurrent();
         setMusicGain(x);
         if(x==-80)setMusicPlayback(PAUSE);
     }
 
     public static void handleLevelTransition(int nextLevel){
-        setMusicGain(-15);
+        setMusicGain(MUSIC_VOL);
         int next=findNextTrack(nextLevel);
         if(next==-1)setMusicPlayback(STOP);
         else{

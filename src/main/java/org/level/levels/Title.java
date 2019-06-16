@@ -16,6 +16,7 @@ import org.world.World;
 
 import static com.jogamp.newt.event.KeyEvent.VK_ENTER;
 import static com.jogamp.newt.event.KeyEvent.VK_SPACE;
+import static org.engine.AudioManager.MUSIC_VOL;
 import static org.engine.AudioManager.STOP;
 
 public class Title extends Level {
@@ -91,6 +92,7 @@ public class Title extends Level {
             World.getMaster().setCurrent(1f);
             World.setLevel(1);
             World.setSubLevel(0);
+            AudioManager.setMusicGain(MUSIC_VOL);
             AudioManager.setMusicPlayback(AudioManager.PLAY);
         }
         controls.update();
