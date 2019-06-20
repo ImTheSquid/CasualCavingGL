@@ -40,7 +40,6 @@ public class AudioManager {
         if(volume==null)volume=(FloatControl)music.getControl(FloatControl.Type.MASTER_GAIN);
         if(gain>volume.getMaximum()||gain<volume.getMinimum())return;
         volume.setValue(gain);
-        System.out.println(volume.getValue());
     }
 
     public static void setMusicPlayback(int type){
