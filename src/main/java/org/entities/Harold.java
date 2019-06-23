@@ -24,7 +24,9 @@ public class Harold extends Entity{
         reset();
     }
     public void update() {
-        if(!movement)return;
+        if(!movement){
+            return;
+        }
         if(health<=0||y+height<-10){//Am I dead?
             World.clearEntites();
             World.setLevel(-1);
@@ -110,7 +112,7 @@ public class Harold extends Entity{
         }
 
         if(ResourceHandler.getHaroldLoader().getState()==HaroldLoader.ATTACK&&haroldAnimator.getCurrentFrameNum()==3) {
-            Attack.attack(this, 1, 5);
+            Attack.melee(this, 1, 5);
             ResourceHandler.getHaroldLoader().disableAttackPause();
         }
 
@@ -135,8 +137,11 @@ public class Harold extends Entity{
                 x=currentLevel.getRightBound()-width;
             }
         }
-        haroldAnimator.setFrames(ResourceHandler.getHaroldLoader().getHaroldWalk());
-        haroldAnimator.update();
+        if(ResourceHandler.getHaroldLoader().getState()!=HaroldLoader.TURN) {
+            haroldAnimator.setFps(12);
+            haroldAnimator.setFrames(ResourceHandler.getHaroldLoader().getHaroldWalk());
+            haroldAnimator.update();
+        }
     }
 
     private void doXCalc(){
@@ -157,14 +162,12 @@ public class Harold extends Entity{
     }
 
     public void render() {
-        //if(World.getLevel()==5&&World.getSubLevel()==2)Graphics.setScaleFactor(0.75f);
-        //else Graphics.setScaleFactor(1);
-
         width=Graphics.convertToWorldWidth(harold.getTexture().getWidth())*Graphics.getScaleFactor();
         height=Graphics.convertToWorldHeight(harold.getTexture().getHeight())*Graphics.getScaleFactor();
         hitbox.updateBounds(x,y,width,height);
         if(!visible)return;
         if(ResourceHandler.getHaroldLoader().getState()==HaroldLoader.TURN){
+            haroldAnimator.setFps(3);
             if(haroldAnimator.getCurrentFrameNum()>0&&haroldAnimator.getFrames()!=ResourceHandler.getHaroldLoader().getTurn())haroldAnimator.setCurrentFrame(0);
             haroldAnimator.setFrames(ResourceHandler.getHaroldLoader().getTurn());
             harold=haroldAnimator.getCurrentFrame();

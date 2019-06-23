@@ -7,8 +7,9 @@ import org.entities.Harold;
 import java.util.ArrayList;
 
 public class Attack {
-    public static void attack(Entity e,int damage,float range){
-        if(e instanceof Harold) {//Check if player is executing attack
+    public static void melee(Entity e, int damage, float range){
+        System.out.println(e.getClass().getName());
+        if(e instanceof Harold) {//Check if player is executing melee
             Entity[] applicable=sortRegister(e);//Finds entities in range
             for (Entity x : applicable) {
                 if (x == e || x.getY() > e.getY() + e.getHeight() || x.getY() + x.getHeight() < e.getY())
@@ -42,6 +43,7 @@ public class Attack {
                 applicable.add(x);
             }
         }
+        applicable.removeIf(n->n.getSubLevel()!=World.getSubLevel());
         Entity[] out=new Entity[applicable.size()];
         for (int i = 0; i < out.length; i++) {
             out[i]=applicable.get(i);

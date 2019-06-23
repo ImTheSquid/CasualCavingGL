@@ -30,6 +30,7 @@ public class AudioManager {
     }
 
     public static void setMusic(int clip) {
+        if(clip>album.size()-1)return;
         currentTrack=clip;
         music = album.get(clip);
         music.loop(-1);

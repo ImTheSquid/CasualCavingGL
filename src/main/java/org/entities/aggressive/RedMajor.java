@@ -84,7 +84,7 @@ public class RedMajor extends Autonomous {
         if(state==ATTACK&&redAnimator.getCurrentFrameNum()==redAnimator.getFrames().length-1){
             redAnimator.setDelay(7);
             state=NORMAL;
-            Attack.attack(this,1,5);
+            Attack.melee(this,1,5);
         }
 
         if(vX==0)redAnimator.setFrames(new ImageResource[]{ResourceHandler.getBossLoader().getRedMajorStill(direction)});

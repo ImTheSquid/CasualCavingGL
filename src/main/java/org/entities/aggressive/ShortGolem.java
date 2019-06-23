@@ -132,7 +132,7 @@ public class ShortGolem extends Autonomous {
         golemAnimator.update();
         if(state==1&&golemAnimator.getCurrentFrameNum()==golemAnimator.getFrames().length-1){
             state=0;
-            Attack.attack(this,1,4);
+            Attack.melee(this,1,4);
         }
     }
 
