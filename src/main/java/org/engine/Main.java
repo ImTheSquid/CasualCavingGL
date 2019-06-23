@@ -23,6 +23,7 @@ public class Main {
         try{
             GraphicsEnvironment ge=GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, ResourceHandler.getMiscLoader().getInconsolata().openStream()));
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT,ResourceHandler.getMiscLoader().getMerriweather().openStream()));
         }catch (IOException e){
             System.out.println("ERROR! No file found");
         }catch (FontFormatException e){

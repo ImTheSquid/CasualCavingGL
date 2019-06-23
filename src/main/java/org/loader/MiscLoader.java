@@ -19,4 +19,6 @@ public class MiscLoader {
     public URL getInconsolata() {
         return MiscLoader.class.getResource("/CasualCaving/Fonts/Inconsolata-Regular.ttf");
     }
+
+    public URL getMerriweather(){ return MiscLoader.class.getResource("/CasualCaving/Fonts/Merriweather-Regular.ttf");}
 }
