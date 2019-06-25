@@ -20,9 +20,9 @@ public class Graphics {
     private static float rotation=0,scaleFactor=1;
     private static int textSelector=0;
     private static boolean ignoreScale=false;
-    private static TextRenderer title=new TextRenderer(new Font("Merriweather",Font.PLAIN,100));
-    private static TextRenderer regular=new TextRenderer(new Font("Constantia",Font.PLAIN,40));
-    private static TextRenderer small=new TextRenderer(new Font("Constantia",Font.PLAIN,20));
+    private static TextRenderer title=new TextRenderer(new Font("Merriweather",Font.PLAIN,96));
+    private static TextRenderer regular=new TextRenderer(new Font("Merriweather",Font.PLAIN,36));
+    private static TextRenderer small=new TextRenderer(new Font("Merriweather",Font.PLAIN,18));
     private static TextRenderer debugSmall=new TextRenderer(new Font("Inconsolata",Font.PLAIN,22));
     private static TextRenderer[] fonts={title,regular,small,debugSmall};
 

@@ -72,17 +72,15 @@ public class Debug {
     static void render(){
         if(!show)return;
         Graphics.setIgnoreScale(true);
-        if(World.getLevel()>0){
-            Graphics.setColor(.2f, .2f, .2f, .5f);
-            Graphics.fillRect(0, Render.unitsTall - 9f, 25, 9f);
-            Graphics.setColor(1,1,1,1);
-            Graphics.setFont(Graphics.DEBUG_SMALL);
-            float charHeight=Graphics.convertToWorldHeight((float)Graphics.getCurrentFont().getBounds("TEST").getHeight());
-            Graphics.drawText("FPS: "+Render.getGameLoop().getCurrentFPS(),.5f,Render.unitsTall-charHeight-.5f);
-            Graphics.drawText("X,Y: "+Main.getHarold().getX()+","+Main.getHarold().getY(),.5f,Render.unitsTall-2*charHeight-1);
-            Graphics.drawText("Lvl,Sublvl: "+World.getLevel()+","+World.getSubLevel(),.5f,Render.unitsTall-3*charHeight-1.5f);
-            Graphics.drawText("Mouse X,Y: "+ Math.round(Mouse.getX())+","+Math.round(Mouse.getY()),.5f,Render.unitsTall-4*charHeight-2f);
-        }
+        Graphics.setColor(.2f, .2f, .2f, .5f);
+        Graphics.fillRect(0, Render.unitsTall - 9f, 25, 9f);
+        Graphics.setColor(1,1,1,1);
+        Graphics.setFont(Graphics.DEBUG_SMALL);
+        float charHeight=Graphics.convertToWorldHeight((float)Graphics.getCurrentFont().getBounds("TEST").getHeight());
+        Graphics.drawText("FPS: "+Render.getGameLoop().getCurrentFPS(),.5f,Render.unitsTall-charHeight-.5f);
+        Graphics.drawText("X,Y: "+Main.getHarold().getX()+","+Main.getHarold().getY(),.5f,Render.unitsTall-2*charHeight-1);
+        Graphics.drawText("Lvl,Sublvl: "+World.getLevel()+","+World.getSubLevel(),.5f,Render.unitsTall-3*charHeight-1.5f);
+        Graphics.drawText("Mouse X,Y: "+ Math.round(Mouse.getX())+","+Math.round(Mouse.getY()),.5f,Render.unitsTall-4*charHeight-2f);
         Graphics.setIgnoreScale(false);
     }
 }

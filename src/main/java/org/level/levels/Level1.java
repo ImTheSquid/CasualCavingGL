@@ -166,7 +166,7 @@ public class Level1 extends Level {
         Graphics.drawImage(sprites[0],6,7);
         Graphics.drawImage(sprites[1],40,7);
         Graphics.setFont(Graphics.SMALL_FONT);
-        Graphics.drawText("Alright guys, you know what to do; we're looking for a precious yellow gem located in a nearby cave. Go!",20,48,18,true);
+        Graphics.drawText("Alright guys, you know what to do; we're looking for a precious yellow gem located in a nearby cave. Go!",20,48,22,true);
     }
 
     private void render1(){
