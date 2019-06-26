@@ -2,8 +2,10 @@ package org.entities.aggressive;
 
 import org.engine.Main;
 import org.entities.Autonomous;
+import org.entities.Entity;
 import org.entities.SmartRectangle;
 import org.graphics.Animator;
+import org.graphics.BossBar;
 import org.graphics.Graphics;
 import org.level.Level;
 import org.level.LevelController;
@@ -16,13 +18,16 @@ public class Larano extends Autonomous {
     private Animator larano=new Animator(ResourceHandler.getBossLoader().getLaranoReadying(),20);
     private ImageResource sprite=null;
     private SmartRectangle hitbox=new SmartRectangle(x,y,width,height);
+    private BossBar bossBar=new BossBar(this);
     public Larano() {
         super(2, 0, 0);
+        displayName="Larano";
         reset();
     }
 
     @Override
     public void update() {
+        bossBar.update();
         if(Main.getHarold().getX()>10&&state==-1)state=READY;
         if(state==-1)return;
         if(state==NORMAL){
@@ -67,8 +72,6 @@ public class Larano extends Autonomous {
     private void doSpriteCalc(){
         if(state==READY&&larano.getCurrentFrameNum()==larano.getFrames().length-1){
             state=NORMAL;
-            x=Graphics.convertToWorldWidth(541);
-            y=5;
             larano.setFps(10);
         }
         switch(state){
@@ -106,12 +109,22 @@ public class Larano extends Autonomous {
         sprite=larano.getCurrentFrame();
         state=-1;
         health=3;
-        x=0;
-        y=0;
+        maxHealth=3;
+        x=Graphics.convertToWorldWidth(541);
+        y=5;
     }
 
     @Override
     public String toString() {
         return "Larano @ "+x+","+y;
+    }
+
+    public BossBar getBossBar() {
+        return bossBar;
+    }
+
+    @Override
+    public void doDamage(Entity attacker, int damage) {
+        if(attacker.getDisplayName().equals("Stalactite"))super.doDamage(attacker, damage);
     }
 }

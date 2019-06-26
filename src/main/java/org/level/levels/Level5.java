@@ -54,7 +54,7 @@ public class Level5 extends Level {
 
     @Override
     public void renderForeground(int subLevel) {
-
+        if(subLevel==2)larano.getBossBar().render();
     }
 
     @Override

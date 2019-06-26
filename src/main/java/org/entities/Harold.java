@@ -21,6 +21,7 @@ public class Harold extends Entity{
 
     public Harold(){
         maxHealth=3;
+        displayName="Harold";
         reset();
     }
     public void update() {

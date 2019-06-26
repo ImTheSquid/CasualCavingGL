@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 public class Attack {
     public static void melee(Entity e, int damage, float range){
-        System.out.println(e.getClass().getName());
         if(e instanceof Harold) {//Check if player is executing melee
             Entity[] applicable=sortRegister(e);//Finds entities in range
             for (Entity x : applicable) {
