@@ -37,7 +37,9 @@ public class Graphics {
         }
 
         GL2 gl=Render.getGL2();
-        gl.glRotatef(-rotation,0,0,1);//Rotation needed to be reversed
+        gl.glTranslatef(x+width/2,y+height/2,0);
+        gl.glRotatef(-rotation,0,0,1);
+        gl.glTranslatef(-(x+width/2),-(y+height/2),0);
         gl.glColor4f(red,green,blue,alpha);
         gl.glBegin(GL2.GL_QUADS);
         gl.glVertex2f(x,y);
@@ -46,7 +48,9 @@ public class Graphics {
         gl.glVertex2f(x,y+height*scaleFactor);
         gl.glEnd();
         gl.glFlush();
+        gl.glTranslatef(x+width/2,y+height/2,0);
         gl.glRotatef(rotation,0,0,1);
+        gl.glTranslatef(-(x+width/2),-(y+height/2),0);
         scaleFactor=scaleSave;
     }
 
@@ -101,6 +105,9 @@ public class Graphics {
         }
 
         GL2 gl=Render.getGL2();
+        gl.glTranslatef(x+width/2,y+height/2,0);
+        gl.glRotatef(-rotation,0,0,1);
+        gl.glTranslatef(-(x+width/2),-(y+height/2),0);
         Texture tex=image.getTexture();
         if(tex!=null)gl.glBindTexture(GL2.GL_TEXTURE_2D,tex.getTextureObject());
         gl.glColor4f(red,green,blue,alpha);
@@ -116,7 +123,9 @@ public class Graphics {
         gl.glEnd();
         gl.glFlush();
         gl.glBindTexture(GL2.GL_TEXTURE_2D,0);
-        gl.glRotatef(-rotation,0,0,1);
+        gl.glTranslatef(x+width/2,y+height/2,0);
+        gl.glRotatef(rotation,0,0,1);
+        gl.glTranslatef(-(x+width/2),-(y+height/2),0);
 
         scaleFactor=scaleSave;
     }

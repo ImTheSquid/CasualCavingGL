@@ -110,8 +110,10 @@ public class Larano extends Autonomous {
         state=-1;
         health=3;
         maxHealth=3;
-        x=Graphics.convertToWorldWidth(541);
-        y=5;
+        //x=Graphics.convertToWorldWidth(541);
+        //y=5;
+        x=0;
+        y=0;
     }
 
     @Override
@@ -126,5 +128,10 @@ public class Larano extends Autonomous {
     @Override
     public void doDamage(Entity attacker, int damage) {
         if(attacker.getDisplayName().equals("Stalactite"))super.doDamage(attacker, damage);
+    }
+
+    public static void loadTextures(){
+        ImageResource[] r=ResourceHandler.getBossLoader().getLaranoReadying();
+        for(ImageResource i:r)i.preloadTexture();
     }
 }

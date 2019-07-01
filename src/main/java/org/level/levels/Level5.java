@@ -47,6 +47,7 @@ public class Level5 extends Level {
 
     @Override
     public void render(int subLevel) {
+        Larano.loadTextures();
         Graphics.setIgnoreScale(true);
         Graphics.drawImage(backgrounds[subLevel],0,0);
         Graphics.setIgnoreScale(false);
