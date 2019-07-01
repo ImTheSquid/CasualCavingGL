@@ -73,6 +73,8 @@ public class Larano extends Autonomous {
         if(state==READY&&larano.getCurrentFrameNum()==larano.getFrames().length-1){
             state=NORMAL;
             larano.setFps(10);
+            x=Graphics.convertToWorldWidth(541);
+            y=5;
         }
         switch(state){
             case NORMAL:larano.setFrames(ResourceHandler.getBossLoader().getLaranoWalk(direction));
@@ -98,10 +100,6 @@ public class Larano extends Autonomous {
         Graphics.setIgnoreScale(false);
     }
 
-    private float doOffsetCalc(){
-        return 0;
-    }
-
     @Override
     public void reset() {
         direction=false;
@@ -110,8 +108,6 @@ public class Larano extends Autonomous {
         state=-1;
         health=3;
         maxHealth=3;
-        //x=Graphics.convertToWorldWidth(541);
-        //y=5;
         x=0;
         y=0;
     }
@@ -128,10 +124,5 @@ public class Larano extends Autonomous {
     @Override
     public void doDamage(Entity attacker, int damage) {
         if(attacker.getDisplayName().equals("Stalactite"))super.doDamage(attacker, damage);
-    }
-
-    public static void loadTextures(){
-        ImageResource[] r=ResourceHandler.getBossLoader().getLaranoReadying();
-        for(ImageResource i:r)i.preloadTexture();
     }
 }

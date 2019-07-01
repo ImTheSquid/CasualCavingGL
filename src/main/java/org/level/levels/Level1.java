@@ -31,6 +31,11 @@ public class Level1 extends Level {
 
     }
 
+    @Override
+    public void loadAssets() {
+
+    }
+
     public void update(int subLevel) {
         if(!World.getEntities().contains(crowd)&&crowd.getSubLevel()<6)World.addEntity(crowd);
         else if(crowd.getSubLevel()==6)World.removeEntity(crowd);

@@ -31,6 +31,11 @@ public class Level4 extends Level {
     }
 
     @Override
+    public void loadAssets() {
+
+    }
+
+    @Override
     public void update(int subLevel) {
         checkHealthVals();
         ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);

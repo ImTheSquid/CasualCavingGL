@@ -44,6 +44,11 @@ public class Title extends Level {
 
     }
 
+    @Override
+    public void loadAssets() {
+
+    }
+
     public void update(int subLevel) {
         AudioManager.setMusicPlayback(STOP);
         if (subLevel == 0) {

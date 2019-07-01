@@ -34,6 +34,11 @@ public class Level3 extends Level {
     }
 
     @Override
+    public void loadAssets() {
+
+    }
+
+    @Override
     public void update(int subLevel) {
         checkHealthVals();
         if(subLevel!=6)HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7, Render.unitsWide,true)});//Set heights

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public abstract class Level {
-    protected int subLevels;
+    protected int subLevels,numAssetsToLoad=0;
     protected boolean decreaseAllowed=true,increaseAllowed=true;
     protected float leftBound=0,rightBound=Render.unitsWide;//Points to trigger switch to next sublevel
     protected float leftLimit=-1,rightLimit=Render.unitsWide+1;//Points that entities can't go past
@@ -34,6 +34,8 @@ public abstract class Level {
     }
 
     public abstract void init();
+
+    public abstract void loadAssets();
 
     public abstract void update(int subLevel);
 
@@ -105,5 +107,9 @@ public abstract class Level {
         }
         World.clearEntites();
         World.addEntities(entityRegister);
+    }
+
+    public int getNumAssetsToLoad() {
+        return numAssetsToLoad;
     }
 }

@@ -29,6 +29,8 @@ public class LevelController {
 
     public static void init(int level){levels[level+1].init();}
 
+    public static void loadAssets(int level){levels[level+1].loadAssets();}
+
     public static Level[] getLevels(){return levels;}
 
     public static Level getCurrentLevel(){return levels[World.getLevel()+1];}

@@ -9,6 +9,10 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import static com.jogamp.opengl.GL.GL_LINE_LOOP;
+import static com.jogamp.opengl.GL2.GL_POLYGON;
+import static java.lang.Math.cos;
+import static java.lang.StrictMath.sin;
 import static org.graphics.Render.unitsTall;
 import static org.graphics.Render.unitsWide;
 
@@ -52,6 +56,37 @@ public class Graphics {
         gl.glRotatef(rotation,0,0,1);
         gl.glTranslatef(-(x+width/2),-(y+height/2),0);
         scaleFactor=scaleSave;
+    }
+
+    public static void drawCircle(float x, float y, float radius){
+        final float DEG2RAD=(float)Math.PI/180;
+        GL2 gl=Render.getGL2();
+        gl.glBegin(GL_LINE_LOOP);
+
+        for (int i=0; i<360; i++){
+            float degInRad = i*DEG2RAD;
+            gl.glVertex2f(x+(float)cos(degInRad)*radius,y+(float)sin(degInRad)*radius);
+        }
+
+        gl.glEnd();
+    }
+
+    public static void fillCircle(float x,float y,float radius){
+        GL2 gl=Render.getGL2();
+        gl.glBegin(GL_POLYGON);
+
+        double angle1 = 0.0;
+        gl.glVertex2d( x+radius * cos(0.0) , y+radius * sin(0.0));
+
+        int i;
+        for (i = 0; i < 360; i++)
+        {
+            gl.glVertex2d(x+(radius * cos(angle1)), y+(radius *sin(angle1)));
+            angle1 += 2*Math.PI/360 ;
+        }
+
+        gl.glEnd();
+        gl.glFlush();
     }
 
     public static float convertToWorldHeight(float height){

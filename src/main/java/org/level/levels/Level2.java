@@ -34,6 +34,11 @@ public class Level2 extends Level {
         ResourceHandler.getHaroldLoader().disableAttackPause();
     }
 
+    @Override
+    public void loadAssets() {
+
+    }
+
     public void update(int subLevel) {
         if(subLevel!=7){
             Main.getHarold().setVisible(true);

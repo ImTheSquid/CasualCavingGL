@@ -11,17 +11,29 @@ import org.loader.ResourceHandler;
 import org.loader.harold.HaroldLoader;
 import org.world.HeightMap;
 import org.world.HeightVal;
+import org.world.World;
 
 public class Level5 extends Level {
     private CineLarano cineLarano=new CineLarano();
     private Larano larano=new Larano();
     public Level5(ImageResource[] backgrounds) {
         super(backgrounds, 3);
+        numAssetsToLoad=ResourceHandler.getBossLoader().getLaranoReadying().length;
     }
 
     @Override
     public void init() {
 
+    }
+
+    @Override
+    public void loadAssets() {
+        ImageResource[] r=ResourceHandler.getBossLoader().getLaranoReadying();
+        if(World.getAssetLoaderCounter()<numAssetsToLoad){
+            r[World.getAssetLoaderCounter()].preloadTexture();
+            World.incrementAssetLoadCount();
+            World.transitionLoading();
+        }
     }
 
     @Override
@@ -47,7 +59,6 @@ public class Level5 extends Level {
 
     @Override
     public void render(int subLevel) {
-        Larano.loadTextures();
         Graphics.setIgnoreScale(true);
         Graphics.drawImage(backgrounds[subLevel],0,0);
         Graphics.setIgnoreScale(false);

@@ -21,7 +21,7 @@ import static com.jogamp.newt.event.KeyEvent.VK_R;
 public class World {
     private static FadeIO master=new FadeIO(0,1,1,0.02f,35);
     private static FadeIO tFade=new FadeIO(0,1,0,0.02f,35);//Fade controller for level transitions
-    private static int level=0,subLevel=0;
+    private static int level=0,subLevel=0,assetLoaderCounter=0;
     private static boolean game=false,pause=false,levelTransition=false, transitionDir =true;//Set whether in game or menu. Set pause status
     private static float gravity=0.15f;
     private static float masterRed=0,masterGreen=0,masterBlue=0;
@@ -84,6 +84,14 @@ public class World {
             pauseTitleReturn.setActive(false);
         }
 
+        levelTransUpdate();
+
+        //Master brightness code
+        if(!pause)master.update();
+        tFade.update();
+    }
+
+    private static void levelTransUpdate(){
         if(levelTransition){
             AudioManager.fadeOut();
             if(master.getCurrent()>0){
@@ -91,7 +99,7 @@ public class World {
                 master.setActive(true);
             }else
             if(transitionDir) {
-                if (tFade.getCurrent() == 1) {
+                if (tFade.getCurrent() == 1&&assetLoaderCounter==LevelController.getLevels()[level+2].getNumAssetsToLoad()) {
                     transitionDir = false;
                     tFade.setSecondDelay(2);
                     tFade.setDirection(false);
@@ -111,12 +119,9 @@ public class World {
                 master.setActive(false);
                 master.setCurrent(1);
                 AudioManager.handleLevelTransition(level);
+                assetLoaderCounter=0;
             }
         }
-
-        //Master brightness code
-        if(!pause)master.update();
-        tFade.update();
     }
 
     public static void render(){
@@ -184,6 +189,14 @@ public class World {
         Graphics.drawTextCentered("Part "+(level+1),50,35);
         if(level==0)ResourceHandler.getHaroldLoader().setState(HaroldLoader.NORMAL);
         else ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
+        if(tFade.getCurrent()==1&&assetLoaderCounter<LevelController.getLevels()[level+2].getNumAssetsToLoad())LevelController.loadAssets(level+1);
+    }
+
+    public static void transitionLoading(){
+        if(tFade.getCurrent()==1){
+            Graphics.setFont(Graphics.SMALL_FONT);
+            Graphics.drawText("Loading assets... ("+assetLoaderCounter+"/"+LevelController.getLevels()[level+2].getNumAssetsToLoad()+")",0.5f,0.5f);
+        }
     }
 
     public static void addEntity(Entity e){
@@ -253,5 +266,13 @@ public class World {
         masterRed=red;
         masterBlue=blue;
         masterGreen=green;
+    }
+
+    public static void incrementAssetLoadCount(){
+        assetLoaderCounter++;
+    }
+
+    public static int getAssetLoaderCounter() {
+        return assetLoaderCounter;
     }
 }

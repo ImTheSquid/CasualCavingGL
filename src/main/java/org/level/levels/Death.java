@@ -35,6 +35,11 @@ public class Death extends Level {
     }
 
     @Override
+    public void loadAssets() {
+
+    }
+
+    @Override
     public void update(int subLevel) {
         if(fadeDir){
             if (textHandler.getCurrent() == 1) {
