@@ -6,13 +6,14 @@ import org.graphics.Graphics;
 import org.graphics.Render;
 import org.input.Keyboard;
 import org.input.Mouse;
+import org.level.LevelController;
 
 import javax.swing.*;
 
 import static com.jogamp.newt.event.KeyEvent.*;
 
 public class Debug {
-    private static boolean show=false,cheatsUsed=false;
+    private static boolean show=false,cheatsUsed=false,assetLoadFinished=true;
     static void update(){
         if(Keyboard.keys.contains(VK_F3)){
             show=!show;
@@ -34,6 +35,7 @@ public class Debug {
                     World.setLevel(x);
                     World.clearEntites();
                     AudioManager.handleDebugSwitch(x);
+                    if(LevelController.getCurrentLevel().getNumAssetsToLoad()>0)assetLoadFinished=false;
                 }
                 Render.getGameLoop().overrideUpdateTime();
             }
@@ -70,6 +72,7 @@ public class Debug {
     }
 
     static void render(){
+        if(!assetLoadFinished)LevelController.getCurrentLevel().loadAssets();
         if(!show)return;
         Graphics.setIgnoreScale(true);
         Graphics.setColor(.2f, .2f, .2f, .5f);

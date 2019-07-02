@@ -91,6 +91,23 @@ public class BossLoader {
         return laranoReady;
     }
 
+    private ImageResource[] laranoShimmerLeft=new ImageResource[14];
+    private ImageResource[] laranoShimmerRight=new ImageResource[14];
+
+    public ImageResource[] getLaranoShimmer(boolean faceRight) {
+        if (faceRight){
+            if (laranoShimmerRight[0] == null)
+                for (int i = 0; i < laranoShimmerRight.length; i++)
+                    laranoShimmerRight[i] = new ImageResource("/CasualCaving/Entities/Larano/SwordShimmer/CLaranoC"+(i+1)+".png");
+            return laranoShimmerRight;
+        }else{
+            if (laranoShimmerLeft[0] == null)
+                for (int i = 0; i < laranoShimmerLeft.length; i++)
+                    laranoShimmerLeft[i] = new ImageResource("/CasualCaving/Entities/Larano/SwordShimmer/CLaranoC"+(i+1)+"FL.png");
+            return laranoShimmerLeft;
+        }
+    }
+
     private ImageResource[] laranoWalkLeft={new ImageResource("/CasualCaving/Entities/Larano/CLaranoW1FL.png"),
             new ImageResource("/CasualCaving/Entities/Larano/CLaranoW2FL.png"),
             new ImageResource("/CasualCaving/Entities/Larano/CLaranoW3FL.png"),
@@ -103,17 +120,50 @@ public class BossLoader {
 
     public ImageResource[] getLaranoWalk(boolean faceRight){return faceRight?laranoWalk:laranoWalkLeft;}
 
-    private ImageResource[] laranoAttack={new ImageResource("/CasualCaving/Entities/Larano/CLaranoA1.png"),
-            new ImageResource("/CasualCaving/Entities/Larano/CLaranoA2.png"),
-            new ImageResource("/CasualCaving/Entities/Larano/CLaranoA3.png"),
-            new ImageResource("/CasualCaving/Entities/Larano/CLaranoA4.png"),
-            new ImageResource("/CasualCaving/Entities/Larano/CLaranoA5.png")};
+    private ImageResource[] laranoAttack={new ImageResource("/CasualCaving/Entities/Larano/Attack/CLaranoA1.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/Attack/CLaranoA2.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/Attack/CLaranoA3.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/Attack/CLaranoA4.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/Attack/CLaranoA5.png")};
 
-    private ImageResource[] laranoAttackLeft={new ImageResource("/CasualCaving/Entities/Larano/CLaranoA1FL.png"),
-            new ImageResource("/CasualCaving/Entities/Larano/CLaranoA2FL.png"),
-            new ImageResource("/CasualCaving/Entities/Larano/CLaranoA3FL.png"),
-            new ImageResource("/CasualCaving/Entities/Larano/CLaranoA4FL.png"),
-            new ImageResource("/CasualCaving/Entities/Larano/CLaranoA5FL.png")};
+    private ImageResource[] laranoAttackLeft={new ImageResource("/CasualCaving/Entities/Larano/Attack/CLaranoA1FL.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/Attack/CLaranoA2FL.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/Attack/CLaranoA3FL.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/Attack/CLaranoA4FL.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/Attack/CLaranoA5FL.png")};
 
     public ImageResource[] getLaranoAttack(boolean faceRight){return faceRight?laranoAttack:laranoAttackLeft;}
+
+    private ImageResource[] laranoAltAttackLeft={new ImageResource("/CasualCaving/Entities/Larano/Attack/CLaranoO1FL.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/Attack/CLaranoO2FL.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/Attack/CLaranoO3FL.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/Attack/CLaranoO4FL.png")};
+
+    private ImageResource[] laranoAltAttackRight={new ImageResource("/CasualCaving/Entities/Larano/Attack/CLaranoO1.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/Attack/CLaranoO2.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/Attack/CLaranoO3.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/Attack/CLaranoO4.png")};
+
+    public ImageResource[] getLaranoAltAttack(boolean faceRight) {
+        return faceRight?laranoAltAttackRight:laranoAltAttackLeft;
+    }
+
+    private ImageResource[] laranoDash={new ImageResource("/CasualCaving/Entities/Larano/CLaranoSwordDashing.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/CLaranoSwordDashingFL.png")};
+
+    public ImageResource getLaranoDash(boolean faceRight) {
+        return faceRight?laranoDash[0]:laranoDash[1];
+    }
+
+    private ImageResource[] laranoDizzyLeft={new ImageResource("/CasualCaving/Entities/Larano/Dizzy/CLaranoDizzy1FL.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/Dizzy/CLaranoDizzy2FL.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/Dizzy/CLaranoDizzy3FL.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/Dizzy/CLaranoDizzy4FL.png")};
+
+    private ImageResource[] laranoDizzyRight={new ImageResource("/CasualCaving/Entities/Larano/Dizzy/CLaranoDizzy1.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/Dizzy/CLaranoDizzy2.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/Dizzy/CLaranoDizzy3.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/Dizzy/CLaranoDizzy4.png")};
+
+    public ImageResource[] getLaranoDizzy(boolean faceRight){return faceRight?laranoDizzyRight:laranoDizzyLeft;}
 }

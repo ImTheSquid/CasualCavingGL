@@ -16,6 +16,12 @@ public class MiscLoader {
 
     public ImageResource getMusicButton(boolean on){return on?musicButton[0]:musicButton[1];}
 
+    private ImageResource laranoStalactite=new ImageResource("/CasualCaving/Levels/Level5/LaranoStalactite.png");
+
+    public ImageResource getLaranoStalactite() {
+        return laranoStalactite;
+    }
+
     public URL getInconsolata() {
         return MiscLoader.class.getResource("/CasualCaving/Fonts/Inconsolata-Regular.ttf");
     }

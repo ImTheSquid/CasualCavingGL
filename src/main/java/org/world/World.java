@@ -192,11 +192,9 @@ public class World {
         if(tFade.getCurrent()==1&&assetLoaderCounter<LevelController.getLevels()[level+2].getNumAssetsToLoad())LevelController.loadAssets(level+1);
     }
 
-    public static void transitionLoading(){
-        if(tFade.getCurrent()==1){
-            Graphics.setFont(Graphics.SMALL_FONT);
-            Graphics.drawText("Loading assets... ("+assetLoaderCounter+"/"+LevelController.getLevels()[level+2].getNumAssetsToLoad()+")",0.5f,0.5f);
-        }
+    public static void transitionLoading(int level){
+        Graphics.setFont(Graphics.SMALL_FONT);
+        Graphics.drawText("Loading assets... ("+assetLoaderCounter+"/"+LevelController.getLevels()[level+1].getNumAssetsToLoad()+")",0.5f,1f);
     }
 
     public static void addEntity(Entity e){

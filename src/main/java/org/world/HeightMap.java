@@ -21,7 +21,7 @@ public class HeightMap {
         }else{
             ArrayList<HeightVal> temp=findBounds(r);
             for(HeightVal h:temp){
-                if((r.getY()>=h.getHeight()-1&&!h.isOpaque())||(r.getY()<=h.getHeight()&&h.isOpaque()))return new HeightReturn(true,h.getHeight());
+                if((r.getY()>=h.getHeight()-3&&!h.isOpaque())||(r.getY()<=h.getHeight()&&h.isOpaque()))return new HeightReturn(true,h.getHeight());
             }
         }
         return new HeightReturn(false);

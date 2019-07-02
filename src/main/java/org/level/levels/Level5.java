@@ -1,7 +1,9 @@
 package org.level.levels;
 
+import org.entities.HitDetector;
 import org.entities.aggressive.CineLarano;
 import org.entities.aggressive.Larano;
+import org.entities.aggressive.LaranoStalactite;
 import org.entities.passive.LifeCrystal;
 import org.graphics.Graphics;
 import org.graphics.Render;
@@ -16,9 +18,11 @@ import org.world.World;
 public class Level5 extends Level {
     private CineLarano cineLarano=new CineLarano();
     private Larano larano=new Larano();
+    private HitDetector stalactiteLeft=new HitDetector(2,0, 50, 12, Render.unitsTall - 50, () -> entityRegister.add(new LaranoStalactite(0,50,true)),"Harold");
+    private HitDetector stalactiteRight=new HitDetector(2,87, 50, 13, Render.unitsTall - 50, () -> entityRegister.add(new LaranoStalactite(95,50,false)),"Harold");
     public Level5(ImageResource[] backgrounds) {
         super(backgrounds, 3);
-        numAssetsToLoad=ResourceHandler.getBossLoader().getLaranoReadying().length;
+        numAssetsToLoad=ResourceHandler.getBossLoader().getLaranoReadying().length+ResourceHandler.getBossLoader().getLaranoShimmer(true).length*2;
     }
 
     @Override
@@ -29,10 +33,14 @@ public class Level5 extends Level {
     @Override
     public void loadAssets() {
         ImageResource[] r=ResourceHandler.getBossLoader().getLaranoReadying();
+        ImageResource[] sRight=ResourceHandler.getBossLoader().getLaranoShimmer(true);
+        ImageResource[] sLeft=ResourceHandler.getBossLoader().getLaranoShimmer(false);
         if(World.getAssetLoaderCounter()<numAssetsToLoad){
-            r[World.getAssetLoaderCounter()].preloadTexture();
+            if(World.getAssetLoaderCounter()<r.length)r[World.getAssetLoaderCounter()].preloadTexture();
+            else if(World.getAssetLoaderCounter()-r.length<sRight.length)sRight[World.getAssetLoaderCounter()-r.length].preloadTexture();
+            else sLeft[World.getAssetLoaderCounter()-r.length-sRight.length].preloadTexture();
             World.incrementAssetLoadCount();
-            World.transitionLoading();
+            World.transitionLoading(5);
         }
     }
 
@@ -66,7 +74,13 @@ public class Level5 extends Level {
 
     @Override
     public void renderForeground(int subLevel) {
-        if(subLevel==2)larano.getBossBar().render();
+        if(subLevel==2){
+            larano.getBossBar().render();
+            Graphics.setIgnoreScale(true);
+            Graphics.drawImage(ResourceHandler.getMiscLoader().getLaranoStalactite(),0,50);
+            Graphics.drawImage(ResourceHandler.getMiscLoader().getLaranoStalactite(),95,50);
+            Graphics.setIgnoreScale(false);
+        }
     }
 
     @Override
@@ -81,6 +95,8 @@ public class Level5 extends Level {
         clearEntityRegister();
         entityRegister.add(new LifeCrystal(0,65,7));
         entityRegister.add(new LifeCrystal(0,85,7));
+        entityRegister.add(stalactiteLeft);
+        entityRegister.add(stalactiteRight);
         entityRegister.add(cineLarano);
         entityRegister.add(larano);
     }
