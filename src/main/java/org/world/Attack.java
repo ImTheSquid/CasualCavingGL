@@ -8,7 +8,8 @@ import org.entities.aggressive.LaranoStalactite;
 import java.util.ArrayList;
 
 public class Attack {
-    public static void melee(Entity e, int damage, float range){
+    //Returns true if attack was successful
+    public static boolean melee(Entity e, int damage, float range){
         if(e instanceof Harold||e instanceof LaranoStalactite) {//Check if player is executing melee
             Entity[] applicable=sortRegister(e);//Finds entities in range
             for (Entity x : applicable) {
@@ -16,24 +17,30 @@ public class Attack {
                     continue;//Skip if y-val is out of range
                 if (e.isFacingRight() && e.getX() + e.getWidth() + range >= x.getX()) {
                     x.doDamage(e, damage);
+                    return true;
                 } else if (!e.isFacingRight() && x.getX() + x.getWidth() + range >= e.getX()) {
                     x.doDamage(e, damage);
+                    return true;
                 }
             }
             if(e instanceof LaranoStalactite)doHaroldAttack(e,damage,range);
         }else {
             doHaroldAttack(e,damage,range);
         }
+        return false;
     }
 
-    private static void doHaroldAttack(Entity e,int damage,float range){
+    private static boolean doHaroldAttack(Entity e,int damage,float range){
         Entity x = Main.getHarold();
-        if ((x.getY() > e.getY() + e.getHeight() || x.getY() + x.getHeight() < e.getY()))return;//Return if y-val is out of range
+        if ((x.getY() > e.getY() + e.getHeight() || x.getY() + x.getHeight() < e.getY()))return false;//Return if y-val is out of range
         if (e.isFacingRight() && e.getX() + e.getWidth() + range >= x.getX()) {
             x.doDamage(e,damage);
+            return true;
         } else if (!e.isFacingRight() && x.getX() + x.getWidth() + range>= e.getX()) {
             x.doDamage(e,damage);
+            return true;
         }
+        return false;
     }
 
     private static Entity[] sortRegister(Entity e){

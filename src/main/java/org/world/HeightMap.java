@@ -88,7 +88,7 @@ public class HeightMap {
         return r.getY()<current.getHeight();
     }
 
-    //Calculates the next height map (if opaque)
+    //Calculates the next height val (if opaque)
     public static HeightVal findApplicable(SmartRectangle r,boolean right){
         float xPos;
         if(right)xPos=r.getX()+r.getWidth();
@@ -102,6 +102,17 @@ public class HeightMap {
         }
         if(val!=null&&!val.isOpaque())return null;
         return val;
+    }
+
+    //Find the next platform that can be jumped to with a certain distance
+    public static HeightVal findNextJumpPlat(SmartRectangle r,boolean right,float jumpDist){
+        float xPos;
+        if(right)xPos=r.getX()+r.getWidth();
+        else xPos=r.getX();
+        for(HeightVal h:heights){
+            if(!h.isOpaque()&&xPos>=h.getStartX()&&xPos<=h.getEndX()&&r.getY()<h.getHeight()&&h.getHeight()-r.getY()<jumpDist)return h;
+        }
+        return null;
     }
 
     public static HeightVal findNextWall(SmartRectangle r,boolean right){

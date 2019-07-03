@@ -166,4 +166,21 @@ public class BossLoader {
             new ImageResource("/CasualCaving/Entities/Larano/Dizzy/CLaranoDizzy4.png")};
 
     public ImageResource[] getLaranoDizzy(boolean faceRight){return faceRight?laranoDizzyRight:laranoDizzyLeft;}
+
+    private ImageResource[] laranoDamage={new ImageResource("/CasualCaving/Entities/Larano/CLaranoTakingDamage.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/CLaranoTakingDamageFL.png")};
+
+    public ImageResource getLaranoDamage(boolean faceRight){return faceRight?laranoDamage[0]:laranoDamage[1];}
+
+    private ImageResource[] laranoJumpLeft={new ImageResource("/CasualCaving/Entities/Larano/CLaranoJ1FL.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/CLaranoJ2FL.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/CLaranoJ1FL.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/CLaranoJ4FL.png")};
+
+    private ImageResource[] laranoJumpRight={new ImageResource("/CasualCaving/Entities/Larano/CLaranoJ1.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/CLaranoJ2.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/CLaranoJ1.png"),
+            new ImageResource("/CasualCaving/Entities/Larano/CLaranoJ4.png")};
+
+    public ImageResource[] getLaranoJump(boolean faceRight){return faceRight?laranoJumpRight:laranoJumpLeft;}
 }
