@@ -115,8 +115,7 @@ public class Larano extends Autonomous {
             chargeAttemptCooldown--;
             return;
         }
-        double rand=Math.random();
-        if(rand<.9)chargeAttemptCooldown=50;
+        if(Math.random()<.9)chargeAttemptCooldown=50;
         else state=CHARGERDY;
     }
 
