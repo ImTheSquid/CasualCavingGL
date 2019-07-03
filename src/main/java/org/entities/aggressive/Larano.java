@@ -65,8 +65,10 @@ public class Larano extends Autonomous {
         if(h.isOnGround()&&vY<0){
             y=h.getGroundLevel();
             vY=0;
-            if(state==JUMP&&larano.getCurrentFrameNum()==larano.getFrames().length-1)
-                state=NORMAL;
+            if(state==JUMP&&larano.getCurrentFrameNum()==larano.getFrames().length-1) {
+                state = NORMAL;
+                if(direction&&Main.getHarold().getX()+Main.getHarold().getWidth()<x||!direction&&Main.getHarold().getX()>x+width)direction=!direction;
+            }
         }
 
         doAttackCalc();
@@ -114,7 +116,7 @@ public class Larano extends Autonomous {
             return;
         }
         double rand=Math.random();
-        if(rand<.8)chargeAttemptCooldown=30;
+        if(rand<.9)chargeAttemptCooldown=50;
         else state=CHARGERDY;
     }
 
@@ -137,13 +139,11 @@ public class Larano extends Autonomous {
                 }
             break;
             case ATTACK:
-                if(larano.getCurrentFrameNum()>0)break;
-                if(Main.getHarold().getY()<y+width/2) {
-                    altAttack=false;
-                    larano.setFrames(ResourceHandler.getBossLoader().getLaranoAttack(direction));
-                }else{
-                    altAttack=true;
+                altAttack= !(Main.getHarold().getY() < y + width / 2);
+                if(altAttack){
                     larano.setFrames(ResourceHandler.getBossLoader().getLaranoAltAttack(direction));
+                }else{
+                    larano.setFrames(ResourceHandler.getBossLoader().getLaranoAttack(direction));
                 }
             break;
             case CHARGERDY:
