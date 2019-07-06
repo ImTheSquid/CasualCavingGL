@@ -48,6 +48,7 @@ public class GameLoop {
                         }
                     }
                 }
+                AudioManager.cleanup();
             }
         };
         game.setName("GameLoop");
@@ -63,4 +64,8 @@ public class GameLoop {
     }
 
     public void overrideUpdateTime(){lastUpdateTime=System.nanoTime();}
+
+    public boolean isRunning() {
+        return running;
+    }
 }

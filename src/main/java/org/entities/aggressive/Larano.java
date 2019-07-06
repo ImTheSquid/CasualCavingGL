@@ -14,7 +14,7 @@ import org.loader.ResourceHandler;
 import org.world.*;
 
 public class Larano extends Autonomous {
-    private final int NORMAL=0,READY=1,ATTACK=2,CHARGE=3, DIZZY =4,CHARGERDY=5,DAMAGE=6,JUMP=7;
+    private final int NORMAL=0,READY=1,ATTACK=2,CHARGE=3,DIZZY=4,CHARGERDY=5,DAMAGE=6,JUMP=7,DEFEAT=8;
     private Animator larano=new Animator(ResourceHandler.getBossLoader().getLaranoReadying(),30);
     private ImageResource sprite=null;
     private SmartRectangle hitbox=new SmartRectangle(x,y,width,height);
@@ -33,6 +33,10 @@ public class Larano extends Autonomous {
         bossBar.update();
         if(Main.getHarold().getX()>10&&state==-1)state=READY;
         if(state==-1)return;
+        if(health==1){
+            invincible=true;
+            state=DEFEAT;
+        }
         if(state==NORMAL){
             if(direction)vX=.2f;
             else vX=-.2f;
@@ -42,7 +46,7 @@ public class Larano extends Autonomous {
             if(attackCooldown==0&&Attack.melee(this,1,0.5f)){
                 attackCooldown=20;
             }
-        }else{
+        }else if(state!=DEFEAT){
             vX=0;
         }
         x+=vX;
@@ -115,13 +119,13 @@ public class Larano extends Autonomous {
             chargeAttemptCooldown--;
             return;
         }
-        if(Math.random()<.9)chargeAttemptCooldown=50;
+        if(Math.random()<.85)chargeAttemptCooldown=50;
         else state=CHARGERDY;
     }
 
     private void doSpriteCalc(){
-        if(state!=READY&&state!=JUMP)larano.setFps(10);
-        else if(state==JUMP)larano.setFps(4);
+        if(state!=READY&&state!=JUMP&&state!=DEFEAT)larano.setFps(10);
+        else if(state==JUMP||state==DEFEAT)larano.setFps(4);
         switch(state){
             case NORMAL:
                 larano.setFrames(ResourceHandler.getBossLoader().getLaranoWalk(direction));
@@ -169,11 +173,22 @@ public class Larano extends Autonomous {
             case JUMP:
                 larano.setFrames(ResourceHandler.getBossLoader().getLaranoJump(direction));
             break;
+            case DEFEAT:
+                if(x<48||x>52) {
+                    direction = x < 50;
+                    larano.setFrames(ResourceHandler.getBossLoader().getLaranoWalk(direction));
+                    if (direction) vX = .2f;
+                    else vX = -.2f;
+                }else{
+                    vX=0;
+                    larano.setFrames(ResourceHandler.getBossLoader().getLaranoDefeat());
+                }
+            break;
         }
         sprite=larano.getCurrentFrame();
-        if(!(state==JUMP&&larano.getCurrentFrameNum()==larano.getFrames().length-1))
+        if(!((state==JUMP||(state==DEFEAT&&(x>48&&x<52)))&&larano.getCurrentFrameNum()==larano.getFrames().length-1))
         larano.update();
-        else
+        else if(state==JUMP)
             if(vY==0)vY=3;
     }
 
@@ -214,7 +229,7 @@ public class Larano extends Autonomous {
     @Override
     public void reset() {
         direction=false;
-        larano.setFps(30);
+        larano.setFps(60);
         larano.setFrames(ResourceHandler.getBossLoader().getLaranoReadying());
         sprite=larano.getCurrentFrame();
         state=-1;
@@ -223,6 +238,7 @@ public class Larano extends Autonomous {
         x=0;
         y=0;
         dizzyCount=0;
+        invincible=false;
     }
 
     @Override

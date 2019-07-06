@@ -3,7 +3,6 @@ package org.graphics;
 import com.jogamp.nativewindow.WindowClosingProtocol;
 import com.jogamp.newt.opengl.GLWindow;
 import com.jogamp.opengl.*;
-import org.engine.AudioManager;
 import org.engine.GameLoop;
 import org.input.Keyboard;
 import org.input.Mouse;
@@ -56,7 +55,6 @@ public class Render implements GLEventListener {
     }
 
     public void dispose(GLAutoDrawable glAutoDrawable) {
-        AudioManager.cleanup();
         gameLoop.setRunning(false);
     }
 

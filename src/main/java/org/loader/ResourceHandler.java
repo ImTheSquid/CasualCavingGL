@@ -37,4 +37,39 @@ public class ResourceHandler {
     public static BossLoader getBossLoader() {
         return bossLoader;
     }
+
+    //Counts number of non-null objects in a 2D array
+    public static int count2DArr(ImageResource[][] in){
+        int count=0;
+        for(ImageResource[] o:in)for(ImageResource p:o)if(p!=null)count++;
+        return count;
+    }
+
+    //Converts a 2D array to a 1D array with no null values
+    public static ImageResource[] create2DLoadable(ImageResource[][] in){
+        ImageResource[] out=new ImageResource[count2DArr(in)];
+        int count=0;
+        for(ImageResource[] i:in){
+            for(ImageResource j:i){
+                if(j!=null){
+                    out[count]=j;
+                    count++;
+                }
+            }
+        }
+        return out;
+    }
+
+    //Creates a 1D array from other 1D arrays with no null values
+    public static ImageResource[] create1DLoadable(ImageResource[][] in){
+        ImageResource[] out=new ImageResource[count2DArr(in)];
+        int count=0;
+        for(ImageResource[] i:in)
+            for(ImageResource j:i)
+                if(j!=null){
+                    out[count]=j;
+                    count++;
+                }
+        return out;
+    }
 }

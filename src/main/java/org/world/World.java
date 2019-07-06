@@ -12,11 +12,11 @@ import org.level.LevelController;
 import org.loader.ResourceHandler;
 import org.loader.harold.HaroldLoader;
 
+import javax.swing.*;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static com.jogamp.newt.event.KeyEvent.VK_ESCAPE;
-import static com.jogamp.newt.event.KeyEvent.VK_R;
 
 public class World {
     private static FadeIO master=new FadeIO(0,1,1,0.02f,35);
@@ -32,9 +32,14 @@ public class World {
 
     public static void update(){
         Debug.update();
-        if(Render.getWindow().getWidth()!=Render.screenWidth||Render.getWindow().getHeight()!=Render.screenHeight){
-            if(Keyboard.keys.contains(VK_R))Render.getWindow().setSize(Render.screenWidth,Render.screenHeight);
-            return;
+        if(Render.getGameLoop().isRunning()&&(Render.getWindow().getWidth()!=Render.screenWidth||Render.getWindow().getHeight()!=Render.screenHeight)){
+            String[] options={"Resize","Exit"};
+            int x= JOptionPane.showOptionDialog(null,"Casual Caving only supports 1280x720 resolution.\nWould you like to automatically resize the window or exit the game?","Screen Resolution",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE,null,options,options[0]);
+            if(x==JOptionPane.YES_OPTION)Render.getWindow().setSize(Render.screenWidth,Render.screenHeight);
+            else{
+                Render.getGameLoop().setRunning(false);
+                return;
+            }
         }
 
         if(Keyboard.keys.contains(VK_ESCAPE)&&game&&!levelTransition){
@@ -125,12 +130,7 @@ public class World {
     }
 
     public static void render(){
-        if(Render.getWindow().getWidth()!=Render.screenWidth||Render.getWindow().getHeight()!=Render.screenHeight){
-            Graphics.setColor(.9f,0,0,1);
-            Graphics.setFont(Graphics.REGULAR_FONT);
-            Graphics.drawText("Please resize your window to 1280x720, or press R to automatically resize.",0,Graphics.convertToWorldY(Render.getWindow().getHeight()-90));
-            return;
-        }
+        if(Render.getWindow().getWidth()!=Render.screenWidth||Render.getWindow().getHeight()!=Render.screenHeight)return;
 
         LevelController.render(level,subLevel);
         //TODO implement render stages (pre-render,render,post-render)
@@ -192,9 +192,9 @@ public class World {
         if(tFade.getCurrent()==1&&assetLoaderCounter<LevelController.getLevels()[level+2].getNumAssetsToLoad())LevelController.loadAssets(level+1);
     }
 
-    public static void transitionLoading(int level){
+    public static void renderAssetLoadingIndicator(int numAssetsToLoad){
         Graphics.setFont(Graphics.SMALL_FONT);
-        Graphics.drawText("Loading assets... ("+assetLoaderCounter+"/"+LevelController.getLevels()[level+1].getNumAssetsToLoad()+")",0.5f,1f);
+        Graphics.drawText("Loading assets... ("+assetLoaderCounter+"/"+numAssetsToLoad+")",0.5f,1f);
     }
 
     public static void addEntity(Entity e){

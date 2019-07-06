@@ -27,6 +27,7 @@ public class Level2 extends Level {
     private boolean choiceMade=false,choiceDir=true,ePressed=false;
     public Level2(ImageResource[][] backgrounds) {
         super(backgrounds,backgrounds.length);
+        numAssetsToLoad=ResourceHandler.getLevelLoader().getLevel2Sprites().length+ResourceHandler.count2DArr(ResourceHandler.getLevelLoader().getLevel2());
     }
 
     @Override
@@ -36,7 +37,14 @@ public class Level2 extends Level {
 
     @Override
     public void loadAssets() {
-
+        ImageResource[] backgrounds=ResourceHandler.create2DLoadable(ResourceHandler.getLevelLoader().getLevel2());
+        ImageResource[] sprites=ResourceHandler.getLevelLoader().getLevel2Sprites();
+        ImageResource[] toLoad=ResourceHandler.create1DLoadable(new ImageResource[][]{backgrounds,sprites});
+        if(World.getAssetLoaderCounter()<numAssetsToLoad){
+            toLoad[World.getAssetLoaderCounter()].preloadTexture();
+            World.incrementAssetLoadCount();
+            World.renderAssetLoadingIndicator(numAssetsToLoad);
+        }
     }
 
     public void update(int subLevel) {
