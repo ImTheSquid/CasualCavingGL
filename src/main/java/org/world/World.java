@@ -32,12 +32,15 @@ public class World {
 
     public static void update(){
         Debug.update();
-        if(Render.getGameLoop().isRunning()&&(Render.getWindow().getWidth()!=Render.screenWidth||Render.getWindow().getHeight()!=Render.screenHeight)){
+        if(Render.getWindow().getWidth()!=Render.screenWidth||Render.getWindow().getHeight()!=Render.screenHeight){
             String[] options={"Resize","Exit"};
             int x= JOptionPane.showOptionDialog(null,"Casual Caving only supports 1280x720 resolution.\nWould you like to automatically resize the window or exit the game?","Screen Resolution",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE,null,options,options[0]);
-            if(x==JOptionPane.YES_OPTION)Render.getWindow().setSize(Render.screenWidth,Render.screenHeight);
-            else{
+            if(x==JOptionPane.YES_OPTION){
+                Render.getWindow().setSize(Render.screenWidth,Render.screenHeight);
+                Render.getGameLoop().overrideUpdateTime();
+            }else{
                 Render.getGameLoop().setRunning(false);
+                Render.getGameLoop().overrideUpdateTime();
                 return;
             }
         }
