@@ -105,9 +105,8 @@ public class World {
             if(master.getCurrent()>0){
                 master.setDirection(false);
                 master.setActive(true);
-            }else
-            if(transitionDir) {
-                if (tFade.getCurrent() == 1&&assetLoaderCounter==LevelController.getLevels()[level+2].getNumAssetsToLoad()) {
+            }else if(transitionDir) {
+                if (tFade.getCurrent() == 1&&assetLoaderCounter>=LevelController.getLevels()[level+2].getNumAssetsToLoad()) {
                     transitionDir = false;
                     tFade.setSecondDelay(2);
                     tFade.setDirection(false);
@@ -275,5 +274,10 @@ public class World {
 
     public static int getAssetLoaderCounter() {
         return assetLoaderCounter;
+    }
+
+    public static void resetAssetLoaderCount(){
+        System.out.println("RESET");
+        assetLoaderCounter=0;
     }
 }

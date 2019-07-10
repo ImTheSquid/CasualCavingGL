@@ -18,8 +18,7 @@ public class AudioManager {
     private static boolean musicEnabled=true;
     private static FloatControl volume=null;
     private static int currentTrack=0;
-    private static final int[][] musicDirectory={{1,2},
-            {4,5,6,7,8,9}};
+    private static final int[][] musicDirectory={{1,2}};
 
     static void setup(){
         loadMusic();
@@ -63,6 +62,7 @@ public class AudioManager {
                 musicPos=0;
                 music.stop();
                 music.setMicrosecondPosition(0);
+                musicStat=STOP;
                 break;
             case RESTART:
                 music.stop();
@@ -90,6 +90,7 @@ public class AudioManager {
     }
 
     public static void handlePause(boolean pause){
+        if(musicStat==STOP)return;
         if(pause&&musicStat==PLAY)setMusicPlayback(PAUSE);
         else if(!pause&&musicStat==PAUSE)setMusicPlayback(PLAY);
     }
@@ -132,10 +133,6 @@ public class AudioManager {
     }
 
     public static void handleDebugSwitch(int nextLevel){
-        if(nextLevel!=1)setMusicPlayback(STOP);
-        else{
-            setMusic(0);
-            setMusicPlayback(PLAY);
-        }
+        handleLevelTransition(nextLevel);
     }
 }

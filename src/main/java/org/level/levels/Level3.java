@@ -24,6 +24,7 @@ public class Level3 extends Level {
     public Level3(ImageResource[] backgrounds) {
         super(backgrounds,backgrounds.length);
         reset();
+        numAssetsToLoad=0;
     }
 
     @Override
