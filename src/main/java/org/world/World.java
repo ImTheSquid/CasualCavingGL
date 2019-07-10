@@ -275,9 +275,4 @@ public class World {
     public static int getAssetLoaderCounter() {
         return assetLoaderCounter;
     }
-
-    public static void resetAssetLoaderCount(){
-        System.out.println("RESET");
-        assetLoaderCounter=0;
-    }
 }
