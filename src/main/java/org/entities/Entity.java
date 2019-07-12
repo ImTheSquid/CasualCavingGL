@@ -113,4 +113,8 @@ public abstract class Entity {
     public boolean isMobile() {
         return movement;
     }
+
+    public float getvX() {
+        return vX;
+    }
 }

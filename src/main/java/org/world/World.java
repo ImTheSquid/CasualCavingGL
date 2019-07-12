@@ -171,7 +171,7 @@ public class World {
             pauseReturn.setColor(0.721f, 0.721f, 0.721f,1f);
             pauseReturn.render();
             Graphics.setColor(1,1,1,1);
-            Graphics.setFont(Graphics.REGULAR_FONT);
+            Graphics.setFont(Graphics.NORMAL_FONT);
             Graphics.drawTextCentered("Back to Game",Render.unitsWide/2,30);
             pauseTitleReturn.setColor(0.6f, 0, 0,1);
             pauseTitleReturn.render();

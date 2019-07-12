@@ -2,6 +2,7 @@ package org.level.levels;
 
 import org.entities.HitDetector;
 import org.entities.aggressive.CineLarano;
+import org.entities.aggressive.KeyMasterL;
 import org.entities.aggressive.Larano;
 import org.entities.aggressive.LaranoStalactite;
 import org.entities.passive.LifeCrystal;
@@ -18,6 +19,7 @@ import org.world.World;
 public class Level5 extends Level {
     private CineLarano cineLarano=new CineLarano();
     private Larano larano=new Larano();
+    private KeyMasterL keyMaster=new KeyMasterL(larano);
     private HitDetector stalactiteLeft=new HitDetector(2,0, 50, 12, Render.unitsTall - 50, () -> entityRegister.add(new LaranoStalactite(0,50,true)),"Harold");
     private HitDetector stalactiteRight=new HitDetector(2,87, 50, 13, Render.unitsTall - 50, () -> entityRegister.add(new LaranoStalactite(95,50,false)),"Harold");
     public Level5(ImageResource[] backgrounds) {
@@ -91,6 +93,7 @@ public class Level5 extends Level {
     public void reset() {
         cineLarano.reset();
         larano.reset();
+        keyMaster.reset();
         clearEntityRegister();
         entityRegister.add(new LifeCrystal(0,65,7));
         entityRegister.add(new LifeCrystal(0,85,7));
@@ -98,5 +101,6 @@ public class Level5 extends Level {
         entityRegister.add(stalactiteRight);
         entityRegister.add(cineLarano);
         entityRegister.add(larano);
+        entityRegister.add(keyMaster);
     }
 }

@@ -18,7 +18,7 @@ import static org.graphics.Render.unitsWide;
 
 public class Graphics {
     //Font vars
-    public static final int TITLE_FONT=0,REGULAR_FONT=1,SMALL_FONT=2,DEBUG_SMALL=3;
+    public static final int TITLE_FONT=0, NORMAL_FONT =1,SMALL_FONT=2,DEBUG_SMALL=3;
 
     private static float red=0,green=0,blue=0,alpha=0;
     private static float rotation=0,scaleFactor=1;
@@ -58,6 +58,7 @@ public class Graphics {
         scaleFactor=scaleSave;
     }
 
+    //TODO Add scaling support to draw and fill circle methods
     public static void drawCircle(float x, float y, float radius){
         final float DEG2RAD=(float)Math.PI/180;
         GL2 gl=Render.getGL2();
@@ -192,7 +193,7 @@ public class Graphics {
             }
         }
         strings.add(currentString.toString());//Clears buffer after loop
-        strings.set(0,strings.get(0).substring(1));//Gets rid of space at beginning of first line
+        if(strings.get(0).length()>0)strings.set(0,strings.get(0).substring(1));//Gets rid of space at beginning of first line
         int iteration=0;
         //Draw the text in the array
         if(box){

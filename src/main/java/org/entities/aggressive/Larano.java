@@ -186,10 +186,10 @@ public class Larano extends Autonomous {
             break;
         }
         sprite=larano.getCurrentFrame();
-        if(!((state==JUMP||(state==DEFEAT&&(x>48&&x<52)))&&larano.getCurrentFrameNum()==larano.getFrames().length-1))
-        larano.update();
-        else if(state==JUMP)
-            if(vY==0)vY=3;
+        boolean checkJump=state==JUMP&&larano.getCurrentFrameNum()==larano.getFrames().length-1;
+        boolean checkDefeat=state==DEFEAT&&(x>48&&x<52);
+        if(!(checkJump||checkDefeat))larano.update();
+        else if(state==JUMP)if(vY==0)vY=3;
     }
 
     @Override
@@ -248,6 +248,11 @@ public class Larano extends Autonomous {
 
     public BossBar getBossBar() {
         return bossBar;
+    }
+
+    public void updateSprite(){
+        larano.update();
+        sprite=larano.getCurrentFrame();
     }
 
     @Override

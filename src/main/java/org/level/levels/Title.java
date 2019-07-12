@@ -206,7 +206,7 @@ public class Title extends Level {
         credits.setColor(0.8f,0.74f,0.03f,1);
         credits.render();
         Graphics.setColor(1,1,1,1);
-        Graphics.setFont(Graphics.REGULAR_FONT);
+        Graphics.setFont(Graphics.NORMAL_FONT);
         Graphics.drawTextCentered("Quit",Render.unitsWide/2,4f);
         Graphics.drawTextCentered("Controls",Render.unitsWide/2,8.3f);
         Graphics.drawText("Credits",89,2.4f);
@@ -219,7 +219,7 @@ public class Title extends Level {
             Graphics.setColor(0.3f,0.3f,0.3f,.7f);
             Graphics.fillRectCentered(Render.unitsWide/2,Render.unitsTall/2,50,35);
             Graphics.setColor(1,1,1,1);
-            Graphics.setFont(Graphics.REGULAR_FONT);
+            Graphics.setFont(Graphics.NORMAL_FONT);
             Graphics.drawTextCentered("Controls",Render.unitsWide/2, Render.unitsTall/2+15);
             Graphics.setFont(Graphics.SMALL_FONT);
             Graphics.drawTextCentered("W: Attack (part 2 and above)",Render.unitsWide/2,Render.unitsTall/2+11);
@@ -230,7 +230,7 @@ public class Title extends Level {
             Graphics.setColor(0.3f,0.3f,0.3f,.7f);
             Graphics.fillRectCentered(Render.unitsWide/2,Render.unitsTall/2,50,35);
             Graphics.setColor(1,1,1,1);
-            Graphics.setFont(Graphics.REGULAR_FONT);
+            Graphics.setFont(Graphics.NORMAL_FONT);
             Graphics.drawTextCentered("Credits",Render.unitsWide/2, Render.unitsTall/2+15);
             Graphics.setFont(Graphics.SMALL_FONT);
             Graphics.drawTextCentered("Programming and Game Design: Jack Hogan",Render.unitsWide/2,Render.unitsTall/2+11);
