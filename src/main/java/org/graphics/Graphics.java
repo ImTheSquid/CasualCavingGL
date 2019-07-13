@@ -200,7 +200,7 @@ public class Graphics {
             float lengthMax=0;
             for(String s:strings){
                 float newL=convertToWorldWidth((float)fonts[textSelector].getBounds(s).getWidth());
-                if(newL>lengthMax)lengthMax=newL;
+                lengthMax=Math.max(lengthMax,newL);
             }
             Graphics.setColor(0,0,0,0.5f);
             float yAdjustment=convertToWorldHeight((float)fonts[textSelector].getBounds(text).getHeight()*(strings.size()-1));

@@ -202,7 +202,10 @@ public class Larano extends Autonomous {
         if(damageTakenFrame>0)Graphics.setColor(1,0,0,1);
         else Graphics.setColor(1,1,1,1);
         if(state==READY)Graphics.drawImage(sprite,0,0);
-        else Graphics.drawImage(sprite,x-doOffsetCalc(),y);
+        else{
+            if(state==DEFEAT&&vX==0&&larano.getCurrentFrameNum()==3)Graphics.drawImage(sprite,x-doOffsetCalc(),y-1.5f);
+            else Graphics.drawImage(sprite,x-doOffsetCalc(),y);
+        }
         Graphics.setIgnoreScale(false);
         Graphics.setColor(1,1,1,1);
     }
@@ -267,5 +270,9 @@ public class Larano extends Autonomous {
     @Override
     public void handleDeath() {
         bossBar.update();
+    }
+
+    public Animator getLarano() {
+        return larano;
     }
 }

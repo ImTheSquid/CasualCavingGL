@@ -191,4 +191,18 @@ public class BossLoader {
             new ImageResource("/CasualCaving/Entities/Larano/Defeat/CinematicLaranoDefeated5.png")};
 
     public ImageResource[] getLaranoDefeat(){return laranoDefeat;}
+
+    private ImageResource[] emerieWalkLeft={new ImageResource("/CasualCaving/Entities/Emerie/EmerieW1FL.png"),
+            new ImageResource("/CasualCaving/Entities/Emerie/EmerieW2FL.png"),
+            new ImageResource("/CasualCaving/Entities/Emerie/EmerieW3FL.png"),
+            new ImageResource("/CasualCaving/Entities/Emerie/EmerieW4FL.png")};
+
+    private ImageResource[] emerieWalkRight={new ImageResource("/CasualCaving/Entities/Emerie/EmerieW1.png"),
+            new ImageResource("/CasualCaving/Entities/Emerie/EmerieW2.png"),
+            new ImageResource("/CasualCaving/Entities/Emerie/EmerieW3.png"),
+            new ImageResource("/CasualCaving/Entities/Emerie/EmerieW4.png")};
+
+    public ImageResource[] getEmerieWalk(boolean faceRight) {
+        return faceRight?emerieWalkRight:emerieWalkLeft;
+    }
 }

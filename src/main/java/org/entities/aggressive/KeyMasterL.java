@@ -1,16 +1,21 @@
 package org.entities.aggressive;
 
 import org.entities.Autonomous;
+import org.graphics.Animator;
 import org.graphics.Graphics;
 import org.input.Keyboard;
+import org.loader.ImageResource;
+import org.loader.ResourceHandler;
 
 import static com.jogamp.newt.event.KeyEvent.VK_SPACE;
 
-//Key Master class for the end of the Larano boss fight
+//Key Master (Emerie) class for the end of the Larano boss fight
 public class KeyMasterL extends Autonomous {
     private final int WALK_IN=0,TALK=1,WALK_OUT=2;
     private int convoProgress=0;
     private Larano larano;
+    private Animator animator=new Animator(ResourceHandler.getBossLoader().getEmerieWalk(false),8);
+    private ImageResource emerie;
     private String[] conversation={
             "Larano! Stop this fighting!",
             "Keymaster? What are you doing here!?",
@@ -20,8 +25,9 @@ public class KeyMasterL extends Autonomous {
     };
     private boolean keymasterTalking=true;
     public KeyMasterL(Larano l) {
-        super(2,101, 7);
+        super(2,101, 4);
         larano=l;
+        reset();
     }
 
     @Override
@@ -29,14 +35,22 @@ public class KeyMasterL extends Autonomous {
         if(larano.getHealth()==1&&larano.getvX()==0&&state==-1)state++;
         switch(state){
             case WALK_IN:
-                //Walk-in code for when sprites are available
-                state++;
+                vX=-0.15f;
+                animator.update();
+                emerie=animator.getCurrentFrame();
+                larano.getLarano().setActive(false);
+                larano.getLarano().setCurrentFrame(0);
+                if(x<80){
+                    state++;
+                }
                 break;
             case TALK:
+                vX=0;
                 if(Keyboard.keys.contains(VK_SPACE)){
                     if(convoProgress<4)convoProgress++;
                     else state++;
                     keymasterTalking=!keymasterTalking;
+                    larano.getLarano().setCurrentFrame(convoProgress);
                     larano.updateSprite();
                     while(Keyboard.keys.contains(VK_SPACE)){}
                 }
@@ -45,18 +59,21 @@ public class KeyMasterL extends Autonomous {
                 //Walk-out code for when sprites are available
                 break;
         }
+        x+=vX;
     }
 
     @Override
     public void render() {
+        Graphics.setColor(1,1,1,1);
+        if(emerie!=null)Graphics.drawImage(emerie,x,y);
         switch(state){
             case WALK_IN:
                 //Implement later
                 break;
             case TALK:
                 Graphics.setFont(Graphics.SMALL_FONT);
-                if(keymasterTalking)Graphics.drawText(conversation[convoProgress],75,30,15,true);
-                else Graphics.drawText(conversation[convoProgress],55,30,15,true);
+                if(keymasterTalking)Graphics.drawText(conversation[convoProgress],75,30,25,true);
+                else Graphics.drawText(conversation[convoProgress],55,25,25,true);
                 break;
             case WALK_OUT:
                 //Implement later on
@@ -69,6 +86,8 @@ public class KeyMasterL extends Autonomous {
         state=-1;
         convoProgress=0;
         keymasterTalking=true;
+        x=101;
+        y=4;
     }
 
     @Override
