@@ -14,7 +14,7 @@ import org.loader.ResourceHandler;
 import org.world.*;
 
 public class Larano extends Autonomous {
-    private final int NORMAL=0,READY=1,ATTACK=2,CHARGE=3,DIZZY=4,CHARGERDY=5,DAMAGE=6,JUMP=7,DEFEAT=8;
+    private final int NORMAL=0,READY=1,ATTACK=2,CHARGE=3,DIZZY=4,CHARGERDY=5,DAMAGE=6,JUMP=7,DEFEAT=8,EXIT=9,DONE=10;
     private Animator larano=new Animator(ResourceHandler.getBossLoader().getLaranoReadying(),30);
     private ImageResource sprite=null;
     private SmartRectangle hitbox=new SmartRectangle(x,y,width,height);
@@ -33,11 +33,11 @@ public class Larano extends Autonomous {
         bossBar.update();
         if(Main.getHarold().getX()>10&&state==-1)state=READY;
         if(state==-1)return;
-        if(health==1){
+        if(health==1&&state<8){
             invincible=true;
             state=DEFEAT;
         }
-        if(state==NORMAL){
+        if(state==NORMAL||state==EXIT){
             if(direction)vX=.2f;
             else vX=-.2f;
         }else if(state==CHARGE){
@@ -51,7 +51,7 @@ public class Larano extends Autonomous {
         }
         x+=vX;
         Level l= LevelController.getCurrentLevel();
-        if(x<l.getLeftLimit()||x+width>l.getRightLimit()){
+        if((x<l.getLeftLimit()||x+width>l.getRightLimit())&&state<EXIT){
             if(state!=CHARGE&&state!=DIZZY)direction=!direction;
             else if(state==CHARGE){
                 state= DIZZY;
@@ -59,9 +59,9 @@ public class Larano extends Autonomous {
                 else x= l.getRightLimit()-width/2-3;
             }
         }
-        if(direction&&x<l.getLeftLimit()){
+        if(direction&&x<l.getLeftLimit()&&state<EXIT){
             x=l.getLeftLimit()+1;
-        }else if(!direction&&x+width>l.getRightLimit()){
+        }else if(!direction&&x+width>l.getRightLimit()&&state<EXIT){
             x=l.getRightLimit()-width-1;
         }
         y+=vY;
@@ -124,8 +124,8 @@ public class Larano extends Autonomous {
     }
 
     private void doSpriteCalc(){
-        if(state!=READY&&state!=JUMP&&state!=DEFEAT)larano.setFps(10);
-        else if(state==JUMP||state==DEFEAT)larano.setFps(4);
+        if(state!=READY&&state!=JUMP)larano.setFps(10);
+        else if(state==JUMP)larano.setFps(4);
         switch(state){
             case NORMAL:
                 larano.setFrames(ResourceHandler.getBossLoader().getLaranoWalk(direction));
@@ -183,6 +183,17 @@ public class Larano extends Autonomous {
                     vX=0;
                     larano.setFrames(ResourceHandler.getBossLoader().getLaranoDefeat());
                 }
+            break;
+            case EXIT:
+                if(x>101)state++;
+                larano.setActive(true);
+                larano.setFrames(ResourceHandler.getBossLoader().getLaranoWalk(direction));
+                larano.update();
+                sprite=larano.getCurrentFrame();
+                direction=true;
+            break;
+            case DONE:
+                health=0;
             break;
         }
         sprite=larano.getCurrentFrame();
@@ -253,7 +264,7 @@ public class Larano extends Autonomous {
         return bossBar;
     }
 
-    public void updateSprite(){
+    void updateSprite(){
         larano.update();
         sprite=larano.getCurrentFrame();
     }
@@ -272,7 +283,11 @@ public class Larano extends Autonomous {
         bossBar.update();
     }
 
-    public Animator getLarano() {
+    Animator getLarano() {
         return larano;
+    }
+
+    void increaseState(){
+        state++;
     }
 }

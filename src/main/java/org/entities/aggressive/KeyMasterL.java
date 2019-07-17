@@ -48,15 +48,26 @@ public class KeyMasterL extends Autonomous {
                 vX=0;
                 if(Keyboard.keys.contains(VK_SPACE)){
                     if(convoProgress<4)convoProgress++;
-                    else state++;
+                    else{
+                        larano.increaseState();
+                        state++;
+                    }
                     keymasterTalking=!keymasterTalking;
                     larano.getLarano().setCurrentFrame(convoProgress);
                     larano.updateSprite();
                     while(Keyboard.keys.contains(VK_SPACE)){}
                 }
+                if(convoProgress==2)emerie=ResourceHandler.getBossLoader().getEmerieGesture(true);
+                else emerie=ResourceHandler.getBossLoader().getEmerieGesture(false);
                 break;
             case WALK_OUT:
-                //Walk-out code for when sprites are available
+                vX=0.15f;
+                animator.setFrames(ResourceHandler.getBossLoader().getEmerieWalk(true));
+                animator.update();
+                emerie=animator.getCurrentFrame();
+                if(x>101){
+                    state++;
+                }
                 break;
         }
         x+=vX;
@@ -65,7 +76,7 @@ public class KeyMasterL extends Autonomous {
     @Override
     public void render() {
         Graphics.setColor(1,1,1,1);
-        if(emerie!=null)Graphics.drawImage(emerie,x,y);
+        if(emerie!=null)Graphics.drawImage(emerie,x+calcOffset(),y);
         switch(state){
             case WALK_IN:
                 //Implement later
@@ -79,6 +90,14 @@ public class KeyMasterL extends Autonomous {
                 //Implement later on
                 break;
         }
+    }
+
+    private float calcOffset(){
+        if(state==TALK){
+            if(convoProgress==2)return -Graphics.convertToWorldWidth(67);
+            else return -Graphics.convertToWorldWidth(1);
+        }
+        return 0;
     }
 
     @Override

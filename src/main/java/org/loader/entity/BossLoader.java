@@ -205,4 +205,11 @@ public class BossLoader {
     public ImageResource[] getEmerieWalk(boolean faceRight) {
         return faceRight?emerieWalkRight:emerieWalkLeft;
     }
+
+    private ImageResource[] emerieGesture={new ImageResource("/CasualCaving/Entities/Emerie/EmerieGesturing.png"),
+            new ImageResource("/CasualCaving/Entities/Emerie/EmeriePointingOut.png")};
+
+    public ImageResource getEmerieGesture(boolean pointing){
+        return pointing?emerieGesture[0]:emerieGesture[1];
+    }
 }

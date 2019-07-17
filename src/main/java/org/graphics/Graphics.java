@@ -202,10 +202,12 @@ public class Graphics {
                 float newL=convertToWorldWidth((float)fonts[textSelector].getBounds(s).getWidth());
                 lengthMax=Math.max(lengthMax,newL);
             }
+            setIgnoreScale(true);
             Graphics.setColor(0,0,0,0.5f);
             float yAdjustment=convertToWorldHeight((float)fonts[textSelector].getBounds(text).getHeight()*(strings.size()-1));
             Graphics.fillRect(x,y-yAdjustment,lengthMax,convertToWorldHeight((float)fonts[textSelector].getBounds(text).getHeight()*(strings.size())));
             Graphics.setColor(1,1,1,1);
+            setIgnoreScale(false);
         }
         for(String s:strings){
             drawText(s,x,y-convertToWorldY(fonts[textSelector].getFont().getSize()*iteration));
