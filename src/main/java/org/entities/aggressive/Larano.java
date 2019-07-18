@@ -15,7 +15,7 @@ import org.world.*;
 
 public class Larano extends Autonomous {
     private final int NORMAL=0,READY=1,ATTACK=2,CHARGE=3,DIZZY=4,CHARGERDY=5,DAMAGE=6,JUMP=7,DEFEAT=8,EXIT=9,DONE=10;
-    private Animator larano=new Animator(ResourceHandler.getBossLoader().getLaranoReadying(),30);
+    private Animator animator =new Animator(ResourceHandler.getBossLoader().getLaranoReadying(),30);
     private ImageResource sprite=null;
     private SmartRectangle hitbox=new SmartRectangle(x,y,width,height);
     private BossBar bossBar=new BossBar(this);
@@ -69,7 +69,7 @@ public class Larano extends Autonomous {
         if(h.isOnGround()&&vY<0){
             y=h.getGroundLevel();
             vY=0;
-            if(state==JUMP&&larano.getCurrentFrameNum()==larano.getFrames().length-1) {
+            if(state==JUMP&& animator.getCurrentFrameNum()== animator.getFrames().length-1) {
                 state = NORMAL;
                 if(direction&&Main.getHarold().getX()+Main.getHarold().getWidth()<x||!direction&&Main.getHarold().getX()>x+width)direction=!direction;
             }
@@ -83,7 +83,7 @@ public class Larano extends Autonomous {
     private void doAttackCalc(){
         if(!(state==NORMAL||state==ATTACK))return;
         final int range=4;
-        if(state==ATTACK&&larano.getCurrentFrameNum()==larano.getFrames().length-1){
+        if(state==ATTACK&& animator.getCurrentFrameNum()== animator.getFrames().length-1){
             state=NORMAL;
             Attack.melee(this,1,range);
         }
@@ -124,41 +124,41 @@ public class Larano extends Autonomous {
     }
 
     private void doSpriteCalc(){
-        if(state!=READY&&state!=JUMP)larano.setFps(10);
-        else if(state==JUMP)larano.setFps(4);
+        if(state!=READY&&state!=JUMP) animator.setFps(10);
+        else if(state==JUMP) animator.setFps(4);
         switch(state){
             case NORMAL:
-                larano.setFrames(ResourceHandler.getBossLoader().getLaranoWalk(direction));
+                animator.setFrames(ResourceHandler.getBossLoader().getLaranoWalk(direction));
             break;
             case READY:
-                larano.setFrames(ResourceHandler.getBossLoader().getLaranoReadying());
-                if(larano.getCurrentFrameNum()==larano.getFrames().length-1){
+                animator.setFrames(ResourceHandler.getBossLoader().getLaranoReadying());
+                if(animator.getCurrentFrameNum()== animator.getFrames().length-1){
                     state=NORMAL;
-                    larano.setFps(10);
+                    animator.setFps(10);
                     x=Graphics.convertToWorldWidth(541);
                     y=5;
-                    larano.setFrames(ResourceHandler.getBossLoader().getLaranoWalk(direction));
+                    animator.setFrames(ResourceHandler.getBossLoader().getLaranoWalk(direction));
                     attackCooldown=100;
                 }
             break;
             case ATTACK:
                 altAttack= !(Main.getHarold().getY() < y + width / 2);
                 if(altAttack){
-                    larano.setFrames(ResourceHandler.getBossLoader().getLaranoAltAttack(direction));
+                    animator.setFrames(ResourceHandler.getBossLoader().getLaranoAltAttack(direction));
                 }else{
-                    larano.setFrames(ResourceHandler.getBossLoader().getLaranoAttack(direction));
+                    animator.setFrames(ResourceHandler.getBossLoader().getLaranoAttack(direction));
                 }
             break;
             case CHARGERDY:
-                larano.setFrames(ResourceHandler.getBossLoader().getLaranoShimmer(direction));
-                if(larano.getCurrentFrameNum()==larano.getFrames().length-1)state=CHARGE;
+                animator.setFrames(ResourceHandler.getBossLoader().getLaranoShimmer(direction));
+                if(animator.getCurrentFrameNum()== animator.getFrames().length-1)state=CHARGE;
             break;
             case CHARGE:
-                larano.setFrames(new ImageResource[]{ResourceHandler.getBossLoader().getLaranoDash(direction)});
+                animator.setFrames(new ImageResource[]{ResourceHandler.getBossLoader().getLaranoDash(direction)});
             break;
             case DIZZY:
-                larano.setFrames(ResourceHandler.getBossLoader().getLaranoDizzy(direction));
-                if(larano.getCurrentFrameNum()==larano.getFrames().length-1){
+                animator.setFrames(ResourceHandler.getBossLoader().getLaranoDizzy(direction));
+                if(animator.getCurrentFrameNum()== animator.getFrames().length-1){
                     dizzyCount++;
                 }
                 if(dizzyCount==60){
@@ -168,38 +168,38 @@ public class Larano extends Autonomous {
             break;
             case DAMAGE:
                 if(damageTakenFrame==0)state=NORMAL;
-                else larano.setFrames(new ImageResource[]{ResourceHandler.getBossLoader().getLaranoDamage(direction)});
+                else animator.setFrames(new ImageResource[]{ResourceHandler.getBossLoader().getLaranoDamage(direction)});
             break;
             case JUMP:
-                larano.setFrames(ResourceHandler.getBossLoader().getLaranoJump(direction));
+                animator.setFrames(ResourceHandler.getBossLoader().getLaranoJump(direction));
             break;
             case DEFEAT:
                 if(x<48||x>52) {
                     direction = x < 50;
-                    larano.setFrames(ResourceHandler.getBossLoader().getLaranoWalk(direction));
+                    animator.setFrames(ResourceHandler.getBossLoader().getLaranoWalk(direction));
                     if (direction) vX = .2f;
                     else vX = -.2f;
                 }else{
                     vX=0;
-                    larano.setFrames(ResourceHandler.getBossLoader().getLaranoDefeat());
+                    animator.setFrames(ResourceHandler.getBossLoader().getLaranoDefeat());
                 }
             break;
             case EXIT:
                 if(x>101)state++;
-                larano.setActive(true);
-                larano.setFrames(ResourceHandler.getBossLoader().getLaranoWalk(direction));
-                larano.update();
-                sprite=larano.getCurrentFrame();
+                animator.setActive(true);
+                animator.setFrames(ResourceHandler.getBossLoader().getLaranoWalk(direction));
+                animator.update();
+                sprite= animator.getCurrentFrame();
                 direction=true;
             break;
             case DONE:
                 health=0;
             break;
         }
-        sprite=larano.getCurrentFrame();
-        boolean checkJump=state==JUMP&&larano.getCurrentFrameNum()==larano.getFrames().length-1;
+        sprite= animator.getCurrentFrame();
+        boolean checkJump=state==JUMP&& animator.getCurrentFrameNum()== animator.getFrames().length-1;
         boolean checkDefeat=state==DEFEAT&&(x>48&&x<52);
-        if(!(checkJump||checkDefeat))larano.update();
+        if(!(checkJump||checkDefeat)) animator.update();
         else if(state==JUMP)if(vY==0)vY=3;
     }
 
@@ -214,7 +214,7 @@ public class Larano extends Autonomous {
         else Graphics.setColor(1,1,1,1);
         if(state==READY)Graphics.drawImage(sprite,0,0);
         else{
-            if(state==DEFEAT&&vX==0&&larano.getCurrentFrameNum()==3)Graphics.drawImage(sprite,x-doOffsetCalc(),y-1.5f);
+            if(state==DEFEAT&&vX==0&& animator.getCurrentFrameNum()==3)Graphics.drawImage(sprite,x-doOffsetCalc(),y-1.5f);
             else Graphics.drawImage(sprite,x-doOffsetCalc(),y);
         }
         Graphics.setIgnoreScale(false);
@@ -225,7 +225,7 @@ public class Larano extends Autonomous {
         if(direction)return 0;
         if (state == ATTACK) {
             if (altAttack) {
-                switch (larano.getCurrentFrameNum()) {
+                switch (animator.getCurrentFrameNum()) {
                     case 0:
                         return 0;
                     case 1:
@@ -243,9 +243,9 @@ public class Larano extends Autonomous {
     @Override
     public void reset() {
         direction=false;
-        larano.setFps(60);
-        larano.setFrames(ResourceHandler.getBossLoader().getLaranoReadying());
-        sprite=larano.getCurrentFrame();
+        animator.setFps(60);
+        animator.setFrames(ResourceHandler.getBossLoader().getLaranoReadying());
+        sprite= animator.getCurrentFrame();
         state=-1;
         health=4;
         maxHealth=4;
@@ -265,8 +265,8 @@ public class Larano extends Autonomous {
     }
 
     void updateSprite(){
-        larano.update();
-        sprite=larano.getCurrentFrame();
+        animator.update();
+        sprite= animator.getCurrentFrame();
     }
 
     @Override
@@ -283,8 +283,8 @@ public class Larano extends Autonomous {
         bossBar.update();
     }
 
-    Animator getLarano() {
-        return larano;
+    Animator getAnimator() {
+        return animator;
     }
 
     void increaseState(){

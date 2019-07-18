@@ -38,8 +38,8 @@ public class KeyMasterL extends Autonomous {
                 vX=-0.15f;
                 animator.update();
                 emerie=animator.getCurrentFrame();
-                larano.getLarano().setActive(false);
-                larano.getLarano().setCurrentFrame(0);
+                larano.getAnimator().setActive(false);
+                larano.getAnimator().setCurrentFrame(0);
                 if(x<80){
                     state++;
                 }
@@ -53,7 +53,7 @@ public class KeyMasterL extends Autonomous {
                         state++;
                     }
                     keymasterTalking=!keymasterTalking;
-                    larano.getLarano().setCurrentFrame(convoProgress);
+                    larano.getAnimator().setCurrentFrame(convoProgress);
                     larano.updateSprite();
                     while(Keyboard.keys.contains(VK_SPACE)){}
                 }
@@ -105,8 +105,10 @@ public class KeyMasterL extends Autonomous {
         state=-1;
         convoProgress=0;
         keymasterTalking=true;
+        vX=0;
         x=101;
         y=4;
+        animator.setFrames(ResourceHandler.getBossLoader().getEmerieWalk(false));
     }
 
     @Override
