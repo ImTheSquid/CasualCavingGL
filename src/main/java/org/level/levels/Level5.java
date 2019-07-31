@@ -23,7 +23,7 @@ public class Level5 extends Level {
     private HitDetector stalactiteLeft=new HitDetector(2,0, 50, 12, Render.unitsTall - 50, () -> entityRegister.add(new LaranoStalactite(0,50,true)),"Harold");
     private HitDetector stalactiteRight=new HitDetector(2,87, 50, 13, Render.unitsTall - 50, () -> entityRegister.add(new LaranoStalactite(95,50,false)),"Harold");
     public Level5(ImageResource[] backgrounds) {
-        super(backgrounds, 3);
+        super(backgrounds, 4);
         numAssetsToLoad=ResourceHandler.getBossLoader().getLaranoReadying().length+ResourceHandler.getBossLoader().getLaranoShimmer(true).length*2;
     }
 
@@ -54,7 +54,7 @@ public class Level5 extends Level {
             Graphics.setScaleFactor(1f);
             leftLimit=-1;
         }
-        else {
+        else if(subLevel==2){
             HeightMap.setHeights(new HeightVal[]{new HeightVal(0,5,Render.unitsWide,true),
                     new HeightVal(15,21,34, false),
                     new HeightVal(64,21,84,false),
@@ -63,6 +63,12 @@ public class Level5 extends Level {
                     new HeightVal(64,41,86,false)});
             Graphics.setScaleFactor(0.75f);
             leftLimit=0;
+            if(larano.getHealth()>0)rightLimit=100;
+            else rightLimit=101;
+        }else{
+            leftLimit=0;
+            Graphics.setScaleFactor(1);
+            HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7, Render.unitsWide,true)});
         }
     }
 
