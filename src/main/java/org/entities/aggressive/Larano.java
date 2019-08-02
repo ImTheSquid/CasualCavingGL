@@ -99,11 +99,13 @@ public class Larano extends Autonomous {
         if(direction){
             if(Main.getHarold().getX()>=x&&Main.getHarold().getX()<=x+width+range){
                 state=ATTACK;
+                animator.setCurrentFrame(0);
                 attackCooldown=100;
             }else if(Main.getHarold().getX()>=x)tryCharge();
         }else{
             if(Main.getHarold().getX()+Main.getHarold().getWidth()<=x+width&&Main.getHarold().getWidth()+Main.getHarold().getX()>=x-range){
                 state=ATTACK;
+                animator.setCurrentFrame(0);
                 attackCooldown=100;
             }else if(Main.getHarold().getX()+Main.getHarold().getWidth()<=x+width)tryCharge();
         }

@@ -1,17 +1,19 @@
 package org.entities.aggressive;
 
+import org.engine.Main;
 import org.entities.Autonomous;
 import org.graphics.Animator;
 import org.graphics.Graphics;
 import org.input.Keyboard;
 import org.loader.ImageResource;
 import org.loader.ResourceHandler;
+import org.world.World;
 
 import static com.jogamp.newt.event.KeyEvent.VK_SPACE;
 
 //Key Master (Emerie) class for the end of the Larano boss fight
 public class KeyMasterL extends Autonomous {
-    private final int WALK_IN=0,TALK=1,WALK_OUT=2;
+    private final int WALK_IN=0,TALK=1,WALK_OUT=2,INTO_SUN_STONE=3;
     private int convoProgress=0;
     private Larano larano;
     private Animator animator=new Animator(ResourceHandler.getBossLoader().getEmerieWalk(false),8);
@@ -65,10 +67,21 @@ public class KeyMasterL extends Autonomous {
                 animator.setFrames(ResourceHandler.getBossLoader().getEmerieWalk(true));
                 animator.update();
                 emerie=animator.getCurrentFrame();
-                if(x>101){
+                if(x>101&&larano.getX()>101){
                     state++;
+                    World.getMaster().setDirection(false);
+                    World.getMaster().setActive(true);
                 }
                 break;
+            case INTO_SUN_STONE:
+                World.setMasterColor(1,1,1);
+                if(World.getMaster().getCurrent()==0&&!World.getMaster().getDirection()){
+                    World.setSubLevel(World.getSubLevel()+1);
+                    World.getMaster().setActive(true);
+                    World.getMaster().setDirection(true);
+                    Main.getHarold().setX(5);
+                    Main.getHarold().setY(7);
+                }
         }
         x+=vX;
     }

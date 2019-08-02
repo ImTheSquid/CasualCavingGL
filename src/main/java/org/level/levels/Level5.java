@@ -5,6 +5,7 @@ import org.entities.aggressive.CineLarano;
 import org.entities.aggressive.KeyMasterL;
 import org.entities.aggressive.Larano;
 import org.entities.aggressive.LaranoStalactite;
+import org.entities.passive.Isolsi;
 import org.entities.passive.LifeCrystal;
 import org.graphics.Graphics;
 import org.graphics.Render;
@@ -63,10 +64,10 @@ public class Level5 extends Level {
                     new HeightVal(64,41,86,false)});
             Graphics.setScaleFactor(0.75f);
             leftLimit=0;
-            if(larano.getHealth()>0)rightLimit=100;
-            else rightLimit=101;
+            rightLimit=100;
         }else{
             leftLimit=0;
+            rightLimit=101;
             Graphics.setScaleFactor(1);
             HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7, Render.unitsWide,true)});
         }
@@ -97,6 +98,8 @@ public class Level5 extends Level {
 
     @Override
     public void reset() {
+        leftLimit=-1;
+        rightLimit=101;
         cineLarano.reset();
         larano.reset();
         keyMaster.reset();
@@ -108,5 +111,6 @@ public class Level5 extends Level {
         entityRegister.add(cineLarano);
         entityRegister.add(larano);
         entityRegister.add(keyMaster);
+        entityRegister.add(new Isolsi());
     }
 }

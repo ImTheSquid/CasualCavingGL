@@ -127,6 +127,7 @@ public class World {
                 master.setCurrent(1);
                 AudioManager.handleLevelTransition(level);
                 assetLoaderCounter=0;
+                entities.clear();
             }
         }
     }
@@ -153,7 +154,9 @@ public class World {
 
         //Master brightness, always do last
         Graphics.setColor(masterRed,masterGreen,masterBlue,1-master.getCurrent());
+        Graphics.setIgnoreScale(true);
         Graphics.fillRect(0,0, Render.unitsWide,Render.unitsTall);
+        Graphics.setIgnoreScale(false);
         Graphics.setColor(1,1,1,1);//Reset color
 
         //Special case level transition

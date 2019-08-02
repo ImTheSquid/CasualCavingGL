@@ -211,7 +211,7 @@ public class Title extends Level {
         Graphics.drawTextCentered("Controls",Render.unitsWide/2,8.3f);
         Graphics.drawText("Credits",89,2.4f);
         Graphics.setFont(Graphics.SMALL_FONT);
-        Graphics.drawText("Casual Caving 0.2.7",0.1f,0.7f);
+        Graphics.drawText("Casual Caving 0.5.0",0.1f,0.7f);
         Graphics.drawText("Lunan Productions",Render.unitsWide-Graphics.convertToWorldWidth((float)Graphics.getCurrentFont().getBounds("Lunan Productions").getWidth())-.1f,.7f);
         Graphics.drawImage(ResourceHandler.getMiscLoader().getMusicButton(AudioManager.isMusicEnabled()),0.5f,2,5,5);
 

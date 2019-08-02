@@ -192,6 +192,8 @@ public class BossLoader {
 
     public ImageResource[] getLaranoDefeat(){return laranoDefeat;}
 
+    //Emerie
+
     private ImageResource[] emerieWalkLeft={new ImageResource("/CasualCaving/Entities/Emerie/EmerieW1FL.png"),
             new ImageResource("/CasualCaving/Entities/Emerie/EmerieW2FL.png"),
             new ImageResource("/CasualCaving/Entities/Emerie/EmerieW3FL.png"),
