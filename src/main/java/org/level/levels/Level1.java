@@ -31,8 +31,13 @@ public class Level1 extends Level {
 
     }
 
+    @Override
+    public void loadAssets() {
+
+    }
+
     public void update(int subLevel) {
-        if(!World.getEntites().contains(crowd)&&crowd.getSubLevel()<6)World.addEntity(crowd);
+        if(!World.getEntities().contains(crowd)&&crowd.getSubLevel()<6)World.addEntity(crowd);
         else if(crowd.getSubLevel()==6)World.removeEntity(crowd);
         if(subLevel==0){
             leftBound=65;
@@ -166,7 +171,7 @@ public class Level1 extends Level {
         Graphics.drawImage(sprites[0],6,7);
         Graphics.drawImage(sprites[1],40,7);
         Graphics.setFont(Graphics.SMALL_FONT);
-        Graphics.drawText("Alright guys, you know what to do; we're looking for a precious yellow gem located in a nearby cave. Go!",20,48,18,true);
+        Graphics.drawText("Alright guys, you know what to do; we're looking for a precious yellow gem located in a nearby cave. Go!",20,48,22,true);
     }
 
     private void render1(){

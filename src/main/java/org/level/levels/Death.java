@@ -1,5 +1,6 @@
 package org.level.levels;
 
+import org.engine.AudioManager;
 import org.engine.Main;
 import org.graphics.FadeIO;
 import org.graphics.Graphics;
@@ -32,6 +33,12 @@ public class Death extends Level {
         textHandler.setDirection(true);
         textHandler.setActive(true);
         fadeDir=true;
+        AudioManager.setMusicPlayback(AudioManager.STOP);
+    }
+
+    @Override
+    public void loadAssets() {
+
     }
 
     @Override

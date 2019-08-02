@@ -1,5 +1,7 @@
 package org.level;
 
+import org.engine.AudioManager;
+import org.graphics.Graphics;
 import org.level.levels.*;
 import org.loader.ResourceHandler;
 import org.world.World;
@@ -10,7 +12,9 @@ public class LevelController {
             new Level1(ResourceHandler.getLevelLoader().getLevel1()),
             new Level2(ResourceHandler.getLevelLoader().getLevel2()),
             new Level3(ResourceHandler.getLevelLoader().getLevel3()),
-            new Level4(ResourceHandler.getLevelLoader().getLevel4())};
+            new Level4(ResourceHandler.getLevelLoader().getLevel4()),
+            new Level5(ResourceHandler.getLevelLoader().getLevel5()),
+            new Level6(null)};
 
     public static void update(int level,int subLevel){
         levels[level+1].update(subLevel);
@@ -26,12 +30,16 @@ public class LevelController {
 
     public static void init(int level){levels[level+1].init();}
 
+    public static void loadAssets(int level){levels[level+1].loadAssets();}
+
     public static Level[] getLevels(){return levels;}
 
     public static Level getCurrentLevel(){return levels[World.getLevel()+1];}
 
     public static void resetAll(){
+        Graphics.setScaleFactor(1);
         World.setMasterColor(0,0,0);
+        AudioManager.resetGame();
         for(Level l:levels){
             l.reset();
         }
@@ -39,5 +47,5 @@ public class LevelController {
 
     public static int getNumLevels(){return levels.length;}
 
-    public static int getNumSubLevels(){return levels[World.getLevel()].getNumSublevels();}
+    public static int getNumSubLevels(){return levels[World.getLevel()+1].getNumSublevels();}
 }

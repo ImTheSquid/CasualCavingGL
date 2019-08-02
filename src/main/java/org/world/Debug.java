@@ -1,17 +1,19 @@
 package org.world;
 
+import org.engine.AudioManager;
 import org.engine.Main;
 import org.graphics.Graphics;
 import org.graphics.Render;
 import org.input.Keyboard;
 import org.input.Mouse;
+import org.level.LevelController;
 
 import javax.swing.*;
 
 import static com.jogamp.newt.event.KeyEvent.*;
 
-public class Debug {
-    private static boolean show=false,cheatsUsed=false;
+class Debug {
+    private static boolean show=false,cheatsUsed=false,assetLoadFinished=true;
     static void update(){
         if(Keyboard.keys.contains(VK_F3)){
             show=!show;
@@ -28,9 +30,12 @@ public class Debug {
                 }
                 Integer x=(Integer) JOptionPane.showInputDialog(null, "Select Level", "Level Selector", JOptionPane.QUESTION_MESSAGE, null, levels, World.getLevel());
                 if(x!=null){
+                    Graphics.setScaleFactor(1);
                     World.setSubLevel(0);
                     World.setLevel(x);
                     World.clearEntites();
+                    AudioManager.handleDebugSwitch(x);
+                    if(LevelController.getCurrentLevel().getNumAssetsToLoad()>0)assetLoadFinished=false;
                 }
                 Render.getGameLoop().overrideUpdateTime();
             }
@@ -45,6 +50,7 @@ public class Debug {
                 }
                 Integer x=(Integer) JOptionPane.showInputDialog(null,"Select Sublevel","Level Selector",JOptionPane.QUESTION_MESSAGE,null,sublevels,World.getSubLevel());
                 if(x!=null){
+                    Graphics.setScaleFactor(1);
                     World.setSubLevel(x);
                 }
                 Render.getGameLoop().overrideUpdateTime();
@@ -66,17 +72,18 @@ public class Debug {
     }
 
     static void render(){
+        if(!assetLoadFinished)LevelController.getCurrentLevel().loadAssets();
         if(!show)return;
-        if(World.getLevel()>0){
-            Graphics.setColor(.2f, .2f, .2f, .5f);
-            Graphics.fillRect(0, Render.unitsTall - 9f, 25, 9f);
-            Graphics.setColor(1,1,1,1);
-            Graphics.setFont(Graphics.DEBUG_SMALL);
-            float charHeight=Graphics.convertToWorldHeight((float)Graphics.getCurrentFont().getBounds("TEST").getHeight());
-            Graphics.drawText("FPS: "+Render.getGameLoop().getCurrentFPS(),.5f,Render.unitsTall-charHeight-.5f);
-            Graphics.drawText("X,Y: "+Main.getHarold().getX()+","+Main.getHarold().getY(),.5f,Render.unitsTall-2*charHeight-1);
-            Graphics.drawText("Lvl,Sublvl: "+World.getLevel()+","+World.getSubLevel(),.5f,Render.unitsTall-3*charHeight-1.5f);
-            Graphics.drawText("Mouse X,Y: "+ Math.round(Mouse.getX())+","+Math.round(Mouse.getY()),.5f,Render.unitsTall-4*charHeight-2f);
-        }
+        Graphics.setIgnoreScale(true);
+        Graphics.setColor(.2f, .2f, .2f, .4f);
+        Graphics.fillRect(0, Render.unitsTall - 9f, 15, 9f);
+        Graphics.setColor(1,1,1,1);
+        Graphics.setFont(Graphics.DEBUG_SMALL);
+        float charHeight=Graphics.convertToWorldHeight((float)Graphics.getCurrentFont().getBounds("TEST").getHeight());
+        Graphics.drawText("FPS: "+Render.getGameLoop().getCurrentFPS(),.5f,Render.unitsTall-charHeight-.5f);
+        Graphics.drawText("X,Y: "+(Math.round(Main.getHarold().getX()*100)/100)+","+(Math.round(Main.getHarold().getY()*100)/100),.5f,Render.unitsTall-2*charHeight-1);
+        Graphics.drawText("Lvl,Sublvl: "+World.getLevel()+","+World.getSubLevel(),.5f,Render.unitsTall-3*charHeight-1.5f);
+        Graphics.drawText("Mouse X,Y: "+ Math.round(Mouse.getX())+","+Math.round(Mouse.getY()),.5f,Render.unitsTall-4*charHeight-2f);
+        Graphics.setIgnoreScale(false);
     }
 }

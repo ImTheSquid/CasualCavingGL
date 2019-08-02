@@ -2,6 +2,7 @@ package org.entities.aggressive;
 
 import org.engine.Main;
 import org.entities.Autonomous;
+import org.entities.Entity;
 import org.entities.SmartRectangle;
 import org.graphics.Animator;
 import org.graphics.BossBar;
@@ -16,7 +17,7 @@ import org.world.HeightReturn;
 import org.world.World;
 
 public class RedMajor extends Autonomous {
-    private final int NORMAL=0,READYING=1,ATTACK=2, DAMAGE =3;
+    private final int NORMAL=0,READYING=1,ATTACK=2, DAMAGE =3,DEATH=4;
     private Animator redAnimator;
     private ImageResource redMajor;
     private SmartRectangle hitbox=new SmartRectangle(x,y,width,height);
@@ -25,6 +26,7 @@ public class RedMajor extends Autonomous {
     public RedMajor() {
         super(5, 75, 7);
         reset();
+
     }
 
     public void setStartFight(boolean startFight) {
@@ -34,7 +36,11 @@ public class RedMajor extends Autonomous {
     @Override
     public void update() {
         bossBar.update();
-        if(!startFight)return;
+        if(state==4){
+            if(redAnimator.getDelay()>0)redAnimator.update();
+            else health=0;
+        }
+        if(!startFight||state==4)return;
         HeightReturn heightReturn= HeightMap.onGround(hitbox);
         //Determines movement and knockback
         if(damageTakenFrame==0) {
@@ -78,7 +84,7 @@ public class RedMajor extends Autonomous {
         if(state==ATTACK&&redAnimator.getCurrentFrameNum()==redAnimator.getFrames().length-1){
             redAnimator.setDelay(7);
             state=NORMAL;
-            Attack.attack(this,1,5);
+            Attack.melee(this,1,5);
         }
 
         if(vX==0)redAnimator.setFrames(new ImageResource[]{ResourceHandler.getBossLoader().getRedMajorStill(direction)});
@@ -148,6 +154,7 @@ public class RedMajor extends Autonomous {
 
     @Override
     public void render() {
+        if(redMajor==null)return;
         width= Graphics.convertToWorldWidth(redMajor.getTexture().getWidth());
         height=Graphics.convertToWorldHeight(redMajor.getTexture().getHeight());
         hitbox.updateBounds(x,y,width,height);
@@ -173,6 +180,7 @@ public class RedMajor extends Autonomous {
         redAnimator.setDelay(60);
         x=75;
         y=7;
+        invincible=false;
     }
 
     @Override
@@ -187,5 +195,17 @@ public class RedMajor extends Autonomous {
     @Override
     public void handleDeath() {
         bossBar.update();
+    }
+
+    @Override
+    public void doDamage(Entity attacker, int damage) {
+        if(health>1)super.doDamage(attacker, damage);
+        else{
+            invincible=true;
+            state=DEATH;
+            redAnimator.setDelay(60);
+            redAnimator.setFrames(new ImageResource[]{ResourceHandler.getBossLoader().getRedMajorDeath(direction)});
+            redMajor=redAnimator.getCurrentFrame();
+        }
     }
 }

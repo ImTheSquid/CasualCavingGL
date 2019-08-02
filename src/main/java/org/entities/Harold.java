@@ -16,15 +16,18 @@ import static com.jogamp.newt.event.KeyEvent.VK_W;
 public class Harold extends Entity{
     private Animator haroldAnimator=new Animator(ResourceHandler.getHaroldLoader().getHaroldWalk(),12);
     private ImageResource harold;
-    private boolean jump=false;
+    private boolean jump=false,lockControls=false;
     private SmartRectangle hitbox=new SmartRectangle(x,y,width,height);
 
     public Harold(){
         maxHealth=3;
+        displayName="Harold";
         reset();
     }
     public void update() {
-        if(!movement)return;
+        if(!movement){
+            return;
+        }
         if(health<=0||y+height<-10){//Am I dead?
             World.clearEntites();
             World.setLevel(-1);
@@ -32,18 +35,18 @@ public class Harold extends Entity{
         HeightReturn h=HeightMap.onGround(hitbox);
         //Movement keys
         if(damageTakenFrame==0) {
-            if (Keyboard.keys.contains(KeyEvent.VK_A)) {
-                vX = -0.5f;
+            if (Keyboard.keys.contains(KeyEvent.VK_A)&&!lockControls) {
+                vX = -0.5f*Graphics.getScaleFactor();
             }
-            if (Keyboard.keys.contains(KeyEvent.VK_D)) {
-                vX = 0.5f;
+            if (Keyboard.keys.contains(KeyEvent.VK_D)&&!lockControls) {
+                vX = 0.5f*Graphics.getScaleFactor();
             }
         }else{
-            if((direction&&!attackerBehind)||(!direction&&attackerBehind))vX=-1f;
-            else vX=1f;
+            if((direction&&!attackerBehind)||(!direction&&attackerBehind))vX=-1f*Graphics.getScaleFactor();
+            else vX=1f*Graphics.getScaleFactor();
             damageTakenFrame--;
         }
-        if(Keyboard.keys.contains(KeyEvent.VK_SPACE)&&!jump) {
+        if(Keyboard.keys.contains(KeyEvent.VK_SPACE)&&!jump&&!lockControls) {
             if(h.isOnGround()) {
                 vY = 2.5f;
                 jump=true;
@@ -55,7 +58,7 @@ public class Harold extends Entity{
             }
         }
         //Attack key
-        if(Keyboard.keys.contains(VK_W)&&ResourceHandler.getHaroldLoader().getState()==HaroldLoader.LANTERN&&attackCooldown<=0){
+        if(!lockControls&&Keyboard.keys.contains(VK_W)&&ResourceHandler.getHaroldLoader().getState()==HaroldLoader.LANTERN&&attackCooldown<=0){
             haroldAnimator.setCurrentFrame(0);
             ResourceHandler.getHaroldLoader().setState(HaroldLoader.ATTACK);
             attackCooldown=45;
@@ -110,7 +113,7 @@ public class Harold extends Entity{
         }
 
         if(ResourceHandler.getHaroldLoader().getState()==HaroldLoader.ATTACK&&haroldAnimator.getCurrentFrameNum()==3) {
-            Attack.attack(this, 1, 5);
+            Attack.melee(this, 1, 5);
             ResourceHandler.getHaroldLoader().disableAttackPause();
         }
 
@@ -135,8 +138,11 @@ public class Harold extends Entity{
                 x=currentLevel.getRightBound()-width;
             }
         }
-        haroldAnimator.setFrames(ResourceHandler.getHaroldLoader().getHaroldWalk());
-        haroldAnimator.update();
+        if(ResourceHandler.getHaroldLoader().getState()!=HaroldLoader.TURN) {
+            haroldAnimator.setFps(12);
+            haroldAnimator.setFrames(ResourceHandler.getHaroldLoader().getHaroldWalk());
+            haroldAnimator.update();
+        }
     }
 
     private void doXCalc(){
@@ -157,11 +163,12 @@ public class Harold extends Entity{
     }
 
     public void render() {
-        width=Graphics.convertToWorldWidth(harold.getTexture().getWidth());
-        height=Graphics.convertToWorldHeight(harold.getTexture().getHeight());
+        width=Graphics.convertToWorldWidth(harold.getTexture().getWidth())*Graphics.getScaleFactor();
+        height=Graphics.convertToWorldHeight(harold.getTexture().getHeight())*Graphics.getScaleFactor();
         hitbox.updateBounds(x,y,width,height);
         if(!visible)return;
         if(ResourceHandler.getHaroldLoader().getState()==HaroldLoader.TURN){
+            haroldAnimator.setFps(3);
             if(haroldAnimator.getCurrentFrameNum()>0&&haroldAnimator.getFrames()!=ResourceHandler.getHaroldLoader().getTurn())haroldAnimator.setCurrentFrame(0);
             haroldAnimator.setFrames(ResourceHandler.getHaroldLoader().getTurn());
             harold=haroldAnimator.getCurrentFrame();
@@ -173,10 +180,12 @@ public class Harold extends Entity{
         else Graphics.setColor(1,1,1,1);
         Graphics.drawImage(harold,x,y);
         Graphics.setColor(1,1,1,1);
+        //Graphics.setScaleFactor(1);
     }
 
     public void renderHealth(){
         if(!visible||World.getLevel()<1)return;
+        Graphics.setIgnoreScale(true);
         Graphics.setColor(1,1,1,1);
         if(!invincible)
         for(int i=0;i<health;i++){
@@ -184,6 +193,7 @@ public class Harold extends Entity{
             Graphics.drawImage(ResourceHandler.getHaroldLoader().getHealth(),x,0.5f,5,5);
         }
         else Graphics.drawImage(ResourceHandler.getHaroldLoader().getInfiniteHealth(),0.5f,0.5f,5,5);
+        Graphics.setIgnoreScale(false);
     }
 
     @Override
@@ -198,6 +208,7 @@ public class Harold extends Entity{
         vY=0;
         damageTakenFrame=0;
         damageCooldown=0;
+        lockControls=false;
     }
 
     @Override
@@ -207,5 +218,17 @@ public class Harold extends Entity{
 
     public SmartRectangle getHitbox() {
         return hitbox;
+    }
+
+    public void setHarold(ImageResource harold) {
+        this.harold = harold;
+    }
+
+    public void setLockControls(boolean lockControls) {
+        this.lockControls = lockControls;
+    }
+
+    public boolean areControlsLocked() {
+        return lockControls;
     }
 }

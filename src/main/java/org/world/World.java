@@ -1,5 +1,6 @@
 package org.world;
 
+import org.engine.AudioManager;
 import org.engine.Main;
 import org.entities.Entity;
 import org.entities.SmartRectangle;
@@ -11,33 +12,42 @@ import org.level.LevelController;
 import org.loader.ResourceHandler;
 import org.loader.harold.HaroldLoader;
 
+import javax.swing.*;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static com.jogamp.newt.event.KeyEvent.VK_ESCAPE;
-import static com.jogamp.newt.event.KeyEvent.VK_R;
 
 public class World {
     private static FadeIO master=new FadeIO(0,1,1,0.02f,35);
     private static FadeIO tFade=new FadeIO(0,1,0,0.02f,35);//Fade controller for level transitions
-    private static int level=0,subLevel=0;
-    private static boolean game=false,pause=false,levelTransition=false,transititonDir=true;//Set whether in game or menu. Set pause status
+    private static int level=0,subLevel=0,assetLoaderCounter=0;
+    private static boolean game=false,pause=false,levelTransition=false, transitionDir =true;//Set whether in game or menu. Set pause status
     private static float gravity=0.15f;
     private static float masterRed=0,masterGreen=0,masterBlue=0;
-    private static ConcurrentLinkedQueue<Entity> entites=new ConcurrentLinkedQueue<>();//Entity registry
+    private static ConcurrentLinkedQueue<Entity> entities =new ConcurrentLinkedQueue<>();//Entity registry
     private static SmartRectangle pauseReturn=new SmartRectangle(Render.unitsWide/2,30,20,5,true);//Button detectors
     private static SmartRectangle pauseTitleReturn=new SmartRectangle(Render.unitsWide/2,6.6f,18,4,true);
+    private static SmartRectangle musicControl=new SmartRectangle(0.5f,0.5f,5,5);
 
     public static void update(){
-        //if(!entites.contains(Main.getHarold()))World.addEntity(Main.getHarold());
         Debug.update();
         if(Render.getWindow().getWidth()!=Render.screenWidth||Render.getWindow().getHeight()!=Render.screenHeight){
-            if(Keyboard.keys.contains(VK_R))Render.getWindow().setSize(Render.screenWidth,Render.screenHeight);
-            return;
+            String[] options={"Resize","Exit"};
+            int x= JOptionPane.showOptionDialog(null,"Casual Caving only supports 1280x720 resolution.\nWould you like to automatically resize the window or exit the game?","Screen Resolution",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE,null,options,options[0]);
+            if(x==JOptionPane.YES_OPTION){
+                Render.getWindow().setSize(Render.screenWidth,Render.screenHeight);
+                Render.getGameLoop().overrideUpdateTime();
+            }else{
+                Render.getGameLoop().setRunning(false);
+                Render.getGameLoop().overrideUpdateTime();
+                return;
+            }
         }
 
         if(Keyboard.keys.contains(VK_ESCAPE)&&game&&!levelTransition){
             pause=!pause;
+            AudioManager.handlePause(pause);
             while(Keyboard.keys.contains(VK_ESCAPE)){}//Wait for key release
         }
 
@@ -45,8 +55,8 @@ public class World {
 
         LevelController.update(level,subLevel);
         //TODO implement render stages (pre-update,update,post-update)
-        entites.removeIf(n->n.getHealth()<=0);
-        for(Entity e:entites){
+        entities.removeIf(n->n.getHealth()<=0);
+        for(Entity e: entities){
             if(e.getSubLevel()!=subLevel)continue;
             if(pause){
                 if(e.getPauseUpdate())e.update();
@@ -66,25 +76,38 @@ public class World {
             pauseTitleReturn.update();
             if(pauseReturn.isPressed())pause=false;
             if(pauseTitleReturn.isPressed()){
-                level = 0;
-                subLevel = 1;
+                setLevel(0);
+                setSubLevel(1);
                 LevelController.resetAll();
                 Main.getHarold().reset();
                 pause = false;
+            }
+            musicControl.update();
+            if(musicControl.isPressed()){
+                AudioManager.setMusicEnabled(!AudioManager.isMusicEnabled());
+                while(musicControl.isPressed())musicControl.update();
             }
         }else{
             pauseReturn.setActive(false);
             pauseTitleReturn.setActive(false);
         }
 
+        levelTransUpdate();
+
+        //Master brightness code
+        if(!pause)master.update();
+        tFade.update();
+    }
+
+    private static void levelTransUpdate(){
         if(levelTransition){
+            AudioManager.fadeOut();
             if(master.getCurrent()>0){
                 master.setDirection(false);
                 master.setActive(true);
-            }else
-            if(transititonDir) {
-                if (tFade.getCurrent() == 1) {
-                    transititonDir = false;
+            }else if(transitionDir) {
+                if (tFade.getCurrent() == 1&&assetLoaderCounter>=LevelController.getLevels()[level+2].getNumAssetsToLoad()) {
+                    transitionDir = false;
                     tFade.setSecondDelay(2);
                     tFade.setDirection(false);
                 } else {
@@ -92,7 +115,7 @@ public class World {
                     tFade.setActive(true);
                 }
             }else if(tFade.getCurrent()==0){
-                transititonDir=true;
+                transitionDir =true;
                 levelTransition=false;
                 LevelController.cleanup(level);
                 level++;
@@ -102,25 +125,19 @@ public class World {
                 Main.getHarold().setX(5);
                 master.setActive(false);
                 master.setCurrent(1);
+                AudioManager.handleLevelTransition(level);
+                assetLoaderCounter=0;
+                entities.clear();
             }
         }
-
-        //Master brightness code
-        if(!pause)master.update();
-        tFade.update();
     }
 
     public static void render(){
-        if(Render.getWindow().getWidth()!=Render.screenWidth||Render.getWindow().getHeight()!=Render.screenHeight){
-            Graphics.setColor(.9f,0,0,1);
-            Graphics.setFont(Graphics.REGULAR_FONT);
-            Graphics.drawText("Please resize your window to 1280x720, or press R to automatically resize.",0,Graphics.convertToWorldY(Render.getWindow().getHeight()-90));
-            return;
-        }
+        if(Render.getWindow().getWidth()!=Render.screenWidth||Render.getWindow().getHeight()!=Render.screenHeight)return;
 
         LevelController.render(level,subLevel);
         //TODO implement render stages (pre-render,render,post-render)
-        for(Entity e:entites){
+        for(Entity e: entities){
             if(e.getSubLevel()!=subLevel)continue;
             if(pause){
                 if(e.getPauseRender())e.render();
@@ -137,7 +154,9 @@ public class World {
 
         //Master brightness, always do last
         Graphics.setColor(masterRed,masterGreen,masterBlue,1-master.getCurrent());
+        Graphics.setIgnoreScale(true);
         Graphics.fillRect(0,0, Render.unitsWide,Render.unitsTall);
+        Graphics.setIgnoreScale(false);
         Graphics.setColor(1,1,1,1);//Reset color
 
         //Special case level transition
@@ -146,6 +165,7 @@ public class World {
         }else Main.getHarold().renderHealth();
 
         if(pause){
+            Graphics.setIgnoreScale(true);
             Graphics.setColor(.25f,.25f,.25f,.4f);
             Graphics.fillRect(0,0,Render.unitsWide,Render.unitsTall);
             Graphics.setColor(1,1,1,1);
@@ -154,12 +174,14 @@ public class World {
             pauseReturn.setColor(0.721f, 0.721f, 0.721f,1f);
             pauseReturn.render();
             Graphics.setColor(1,1,1,1);
-            Graphics.setFont(Graphics.REGULAR_FONT);
+            Graphics.setFont(Graphics.NORMAL_FONT);
             Graphics.drawTextCentered("Back to Game",Render.unitsWide/2,30);
             pauseTitleReturn.setColor(0.6f, 0, 0,1);
             pauseTitleReturn.render();
             Graphics.setColor(1,1,1,1);
             Graphics.drawTextCentered("Quit to Title",Render.unitsWide/2,7);
+            Graphics.drawImage(ResourceHandler.getMiscLoader().getMusicButton(AudioManager.isMusicEnabled()),0.5f,0.5f,5,5);
+            Graphics.setIgnoreScale(false);
         }
         Debug.render();
         Graphics.setColor(1,1,1,1);
@@ -172,10 +194,16 @@ public class World {
         Graphics.drawTextCentered("Part "+(level+1),50,35);
         if(level==0)ResourceHandler.getHaroldLoader().setState(HaroldLoader.NORMAL);
         else ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
+        if(tFade.getCurrent()==1&&assetLoaderCounter<LevelController.getLevels()[level+2].getNumAssetsToLoad())LevelController.loadAssets(level+1);
+    }
+
+    public static void renderAssetLoadingIndicator(int numAssetsToLoad){
+        Graphics.setFont(Graphics.SMALL_FONT);
+        Graphics.drawText("Loading assets... ("+assetLoaderCounter+"/"+numAssetsToLoad+")",0.5f,1f);
     }
 
     public static void addEntity(Entity e){
-        if(!entites.contains(e))entites.offer(e);
+        if(!entities.contains(e)) entities.offer(e);
     }
 
     public static void addEntities(Collection<? extends Entity> list){
@@ -191,11 +219,11 @@ public class World {
     }
 
     public static void removeEntity(Entity e){
-        entites.remove(e);
+        entities.remove(e);
     }
 
     public static void clearEntites(){
-        entites.clear();
+        entities.clear();
     }
 
     public static void setGame(boolean game) {
@@ -229,8 +257,8 @@ public class World {
 
     public static int getNumSubLevels(){return LevelController.getNumSubLevels();}
 
-    public static ConcurrentLinkedQueue<Entity> getEntites() {
-        return entites;
+    public static ConcurrentLinkedQueue<Entity> getEntities() {
+        return entities;
     }
 
     public static void setLevelTransition(boolean levelTransition) {
@@ -241,5 +269,13 @@ public class World {
         masterRed=red;
         masterBlue=blue;
         masterGreen=green;
+    }
+
+    public static void incrementAssetLoadCount(){
+        assetLoaderCounter++;
+    }
+
+    public static int getAssetLoaderCounter() {
+        return assetLoaderCounter;
     }
 }

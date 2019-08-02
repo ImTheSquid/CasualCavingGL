@@ -127,7 +127,7 @@ public class TallGolem extends Autonomous {
 
         if(state==1&&golemAnimator.getCurrentFrameNum()==golemAnimator.getFrames().length-1){
             state=0;
-            Attack.attack(this,1,4);
+            Attack.melee(this,1,4);
         }
         if(state==3&&golemAnimator.getCurrentFrameNum()==golemAnimator.getFrames().length-1){
             if(vY==0){
@@ -204,6 +204,7 @@ public class TallGolem extends Autonomous {
 
     @Override
     public void render() {
+        if(golem==null)return;
         //Update hitbox info
         width= Graphics.convertToWorldWidth(golem.getTexture().getWidth());
         height=Graphics.convertToWorldHeight(golem.getTexture().getHeight());

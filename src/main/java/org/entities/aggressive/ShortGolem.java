@@ -132,7 +132,7 @@ public class ShortGolem extends Autonomous {
         golemAnimator.update();
         if(state==1&&golemAnimator.getCurrentFrameNum()==golemAnimator.getFrames().length-1){
             state=0;
-            Attack.attack(this,1,4);
+            Attack.melee(this,1,4);
         }
     }
 
@@ -218,6 +218,7 @@ public class ShortGolem extends Autonomous {
 
     @Override
     public void render() {
+        if(golem==null)return;
         width= Graphics.convertToWorldWidth(golem.getTexture().getWidth());
         height=Graphics.convertToWorldHeight(golem.getTexture().getHeight());
         hitbox.updateBounds(x,y,width,height);

@@ -9,20 +9,25 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import static com.jogamp.opengl.GL.GL_LINE_LOOP;
+import static com.jogamp.opengl.GL2.GL_POLYGON;
+import static java.lang.Math.cos;
+import static java.lang.StrictMath.sin;
 import static org.graphics.Render.unitsTall;
 import static org.graphics.Render.unitsWide;
 
 public class Graphics {
     //Font vars
-    public static final int TITLE_FONT=0,REGULAR_FONT=1,SMALL_FONT=2,DEBUG_SMALL=3;
+    public static final int TITLE_FONT=0, NORMAL_FONT =1,SMALL_FONT=2,DEBUG_SMALL=3;
 
     private static float red=0,green=0,blue=0,alpha=0;
-    private static float rotation=0;
+    private static float rotation=0,scaleFactor=1;
     private static int textSelector=0;
-    private static TextRenderer title=new TextRenderer(new Font("Constantia",Font.PLAIN,100));
-    private static TextRenderer regular=new TextRenderer(new Font("Constantia",Font.PLAIN,40));
-    private static TextRenderer small=new TextRenderer(new Font("Constantia",Font.PLAIN,20));
-    private static TextRenderer debugSmall=new TextRenderer(new Font("Consolas",Font.PLAIN,20));
+    private static boolean ignoreScale=false;
+    private static TextRenderer title=new TextRenderer(new Font("Merriweather",Font.PLAIN,96));
+    private static TextRenderer regular=new TextRenderer(new Font("Merriweather",Font.PLAIN,36));
+    private static TextRenderer small=new TextRenderer(new Font("Merriweather",Font.PLAIN,18));
+    private static TextRenderer debugSmall=new TextRenderer(new Font("Inconsolata",Font.PLAIN,22));
     private static TextRenderer[] fonts={title,regular,small,debugSmall};
 
     public static void fillRectCentered(float x, float y, float width, float height){
@@ -30,17 +35,59 @@ public class Graphics {
     }
 
     public static void fillRect(float x, float y, float width, float height){
+        float scaleSave=scaleFactor;
+        if(ignoreScale){
+            scaleFactor=1;
+        }
+
         GL2 gl=Render.getGL2();
-        gl.glRotatef(-rotation,0,0,1);//Rotation needed to be reversed
+        gl.glTranslatef(x+width/2,y+height/2,0);
+        gl.glRotatef(-rotation,0,0,1);
+        gl.glTranslatef(-(x+width/2),-(y+height/2),0);
         gl.glColor4f(red,green,blue,alpha);
         gl.glBegin(GL2.GL_QUADS);
         gl.glVertex2f(x,y);
-        gl.glVertex2f(x+width,y);
-        gl.glVertex2f(x+width,y+height);
-        gl.glVertex2f(x,y+height);
+        gl.glVertex2f(x+width*scaleFactor,y);
+        gl.glVertex2f(x+width*scaleFactor,y+height*scaleFactor);
+        gl.glVertex2f(x,y+height*scaleFactor);
         gl.glEnd();
         gl.glFlush();
+        gl.glTranslatef(x+width/2,y+height/2,0);
         gl.glRotatef(rotation,0,0,1);
+        gl.glTranslatef(-(x+width/2),-(y+height/2),0);
+        scaleFactor=scaleSave;
+    }
+
+    //TODO Add scaling support to draw and fill circle methods
+    public static void drawCircle(float x, float y, float radius){
+        final float DEG2RAD=(float)Math.PI/180;
+        GL2 gl=Render.getGL2();
+        gl.glBegin(GL_LINE_LOOP);
+
+        for (int i=0; i<360; i++){
+            float degInRad = i*DEG2RAD;
+            gl.glVertex2f(x+(float)cos(degInRad)*radius,y+(float)sin(degInRad)*radius);
+        }
+
+        gl.glEnd();
+    }
+
+    public static void fillCircle(float x,float y,float radius){
+        GL2 gl=Render.getGL2();
+        gl.glBegin(GL_POLYGON);
+
+        double angle1 = 0.0;
+        gl.glVertex2d( x+radius * cos(0.0) , y+radius * sin(0.0));
+
+        int i;
+        for (i = 0; i < 360; i++)
+        {
+            gl.glVertex2d(x+(radius * cos(angle1)), y+(radius *sin(angle1)));
+            angle1 += 2*Math.PI/360 ;
+        }
+
+        gl.glEnd();
+        gl.glFlush();
     }
 
     public static float convertToWorldHeight(float height){
@@ -88,24 +135,35 @@ public class Graphics {
 
     //Draws an image
     public static void drawImage(ImageResource image,float x,float y, float width,float height){
+        float scaleSave=scaleFactor;
+        if(ignoreScale){
+            scaleFactor=1;
+        }
+
         GL2 gl=Render.getGL2();
+        gl.glTranslatef(x+width/2,y+height/2,0);
+        gl.glRotatef(-rotation,0,0,1);
+        gl.glTranslatef(-(x+width/2),-(y+height/2),0);
         Texture tex=image.getTexture();
-        //TODO implement hiding code if image not needed
         if(tex!=null)gl.glBindTexture(GL2.GL_TEXTURE_2D,tex.getTextureObject());
         gl.glColor4f(red,green,blue,alpha);
         gl.glBegin(GL2.GL_QUADS);
         gl.glTexCoord2f(0,1);
         gl.glVertex2f(x,y);
         gl.glTexCoord2f(1,1);
-        gl.glVertex2f(x+width,y);
+        gl.glVertex2f(x+width*scaleFactor,y);
         gl.glTexCoord2f(1,0);
-        gl.glVertex2f(x+width,y+height);
+        gl.glVertex2f(x+width*scaleFactor,y+height*scaleFactor);
         gl.glTexCoord2f(0,0);
-        gl.glVertex2f(x,y+height);
+        gl.glVertex2f(x,y+height*scaleFactor);
         gl.glEnd();
         gl.glFlush();
         gl.glBindTexture(GL2.GL_TEXTURE_2D,0);
-        gl.glRotatef(-rotation,0,0,1);
+        gl.glTranslatef(x+width/2,y+height/2,0);
+        gl.glRotatef(rotation,0,0,1);
+        gl.glTranslatef(-(x+width/2),-(y+height/2),0);
+
+        scaleFactor=scaleSave;
     }
 
     public static void drawText(String text,float x,float y,float wrapWidth){drawText(text, x, y, wrapWidth,false);}
@@ -135,19 +193,21 @@ public class Graphics {
             }
         }
         strings.add(currentString.toString());//Clears buffer after loop
-        strings.set(0,strings.get(0).substring(1));//Gets rid of space at beginning of first line
+        if(strings.get(0).length()>0)strings.set(0,strings.get(0).substring(1));//Gets rid of space at beginning of first line
         int iteration=0;
         //Draw the text in the array
         if(box){
             float lengthMax=0;
             for(String s:strings){
                 float newL=convertToWorldWidth((float)fonts[textSelector].getBounds(s).getWidth());
-                if(newL>lengthMax)lengthMax=newL;
+                lengthMax=Math.max(lengthMax,newL);
             }
+            setIgnoreScale(true);
             Graphics.setColor(0,0,0,0.5f);
             float yAdjustment=convertToWorldHeight((float)fonts[textSelector].getBounds(text).getHeight()*(strings.size()-1));
             Graphics.fillRect(x,y-yAdjustment,lengthMax,convertToWorldHeight((float)fonts[textSelector].getBounds(text).getHeight()*(strings.size())));
             Graphics.setColor(1,1,1,1);
+            setIgnoreScale(false);
         }
         for(String s:strings){
             drawText(s,x,y-convertToWorldY(fonts[textSelector].getFont().getSize()*iteration));
@@ -191,4 +251,16 @@ public class Graphics {
     }
 
     public static TextRenderer getCurrentFont(){return fonts[textSelector];}
+
+    public static void setScaleFactor(float scaleFactor) {
+        Graphics.scaleFactor = scaleFactor;
+    }
+
+    public static float getScaleFactor() {
+        return scaleFactor;
+    }
+
+    public static void setIgnoreScale(boolean ignore){ignoreScale=ignore;}
+
+    public static boolean getIgnoreScale(){return ignoreScale;}
 }

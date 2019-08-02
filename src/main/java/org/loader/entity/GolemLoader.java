@@ -176,4 +176,18 @@ public class GolemLoader {
     public ImageResource[] getTallBlueGolemJump(boolean faceRight){return faceRight?tbgJumpRight:tbgJumpLeft;}
 
     public ImageResource getTallBlueGolemKnockback(boolean faceRight){return faceRight?tbgDamage[0]:tbgDamage[1];}
+
+    //Isolsi
+
+    private final ImageResource[] isolsi={new ImageResource("/CasualCaving/Entities/Isolsi/Isolsi_Sun_Stone.png"),
+            new ImageResource("/CasualCaving/Entities/Isolsi/Isolsi_Glowing.png"),
+            new ImageResource("/CasualCaving/Entities/Isolsi/Isolsi_Base.png"),
+            new ImageResource("/CasualCaving/Entities/Isolsi/Isolsi_Looking_Down.png"),
+            new ImageResource("/CasualCaving/Entities/Isolsi/Isolsi_Gesturing.png"),
+            new ImageResource("/CasualCaving/Entities/Isolsi/Isolsi_Slightly_Angry.png"),
+            new ImageResource("/CasualCaving/Entities/Isolsi/Isolsi_Clenching_Fist.png")};
+
+    public ImageResource[] getIsolsi() {
+        return isolsi;
+    }
 }

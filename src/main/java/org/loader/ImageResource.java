@@ -44,4 +44,9 @@ public class ImageResource {
         if(texture==null)texture= AWTTextureIO.newTexture(Render.getProfile(),image,true);
         return texture;
     }
+
+    public void preloadTexture(){
+        if(image==null)return;
+        if(texture==null)texture= AWTTextureIO.newTexture(Render.getProfile(),image,true);
+    }
 }

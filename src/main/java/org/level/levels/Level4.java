@@ -1,6 +1,7 @@
 package org.level.levels;
 
 import org.engine.Main;
+import org.entities.Entity;
 import org.entities.aggressive.RedMajor;
 import org.entities.aggressive.ShortGolem;
 import org.entities.aggressive.TallGolem;
@@ -30,10 +31,13 @@ public class Level4 extends Level {
     }
 
     @Override
+    public void loadAssets() {
+
+    }
+
+    @Override
     public void update(int subLevel) {
         checkHealthVals();
-        World.clearEntites();
-        World.addEntities(super.getEntityRegisterArray());
         ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
         if(subLevel!=4){
             rightBound=Render.unitsWide;
@@ -42,7 +46,6 @@ public class Level4 extends Level {
         if(subLevel!=5)leftLimit=-1;
         switch(subLevel){
             case 0:
-            case 6:
                 HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7, Render.unitsWide,true)});
                 break;
             case 1:
@@ -77,6 +80,14 @@ public class Level4 extends Level {
                 if(redMajor.getHealth()>0)rightLimit=Render.unitsWide;
                 else rightLimit=Render.unitsWide+1;
                 break;
+            case 6:
+                HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7, Render.unitsWide,true)});
+                int count=0;
+                for(Entity e:entityRegister){
+                    if(e.getDisplayName().equals("Tall Blue Golem")&&e.getSubLevel()==6)count++;
+                }
+                if(count==0&&Main.getHarold().getX()+Main.getHarold().getWidth()==Render.unitsWide)World.setLevelTransition(true);
+                break;
         }
     }
 
@@ -105,7 +116,7 @@ public class Level4 extends Level {
         entityRegister.add(new LifeCrystal(6,77,7));
         entityRegister.add(new ShortGolem(ShortGolem.BLUE,0,25,7));
         entityRegister.add(new ShortGolem(ShortGolem.RED,0,50,7));
-        entityRegister.add(new ShortGolem(ShortGolem.GREEN,1,50,29));
+        entityRegister.add(new ShortGolem(ShortGolem.GREEN,1,50,32));
         entityRegister.add(new ShortGolem(ShortGolem.PURPLE,2,24,31));
         entityRegister.add(new ShortGolem(ShortGolem.GREEN,3,52,30));
         entityRegister.add(new TallGolem(ShortGolem.BLUE,4,44,10));
