@@ -58,11 +58,11 @@ public class Notification {
         Graphics.setColor(0.15f,0.15f,0.15f,1);
         Graphics.fillRect(x,y,width,height);
         Graphics.setColor(1,1,1,1);
-        Graphics.drawImage(icon,x+1,y+1,4,4);
+        if(icon!=null)Graphics.drawImage(icon,x+1,y+1,4,4);
         Graphics.setFont(Graphics.SMALL_BOLD);
-        Graphics.drawText(title,x+7,y+4);
+        Graphics.drawText(title,x+6,y+4);
         Graphics.setFont(Graphics.SMALL);
-        Graphics.drawText(message,x+7,y+2f);
+        Graphics.drawText(message,x+6,y+2f,20);
     }
 
     public boolean isDone(){

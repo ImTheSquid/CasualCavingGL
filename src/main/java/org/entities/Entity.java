@@ -117,4 +117,8 @@ public abstract class Entity {
     public float getvX() {
         return vX;
     }
+
+    public void setWidth(float width) {
+        this.width = width;
+    }
 }

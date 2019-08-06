@@ -7,4 +7,8 @@ public abstract class Autonomous extends Entity{
         x=spawnX;
         y=spawnY;
     }
+
+    public void setState(int state) {
+        this.state = state;
+    }
 }

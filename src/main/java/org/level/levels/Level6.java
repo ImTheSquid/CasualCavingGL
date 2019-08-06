@@ -3,6 +3,8 @@ package org.level.levels;
 import org.level.Level;
 import org.loader.ImageResource;
 
+import static org.world.World.*;
+
 public class Level6 extends Level {
     public Level6(ImageResource[] backgrounds) {
         super(backgrounds, 8);
@@ -21,6 +23,7 @@ public class Level6 extends Level {
     @Override
     public void update(int subLevel) {
         checkHealthVals();
+        if(getLatestCheckpoint()<CHECK_LARANO_FINISH)newCheckpoint(CHECK_LARANO_FINISH);
     }
 
     @Override

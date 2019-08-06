@@ -4,10 +4,13 @@ import org.graphics.Graphics;
 import org.input.Mouse;
 
 public class SmartRectangle extends Entity{
-    private boolean isPressed=false, isActive =true,isHovering=false;
+    private boolean isPressed=false, isActive =true,isHovering=false,isCentered=false;
+    private float originX,originY;
     public SmartRectangle(float x,float y,float width,float height){
         this.x=x;
         this.y=y;
+        originX=x;
+        originY=y;
         this.width=width;
         this.height=height;
     }
@@ -15,10 +18,13 @@ public class SmartRectangle extends Entity{
         if(centered){
             this.x=x-width/2;
             this.y=y-height/2;
+            isCentered=true;
         }else{
             this.x = x;
             this.y = y;
         }
+        originX=x;
+        originY=y;
         this.width=width;
         this.height=height;
     }
@@ -83,5 +89,11 @@ public class SmartRectangle extends Entity{
         green=g;
         blue=b;
         alpha=a;
+    }
+
+    @Override
+    public void setWidth(float width) {
+        super.setWidth(width);
+        if(isCentered)x=originX-width/2;
     }
 }

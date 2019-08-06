@@ -171,7 +171,6 @@ public class Graphics {
 
     //Draws text with specified wrapping width
     public static void drawText(String text,float x, float y, float wrapWidth,boolean box){
-        float wrap=convertFromWorldWidth(wrapWidth);
         StringBuilder currentString=new StringBuilder();
         ArrayList<String> strings=new ArrayList<>();
         for(int i=0;i<text.length();i++){
@@ -185,7 +184,9 @@ public class Graphics {
                     testString.append(s.charAt(index));
                     index++;
                 }
-                if(x+fonts[textSelector].getBounds(testString.toString()).getWidth()+fonts[textSelector].getBounds(currentString.toString()).getWidth()<wrap){
+                //TODO Fix bug with strings with no spaces not getting split properly
+                float widthTest=convertToWorldWidth((float)(fonts[textSelector].getBounds(testString.toString()).getWidth()+fonts[textSelector].getBounds(currentString.toString()).getWidth()));
+                if(widthTest<wrapWidth){
                     currentString.append(" ").append(testString);
                 }else{
                     strings.add(currentString.toString());

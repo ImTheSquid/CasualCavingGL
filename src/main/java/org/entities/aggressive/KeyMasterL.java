@@ -21,7 +21,7 @@ public class KeyMasterL extends Autonomous {
     private String[] conversation={
             "Larano! Stop this fighting!",
             "Keymaster? What are you doing here!?",
-            "Oh please, look at yourself. You’re far too injured to keep this up.",
+            "Oh please, look at yourself. You are far too injured to keep this up.",
             "But this human is possessed by the Sun Golems. He must be stopped!",
             "Get yourself to the medical center, let me take it from here."
     };
@@ -126,6 +126,6 @@ public class KeyMasterL extends Autonomous {
 
     @Override
     public String toString() {
-        return null;
+        return "Key Master [Larano]";
     }
 }

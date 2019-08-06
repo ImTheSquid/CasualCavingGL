@@ -18,11 +18,13 @@ import java.util.Collection;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static com.jogamp.newt.event.KeyEvent.VK_ESCAPE;
+import static org.engine.AudioManager.MUSIC_VOL;
 
 public class World {
     private static FadeIO master=new FadeIO(0,1,1,0.02f,35);
     private static FadeIO tFade=new FadeIO(0,1,0,0.02f,35);//Fade controller for level transitions
-    private static int level=0,subLevel=0,assetLoaderCounter=0;
+    private static int level=0,subLevel=0,assetLoaderCounter=0,latestCheckpoint=-1;
+    public static final int CHECK_START=-1,CHECK_LARANO=0,CHECK_LARANO_FINISH=1;
     private static boolean game=false,pause=false,levelTransition=false, transitionDir =true;//Set whether in game or menu. Set pause status
     private static float gravity=0.15f;
     private static float masterRed=0,masterGreen=0,masterBlue=0;
@@ -235,6 +237,39 @@ public class World {
         if(!notifications.contains(n))notifications.offer(n);
     }
 
+    public static void newCheckpoint(int checkpoint){
+        latestCheckpoint=checkpoint;
+        switch (latestCheckpoint){
+            case CHECK_LARANO:
+                World.newNotification(new Notification("Checkpoint Unlocked","Larano",ResourceHandler.getMiscLoader().getCheckmark()));
+                break;
+            case CHECK_LARANO_FINISH:
+                World.newNotification(new Notification("Checkpoint Unlocked","Larano's Defeat",ResourceHandler.getMiscLoader().getCheckmark()));
+                break;
+        }
+    }
+
+    public static void startFromCheckpoint(){
+        AudioManager.setMusicGain(MUSIC_VOL);
+        switch(latestCheckpoint){
+            case CHECK_START:
+                setLevel(1);
+                setSubLevel(0);
+                AudioManager.setMusicPlayback(AudioManager.PLAY);
+                break;
+            case CHECK_LARANO:
+                setLevel(5);
+                setSubLevel(0);
+                AudioManager.setMusicPlayback(AudioManager.STOP);
+                break;
+            case CHECK_LARANO_FINISH:
+                setLevel(6);
+                setSubLevel(0);
+                AudioManager.setMusicPlayback(AudioManager.STOP);
+                break;
+        }
+    }
+
     public static void addEntities(Entity[] array){
         for(Entity e:array){
             addEntity(e);
@@ -300,5 +335,9 @@ public class World {
 
     public static int getAssetLoaderCounter() {
         return assetLoaderCounter;
+    }
+
+    public static int getLatestCheckpoint() {
+        return latestCheckpoint;
     }
 }

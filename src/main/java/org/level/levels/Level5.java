@@ -49,6 +49,7 @@ public class Level5 extends Level {
     @Override
     public void update(int subLevel) {
         checkHealthVals();
+        if(World.getLatestCheckpoint()<World.CHECK_LARANO)World.newCheckpoint(World.CHECK_LARANO);
         ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
         if(subLevel<2) {
             HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7, Render.unitsWide,true)});

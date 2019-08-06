@@ -19,7 +19,6 @@ import java.net.URL;
 
 import static com.jogamp.newt.event.KeyEvent.VK_ENTER;
 import static com.jogamp.newt.event.KeyEvent.VK_SPACE;
-import static org.engine.AudioManager.MUSIC_VOL;
 import static org.engine.AudioManager.STOP;
 
 public class Title extends Level {
@@ -84,6 +83,9 @@ public class Title extends Level {
 
     private void updateTitle(){
         start.setActive(!(controlsVisible||creditsVisible));
+        if(World.getLatestCheckpoint()>World.CHECK_START){
+            start.setWidth(30);
+        }else start.setWidth(20);
         if(World.getMaster().getCurrent()>0.25f&&(!quit.isActive()||!controls.isActive())){
             quit.setActive(true);
             controls.setActive(true);
@@ -101,10 +103,7 @@ public class Title extends Level {
             World.setGame(true);
             World.getMaster().setActive(false);
             World.getMaster().setCurrent(1f);
-            World.setLevel(1);
-            World.setSubLevel(0);
-            AudioManager.setMusicGain(MUSIC_VOL);
-            AudioManager.setMusicPlayback(AudioManager.PLAY);
+            World.startFromCheckpoint();
         }
         controls.update();
         if(controls.isPressed()){
@@ -198,7 +197,8 @@ public class Title extends Level {
         start.render();
         Graphics.setColor(1,1,1,1);
         Graphics.setFont(Graphics.TITLE);
-        Graphics.drawTextCentered("Start",Render.unitsWide/2,30);
+        if(World.getLatestCheckpoint()==World.CHECK_START)Graphics.drawTextCentered("Start",Render.unitsWide/2,30);
+        else Graphics.drawTextCentered("Resume",Render.unitsWide/2,30);
         quit.setColor(0.5f,0,0,1);
         quit.render();
         controls.setColor(0.8f,0.74f,0.03f,1);
