@@ -18,7 +18,7 @@ import static org.graphics.Render.unitsWide;
 
 public class Graphics {
     //Font vars
-    public static final int TITLE_FONT=0, NORMAL_FONT =1,SMALL_FONT=2,DEBUG_SMALL=3;
+    public static final int TITLE =0, NORMAL =1, SMALL =2,DEBUG_SMALL=3,SMALL_BOLD=4;
 
     private static float red=0,green=0,blue=0,alpha=0;
     private static float rotation=0,scaleFactor=1;
@@ -27,8 +27,9 @@ public class Graphics {
     private static TextRenderer title=new TextRenderer(new Font("Merriweather",Font.PLAIN,96));
     private static TextRenderer regular=new TextRenderer(new Font("Merriweather",Font.PLAIN,36));
     private static TextRenderer small=new TextRenderer(new Font("Merriweather",Font.PLAIN,18));
+    private static TextRenderer smallBold=new TextRenderer(new Font("Merriweather",Font.BOLD,18));
     private static TextRenderer debugSmall=new TextRenderer(new Font("Inconsolata",Font.PLAIN,22));
-    private static TextRenderer[] fonts={title,regular,small,debugSmall};
+    private static TextRenderer[] fonts={title,regular,small,debugSmall,smallBold};
 
     public static void fillRectCentered(float x, float y, float width, float height){
         fillRect(x-width/2f,y-height/2f,width,height);

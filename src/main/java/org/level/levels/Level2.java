@@ -199,7 +199,7 @@ public class Level2 extends Level {
 
     public void render(int subLevel) {
         Graphics.drawImage(backgrounds[subLevel],0,0);
-        Graphics.setFont(Graphics.SMALL_FONT);
+        Graphics.setFont(Graphics.SMALL);
         switch(subLevel){
             case 1:
                 render1();
@@ -226,7 +226,7 @@ public class Level2 extends Level {
     }
 
     private void render2(){
-        Graphics.setFont(Graphics.SMALL_FONT);
+        Graphics.setFont(Graphics.SMALL);
         if(cart.intersects(Main.getHarold().getHitbox())&&ResourceHandler.getHaroldLoader().getState()!=HaroldLoader.ROPE)Graphics.drawTextWithBox("Press E to pick up rope",33,42);
         else if(edge.intersects(Main.getHarold().getHitbox())&&ResourceHandler.getHaroldLoader().getState()==HaroldLoader.ROPE)Graphics.drawTextWithBox("Press E to place rope",81,24);
     }

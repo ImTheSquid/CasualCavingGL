@@ -103,7 +103,7 @@ public class CineLarano extends Autonomous {
 
     private void doSpeechDisplay(){
         if(state!=1)return;
-        Graphics.setFont(Graphics.SMALL_FONT);
+        Graphics.setFont(Graphics.SMALL);
         switch(speechState){
             case 0:
                 Graphics.drawText("Hmmm, I was told a sun golem was headed this way... [SPACE]",51,37,18,true);

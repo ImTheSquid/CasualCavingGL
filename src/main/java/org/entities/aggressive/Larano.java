@@ -7,6 +7,7 @@ import org.entities.SmartRectangle;
 import org.graphics.Animator;
 import org.graphics.BossBar;
 import org.graphics.Graphics;
+import org.graphics.Notification;
 import org.level.Level;
 import org.level.LevelController;
 import org.loader.ImageResource;
@@ -196,6 +197,7 @@ public class Larano extends Autonomous {
             break;
             case DONE:
                 health=0;
+                World.newNotification(new Notification("Checkpoint Unlocked","Larano",ResourceHandler.getMiscLoader().getCheckmark()));
             break;
         }
         sprite= animator.getCurrentFrame();

@@ -70,7 +70,7 @@ public class Death extends Level {
 
     @Override
     public void render(int subLevel) {
-        Graphics.setFont(Graphics.TITLE_FONT);
+        Graphics.setFont(Graphics.TITLE);
         Graphics.setColor(1,1,1,textHandler.getCurrent());
         Graphics.drawTextCentered("Game Over", Render.unitsWide/2,35);
         Graphics.setColor(1,1,1,1);

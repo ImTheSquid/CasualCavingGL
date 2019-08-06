@@ -6,6 +6,7 @@ import org.entities.Entity;
 import org.entities.SmartRectangle;
 import org.graphics.FadeIO;
 import org.graphics.Graphics;
+import org.graphics.Notification;
 import org.graphics.Render;
 import org.input.Keyboard;
 import org.level.LevelController;
@@ -26,6 +27,7 @@ public class World {
     private static float gravity=0.15f;
     private static float masterRed=0,masterGreen=0,masterBlue=0;
     private static ConcurrentLinkedQueue<Entity> entities =new ConcurrentLinkedQueue<>();//Entity registry
+    private static ConcurrentLinkedQueue<Notification> notifications=new ConcurrentLinkedQueue<>();
     private static SmartRectangle pauseReturn=new SmartRectangle(Render.unitsWide/2,30,20,5,true);//Button detectors
     private static SmartRectangle pauseTitleReturn=new SmartRectangle(Render.unitsWide/2,6.6f,18,4,true);
     private static SmartRectangle musicControl=new SmartRectangle(0.5f,0.5f,5,5);
@@ -93,6 +95,7 @@ public class World {
         }
 
         levelTransUpdate();
+        updateNotifications();
 
         //Master brightness code
         if(!pause)master.update();
@@ -132,6 +135,13 @@ public class World {
         }
     }
 
+    private static void updateNotifications(){
+        for(Notification n:notifications){
+            n.update();
+        }
+        notifications.removeIf(Notification::isDone);
+    }
+
     public static void render(){
         if(Render.getWindow().getWidth()!=Render.screenWidth||Render.getWindow().getHeight()!=Render.screenHeight)return;
 
@@ -169,12 +179,12 @@ public class World {
             Graphics.setColor(.25f,.25f,.25f,.4f);
             Graphics.fillRect(0,0,Render.unitsWide,Render.unitsTall);
             Graphics.setColor(1,1,1,1);
-            Graphics.setFont(Graphics.TITLE_FONT);
+            Graphics.setFont(Graphics.TITLE);
             Graphics.drawTextCentered("Paused",Render.unitsWide/2,40);
             pauseReturn.setColor(0.721f, 0.721f, 0.721f,1f);
             pauseReturn.render();
             Graphics.setColor(1,1,1,1);
-            Graphics.setFont(Graphics.NORMAL_FONT);
+            Graphics.setFont(Graphics.NORMAL);
             Graphics.drawTextCentered("Back to Game",Render.unitsWide/2,30);
             pauseTitleReturn.setColor(0.6f, 0, 0,1);
             pauseTitleReturn.render();
@@ -183,6 +193,7 @@ public class World {
             Graphics.drawImage(ResourceHandler.getMiscLoader().getMusicButton(AudioManager.isMusicEnabled()),0.5f,0.5f,5,5);
             Graphics.setIgnoreScale(false);
         }
+        renderNotifications();
         Debug.render();
         Graphics.setColor(1,1,1,1);
     }
@@ -190,15 +201,23 @@ public class World {
     private static void levelTransition(){
         setMasterColor(0,0,0);
         Graphics.setColor(1,1,1,tFade.getCurrent());
-        Graphics.setFont(Graphics.TITLE_FONT);
+        Graphics.setFont(Graphics.TITLE);
         Graphics.drawTextCentered("Part "+(level+1),50,35);
         if(level==0)ResourceHandler.getHaroldLoader().setState(HaroldLoader.NORMAL);
         else ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
         if(tFade.getCurrent()==1&&assetLoaderCounter<LevelController.getLevels()[level+2].getNumAssetsToLoad())LevelController.loadAssets(level+1);
     }
 
+    private static void renderNotifications(){
+        float yOffset=Render.unitsTall-Notification.getHeight();
+        for(Notification n:notifications){
+            n.render(yOffset);
+            yOffset-=Notification.getHeight();
+        }
+    }
+
     public static void renderAssetLoadingIndicator(int numAssetsToLoad){
-        Graphics.setFont(Graphics.SMALL_FONT);
+        Graphics.setFont(Graphics.SMALL);
         Graphics.drawText("Loading assets... ("+assetLoaderCounter+"/"+numAssetsToLoad+")",0.5f,1f);
     }
 
@@ -210,6 +229,10 @@ public class World {
         for(Entity e:list){
             addEntity(e);
         }
+    }
+
+    public static void newNotification(Notification n){
+        if(!notifications.contains(n))notifications.offer(n);
     }
 
     public static void addEntities(Entity[] array){

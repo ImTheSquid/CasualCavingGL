@@ -81,7 +81,7 @@ public class Isolsi extends Autonomous {
             Graphics.drawImage(isolsi[calcConvoSprite()], x - Graphics.convertToWorldWidth(calcXOffset(calcConvoSprite())), y + Graphics.convertToWorldHeight(calcYOffset(calcConvoSprite())));
         }
         Graphics.setColor(1,1,1,1);
-        Graphics.setFont(Graphics.SMALL_FONT);
+        Graphics.setFont(Graphics.SMALL);
         if(convoState>-1){
             Graphics.drawText(conversation[convoState],45,45,20,true);
         }

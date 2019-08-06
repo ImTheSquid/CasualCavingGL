@@ -187,7 +187,7 @@ public class Title extends Level {
         Graphics.setColor(1, 1, 1, logo.getCurrent());
         Graphics.drawImageCentered(foregrounds[0], Render.unitsWide / 2, 55);
         Graphics.setColor(1,1,1,1);
-        Graphics.setFont(Graphics.SMALL_FONT);
+        Graphics.setFont(Graphics.SMALL);
         Graphics.drawText("SPACE to skip",0.1f,0.7f);
     }
 
@@ -197,7 +197,7 @@ public class Title extends Level {
         start.setColor(0,0.5f,0,1);
         start.render();
         Graphics.setColor(1,1,1,1);
-        Graphics.setFont(Graphics.TITLE_FONT);
+        Graphics.setFont(Graphics.TITLE);
         Graphics.drawTextCentered("Start",Render.unitsWide/2,30);
         quit.setColor(0.5f,0,0,1);
         quit.render();
@@ -206,11 +206,11 @@ public class Title extends Level {
         credits.setColor(0.8f,0.74f,0.03f,1);
         credits.render();
         Graphics.setColor(1,1,1,1);
-        Graphics.setFont(Graphics.NORMAL_FONT);
+        Graphics.setFont(Graphics.NORMAL);
         Graphics.drawTextCentered("Quit",Render.unitsWide/2,4f);
         Graphics.drawTextCentered("Controls",Render.unitsWide/2,8.3f);
         Graphics.drawText("Credits",89,2.4f);
-        Graphics.setFont(Graphics.SMALL_FONT);
+        Graphics.setFont(Graphics.SMALL);
         Graphics.drawText("Casual Caving 0.5.0",0.1f,0.7f);
         Graphics.drawText("Lunan Productions",Render.unitsWide-Graphics.convertToWorldWidth((float)Graphics.getCurrentFont().getBounds("Lunan Productions").getWidth())-.1f,.7f);
         Graphics.drawImage(ResourceHandler.getMiscLoader().getMusicButton(AudioManager.isMusicEnabled()),0.5f,2,5,5);
@@ -219,9 +219,9 @@ public class Title extends Level {
             Graphics.setColor(0.3f,0.3f,0.3f,.7f);
             Graphics.fillRectCentered(Render.unitsWide/2,Render.unitsTall/2,50,35);
             Graphics.setColor(1,1,1,1);
-            Graphics.setFont(Graphics.NORMAL_FONT);
+            Graphics.setFont(Graphics.NORMAL);
             Graphics.drawTextCentered("Controls",Render.unitsWide/2, Render.unitsTall/2+15);
-            Graphics.setFont(Graphics.SMALL_FONT);
+            Graphics.setFont(Graphics.SMALL);
             Graphics.drawTextCentered("W: Attack (part 2 and above)",Render.unitsWide/2,Render.unitsTall/2+11);
             Graphics.drawTextCentered("A/D: Left/right",Render.unitsWide/2,Render.unitsTall/2+8);
             Graphics.drawTextCentered("Space: Jump",Render.unitsWide/2,Render.unitsTall/2+5);
@@ -230,9 +230,9 @@ public class Title extends Level {
             Graphics.setColor(0.3f,0.3f,0.3f,.7f);
             Graphics.fillRectCentered(Render.unitsWide/2,Render.unitsTall/2,50,35);
             Graphics.setColor(1,1,1,1);
-            Graphics.setFont(Graphics.NORMAL_FONT);
+            Graphics.setFont(Graphics.NORMAL);
             Graphics.drawTextCentered("Credits",Render.unitsWide/2, Render.unitsTall/2+15);
-            Graphics.setFont(Graphics.SMALL_FONT);
+            Graphics.setFont(Graphics.SMALL);
             Graphics.drawTextCentered("Programming and Game Design: Jack Hogan",Render.unitsWide/2,Render.unitsTall/2+11);
             Graphics.drawTextCentered("Artwork and Game Design: Stuart Lunn",Render.unitsWide/2,Render.unitsTall/2+8);
             Graphics.drawTextCentered("Music: Chris Hall",Render.unitsWide/2,Render.unitsTall/2+5);

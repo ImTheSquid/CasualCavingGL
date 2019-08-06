@@ -95,7 +95,7 @@ public class KeyMasterL extends Autonomous {
                 //Implement later
                 break;
             case TALK:
-                Graphics.setFont(Graphics.SMALL_FONT);
+                Graphics.setFont(Graphics.SMALL);
                 if(keymasterTalking)Graphics.drawText(conversation[convoProgress],75,30,25,true);
                 else Graphics.drawText(conversation[convoProgress],55,25,25,true);
                 break;

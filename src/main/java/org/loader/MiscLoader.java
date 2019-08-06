@@ -27,4 +27,10 @@ public class MiscLoader {
     }
 
     public URL getMerriweather(){ return MiscLoader.class.getResource("/CasualCaving/Fonts/Merriweather-Regular.ttf");}
+
+    private ImageResource checkmark=new ImageResource("/CasualCaving/Menus/checkmark.png");
+
+    public ImageResource getCheckmark() {
+        return checkmark;
+    }
 }
