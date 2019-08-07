@@ -55,9 +55,9 @@ public class Notification {
     }
 
     public void render(float y){
-        Graphics.setColor(0.15f,0.15f,0.15f,1);
+        Graphics.setDrawColor(0.15f,0.15f,0.15f,1);
         Graphics.fillRect(x,y,width,height);
-        Graphics.setColor(1,1,1,1);
+        Graphics.setDrawColor(1,1,1,1);
         if(icon!=null)Graphics.drawImage(icon,x+1,y+1,4,4);
         Graphics.setFont(Graphics.SMALL_BOLD);
         Graphics.drawText(title,x+6,y+4);

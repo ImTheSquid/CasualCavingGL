@@ -96,7 +96,7 @@ public class CineLarano extends Autonomous {
     @Override
     public void render() {
         if(sprite==null)return;
-        Graphics.setColor(1,1,1,1);
+        Graphics.setDrawColor(1,1,1,1);
         doSpeechDisplay();
         Graphics.drawImage(sprite,x,y);
     }

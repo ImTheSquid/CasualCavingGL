@@ -175,18 +175,18 @@ public class Harold extends Entity{
             if(haroldAnimator.getCurrentFrameNum()!=1)haroldAnimator.update();
         }
         if(damageTakenFrame >0){
-            Graphics.setColor(1f,.0f,.0f,1);
+            Graphics.setDrawColor(1f,.0f,.0f,1);
         }
-        else Graphics.setColor(1,1,1,1);
+        else Graphics.setDrawColor(1,1,1,1);
         Graphics.drawImage(harold,x,y);
-        Graphics.setColor(1,1,1,1);
+        Graphics.setDrawColor(1,1,1,1);
         //Graphics.setScaleFactor(1);
     }
 
     public void renderHealth(){
         if(!visible||World.getLevel()<1)return;
         Graphics.setIgnoreScale(true);
-        Graphics.setColor(1,1,1,1);
+        Graphics.setDrawColor(1,1,1,1);
         if(!invincible)
         for(int i=0;i<health;i++){
             float x=0.5f+(5.5f)*i;

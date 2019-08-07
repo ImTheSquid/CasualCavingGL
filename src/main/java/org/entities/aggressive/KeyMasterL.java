@@ -88,7 +88,7 @@ public class KeyMasterL extends Autonomous {
 
     @Override
     public void render() {
-        Graphics.setColor(1,1,1,1);
+        Graphics.setDrawColor(1,1,1,1);
         if(emerie!=null)Graphics.drawImage(emerie,x+calcOffset(),y);
         switch(state){
             case WALK_IN:

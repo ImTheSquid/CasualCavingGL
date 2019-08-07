@@ -125,15 +125,15 @@ public class Level3 extends Level {
 
     private void render1(){
         if(isolsi.getCurrent()>0) {
-            Graphics.setColor(1, 1, 1, isolsi.getCurrent());
+            Graphics.setDrawColor(1, 1, 1, isolsi.getCurrent());
             Graphics.drawImage(sprites[0], 0, 0);
         }
         if(hematus.getCurrent()>0){
-            Graphics.setColor(1, 1, 1, hematus.getCurrent());
+            Graphics.setDrawColor(1, 1, 1, hematus.getCurrent());
             Graphics.drawImage(sprites[1], 0, 0);
         }
         if(igneox.getCurrent()>0){
-            Graphics.setColor(1, 1, 1, igneox.getCurrent());
+            Graphics.setDrawColor(1, 1, 1, igneox.getCurrent());
             Graphics.drawImage(sprites[igneoxCalc()+1], 0, 0);
         }
     }

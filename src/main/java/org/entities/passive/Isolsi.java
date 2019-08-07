@@ -71,16 +71,16 @@ public class Isolsi extends Autonomous {
     public void render() {
         if (state == -1) return;
         if (state < 2){
-            Graphics.setColor(1, 1, 1, crossfade.getCurrent());
+            Graphics.setDrawColor(1, 1, 1, crossfade.getCurrent());
             Graphics.drawImage(isolsi[state], x - Graphics.convertToWorldWidth(calcXOffset(state)), y + Graphics.convertToWorldHeight(calcYOffset(state)));
             if (crossfadeActive && state + 1 < isolsi.length) {
-                Graphics.setColor(1, 1, 1, 1 - crossfade.getCurrent());
+                Graphics.setDrawColor(1, 1, 1, 1 - crossfade.getCurrent());
                 Graphics.drawImage(isolsi[state + 1], x - Graphics.convertToWorldWidth(calcXOffset(state + 1)), y + Graphics.convertToWorldHeight(calcYOffset(state + 1)));
             }
         }else{
             Graphics.drawImage(isolsi[calcConvoSprite()], x - Graphics.convertToWorldWidth(calcXOffset(calcConvoSprite())), y + Graphics.convertToWorldHeight(calcYOffset(calcConvoSprite())));
         }
-        Graphics.setColor(1,1,1,1);
+        Graphics.setDrawColor(1,1,1,1);
         Graphics.setFont(Graphics.SMALL);
         if(convoState>-1){
             Graphics.drawText(conversation[convoState],45,45,20,true);

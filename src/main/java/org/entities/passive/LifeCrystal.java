@@ -18,8 +18,8 @@ public class LifeCrystal extends Autonomous {
 
     @Override
     public void render() {
-        if(damageTakenFrame>0)Graphics.setColor(1,0,0,1);
-        else Graphics.setColor(1,1,1,1);
+        if(damageTakenFrame>0)Graphics.setDrawColor(1,0,0,1);
+        else Graphics.setDrawColor(1,1,1,1);
         Graphics.drawImage(ResourceHandler.getMiscLoader().getLifeCrystal(),x,y,8.44f,10);
     }
 

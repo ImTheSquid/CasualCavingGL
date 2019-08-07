@@ -245,9 +245,9 @@ public class Level2 extends Level {
     }
 
     private void render7(){
-        Graphics.setColor(1,1,1,choice.getCurrent());
+        Graphics.setDrawColor(1,1,1,choice.getCurrent());
         Graphics.drawImage(sprites[3],0,0);
-        Graphics.setColor(1,1,1,1);
+        Graphics.setDrawColor(1,1,1,1);
     }
 
     @Override

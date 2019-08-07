@@ -179,7 +179,7 @@ public class Level1 extends Level {
     }
 
     private void render2(){
-        Graphics.setColor(1,1,1,1);
+        Graphics.setDrawColor(1,1,1,1);
         if(wood){
             Graphics.drawImage(sprites[2],70,7);
             Graphics.setFont(Graphics.SMALL);
@@ -188,7 +188,7 @@ public class Level1 extends Level {
     }
 
     private void render3(){
-        Graphics.setColor(1,1,1,1);
+        Graphics.setDrawColor(1,1,1,1);
         Graphics.setFont(Graphics.SMALL);
         if(!bridge){
             if(ResourceHandler.getHaroldLoader().getState()==HaroldLoader.WOOD&& river.intersects(Main.getHarold().getHitbox()))Graphics.drawTextWithBox("Press E to place wood",47,20);

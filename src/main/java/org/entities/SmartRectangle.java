@@ -56,7 +56,7 @@ public class SmartRectangle extends Entity{
     }
 
     public void render() {
-        Graphics.setColor(red,green,blue,alpha);
+        Graphics.setDrawColor(red,green,blue,alpha);
         Graphics.fillRect(x,y,width,height);
     }
 

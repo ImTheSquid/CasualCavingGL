@@ -5,7 +5,6 @@ import org.engine.Main;
 import org.entities.Entity;
 import org.entities.SmartRectangle;
 import org.graphics.FadeIO;
-import org.graphics.Graphics;
 import org.graphics.Notification;
 import org.graphics.Render;
 import org.input.Keyboard;
@@ -19,6 +18,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static com.jogamp.newt.event.KeyEvent.VK_ESCAPE;
 import static org.engine.AudioManager.MUSIC_VOL;
+import static org.graphics.Graphics.*;
 
 public class World {
     private static FadeIO master=new FadeIO(0,1,1,0.02f,35);
@@ -165,11 +165,11 @@ public class World {
         LevelController.renderForeground(level,subLevel);
 
         //Master brightness, always do last
-        Graphics.setColor(masterRed,masterGreen,masterBlue,1-master.getCurrent());
-        Graphics.setIgnoreScale(true);
-        Graphics.fillRect(0,0, Render.unitsWide,Render.unitsTall);
-        Graphics.setIgnoreScale(false);
-        Graphics.setColor(1,1,1,1);//Reset color
+        setDrawColor(masterRed,masterGreen,masterBlue,1-master.getCurrent());
+        setIgnoreScale(true);
+        fillRect(0,0, Render.unitsWide,Render.unitsTall);
+        setIgnoreScale(false);
+        setDrawColor(1,1,1,1);//Reset color
 
         //Special case level transition
         if(levelTransition){
@@ -177,34 +177,34 @@ public class World {
         }else Main.getHarold().renderHealth();
 
         if(pause){
-            Graphics.setIgnoreScale(true);
-            Graphics.setColor(.25f,.25f,.25f,.4f);
-            Graphics.fillRect(0,0,Render.unitsWide,Render.unitsTall);
-            Graphics.setColor(1,1,1,1);
-            Graphics.setFont(Graphics.TITLE);
-            Graphics.drawTextCentered("Paused",Render.unitsWide/2,40);
+            setIgnoreScale(true);
+            setDrawColor(.25f,.25f,.25f,.4f);
+            fillRect(0,0,Render.unitsWide,Render.unitsTall);
+            setDrawColor(1,1,1,1);
+            setFont(TITLE);
+            drawTextCentered("Paused",Render.unitsWide/2,40);
             pauseReturn.setColor(0.721f, 0.721f, 0.721f,1f);
             pauseReturn.render();
-            Graphics.setColor(1,1,1,1);
-            Graphics.setFont(Graphics.NORMAL);
-            Graphics.drawTextCentered("Back to Game",Render.unitsWide/2,30);
+            setDrawColor(1,1,1,1);
+            setFont(NORMAL);
+            drawTextCentered("Back to Game",Render.unitsWide/2,30);
             pauseTitleReturn.setColor(0.6f, 0, 0,1);
             pauseTitleReturn.render();
-            Graphics.setColor(1,1,1,1);
-            Graphics.drawTextCentered("Quit to Title",Render.unitsWide/2,7);
-            Graphics.drawImage(ResourceHandler.getMiscLoader().getMusicButton(AudioManager.isMusicEnabled()),0.5f,0.5f,5,5);
-            Graphics.setIgnoreScale(false);
+            setDrawColor(1,1,1,1);
+            drawTextCentered("Quit to Title",Render.unitsWide/2,7);
+            drawImage(ResourceHandler.getMiscLoader().getMusicButton(AudioManager.isMusicEnabled()),0.5f,0.5f,5,5);
+            setIgnoreScale(false);
         }
         renderNotifications();
         Debug.render();
-        Graphics.setColor(1,1,1,1);
+        setDrawColor(1,1,1,1);
     }
 
     private static void levelTransition(){
         setMasterColor(0,0,0);
-        Graphics.setColor(1,1,1,tFade.getCurrent());
-        Graphics.setFont(Graphics.TITLE);
-        Graphics.drawTextCentered("Part "+(level+1),50,35);
+        setDrawColor(1,1,1,tFade.getCurrent());
+        setFont(TITLE);
+        drawTextCentered("Part "+(level+1),50,35);
         if(level==0)ResourceHandler.getHaroldLoader().setState(HaroldLoader.NORMAL);
         else ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
         if(tFade.getCurrent()==1&&assetLoaderCounter<LevelController.getLevels()[level+2].getNumAssetsToLoad())LevelController.loadAssets(level+1);
@@ -219,8 +219,8 @@ public class World {
     }
 
     public static void renderAssetLoadingIndicator(int numAssetsToLoad){
-        Graphics.setFont(Graphics.SMALL);
-        Graphics.drawText("Loading assets... ("+assetLoaderCounter+"/"+numAssetsToLoad+")",0.5f,1f);
+        setFont(SMALL);
+        drawText("Loading assets... ("+assetLoaderCounter+"/"+numAssetsToLoad+")",0.5f,1f);
     }
 
     public static void addEntity(Entity e){

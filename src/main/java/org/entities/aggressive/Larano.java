@@ -212,15 +212,15 @@ public class Larano extends Autonomous {
         width= Graphics.convertToWorldWidth(sprite.getTexture().getWidth());
         height=Graphics.convertToWorldHeight(sprite.getTexture().getHeight());
         hitbox.updateBounds(x,y,width,height);
-        if(damageTakenFrame>0)Graphics.setColor(1,0,0,1);
-        else Graphics.setColor(1,1,1,1);
+        if(damageTakenFrame>0)Graphics.setDrawColor(1,0,0,1);
+        else Graphics.setDrawColor(1,1,1,1);
         if(state==READY)Graphics.drawImage(sprite,0,0);
         else{
             if(state==DEFEAT&&vX==0&& animator.getCurrentFrameNum()==3)Graphics.drawImage(sprite,x-doOffsetCalc(),y-1.5f);
             else Graphics.drawImage(sprite,x-doOffsetCalc(),y);
         }
         Graphics.setIgnoreScale(false);
-        Graphics.setColor(1,1,1,1);
+        Graphics.setDrawColor(1,1,1,1);
     }
 
     private float doOffsetCalc(){

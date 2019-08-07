@@ -47,7 +47,7 @@ public class Health extends Autonomous {
 
     @Override
     public void render() {
-        Graphics.setColor(1,1,1,1);
+        Graphics.setDrawColor(1,1,1,1);
         Graphics.drawImage(ResourceHandler.getMiscLoader().getHealthHeart(),x,y,width,height);
     }
 

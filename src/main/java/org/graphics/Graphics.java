@@ -205,10 +205,10 @@ public class Graphics {
                 lengthMax=Math.max(lengthMax,newL);
             }
             setIgnoreScale(true);
-            Graphics.setColor(0,0,0,0.5f);
+            Graphics.setDrawColor(0,0,0,0.5f);
             float yAdjustment=convertToWorldHeight((float)fonts[textSelector].getBounds(text).getHeight()*(strings.size()-1));
             Graphics.fillRect(x,y-yAdjustment,lengthMax,convertToWorldHeight((float)fonts[textSelector].getBounds(text).getHeight()*(strings.size())));
-            Graphics.setColor(1,1,1,1);
+            Graphics.setDrawColor(1,1,1,1);
             setIgnoreScale(false);
         }
         for(String s:strings){
@@ -230,14 +230,14 @@ public class Graphics {
     }
 
     public static void drawTextWithBox(String text, float x, float y){
-        Graphics.setColor(0,0,0,0.5f);
+        Graphics.setDrawColor(0,0,0,0.5f);
         Rectangle2D bounds=fonts[textSelector].getBounds(text);
         Graphics.fillRect(x,y-0.1f,Graphics.convertToWorldWidth((float)bounds.getWidth()),Graphics.convertToWorldHeight((float)bounds.getHeight())+0.1f);
-        Graphics.setColor(1,1,1,1);
+        Graphics.setDrawColor(1,1,1,1);
         drawText(text,x,y);
     }
 
-    public static void setColor(float red,float green,float blue,float alpha){
+    public static void setDrawColor(float red, float green, float blue, float alpha){
         Graphics.red=red;
         Graphics.green=green;
         Graphics.blue=blue;

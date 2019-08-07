@@ -159,11 +159,11 @@ public class RedMajor extends Autonomous {
         height=Graphics.convertToWorldHeight(redMajor.getTexture().getHeight());
         hitbox.updateBounds(x,y,width,height);
         if(damageTakenFrame>0){
-            Graphics.setColor(1,0,0,1);//Set damage color if needed
+            Graphics.setDrawColor(1,0,0,1);//Set damage color if needed
         }
-        else Graphics.setColor(1,1,1,1);
+        else Graphics.setDrawColor(1,1,1,1);
         Graphics.drawImage(redMajor,x,y);
-        Graphics.setColor(1,1,1,1);
+        Graphics.setDrawColor(1,1,1,1);
     }
 
     @Override

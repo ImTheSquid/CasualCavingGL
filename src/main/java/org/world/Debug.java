@@ -75,9 +75,9 @@ class Debug {
         if(!assetLoadFinished)LevelController.getCurrentLevel().loadAssets();
         if(!show)return;
         Graphics.setIgnoreScale(true);
-        Graphics.setColor(.2f, .2f, .2f, .4f);
+        Graphics.setDrawColor(.2f, .2f, .2f, .4f);
         Graphics.fillRect(0, Render.unitsTall - 9f, 15, 9f);
-        Graphics.setColor(1,1,1,1);
+        Graphics.setDrawColor(1,1,1,1);
         Graphics.setFont(Graphics.DEBUG_SMALL);
         float charHeight=Graphics.convertToWorldHeight((float)Graphics.getCurrentFont().getBounds("TEST").getHeight());
         Graphics.drawText("FPS: "+Render.getGameLoop().getCurrentFPS(),.5f,Render.unitsTall-charHeight-.5f);

@@ -73,19 +73,19 @@ public class Crowd extends Entity {
         cartWidth =Graphics.convertToWorldWidth(ResourceHandler.getCrowdLoader().getCart().getTexture().getWidth());
         cartHeight =Graphics.convertToWorldHeight(ResourceHandler.getCrowdLoader().getCart().getTexture().getHeight());
         if(World.getSubLevel()!=subLevel)return;
-        Graphics.setColor(1,1,1,1);
+        Graphics.setDrawColor(1,1,1,1);
         if(crowd!=null&&ResourceHandler.getCrowdLoader().getCart()!=null) {
             Graphics.drawImage(crowd, x, y);
             Graphics.drawImage(ResourceHandler.getCrowdLoader().getCart(), x + 24, y);
         }
         if(subLevel==2&&vX==0){
-            Graphics.setColor(1,1,1,1);
+            Graphics.setDrawColor(1,1,1,1);
             Graphics.setFont(Graphics.SMALL);
             if(wood)Graphics.drawText("Hey, we won't be able to get the cart over that log. You should use some tools.",8,35,20,true);
             if(cartIntersect&&!chainsaw)Graphics.drawTextWithBox("Press E to pick up chainsaw",32,29);
         }
         if(subLevel==5&&vX==0){
-            Graphics.setColor(1,1,1,1);
+            Graphics.setDrawColor(1,1,1,1);
             Graphics.setFont(Graphics.SMALL);
             Graphics.drawText("This looks like a good place to set up camp. Let's put our stuff down.",8,35,20,true);
         }
