@@ -16,8 +16,8 @@ public class Level6 extends Level {
     }
 
     @Override
-    public void loadAssets() {
-
+    public ImageResource[] getAssets() {
+        return null;
     }
 
     @Override

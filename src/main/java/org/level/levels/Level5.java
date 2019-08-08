@@ -34,16 +34,12 @@ public class Level5 extends Level {
     }
 
     @Override
-    public void loadAssets() {
+    public ImageResource[] getAssets() {
         ImageResource[] r=ResourceHandler.getBossLoader().getLaranoReadying();
         ImageResource[] sRight=ResourceHandler.getBossLoader().getLaranoShimmer(true);
         ImageResource[] sLeft=ResourceHandler.getBossLoader().getLaranoShimmer(false);
         ImageResource[] toLoad=ResourceHandler.create1DLoadable(new ImageResource[][]{r,sRight,sLeft});
-        if(World.getAssetLoaderCounter()<numAssetsToLoad){
-            toLoad[World.getAssetLoaderCounter()].preloadTexture();
-            World.incrementAssetLoadCount();
-            World.renderAssetLoadingIndicator(numAssetsToLoad);
-        }
+        return toLoad;
     }
 
     @Override

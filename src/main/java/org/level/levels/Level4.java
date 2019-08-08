@@ -20,6 +20,7 @@ public class Level4 extends Level {
     private RedMajor redMajor=new RedMajor();
     public Level4(ImageResource[][] backgrounds) {
         super(backgrounds, backgrounds.length);
+        numAssetsToLoad=ResourceHandler.getGolemLoader().getPurpleGolemLoadable().length+ResourceHandler.getGolemLoader().getRedGolemLoadable().length+ResourceHandler.getGolemLoader().getTallBlueGolemLoadable().length;
     }
 
     @Override
@@ -31,8 +32,9 @@ public class Level4 extends Level {
     }
 
     @Override
-    public void loadAssets() {
-
+    public ImageResource[] getAssets() {
+        ImageResource[] toLoad=ResourceHandler.create1DLoadable(new ImageResource[][]{ResourceHandler.getGolemLoader().getPurpleGolemLoadable(),ResourceHandler.getGolemLoader().getRedGolemLoadable(),ResourceHandler.getGolemLoader().getTallBlueGolemLoadable()});
+        return toLoad;
     }
 
     @Override

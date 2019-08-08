@@ -32,8 +32,8 @@ public class Level1 extends Level {
     }
 
     @Override
-    public void loadAssets() {
-
+    public ImageResource[] getAssets() {
+        return null;
     }
 
     public void update(int subLevel) {

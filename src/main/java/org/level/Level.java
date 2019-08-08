@@ -35,7 +35,7 @@ public abstract class Level {
 
     public abstract void init();
 
-    public abstract void loadAssets();
+    public abstract ImageResource[] getAssets();
 
     public abstract void update(int subLevel);
 
@@ -107,9 +107,5 @@ public abstract class Level {
         }
         World.clearEntites();
         World.addEntities(entityRegister);
-    }
-
-    public int getNumAssetsToLoad() {
-        return numAssetsToLoad;
     }
 }

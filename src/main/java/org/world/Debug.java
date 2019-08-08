@@ -35,7 +35,7 @@ class Debug {
                     World.setLevel(x);
                     World.clearEntites();
                     AudioManager.handleDebugSwitch(x);
-                    if(LevelController.getCurrentLevel().getNumAssetsToLoad()>0)assetLoadFinished=false;
+                    if(LevelController.getCurrentLevel().getAssets()!=null&&LevelController.getCurrentLevel().getAssets().length>0)assetLoadFinished=false;
                 }
                 Render.getGameLoop().overrideUpdateTime();
             }
@@ -72,7 +72,13 @@ class Debug {
     }
 
     static void render(){
-        if(!assetLoadFinished)LevelController.getCurrentLevel().loadAssets();
+        if(!assetLoadFinished){
+            if(World.getAssetLoaderCounter()<LevelController.getLevels()[World.getLevel()].getAssets().length) {
+                LevelController.getLevels()[World.getLevel()].getAssets()[World.getAssetLoaderCounter()].preloadTexture();
+                World.incrementAssetLoadCount();
+                World.renderAssetLoadingIndicator(LevelController.getLevels()[World.getLevel()].getAssets().length);
+            }else assetLoadFinished=true;
+        }
         if(!show)return;
         Graphics.setIgnoreScale(true);
         Graphics.setDrawColor(.2f, .2f, .2f, .4f);

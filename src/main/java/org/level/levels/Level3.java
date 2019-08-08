@@ -24,7 +24,7 @@ public class Level3 extends Level {
     public Level3(ImageResource[] backgrounds) {
         super(backgrounds,backgrounds.length);
         reset();
-        numAssetsToLoad=0;
+        numAssetsToLoad=ResourceHandler.getGolemLoader().getGreenGolemLoadable().length*2;
     }
 
     @Override
@@ -35,8 +35,14 @@ public class Level3 extends Level {
     }
 
     @Override
-    public void loadAssets() {
-
+    public ImageResource[] getAssets() {
+        ImageResource[] toLoad = ResourceHandler.create1DLoadable(new ImageResource[][]{ResourceHandler.getGolemLoader().getBLueGolemLoadable(),ResourceHandler.getGolemLoader().getGreenGolemLoadable()});
+        /*if(World.getAssetLoaderCounter()<numAssetsToLoad){
+            toLoad[World.getAssetLoaderCounter()].preloadTexture();
+            World.incrementAssetLoadCount();
+            World.renderAssetLoadingIndicator(numAssetsToLoad);
+        }*/
+        return toLoad;
     }
 
     @Override

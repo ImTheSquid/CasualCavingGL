@@ -111,7 +111,7 @@ public class World {
                 master.setDirection(false);
                 master.setActive(true);
             }else if(transitionDir) {
-                if (tFade.getCurrent() == 1&&assetLoaderCounter>=LevelController.getLevels()[level+2].getNumAssetsToLoad()) {
+                if (tFade.getCurrent() == 1&&assetLoaderCounter>=(LevelController.getLevels()[level+2].getAssets()!=null?LevelController.getLevels()[level+2].getAssets().length:0)) {
                     transitionDir = false;
                     tFade.setSecondDelay(2);
                     tFade.setDirection(false);
@@ -207,7 +207,11 @@ public class World {
         drawTextCentered("Part "+(level+1),50,35);
         if(level==0)ResourceHandler.getHaroldLoader().setState(HaroldLoader.NORMAL);
         else ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
-        if(tFade.getCurrent()==1&&assetLoaderCounter<LevelController.getLevels()[level+2].getNumAssetsToLoad())LevelController.loadAssets(level+1);
+        if(tFade.getCurrent()==1&&assetLoaderCounter<LevelController.getLevels()[level+2].getAssets().length){
+            LevelController.getLevels()[level+2].getAssets()[World.getAssetLoaderCounter()].preloadTexture();
+            World.incrementAssetLoadCount();
+            renderAssetLoadingIndicator(LevelController.getLevels()[level+2].getAssets().length);
+        }
     }
 
     private static void renderNotifications(){

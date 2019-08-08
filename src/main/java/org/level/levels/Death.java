@@ -37,8 +37,8 @@ public class Death extends Level {
     }
 
     @Override
-    public void loadAssets() {
-
+    public ImageResource[] getAssets() {
+        return null;
     }
 
     @Override

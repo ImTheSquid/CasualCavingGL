@@ -1,6 +1,7 @@
 package org.loader.entity;
 
 import org.loader.ImageResource;
+import org.loader.ResourceHandler;
 
 public class GolemLoader {
 
@@ -40,6 +41,9 @@ public class GolemLoader {
 
     public ImageResource getBlueGolemKnockback(boolean faceRight){return faceRight?blueGolemKnockback[0]:blueGolemKnockback[1];}
 
+    public ImageResource[] getBLueGolemLoadable(){return ResourceHandler.create1DLoadable(new ImageResource[][]{blueGolem,blueGolemKnockback,blueGolemLeft,blueGolemLeftAttack,blueGolemRight,blueGolemRightAttack});
+    }
+
     //Green Golem
 
     private ImageResource[] greenGolem={new ImageResource("/CasualCaving/Entities/GreenGolem/GreenGolemStill.png"),
@@ -68,6 +72,8 @@ public class GolemLoader {
     public ImageResource[] getGreenGolemAttack(boolean faceRight){return faceRight?greenGolemRightAttack:greenGolemLeftAttack;}
 
     public ImageResource getGreenGolemKnockback(boolean faceRight){return faceRight?greenGolemKnockback[0]:greenGolemKnockback[1];}
+
+    public ImageResource[] getGreenGolemLoadable(){return ResourceHandler.create1DLoadable(new ImageResource[][]{greenGolem,greenGolemKnockback,greenGolemLeft,greenGolemLeftAttack,greenGolemRight,greenGolemRightAttack});}
 
     //Red Golem
 
@@ -106,6 +112,8 @@ public class GolemLoader {
         return faceRight?redGolemKnockback[0]:redGolemKnockback[1];
     }
 
+    public ImageResource[] getRedGolemLoadable(){return ResourceHandler.create1DLoadable(new ImageResource[][]{redGolem,redGolemAttackLeft,redGolemAttackRight,redGolemKnockback,redGolemLeft,redGolemRight});}
+
     //Purple Golem
 
     private final ImageResource[] purpleGolem={new ImageResource("/CasualCaving/Entities/PurpleGolem/PurpleGolemStill.png"),
@@ -132,6 +140,8 @@ public class GolemLoader {
     public ImageResource[] getPurpleGolemAttack(boolean faceRight){return faceRight?purpleGolemAttackRight:purpleGolemAttackLeft;}
 
     public ImageResource getPurpleGolemKnockback(boolean faceRight){return faceRight?purpleGolemKnockback[0]:purpleGolemKnockback[1];}
+
+    public ImageResource[] getPurpleGolemLoadable(){return ResourceHandler.create1DLoadable(new ImageResource[][]{purpleGolem,purpleGolemAttackLeft,purpleGolemAttackRight,purpleGolemKnockback,purpleGolemLeft,purpleGolemRight});}
 
     //TALL GOLEMS
     //Tall Blue Golem
@@ -176,6 +186,8 @@ public class GolemLoader {
     public ImageResource[] getTallBlueGolemJump(boolean faceRight){return faceRight?tbgJumpRight:tbgJumpLeft;}
 
     public ImageResource getTallBlueGolemKnockback(boolean faceRight){return faceRight?tbgDamage[0]:tbgDamage[1];}
+
+    public ImageResource[] getTallBlueGolemLoadable(){return ResourceHandler.create1DLoadable(new ImageResource[][]{tbgAttackLeft,tbgAttackRight,tbgDamage,tbgJumpLeft,tbgJumpRight,tbgStill,tbgWalkLeft,tbgWalkRight});}
 
     //Isolsi
 
