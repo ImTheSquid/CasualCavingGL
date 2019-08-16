@@ -128,9 +128,4 @@ public class Isolsi extends Autonomous {
         crossfade.setDirection(false);
         crossfade.setCurrent(1);
     }
-
-    @Override
-    public String toString() {
-        return "Isolsi @ "+x+","+y;
-    }
 }

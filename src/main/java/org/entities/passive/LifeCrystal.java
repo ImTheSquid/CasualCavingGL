@@ -29,11 +29,6 @@ public class LifeCrystal extends Autonomous {
     }
 
     @Override
-    public String toString() {
-        return null;
-    }
-
-    @Override
     public void handleDeath() {
         LevelController.getCurrentLevel().getEntityRegister().add(new Health(subLevel,x,y));
     }

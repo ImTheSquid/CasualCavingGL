@@ -7,6 +7,8 @@ import org.graphics.Render;
 import org.input.Keyboard;
 import org.input.Mouse;
 import org.level.LevelController;
+import org.loader.ResourceHandler;
+import org.loader.harold.HaroldLoader;
 
 import javax.swing.*;
 
@@ -36,6 +38,7 @@ class Debug {
                     World.clearEntites();
                     AudioManager.handleDebugSwitch(x);
                     if(LevelController.getCurrentLevel().getAssets()!=null&&LevelController.getCurrentLevel().getAssets().length>0)assetLoadFinished=false;
+                    if(World.getLevel()>1)ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
                 }
                 Render.getGameLoop().overrideUpdateTime();
             }
@@ -73,23 +76,38 @@ class Debug {
 
     static void render(){
         if(!assetLoadFinished){
-            if(World.getAssetLoaderCounter()<LevelController.getLevels()[World.getLevel()].getAssets().length) {
-                LevelController.getLevels()[World.getLevel()].getAssets()[World.getAssetLoaderCounter()].preloadTexture();
+            if(World.getAssetLoaderCounter()<(LevelController.getLevels()[World.getLevel()+1].getAssets()==null?0:LevelController.getLevels()[World.getLevel()+1].getAssets().length)) {
+                LevelController.getLevels()[World.getLevel()+1].getAssets()[World.getAssetLoaderCounter()].preloadTexture();
                 World.incrementAssetLoadCount();
-                World.renderAssetLoadingIndicator(LevelController.getLevels()[World.getLevel()].getAssets().length);
-            }else assetLoadFinished=true;
+                World.renderAssetLoadingIndicator(LevelController.getLevels()[World.getLevel()+1].getAssets().length);
+            }else{
+                assetLoadFinished=true;
+                World.resetAssetLoaderCounter();
+            }
         }
         if(!show)return;
         Graphics.setIgnoreScale(true);
-        Graphics.setDrawColor(.2f, .2f, .2f, .4f);
-        Graphics.fillRect(0, Render.unitsTall - 9f, 15, 9f);
-        Graphics.setDrawColor(1,1,1,1);
         Graphics.setFont(Graphics.DEBUG_SMALL);
+        Graphics.setDrawColor(.1f, .1f, .1f, .3f);
+        Graphics.fillRect(0, Render.unitsTall - 9f, 15, 9f);
+        String memory="Memory:"+ getInUseMemoryMB()+"/"+ getMaxMemoryMB()+"MB";
         float charHeight=Graphics.convertToWorldHeight((float)Graphics.getCurrentFont().getBounds("TEST").getHeight());
+        float memWidth=Graphics.convertToWorldHeight((float)Graphics.getCurrentFont().getBounds(memory).getWidth())-.1f;
+        Graphics.fillRect(99-memWidth, Render.unitsTall - charHeight-1, memWidth+1, charHeight+1);
+        Graphics.setDrawColor(1,1,1,1);
         Graphics.drawText("FPS: "+Render.getGameLoop().getCurrentFPS(),.5f,Render.unitsTall-charHeight-.5f);
         Graphics.drawText("X,Y: "+(Math.round(Main.getHarold().getX()*100)/100)+","+(Math.round(Main.getHarold().getY()*100)/100),.5f,Render.unitsTall-2*charHeight-1);
         Graphics.drawText("Lvl,Sublvl: "+World.getLevel()+","+World.getSubLevel(),.5f,Render.unitsTall-3*charHeight-1.5f);
         Graphics.drawText("Mouse X,Y: "+ Math.round(Mouse.getX())+","+Math.round(Mouse.getY()),.5f,Render.unitsTall-4*charHeight-2f);
+        Graphics.drawText(memory,99.5f-memWidth,Render.unitsTall-charHeight-.5f);
         Graphics.setIgnoreScale(false);
+    }
+
+    private static long getInUseMemoryMB(){
+        return (Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory())/(long)Math.pow(1024,2);
+    }
+
+    private static long getMaxMemoryMB(){
+        return Runtime.getRuntime().maxMemory()/(long)Math.pow(1024,2);
     }
 }

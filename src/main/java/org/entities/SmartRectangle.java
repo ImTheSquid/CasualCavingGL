@@ -65,11 +65,6 @@ public class SmartRectangle extends Entity{
 
     }
 
-    @Override
-    public String toString() {
-        return "Smart Rectangle @ "+x+","+y;
-    }
-
     public boolean isPressed(){
         return isPressed;
     }

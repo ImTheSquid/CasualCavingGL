@@ -1,15 +1,25 @@
 package org.graphics;
 
 import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.util.GLBuffers;
 import com.jogamp.opengl.util.awt.TextRenderer;
 import com.jogamp.opengl.util.texture.Texture;
 import org.loader.ImageResource;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
-import static com.jogamp.opengl.GL.GL_LINE_LOOP;
+import static com.jogamp.opengl.GL.*;
 import static com.jogamp.opengl.GL2.GL_POLYGON;
 import static java.lang.Math.cos;
 import static java.lang.StrictMath.sin;
@@ -24,6 +34,7 @@ public class Graphics {
     private static float rotation=0,scaleFactor=1;
     private static int textSelector=0;
     private static boolean ignoreScale=false;
+    private static File screenshotOut=null;
     private static TextRenderer title=new TextRenderer(new Font("Merriweather",Font.PLAIN,96),true,true);
     private static TextRenderer regular=new TextRenderer(new Font("Merriweather",Font.PLAIN,36),true,true);
     private static TextRenderer small=new TextRenderer(new Font("Merriweather",Font.PLAIN,18),true,true);
@@ -235,6 +246,43 @@ public class Graphics {
         Graphics.fillRect(x,y-0.1f,Graphics.convertToWorldWidth((float)bounds.getWidth()),Graphics.convertToWorldHeight((float)bounds.getHeight())+0.1f);
         Graphics.setDrawColor(1,1,1,1);
         drawText(text,x,y);
+    }
+
+    public static void takeScreenshot(){
+        GL2 gl=Render.getGL2();
+        BufferedImage screenshot=new BufferedImage(Render.screenWidth,Render.screenHeight, BufferedImage.TYPE_INT_RGB);
+        java.awt.Graphics graphics=screenshot.getGraphics();
+        ByteBuffer buffer= GLBuffers.newDirectByteBuffer(Render.screenWidth*Render.screenHeight*4);
+        gl.glReadBuffer(GL_BACK);
+        gl.glReadPixels(0,0,Render.screenWidth,Render.screenHeight,GL_RGBA,GL_UNSIGNED_BYTE,buffer);
+        for(int h=0;h<Render.screenHeight;h++){
+            for(int w=0;w<Render.screenWidth;w++){
+                graphics.setColor(new Color((buffer.get()&0xff),(buffer.get()&0xff),(buffer.get()&0xff)));
+                buffer.get();
+                graphics.drawRect(w,Render.screenHeight-h,1,1);
+            }
+        }
+        while(buffer.hasRemaining())buffer.get();
+        String dmy=Instant.now().atZone(ZoneId.systemDefault()).truncatedTo(ChronoUnit.DAYS).toString();
+        String hms=Instant.now().atZone(ZoneId.systemDefault()).truncatedTo(ChronoUnit.SECONDS).toString().replace(':','-');
+        File f;
+        if(screenshotOut==null) {
+            f = selectDirectory();
+            screenshotOut = new File(f.getPath() + "\\screenshot-" + dmy.substring(0, dmy.indexOf("T")) + "_" + hms.substring(hms.indexOf("T") + 1,hms.indexOf("[")) + ".png");
+        }
+        try {
+            ImageIO.write(screenshot,"png",screenshotOut);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static File selectDirectory(){
+        JFileChooser chooser=new JFileChooser();
+        chooser.setDialogTitle("Select screenshot output path (persistent)");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.showOpenDialog(null);
+        return chooser.getSelectedFile();
     }
 
     public static void setDrawColor(float red, float green, float blue, float alpha){

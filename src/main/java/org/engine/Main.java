@@ -15,6 +15,7 @@ public class Main {
     public static void main(String[] args) {
         initFonts();
         AudioManager.setup();
+        DiscordHandler.init();
         new Render();
     }
 

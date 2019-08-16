@@ -25,7 +25,6 @@ public class Level5 extends Level {
     private HitDetector stalactiteRight=new HitDetector(2,87, 50, 13, Render.unitsTall - 50, () -> entityRegister.add(new LaranoStalactite(95,50,false)),"Harold");
     public Level5(ImageResource[] backgrounds) {
         super(backgrounds, 4);
-        numAssetsToLoad=ResourceHandler.getBossLoader().getLaranoReadying().length+ResourceHandler.getBossLoader().getLaranoShimmer(true).length*2;
     }
 
     @Override
@@ -38,8 +37,7 @@ public class Level5 extends Level {
         ImageResource[] r=ResourceHandler.getBossLoader().getLaranoReadying();
         ImageResource[] sRight=ResourceHandler.getBossLoader().getLaranoShimmer(true);
         ImageResource[] sLeft=ResourceHandler.getBossLoader().getLaranoShimmer(false);
-        ImageResource[] toLoad=ResourceHandler.create1DLoadable(new ImageResource[][]{r,sRight,sLeft});
-        return toLoad;
+        return ResourceHandler.create1DLoadable(new ImageResource[][]{r,sRight,sLeft});
     }
 
     @Override
@@ -48,17 +46,17 @@ public class Level5 extends Level {
         if(World.getLatestCheckpoint()<World.CHECK_LARANO)World.newCheckpoint(World.CHECK_LARANO);
         ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
         if(subLevel<2) {
-            HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7, Render.unitsWide,true)});
+            HeightMap.setHeights(new HeightVal(0,7, Render.unitsWide,true));
             Graphics.setScaleFactor(1f);
             leftLimit=-1;
         }
         else if(subLevel==2){
-            HeightMap.setHeights(new HeightVal[]{new HeightVal(0,5,Render.unitsWide,true),
+            HeightMap.setHeights(new HeightVal(0,5,Render.unitsWide,true),
                     new HeightVal(15,21,34, false),
                     new HeightVal(64,21,84,false),
                     new HeightVal(35,30,63,false),
                     new HeightVal(15,41,35,false),
-                    new HeightVal(64,41,86,false)});
+                    new HeightVal(64,41,86,false));
             Graphics.setScaleFactor(0.75f);
             leftLimit=0;
             rightLimit=100;
@@ -66,7 +64,7 @@ public class Level5 extends Level {
             leftLimit=0;
             rightLimit=101;
             Graphics.setScaleFactor(1);
-            HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7, Render.unitsWide,true)});
+            HeightMap.setHeights(new HeightVal(0,7, Render.unitsWide,true));
         }
     }
 

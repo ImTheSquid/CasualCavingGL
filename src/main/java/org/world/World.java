@@ -5,6 +5,7 @@ import org.engine.Main;
 import org.entities.Entity;
 import org.entities.SmartRectangle;
 import org.graphics.FadeIO;
+import org.graphics.Graphics;
 import org.graphics.Notification;
 import org.graphics.Render;
 import org.input.Keyboard;
@@ -17,6 +18,7 @@ import java.util.Collection;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static com.jogamp.newt.event.KeyEvent.VK_ESCAPE;
+import static com.jogamp.newt.event.KeyEvent.VK_F2;
 import static org.engine.AudioManager.MUSIC_VOL;
 import static org.graphics.Graphics.*;
 
@@ -198,6 +200,10 @@ public class World {
         renderNotifications();
         Debug.render();
         setDrawColor(1,1,1,1);
+        if(Keyboard.keys.contains(VK_F2)){
+            Graphics.takeScreenshot();
+            while(Keyboard.keys.contains(VK_F2)){}
+        }
     }
 
     private static void levelTransition(){
@@ -207,7 +213,7 @@ public class World {
         drawTextCentered("Part "+(level+1),50,35);
         if(level==0)ResourceHandler.getHaroldLoader().setState(HaroldLoader.NORMAL);
         else ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
-        if(tFade.getCurrent()==1&&assetLoaderCounter<LevelController.getLevels()[level+2].getAssets().length){
+        if(tFade.getCurrent()==1&&assetLoaderCounter<(LevelController.getLevels()[level+2].getAssets()==null?0:LevelController.getLevels()[level+2].getAssets().length)){
             LevelController.getLevels()[level+2].getAssets()[World.getAssetLoaderCounter()].preloadTexture();
             World.incrementAssetLoadCount();
             renderAssetLoadingIndicator(LevelController.getLevels()[level+2].getAssets().length);
@@ -222,7 +228,7 @@ public class World {
         }
     }
 
-    public static void renderAssetLoadingIndicator(int numAssetsToLoad){
+    static void renderAssetLoadingIndicator(int numAssetsToLoad){
         setFont(SMALL);
         drawText("Loading assets... ("+assetLoaderCounter+"/"+numAssetsToLoad+")",0.5f,1f);
     }
@@ -237,7 +243,7 @@ public class World {
         }
     }
 
-    public static void newNotification(Notification n){
+    private static void newNotification(Notification n){
         if(!notifications.contains(n))notifications.offer(n);
     }
 
@@ -333,13 +339,15 @@ public class World {
         masterGreen=green;
     }
 
-    public static void incrementAssetLoadCount(){
+    static void incrementAssetLoadCount(){
         assetLoaderCounter++;
     }
 
-    public static int getAssetLoaderCounter() {
+    static int getAssetLoaderCounter() {
         return assetLoaderCounter;
     }
+
+    static void resetAssetLoaderCounter() {assetLoaderCounter=0;}
 
     public static int getLatestCheckpoint() {
         return latestCheckpoint;

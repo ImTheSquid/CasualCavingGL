@@ -28,7 +28,6 @@ public class Death extends Level {
         }
         Main.getHarold().setVisible(false);
         Main.getHarold().setMovement(false);
-        Main.getHarold().reset();
         textHandler.setCurrent(0);
         textHandler.setDirection(true);
         textHandler.setActive(true);
@@ -55,7 +54,7 @@ public class Death extends Level {
         }else if(textHandler.getCurrent()==0){
             finish();
         }
-        if(Keyboard.keys.contains(VK_SPACE))finish();
+        if(Keyboard.keys.contains(VK_SPACE)&&textHandler.getCurrent()>0.25f)finish();
         textHandler.update();
     }
 
@@ -64,6 +63,7 @@ public class Death extends Level {
         cleanup();
         World.clearEntites();
         LevelController.resetAll();
+        Main.getHarold().reset();
         World.setLevel(World.getLevel()+1);
         World.setSubLevel(1);
     }

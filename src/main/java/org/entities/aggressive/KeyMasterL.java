@@ -123,9 +123,4 @@ public class KeyMasterL extends Autonomous {
         y=4;
         animator.setFrames(ResourceHandler.getBossLoader().getEmerieWalk(false));
     }
-
-    @Override
-    public String toString() {
-        return "Key Master [Larano]";
-    }
 }

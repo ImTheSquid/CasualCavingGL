@@ -34,11 +34,6 @@ public class HitDetector extends SmartRectangle {
     }
 
     @Override
-    public String toString() {
-        return "Hit Detector @ "+x+","+y;
-    }
-
-    @Override
     public void doDamage(Entity attacker, int damage) {
         if(attacker==null|| attacker.getDisplayName().equals(this.attacker))hitEvent.run();
     }

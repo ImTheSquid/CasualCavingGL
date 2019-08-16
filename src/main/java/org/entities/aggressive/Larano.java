@@ -257,11 +257,6 @@ public class Larano extends Autonomous {
         invincible=false;
     }
 
-    @Override
-    public String toString() {
-        return "Larano @ "+x+","+y;
-    }
-
     public BossBar getBossBar() {
         return bossBar;
     }

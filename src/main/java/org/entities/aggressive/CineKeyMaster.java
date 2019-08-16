@@ -21,9 +21,4 @@ public class CineKeyMaster extends Autonomous {
     public void reset() {
 
     }
-
-    @Override
-    public String toString() {
-        return null;
-    }
 }

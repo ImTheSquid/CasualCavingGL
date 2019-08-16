@@ -23,6 +23,7 @@ public class GameLoop {
                     updates=0;
                     while(currentTime-lastUpdateTime>=targetTime){
                         World.update();
+                        DiscordHandler.updatePresence();
                         lastUpdateTime+=targetTime;
                         updates++;
                         if(updates>MAX_UPDATES)break;
@@ -49,6 +50,7 @@ public class GameLoop {
                     }
                 }
                 AudioManager.cleanup();
+                DiscordHandler.shutdown();
             }
         };
         game.setName("GameLoop");

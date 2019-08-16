@@ -24,7 +24,6 @@ public class Level3 extends Level {
     public Level3(ImageResource[] backgrounds) {
         super(backgrounds,backgrounds.length);
         reset();
-        numAssetsToLoad=ResourceHandler.getGolemLoader().getGreenGolemLoadable().length*2;
     }
 
     @Override
@@ -36,20 +35,14 @@ public class Level3 extends Level {
 
     @Override
     public ImageResource[] getAssets() {
-        ImageResource[] toLoad = ResourceHandler.create1DLoadable(new ImageResource[][]{ResourceHandler.getGolemLoader().getBLueGolemLoadable(),ResourceHandler.getGolemLoader().getGreenGolemLoadable()});
-        /*if(World.getAssetLoaderCounter()<numAssetsToLoad){
-            toLoad[World.getAssetLoaderCounter()].preloadTexture();
-            World.incrementAssetLoadCount();
-            World.renderAssetLoadingIndicator(numAssetsToLoad);
-        }*/
-        return toLoad;
+        return ResourceHandler.create1DLoadable(new ImageResource[][]{ResourceHandler.getGolemLoader().getBLueGolemLoadable(),ResourceHandler.getGolemLoader().getGreenGolemLoadable()});
     }
 
     @Override
     public void update(int subLevel) {
         checkHealthVals();
-        if(subLevel!=6)HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7, Render.unitsWide,true)});//Set heights
-        else HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7,87,true),new HeightVal(63,29,Render.unitsWide,false),new HeightVal(87,29,Render.unitsWide,true)});
+        if(subLevel!=6)HeightMap.setHeights(new HeightVal(0,7, Render.unitsWide,true));//Set heights
+        else HeightMap.setHeights(new HeightVal(0,7,87,true),new HeightVal(63,29,Render.unitsWide,false),new HeightVal(87,29,Render.unitsWide,true));
         if(subLevel!=1)ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
         if(subLevel!=2)leftLimit=-1;
         switch (subLevel){

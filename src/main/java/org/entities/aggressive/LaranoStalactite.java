@@ -34,9 +34,4 @@ public class LaranoStalactite extends Autonomous {
     public void reset() {
 
     }
-
-    @Override
-    public String toString() {
-        return "Stalactite @ "+x+","+y;
-    }
 }

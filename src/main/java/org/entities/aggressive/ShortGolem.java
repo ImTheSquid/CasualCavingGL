@@ -247,7 +247,7 @@ public class ShortGolem extends Autonomous {
             case PURPLE:
                 return "Purple Golem @ "+x+","+y;
             default:
-                return "Golem @ " + x + "," + y;
+                return super.toString();
         }
     }
 

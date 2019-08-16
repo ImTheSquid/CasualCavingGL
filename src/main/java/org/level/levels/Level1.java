@@ -77,15 +77,15 @@ public class Level1 extends Level {
     }
 
     private void update0(){
-        HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7,Render.unitsWide,true)});
+        HeightMap.setHeights(new HeightVal(0,7,Render.unitsWide,true));
     }
 
-    private void update1() {HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7,Render.unitsWide,true)});}
+    private void update1() {HeightMap.setHeights(new HeightVal(0,7,Render.unitsWide,true));}
 
     private void update2(){
         crowd.setWood(wood);
-        if(wood)HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7,70,true),new HeightVal(70,13,76,true),new HeightVal(76,7,Render.unitsWide,true)});
-        else HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7,Render.unitsWide,true)});
+        if(wood)HeightMap.setHeights(new HeightVal(0,7,70,true),new HeightVal(70,13,76,true),new HeightVal(76,7,Render.unitsWide,true));
+        else HeightMap.setHeights(new HeightVal(0,7,Render.unitsWide,true));
         if(ResourceHandler.getHaroldLoader().getState()== HaroldLoader.CHAINSAW&&log.intersects(Main.getHarold().getHitbox())&&
         Keyboard.keys.contains(VK_E)){
             wood=false;
@@ -94,7 +94,7 @@ public class Level1 extends Level {
     }
 
     private void update3(){
-        HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7,Render.unitsWide,true)});
+        HeightMap.setHeights(new HeightVal(0,7,Render.unitsWide,true));
         if(!wood&&river.intersects(Main.getHarold().getHitbox())&&Keyboard.keys.contains(VK_E)){
             bridge=true;
             ResourceHandler.getHaroldLoader().setState(HaroldLoader.NORMAL);
@@ -108,12 +108,12 @@ public class Level1 extends Level {
     }
 
     private void update4(){
-        HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7,Render.unitsWide,true)});
+        HeightMap.setHeights(new HeightVal(0,7,Render.unitsWide,true));
         crowd.updateSublevel(World.getSubLevel());
     }
 
     private void update5(){
-        HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7,Render.unitsWide,true)});
+        HeightMap.setHeights(new HeightVal(0,7,Render.unitsWide,true));
         crowd.updateSublevel(World.getSubLevel());
         if(World.getMaster().getCurrent()==0){
             World.setSubLevel(World.getSubLevel()+1);
@@ -122,7 +122,7 @@ public class Level1 extends Level {
     }
 
     private void update6(){
-        HeightMap.setHeights(new HeightVal[]{new HeightVal(0,14,24,true),new HeightVal(24,7,Render.unitsWide,true)});
+        HeightMap.setHeights(new HeightVal(0,14,24,true),new HeightVal(24,7,Render.unitsWide,true));
         if(!World.getMaster().getDirection()&&Main.getHarold().getX()<=80){
             World.getMaster().setDirection(true);
             World.getMaster().setSecondDelay(1);

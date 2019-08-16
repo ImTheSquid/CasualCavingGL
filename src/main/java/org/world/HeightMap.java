@@ -9,7 +9,8 @@ public class HeightMap {
     private static HeightVal[] heights={new HeightVal(0,7,Render.unitsWide,true)};
     private static boolean singleHeight=false;
 
-    public static void setHeights(HeightVal[] heights) {
+    //Sets height map
+    public static void setHeights(HeightVal... heights) {
         HeightMap.heights=heights;
         singleHeight= heights.length == 1;
     }

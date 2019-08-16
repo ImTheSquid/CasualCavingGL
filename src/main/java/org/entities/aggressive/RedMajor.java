@@ -183,11 +183,6 @@ public class RedMajor extends Autonomous {
         invincible=false;
     }
 
-    @Override
-    public String toString() {
-        return "Red Major @ "+x+","+y;
-    }
-
     public BossBar getBossBar() {
         return bossBar;
     }

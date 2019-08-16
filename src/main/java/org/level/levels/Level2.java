@@ -27,7 +27,6 @@ public class Level2 extends Level {
     private boolean choiceMade=false,choiceDir=true,ePressed=false;
     public Level2(ImageResource[][] backgrounds) {
         super(backgrounds,backgrounds.length);
-        numAssetsToLoad=ResourceHandler.getLevelLoader().getLevel2Sprites().length+ResourceHandler.count2DArr(ResourceHandler.getLevelLoader().getLevel2());
     }
 
     @Override
@@ -39,8 +38,7 @@ public class Level2 extends Level {
     public ImageResource[] getAssets() {
         ImageResource[] backgrounds=ResourceHandler.create2DLoadable(ResourceHandler.getLevelLoader().getLevel2());
         ImageResource[] sprites=ResourceHandler.getLevelLoader().getLevel2Sprites();
-        ImageResource[] toLoad=ResourceHandler.create1DLoadable(new ImageResource[][]{backgrounds,sprites});
-        return toLoad;
+        return ResourceHandler.create1DLoadable(new ImageResource[][]{backgrounds,sprites});
     }
 
     public void update(int subLevel) {
@@ -99,11 +97,11 @@ public class Level2 extends Level {
     }
 
     private void update0(){
-        HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7, Render.unitsWide,true)});
+        HeightMap.setHeights(new HeightVal(0,7, Render.unitsWide,true));
     }
 
     private void update1(){
-        HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7, Render.unitsWide,true)});
+        HeightMap.setHeights(new HeightVal(0,7, Render.unitsWide,true));
         if(subBlink.getCurrent()==0){
             subBlink.setActive(true);
             World.getMaster().setCurrent(0);
@@ -114,7 +112,7 @@ public class Level2 extends Level {
     }
 
     private void update2(){
-        HeightMap.setHeights(new HeightVal[]{new HeightVal(0,7, Render.unitsWide,true)});
+        HeightMap.setHeights(new HeightVal(0,7, Render.unitsWide,true));
         if(cart.intersects(Main.getHarold().getHitbox())&&ResourceHandler.getHaroldLoader().getState()!=HaroldLoader.ROPE&& Keyboard.keys.contains(VK_E))ResourceHandler.getHaroldLoader().setState(HaroldLoader.ROPE);
         if(edge.intersects(Main.getHarold().getHitbox())&&Keyboard.keys.contains(VK_E)){
             while(Keyboard.keys.contains(VK_E)){}

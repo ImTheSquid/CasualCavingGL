@@ -146,9 +146,4 @@ public class CineLarano extends Autonomous {
         sprite=cine.getCurrentFrame();
         speechDone=false;
     }
-
-    @Override
-    public String toString() {
-        return "Cine Larano @ "+x+","+y;
-    }
 }

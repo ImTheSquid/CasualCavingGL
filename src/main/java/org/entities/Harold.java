@@ -29,6 +29,7 @@ public class Harold extends Entity{
             return;
         }
         if(health<=0||y+height<-10){//Am I dead?
+            if(y+height<-10)health=0;
             World.clearEntites();
             World.setLevel(-1);
         }
@@ -201,7 +202,7 @@ public class Harold extends Entity{
         ResourceHandler.getHaroldLoader().disableAttackPause();
         ResourceHandler.getHaroldLoader().setState(HaroldLoader.NORMAL);
         movement=true;
-        x=65;
+        x=World.getLatestCheckpoint()>World.CHECK_START?5:65;
         y=7;
         health=3;
         vX=0;
@@ -209,11 +210,6 @@ public class Harold extends Entity{
         damageTakenFrame=0;
         damageCooldown=0;
         lockControls=false;
-    }
-
-    @Override
-    public String toString() {
-        return "Harold @ "+x+","+y;
     }
 
     public SmartRectangle getHitbox() {

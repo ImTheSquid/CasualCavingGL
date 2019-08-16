@@ -230,7 +230,7 @@ public class TallGolem extends Autonomous {
             case 0:
                 return "Tall Blue Golem @ " + x + "," + y;
             default:
-                return "Tall Golem @ "+x+","+y;
+                return super.toString();
         }
     }
 }
