@@ -34,7 +34,7 @@ public class Graphics {
     private static float rotation=0,scaleFactor=1;
     private static int textSelector=0;
     private static boolean ignoreScale=false;
-    private static File screenshotOut=null;
+    private static File screenshotOut=null,screenshotDir=null;
     private static TextRenderer title=new TextRenderer(new Font("Merriweather",Font.PLAIN,96),true,true);
     private static TextRenderer regular=new TextRenderer(new Font("Merriweather",Font.PLAIN,36),true,true);
     private static TextRenderer small=new TextRenderer(new Font("Merriweather",Font.PLAIN,18),true,true);
@@ -250,26 +250,29 @@ public class Graphics {
 
     public static void takeScreenshot(){
         GL2 gl=Render.getGL2();
+        //Prepare an image object and read pixels from the currently bound texture
         BufferedImage screenshot=new BufferedImage(Render.screenWidth,Render.screenHeight, BufferedImage.TYPE_INT_RGB);
         java.awt.Graphics graphics=screenshot.getGraphics();
-        ByteBuffer buffer= GLBuffers.newDirectByteBuffer(Render.screenWidth*Render.screenHeight*4);
+        ByteBuffer buffer= GLBuffers.newDirectByteBuffer(Render.screenWidth*Render.screenHeight*4);//Creates byte buffer with a size of the screen with 4 color slots each (RGBA)
         gl.glReadBuffer(GL_BACK);
         gl.glReadPixels(0,0,Render.screenWidth,Render.screenHeight,GL_RGBA,GL_UNSIGNED_BYTE,buffer);
         for(int h=0;h<Render.screenHeight;h++){
             for(int w=0;w<Render.screenWidth;w++){
                 graphics.setColor(new Color((buffer.get()&0xff),(buffer.get()&0xff),(buffer.get()&0xff)));
-                buffer.get();
-                graphics.drawRect(w,Render.screenHeight-h,1,1);
+                buffer.get();//Discard alpha
+                graphics.drawRect(w,Render.screenHeight-h,1,1);//Fill one pixel of output image
             }
         }
+        //Clear the buffer
         while(buffer.hasRemaining())buffer.get();
+        //Format and save the image
         String dmy=Instant.now().atZone(ZoneId.systemDefault()).truncatedTo(ChronoUnit.DAYS).toString();
         String hms=Instant.now().atZone(ZoneId.systemDefault()).truncatedTo(ChronoUnit.SECONDS).toString().replace(':','-');
-        File f;
+        hms=hms.substring(hms.indexOf("T") + 1,hms.indexOf("["));
         if(screenshotOut==null) {
-            f = selectDirectory();
-            screenshotOut = new File(f.getPath() + "\\screenshot-" + dmy.substring(0, dmy.indexOf("T")) + "_" + hms.substring(hms.indexOf("T") + 1,hms.indexOf("[")) + ".png");
+            screenshotDir = selectDirectory();
         }
+        screenshotOut = new File(screenshotDir.getPath() + "\\screenshot-" + dmy.substring(0, dmy.indexOf("T")) + "_" + hms.substring(0,hms.length()-6) + ".png");
         try {
             ImageIO.write(screenshot,"png",screenshotOut);
         } catch (IOException e) {

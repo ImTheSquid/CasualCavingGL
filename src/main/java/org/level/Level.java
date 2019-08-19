@@ -10,7 +10,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public abstract class Level {
     private int subLevels;
-    private boolean decreaseAllowed=true,increaseAllowed=true;
     protected float leftBound=0,rightBound=Render.unitsWide;//Points to trigger switch to next sublevel
     protected float leftLimit=-1,rightLimit=Render.unitsWide+1;//Points that entities can't go past
     protected ImageResource[] backgrounds,foregrounds;
@@ -50,15 +49,6 @@ public abstract class Level {
 
     public int getNumSublevels(){
         return subLevels;
-    }
-
-
-    public boolean isDecreaseAllowed() {
-        return decreaseAllowed;
-    }
-
-    public boolean isIncreaseAllowed() {
-        return increaseAllowed;
     }
 
     public float getLeftBound() {

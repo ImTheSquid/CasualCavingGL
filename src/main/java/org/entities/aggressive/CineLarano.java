@@ -98,7 +98,25 @@ public class CineLarano extends Autonomous {
         if(sprite==null)return;
         Graphics.setDrawColor(1,1,1,1);
         doSpeechDisplay();
-        Graphics.drawImage(sprite,x,y);
+        Graphics.drawImage(sprite,x+Graphics.convertToWorldWidth(getOffset()),y);
+    }
+
+    private float getOffset(){
+        if(state!=1)return 0;
+        switch(speechState){
+            case 0:
+            case 6:
+            case 9:
+            case 10:
+                return 0;
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+                return -41;
+            default: return -60;
+        }
     }
 
     private void doSpeechDisplay(){

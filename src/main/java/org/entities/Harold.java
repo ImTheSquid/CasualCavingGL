@@ -123,16 +123,14 @@ public class Harold extends Entity{
         if(x<currentLevel.getLeftLimit())x=currentLevel.getLeftLimit();
         if(x+width>currentLevel.getRightLimit())x=currentLevel.getRightLimit()-width;
         if(x<currentLevel.getLeftBound()){
-            if(!currentLevel.isDecreaseAllowed())x=currentLevel.getLeftBound();
-            else if(World.getSubLevel()>0){
+            if(World.getSubLevel()>0){
                 World.setSubLevel(World.getSubLevel()-1);
                 x=currentLevel.getRightBound()-15;
             }
             else x=currentLevel.getLeftBound();
         }
         if(x+width> currentLevel.getRightBound()){
-            if(!currentLevel.isIncreaseAllowed()) x=currentLevel.getRightBound()-width;
-            else if(World.getSubLevel()< currentLevel.getNumSublevels()-1){
+            if(World.getSubLevel()< currentLevel.getNumSublevels()-1){
                 World.setSubLevel(World.getSubLevel()+1);
                 x=5;
             }else{

@@ -1,5 +1,6 @@
 package org.level.levels;
 
+import org.engine.Main;
 import org.entities.HitDetector;
 import org.entities.aggressive.CineLarano;
 import org.entities.aggressive.KeyMasterL;
@@ -88,7 +89,7 @@ public class Level5 extends Level {
 
     @Override
     public void cleanup() {
-
+        Main.getHarold().setLockControls(false);
     }
 
     @Override

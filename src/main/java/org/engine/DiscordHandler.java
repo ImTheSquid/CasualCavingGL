@@ -41,7 +41,7 @@ class DiscordHandler{
                 if(World.getSubLevel()<=5)return "lantern";
                 else return "sunstone";
             case 3:
-                if(World.getSubLevel()<=1)return "waiting";
+                if(World.getSubLevel()<=1)return "insunstone";
                 else return "inthecaves";
             case 4:
                 if(World.getSubLevel()==5)return "redmajor";
