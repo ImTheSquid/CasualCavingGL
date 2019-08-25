@@ -2,7 +2,7 @@ package org.graphics;
 
 import org.loader.ImageResource;
 
-public class Notification {
+public class Notification implements Comparable{
     private String title,message;
     private ImageResource icon=null;
     private FadeIO timer=new FadeIO(0,5,0,1,1);
@@ -75,5 +75,29 @@ public class Notification {
 
     public static float getWidth() {
         return width;
+    }
+
+    private ImageResource getIcon() {
+        return icon;
+    }
+
+    private String getMessage() {
+        return message;
+    }
+
+    private String getTitle() {
+        return title;
+    }
+
+    //Returns an integer, with values corresponding to the specific difference
+    //1=title mismatch, 3=message mismatch, and 5=image mismatch, with various sums also possible
+    @Override
+    public int compareTo(Object o) {
+        Notification n=(Notification)o;
+        int ans=0;
+        if(!title.equals(n.getTitle()))ans++;
+        if(!message.equals(n.getMessage()))ans+=3;
+        if(icon.compareTo(n.getIcon())!=0)ans+=5;
+        return ans;
     }
 }

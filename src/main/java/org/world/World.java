@@ -27,7 +27,6 @@ public class World {
     private static int level=0,subLevel=0,assetLoaderCounter=0,latestCheckpoint=-1;
     public static final int CHECK_START=-1,CHECK_LARANO=0,CHECK_LARANO_FINISH=1;
     private static boolean game=false,pause=false,levelTransition=false, transitionDir =true;//Set whether in game or menu. Set pause status
-    private static float gravity=0.15f;
     private static float masterRed=0,masterGreen=0,masterBlue=0;
     private static ConcurrentLinkedQueue<Entity> entities =new ConcurrentLinkedQueue<>();//Entity registry
     private static ConcurrentLinkedQueue<Notification> notifications=new ConcurrentLinkedQueue<>();
@@ -39,13 +38,15 @@ public class World {
         Debug.update();
         if(Render.getWindow().getWidth()!=Render.screenWidth||Render.getWindow().getHeight()!=Render.screenHeight){
             Render.getWindow().setSize(Render.screenWidth,Render.screenHeight);
-            newNotification(new Notification("Resolution Warning","This game only supports a resolution of 1280x720",ResourceHandler.getMiscLoader().getResolutionWarning()));
+            Notification resWarn=new Notification("Resolution Warning","This game only supports a resolution of 1280x720",ResourceHandler.getMiscLoader().getResolutionWarning());
+            if(!notificationPresent(resWarn))newNotification(resWarn);
             Render.getGameLoop().overrideUpdateTime();
         }
 
         if(Keyboard.keys.contains(VK_ESCAPE)&&game&&!levelTransition){
             pause=!pause;
             AudioManager.handlePause(pause);
+            //noinspection StatementWithEmptyBody
             while(Keyboard.keys.contains(VK_ESCAPE)){}//Wait for key release
         }
 
@@ -194,6 +195,7 @@ public class World {
         setDrawColor(1,1,1,1);
         if(Keyboard.keys.contains(VK_F2)){
             Graphics.takeScreenshot();
+            //noinspection StatementWithEmptyBody
             while(Keyboard.keys.contains(VK_F2)){}
         }
     }
@@ -237,6 +239,13 @@ public class World {
 
     private static void newNotification(Notification n){
         if(!notifications.contains(n))notifications.offer(n);
+    }
+
+    private static boolean notificationPresent(Notification n){
+        for (Notification notification : notifications) {
+            if (n.compareTo(notification) == 0) return true;
+        }
+        return false;
     }
 
     public static void newCheckpoint(int checkpoint){
@@ -310,12 +319,12 @@ public class World {
     public static FadeIO getMaster(){return master;}
 
     public static float getGravity() {
-        return gravity;
+        return 0.15f;
     }
 
-    public static int getNumLevels(){return LevelController.getNumLevels();}
+    static int getNumLevels(){return LevelController.getNumLevels();}
 
-    public static int getNumSubLevels(){return LevelController.getNumSubLevels();}
+    static int getNumSubLevels(){return LevelController.getNumSubLevels();}
 
     public static ConcurrentLinkedQueue<Entity> getEntities() {
         return entities;

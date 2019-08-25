@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-public class ImageResource {
+public class ImageResource implements Comparable{
     private Texture texture=null;
     private BufferedImage image=null;
     public ImageResource(File f){
@@ -35,7 +35,7 @@ public class ImageResource {
         if(image!=null){
             image.flush();
         }else{
-            System.err.println("[CASUAL-CAVING/ERROR] Image with path \""+p+"\" is null.");
+            System.err.println("Image with path \""+p+"\" is null.");
         }
     }
 
@@ -48,5 +48,26 @@ public class ImageResource {
     public void preloadTexture(){
         if(image==null)return;
         if(texture==null)texture= AWTTextureIO.newTexture(Render.getProfile(),image,true);
+    }
+
+    private BufferedImage getImage() {
+        return image;
+    }
+
+    //Returns -1 if sizes are different, or any integer other than 0 corresponding to the number of pixel differences in the image
+    @Override
+    public int compareTo(Object o) {
+        ImageResource imageResource=(ImageResource)o;
+        int diffs=0;
+        BufferedImage b=imageResource.getImage();
+        if(image==null||b==null)return -1;
+        if(image.getWidth()==b.getWidth()&&image.getHeight()==b.getHeight()){
+            for(int x=0;x<b.getWidth();x++){
+                for(int y=0;y<b.getHeight();y++){
+                    if(image.getRGB(x,y)!=b.getRGB(x,y))diffs++;
+                }
+            }
+        }else diffs--;
+        return diffs;
     }
 }
