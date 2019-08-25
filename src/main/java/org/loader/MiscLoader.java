@@ -33,4 +33,10 @@ public class MiscLoader {
     public ImageResource getCheckmark() {
         return checkmark;
     }
+
+    private ImageResource resolutionWarning=new ImageResource("/CasualCaving/Menus/ResolutionWarning.png");
+
+    public ImageResource getResolutionWarning() {
+        return resolutionWarning;
+    }
 }

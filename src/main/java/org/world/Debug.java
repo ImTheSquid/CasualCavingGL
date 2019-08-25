@@ -67,6 +67,65 @@ class Debug {
                 Render.getGameLoop().overrideUpdateTime();
             }
         }
+        checkCam();
+    }
+
+    private static void checkCam(){
+        if(Keyboard.keys.contains(VK_UP)){
+            if(!cheatsUsed)cheatsUsed=firstRunEvent();
+            if(cheatsUsed){
+                Render.setCameraY(Render.getCameraY()+1);
+            }
+        }
+        if(Keyboard.keys.contains(VK_DOWN)){
+            if(!cheatsUsed)cheatsUsed=firstRunEvent();
+            if(cheatsUsed){
+                Render.setCameraY(Render.getCameraY()-1);
+            }
+        }
+        if(Keyboard.keys.contains(VK_LEFT)){
+            if(!cheatsUsed)cheatsUsed=firstRunEvent();
+            if(cheatsUsed){
+                Render.setCameraX(Render.getCameraX()-1);
+            }
+        }
+        if(Keyboard.keys.contains(VK_RIGHT)){
+            if(!cheatsUsed)cheatsUsed=firstRunEvent();
+            if(cheatsUsed){
+                Render.setCameraX(Render.getCameraX()+1);
+            }
+        }
+        if(Keyboard.keys.contains(VK_R)){
+            if(!cheatsUsed)cheatsUsed=firstRunEvent();
+            if(cheatsUsed){
+                Render.setCameraX(0);
+                Render.setCameraY(0);
+            }
+        }
+        if(Keyboard.keys.contains(VK_HOME)){
+            if(!cheatsUsed)cheatsUsed=firstRunEvent();
+            if(cheatsUsed){
+                Render.setCameraX(0);
+            }
+        }
+        if(Keyboard.keys.contains(VK_PAGE_DOWN)){
+            if(!cheatsUsed)cheatsUsed=firstRunEvent();
+            if(cheatsUsed){
+                Render.setCameraY(0);
+            }
+        }
+        if(Keyboard.keys.contains(VK_END)){
+            if(!cheatsUsed)cheatsUsed=firstRunEvent();
+            if(cheatsUsed){
+                Render.setCameraX(Graphics.convertToWorldWidth(LevelController.getCurrentLevel().getBackgrounds()[World.getSubLevel()].getTexture().getWidth())-100);
+            }
+        }
+        if(Keyboard.keys.contains(VK_PAGE_UP)){
+            if(!cheatsUsed)cheatsUsed=firstRunEvent();
+            if(cheatsUsed){
+                Render.setCameraY(Graphics.convertToWorldHeight(LevelController.getCurrentLevel().getBackgrounds()[World.getSubLevel()].getTexture().getHeight())-Render.unitsTall);
+            }
+        }
     }
     //Returns true if going ahead with cheats, returns false to exit
     private static boolean firstRunEvent(){

@@ -13,7 +13,6 @@ import org.level.LevelController;
 import org.loader.ResourceHandler;
 import org.loader.harold.HaroldLoader;
 
-import javax.swing.*;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -39,16 +38,9 @@ public class World {
     public static void update(){
         Debug.update();
         if(Render.getWindow().getWidth()!=Render.screenWidth||Render.getWindow().getHeight()!=Render.screenHeight){
-            String[] options={"Resize","Exit"};
-            int x= JOptionPane.showOptionDialog(null,"Casual Caving only supports 1280x720 resolution.\nWould you like to automatically resize the window or exit the game?","Screen Resolution",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE,null,options,options[0]);
-            if(x==JOptionPane.YES_OPTION){
-                Render.getWindow().setSize(Render.screenWidth,Render.screenHeight);
-                Render.getGameLoop().overrideUpdateTime();
-            }else{
-                Render.getGameLoop().setRunning(false);
-                Render.getGameLoop().overrideUpdateTime();
-                return;
-            }
+            Render.getWindow().setSize(Render.screenWidth,Render.screenHeight);
+            newNotification(new Notification("Resolution Warning","This game only supports a resolution of 1280x720",ResourceHandler.getMiscLoader().getResolutionWarning()));
+            Render.getGameLoop().overrideUpdateTime();
         }
 
         if(Keyboard.keys.contains(VK_ESCAPE)&&game&&!levelTransition){

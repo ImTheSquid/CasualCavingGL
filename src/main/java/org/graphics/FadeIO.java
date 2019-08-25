@@ -73,5 +73,7 @@ public class FadeIO {
         return delay;
     }
 
-
+    public float getMax() {
+        return max;
+    }
 }

@@ -78,4 +78,20 @@ public class Render implements GLEventListener {
     public static GameLoop getGameLoop() {
         return gameLoop;
     }
+
+    public static void setCameraX(float cameraX) {
+        Render.cameraX = cameraX;
+    }
+
+    public static void setCameraY(float cameraY) {
+        Render.cameraY = cameraY;
+    }
+
+    public static float getCameraX() {
+        return cameraX;
+    }
+
+    public static float getCameraY() {
+        return cameraY;
+    }
 }

@@ -67,6 +67,10 @@ public abstract class Level {
         return rightLimit;
     }
 
+    public ImageResource[] getBackgrounds() {
+        return backgrounds;
+    }
+
     public Entity[] getEntityRegisterArray() {
         Object[] registerArr=entityRegister.toArray();
         ArrayList<Entity> applicable=new ArrayList<>();
