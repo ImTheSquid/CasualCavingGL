@@ -47,9 +47,9 @@ class DiscordHandler{
                 if(World.getSubLevel()==5)return "redmajor";
                 else return "inthecaves";
             case 5:
-                if(World.getSubLevel()<2)return "waiting";
-                else if(World.getSubLevel()>2)return "waiting";
-                else return "waiting";
+                if(World.getSubLevel()<2)return "meetlarano";
+                else if(World.getSubLevel()>2)return "insunstone";
+                else return "fightlarano";
             case 6: return "inthecaves";
             default:return "waiting";
         }
