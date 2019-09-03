@@ -30,9 +30,15 @@ public class Level6 extends Level {
     public void update(int subLevel) {
         checkHealthVals();
         ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
-        if(subLevel!=3) HeightMap.setHeights(new HeightVal(0,7,100,true));
-        else HeightMap.setHeights(new HeightVal(0,7,24,true),new HeightVal(36,7,46,true),new HeightVal(60,7,66,true),
-                new HeightVal(80,7,100,true));
+        if(subLevel!=3) {
+            HeightMap.setHeights(new HeightVal(0,7,100,true));
+            Graphics.setScaleFactor(1);
+        }
+        else{
+            HeightMap.setHeights(new HeightVal(0,7,24,true),new HeightVal(36,7,46,true),new HeightVal(60,7,66,true),
+                    new HeightVal(80,7,100,true));
+            Graphics.setScaleFactor(.75f);
+        }
     }
 
     @Override

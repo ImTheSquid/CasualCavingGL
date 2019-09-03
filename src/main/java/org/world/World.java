@@ -173,6 +173,7 @@ public class World {
 
         if(pause){
             setIgnoreScale(true);
+            setFollowCamera(true);
             setDrawColor(.25f,.25f,.25f,.4f);
             fillRect(0,0,Render.unitsWide,Render.unitsTall);
             setDrawColor(1,1,1,1);
@@ -189,6 +190,7 @@ public class World {
             drawTextCentered("Quit to Title",Render.unitsWide/2,7);
             drawImage(ResourceHandler.getMiscLoader().getMusicButton(AudioManager.isMusicEnabled()),0.5f,0.5f,5,5);
             setIgnoreScale(false);
+            setFollowCamera(false);
         }
         renderNotifications();
         Debug.render();

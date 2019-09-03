@@ -185,6 +185,7 @@ public class Harold extends Entity{
     public void renderHealth(){
         if(!visible||World.getLevel()<1)return;
         Graphics.setIgnoreScale(true);
+        Graphics.setFollowCamera(true);
         Graphics.setDrawColor(1,1,1,1);
         if(!invincible)
         for(int i=0;i<health;i++){
@@ -193,6 +194,7 @@ public class Harold extends Entity{
         }
         else Graphics.drawImage(ResourceHandler.getHaroldLoader().getInfiniteHealth(),0.5f,0.5f,5,5);
         Graphics.setIgnoreScale(false);
+        Graphics.setFollowCamera(false);
     }
 
     @Override

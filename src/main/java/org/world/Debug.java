@@ -145,6 +145,7 @@ class Debug {
             }
         }
         if(!show)return;
+        Graphics.setFollowCamera(true);
         Graphics.setIgnoreScale(true);
         Graphics.setFont(Graphics.DEBUG_SMALL);
         Graphics.setDrawColor(.1f, .1f, .1f, .3f);
@@ -160,6 +161,7 @@ class Debug {
         Graphics.drawText("Mouse X,Y: "+ Math.round(Mouse.getX())+","+Math.round(Mouse.getY()),.5f,Render.unitsTall-4*charHeight-2f);
         Graphics.drawText(memory,99.5f-memWidth,Render.unitsTall-charHeight-.5f);
         Graphics.setIgnoreScale(false);
+        Graphics.setFollowCamera(false);
     }
 
     private static long getInUseMemoryMB(){

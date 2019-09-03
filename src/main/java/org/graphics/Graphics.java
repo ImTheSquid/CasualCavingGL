@@ -33,7 +33,7 @@ public class Graphics {
     private static float red=0,green=0,blue=0,alpha=0;
     private static float rotation=0,scaleFactor=1;
     private static int textSelector=0;
-    private static boolean ignoreScale=false;
+    private static boolean ignoreScale=false,followCamera=false;
     private static File screenshotOut=null,screenshotDir=null;
     private static TextRenderer title=new TextRenderer(new Font("Merriweather",Font.PLAIN,96),true,true);
     private static TextRenderer regular=new TextRenderer(new Font("Merriweather",Font.PLAIN,36),true,true);
@@ -50,6 +50,10 @@ public class Graphics {
         float scaleSave=scaleFactor;
         if(ignoreScale){
             scaleFactor=1;
+        }
+        if(followCamera){
+            x+=Render.getCameraX();
+            y+=Render.getCameraY();
         }
 
         GL2 gl=Render.getGL2();
@@ -151,6 +155,10 @@ public class Graphics {
         if(ignoreScale){
             scaleFactor=1;
         }
+        if(followCamera){
+            x+=Render.getCameraX();
+            y+=Render.getCameraY();
+        }
 
         GL2 gl=Render.getGL2();
         gl.glTranslatef(x+width/2,y+height/2,0);
@@ -234,6 +242,10 @@ public class Graphics {
 
     //Draws text
     public static void drawText(String text, float x, float y){
+        if(!followCamera){
+            x-=Render.getCameraX();
+            y-=Render.getCameraY();
+        }
         fonts[textSelector].beginRendering(Render.getWindow().getWidth(),Render.getWindow().getHeight());
         fonts[textSelector].setColor(red,green,blue,alpha);
         fonts[textSelector].draw(text,(int)convertFromWorldX(x),(int)convertFromWorldY(y));
@@ -316,4 +328,8 @@ public class Graphics {
     public static void setIgnoreScale(boolean ignore){ignoreScale=ignore;}
 
     public static boolean getIgnoreScale(){return ignoreScale;}
+
+    public static void setFollowCamera(boolean followCamera) {
+        Graphics.followCamera = followCamera;
+    }
 }

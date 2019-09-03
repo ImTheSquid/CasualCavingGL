@@ -39,4 +39,10 @@ public class MiscLoader {
     public ImageResource getResolutionWarning() {
         return resolutionWarning;
     }
+
+    private ImageResource boulder=new ImageResource("/CasualCaving/Entities/Boulder/Boulder.png");
+
+    public ImageResource getBoulder() {
+        return boulder;
+    }
 }

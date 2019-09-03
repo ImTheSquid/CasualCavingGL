@@ -22,6 +22,8 @@ public class Death extends Level {
 
     @Override
     public void init() {
+        Render.setCameraX(0);
+        Render.setCameraY(0);
         if(World.getMaster().isActive()){
             World.getMaster().setActive(false);
             World.getMaster().setCurrent(1);

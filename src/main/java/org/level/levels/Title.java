@@ -41,7 +41,8 @@ public class Title extends Level {
 
     @Override
     public void init() {
-
+        Render.setCameraX(0);
+        Render.setCameraY(0);
     }
 
     @Override
