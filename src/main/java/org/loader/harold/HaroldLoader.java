@@ -59,6 +59,7 @@ public class HaroldLoader {
             new ImageResource("/CasualCaving/Entities/Harold/Face_Left/Attack/HaroldA4Left.png")};
     private ImageResource[] turn={new ImageResource("/CasualCaving/Entities/Harold/Turn/HaroldTurn1.png"),
             new ImageResource("/CasualCaving/Entities/Harold/Turn/HaroldTurn2.png")};
+    private ImageResource[] boulder={};
     private ImageResource health=new ImageResource("/CasualCaving/Entities/Harold/Health_Heart.png");
     private ImageResource infiniteHealth=new ImageResource("/CasualCaving/Entities/Harold/Health_Heart_Infinite.png");
     public ImageResource getHarold(){
@@ -125,5 +126,9 @@ public class HaroldLoader {
 
     public void disableAttackPause(){
         attackPause=false;
+    }
+
+    public ImageResource getBoulder(int frame){
+        return boulder[frame];
     }
 }

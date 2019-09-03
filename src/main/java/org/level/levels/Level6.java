@@ -1,5 +1,6 @@
 package org.level.levels;
 
+import org.entities.passive.Boulder;
 import org.graphics.Graphics;
 import org.level.Level;
 import org.loader.ImageResource;
@@ -61,5 +62,7 @@ public class Level6 extends Level {
 
     @Override
     public void reset() {
+        clearEntityRegister();
+        entityRegister.add(new Boulder(67,8));
     }
 }
