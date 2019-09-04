@@ -34,11 +34,13 @@ public class Level6 extends Level {
         if(subLevel!=3) {
             HeightMap.setHeights(new HeightVal(0,7,100,true));
             Graphics.setScaleFactor(1);
+            World.setGravity(.15f);
         }
         else{
             HeightMap.setHeights(new HeightVal(0,7,24,true),new HeightVal(36,7,46,true),new HeightVal(60,7,66,true),
                     new HeightVal(80,7,100,true));
             Graphics.setScaleFactor(.75f);
+            World.setGravity(.25f);
         }
     }
 
@@ -63,6 +65,6 @@ public class Level6 extends Level {
     @Override
     public void reset() {
         clearEntityRegister();
-        entityRegister.add(new Boulder(67,8));
+        entityRegister.add(new Boulder(73,16));
     }
 }

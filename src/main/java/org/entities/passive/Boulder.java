@@ -1,6 +1,7 @@
 package org.entities.passive;
 
 import org.entities.Autonomous;
+import org.entities.Entity;
 import org.graphics.FadeIO;
 import org.graphics.Graphics;
 import org.loader.ResourceHandler;
@@ -30,13 +31,20 @@ public class Boulder extends Autonomous {
 
     @Override
     public void render() {
+        if(state==1)Graphics.setFollowCamera(true);
+        else Graphics.setFollowCamera(false);
         Graphics.setRotation(rotation);
         Graphics.drawImageCentered(ResourceHandler.getMiscLoader().getBoulder(),x,y);
         Graphics.setRotation(0);
+        Graphics.setFollowCamera(false);
+        Graphics.drawText("Hello, this\\nis a test to see if this works",x-10,y,30,true);
     }
 
     @Override
     public void reset() {
 
     }
+
+    @Override
+    public void doDamage(Entity attacker, int damage) {}
 }

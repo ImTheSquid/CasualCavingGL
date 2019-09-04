@@ -192,11 +192,14 @@ public class Graphics {
     public static void drawText(String text,float x, float y, float wrapWidth,boolean box){
         StringBuilder currentString=new StringBuilder();
         ArrayList<String> strings=new ArrayList<>();
+        ArrayList<Integer> lines=new ArrayList<>();//Lines to remove a character from in the front of the string
+        lines.add(0);
+        boolean newlineActivated=false;
         for(int i=0;i<text.length();i++){
             StringBuilder testString=new StringBuilder();
             String s;
-            if(text.charAt(i)==' '||i==0){
-                if(i==0)s=text.substring(i);
+            if(text.charAt(i)==' '||i==0||newlineActivated){
+                if(i==0||newlineActivated)s=text.substring(i);
                 else s=text.substring(i+1);
                 int index=0;
                 while(index<s.length()&&s.charAt(index)!=' '){
@@ -211,10 +214,19 @@ public class Graphics {
                     strings.add(currentString.toString());
                     currentString=testString;
                 }
+                newlineActivated=false;
+            }else if(i+1<text.length()&&text.substring(i,i+2).equals("\\n")){//Deals with newline character (\\n) and adds following string to another line
+                strings.add(currentString.substring(0,i+1));
+                currentString=new StringBuilder();
+                i+=1;
+                newlineActivated=true;
+                lines.add(strings.size());
             }
         }
         strings.add(currentString.toString());//Clears buffer after loop
-        if(strings.get(0).length()>0)strings.set(0,strings.get(0).substring(1));//Gets rid of space at beginning of first line
+        for(Integer i:lines){
+            if(strings.get(i).length()>0)strings.set(i,strings.get(i).substring(1));
+        }//Gets rid of space at beginning of first line
         int iteration=0;
         //Draw the text in the array
         if(box){
