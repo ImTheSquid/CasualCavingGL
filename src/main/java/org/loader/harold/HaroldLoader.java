@@ -3,7 +3,7 @@ package org.loader.harold;
 import org.loader.ImageResource;
 
 public class HaroldLoader {
-    public static final int NORMAL=0,CHAINSAW=1,WOOD=2,LANTERN=3,ROPE=4,ATTACK=5,TURN=6;
+    public static final int NORMAL=0,CHAINSAW=1,WOOD=2,LANTERN=3,ROPE=4,ATTACK=5,TURN=6,BOULDER=7;
     private boolean direction=true,attackPause=false;
     private int state=0;
     public void setDirection(boolean dir){
@@ -59,7 +59,11 @@ public class HaroldLoader {
             new ImageResource("/CasualCaving/Entities/Harold/Face_Left/Attack/HaroldA4Left.png")};
     private ImageResource[] turn={new ImageResource("/CasualCaving/Entities/Harold/Turn/HaroldTurn1.png"),
             new ImageResource("/CasualCaving/Entities/Harold/Turn/HaroldTurn2.png")};
-    private ImageResource[] boulder={};
+    private ImageResource[] boulder={new ImageResource("/CasualCaving/Entities/Harold/Carrying/HaroldCarrying1.png"),
+            new ImageResource("/CasualCaving/Entities/Harold/Carrying/HaroldCarrying2.png"),
+            new ImageResource("/CasualCaving/Entities/Harold/Carrying/HaroldCarrying3.png"),
+            new ImageResource("/CasualCaving/Entities/Harold/Carrying/HaroldCarrying4.png"),
+            new ImageResource("/CasualCaving/Entities/Harold/Carrying/HaroldCarrying5.png")};
     private ImageResource health=new ImageResource("/CasualCaving/Entities/Harold/Health_Heart.png");
     private ImageResource infiniteHealth=new ImageResource("/CasualCaving/Entities/Harold/Health_Heart_Infinite.png");
     public ImageResource getHarold(){
@@ -128,7 +132,7 @@ public class HaroldLoader {
         attackPause=false;
     }
 
-    public ImageResource getBoulder(int frame){
-        return boulder[frame];
+    public ImageResource[] getBoulder(){
+        return boulder;
     }
 }

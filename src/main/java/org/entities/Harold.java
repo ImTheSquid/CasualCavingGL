@@ -16,7 +16,7 @@ import static com.jogamp.newt.event.KeyEvent.VK_W;
 public class Harold extends Entity{
     private Animator haroldAnimator=new Animator(ResourceHandler.getHaroldLoader().getHaroldWalk(),12);
     private ImageResource harold;
-    private boolean jump=false,lockControls=false;
+    private boolean jump=false,lockControls=false,followCamera=false;
     private SmartRectangle hitbox=new SmartRectangle(x,y,width,height);
 
     public Harold(){
@@ -28,7 +28,7 @@ public class Harold extends Entity{
         if(!movement){
             return;
         }
-        if(health<=0||y+height<-10){//Am I dead?
+        if(health<=0||(y+height<-10&&(World.getSubLevel()!=4&&World.getLevel()!=6))){//Am I dead?
             if(y+height<-10)health=0;
             World.clearEntites();
             World.setLevel(-1);
@@ -162,6 +162,7 @@ public class Harold extends Entity{
     }
 
     public void render() {
+        Graphics.setFollowCamera(followCamera);
         width=Graphics.convertToWorldWidth(harold.getTexture().getWidth())*Graphics.getScaleFactor();
         height=Graphics.convertToWorldHeight(harold.getTexture().getHeight())*Graphics.getScaleFactor();
         hitbox.updateBounds(x,y,width,height);
@@ -179,7 +180,7 @@ public class Harold extends Entity{
         else Graphics.setDrawColor(1,1,1,1);
         Graphics.drawImage(harold,x,y);
         Graphics.setDrawColor(1,1,1,1);
-        //Graphics.setScaleFactor(1);
+        Graphics.setFollowCamera(false);
     }
 
     public void renderHealth(){
@@ -210,6 +211,7 @@ public class Harold extends Entity{
         damageTakenFrame=0;
         damageCooldown=0;
         lockControls=false;
+        followCamera=false;
     }
 
     public SmartRectangle getHitbox() {
@@ -226,5 +228,9 @@ public class Harold extends Entity{
 
     public boolean areControlsLocked() {
         return lockControls;
+    }
+
+    public void setFollowCamera(boolean followCamera) {
+        this.followCamera = followCamera;
     }
 }

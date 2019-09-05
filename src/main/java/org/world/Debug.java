@@ -37,6 +37,7 @@ class Debug {
                     World.setLevel(x);
                     World.clearEntites();
                     AudioManager.handleDebugSwitch(x);
+                    Main.getHarold().setFollowCamera(false);
                     if(LevelController.getCurrentLevel().getAssets()!=null&&LevelController.getCurrentLevel().getAssets().length>0)assetLoadFinished=false;
                     if(World.getLevel()>1)ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
                 }
@@ -55,6 +56,7 @@ class Debug {
                 if(x!=null){
                     Graphics.setScaleFactor(1);
                     World.setSubLevel(x);
+                    Main.getHarold().setFollowCamera(false);
                 }
                 Render.getGameLoop().overrideUpdateTime();
             }

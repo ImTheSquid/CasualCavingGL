@@ -50,6 +50,23 @@ public class Level6 extends Level {
             case 0:
                 leftBound=0;
                 rightBound=100;
+                break;
+            case 1:
+                leftBound=0;
+                rightBound=90;
+                break;
+            case 2:
+                leftBound=5;
+                rightBound=95;
+                break;
+            case 3:
+                leftBound=3;
+                rightBound=96;
+                break;
+            case 4:
+                leftBound=2;
+                rightBound=100;
+                break;
         }
     }
 
@@ -74,6 +91,6 @@ public class Level6 extends Level {
     @Override
     public void reset() {
         clearEntityRegister();
-        entityRegister.add(new Boulder(73,16));
+        entityRegister.add(new Boulder());
     }
 }

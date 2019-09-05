@@ -94,7 +94,7 @@ public abstract class Level {
 
     protected void checkHealthVals(){
         for(Entity e:entityRegister){
-            if(e.getHealth()<=0||e.getY()+e.getHeight()<-10){
+            if(e.getHealth()<=0||(e.getY()+e.getHeight()<-10&&!e.isInvincible())){
                 e.handleDeath();
                 entityRegister.remove(e);
             }
