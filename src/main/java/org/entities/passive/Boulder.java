@@ -19,6 +19,7 @@ import static com.jogamp.newt.event.KeyEvent.VK_Q;
 
 public class Boulder extends Autonomous {
     private float rotation=0;
+    private boolean isDone;
     private FadeIO falterTimer=new FadeIO(0,1,0,1,1);
     private Animator haroldPuppet=new Animator(ResourceHandler.getHaroldLoader().getBoulder(),12);
     public Boulder() {
@@ -42,6 +43,11 @@ public class Boulder extends Autonomous {
                 vX=.2f;
                 if(x>82)y-=0.1;
                 if(x>120)state=-1;
+                break;
+            case 3:
+                isDone=true;
+                Render.setCameraX(0);
+                Render.setCameraY(0);
                 break;
         }
         rotation+=vX*Math.PI;
@@ -76,6 +82,7 @@ public class Boulder extends Autonomous {
             ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
             vX=0;
         }
+        if(Render.getCameraX()>=width-100&&Render.getCameraY()<=-Graphics.convertToWorldHeight(700))state=3;
     }
 
     @Override
@@ -95,8 +102,13 @@ public class Boulder extends Autonomous {
         x=73;
         y=16;
         state=0;
+        isDone=false;
     }
 
     @Override
     public void doDamage(Entity attacker, int damage) {}
+
+    public boolean isDone() {
+        return isDone;
+    }
 }

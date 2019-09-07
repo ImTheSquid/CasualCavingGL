@@ -28,7 +28,7 @@ public class Harold extends Entity{
         if(!movement){
             return;
         }
-        if(health<=0||(y+height<-10&&(World.getSubLevel()!=4&&World.getLevel()!=6))){//Am I dead?
+        if(health<=0||(y+height<-10&&(World.getSubLevel()!=4&&World.getLevel()==6))){//Am I dead?
             if(y+height<-10)health=0;
             World.clearEntites();
             World.setLevel(-1);
@@ -120,8 +120,10 @@ public class Harold extends Entity{
 
         Level currentLevel=LevelController.getCurrentLevel();
         //TODO cleanup usages
-        if(x<currentLevel.getLeftLimit())x=currentLevel.getLeftLimit();
-        if(x+width>currentLevel.getRightLimit())x=currentLevel.getRightLimit()-width;
+        if(World.getLevel()!=6||World.getSubLevel()!=4) {
+            if (x < currentLevel.getLeftLimit()) x = currentLevel.getLeftLimit();
+            if (x + width > currentLevel.getRightLimit()) x = currentLevel.getRightLimit() - width;
+        }
         if(x<currentLevel.getLeftBound()){
             if(World.getSubLevel()>0){
                 World.setSubLevel(World.getSubLevel()-1);

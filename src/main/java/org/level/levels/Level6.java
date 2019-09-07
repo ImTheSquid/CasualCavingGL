@@ -13,6 +13,7 @@ import org.world.World;
 import static org.world.World.CHECK_LARANO_FINISH;
 
 public class Level6 extends Level {
+    private Boulder boulder=new Boulder();
     public Level6(ImageResource[] backgrounds) {
         super(backgrounds, backgrounds.length);
     }
@@ -46,6 +47,8 @@ public class Level6 extends Level {
     }
 
     private void setBounds(int subLevel){
+        if(subLevel==4)leftLimit=3;
+        else leftLimit=-1;
         switch(subLevel){
             case 0:
                 leftBound=0;
@@ -65,7 +68,7 @@ public class Level6 extends Level {
                 break;
             case 4:
                 leftBound=2;
-                rightBound=100;
+                rightBound=250;
                 break;
         }
     }
@@ -74,7 +77,10 @@ public class Level6 extends Level {
     public void render(int subLevel) {
         Graphics.setIgnoreScale(true);
         if(subLevel!=4)Graphics.drawImage(backgrounds[subLevel],0,0);
-        else Graphics.drawImage(backgrounds[subLevel],0,-Graphics.convertToWorldHeight(700));
+        else {
+            if(!boulder.isDone())Graphics.drawImage(backgrounds[subLevel],0,-Graphics.convertToWorldHeight(700));
+            else Graphics.drawImage(backgrounds[subLevel],0,0);
+        }
         Graphics.setIgnoreScale(false);
     }
 
@@ -90,7 +96,8 @@ public class Level6 extends Level {
 
     @Override
     public void reset() {
+        boulder.reset();
         clearEntityRegister();
-        entityRegister.add(new Boulder());
+        entityRegister.add(boulder);
     }
 }
