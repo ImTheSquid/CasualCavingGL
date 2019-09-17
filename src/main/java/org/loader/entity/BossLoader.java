@@ -214,4 +214,10 @@ public class BossLoader {
     public ImageResource getEmerieGesture(boolean pointing){
         return pointing?emerieGesture[0]:emerieGesture[1];
     }
+
+    private final ImageResource emerieForward=new ImageResource("/CasualCaving/Entities/Emerie/EmerieForward.png");
+
+    public ImageResource getEmerieForward() {
+        return emerieForward;
+    }
 }

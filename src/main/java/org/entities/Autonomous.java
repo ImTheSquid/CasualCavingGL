@@ -11,4 +11,8 @@ public abstract class Autonomous extends Entity{
     public void setState(int state) {
         this.state = state;
     }
+
+    public int getState() {
+        return state;
+    }
 }

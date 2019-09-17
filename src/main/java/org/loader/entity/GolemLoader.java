@@ -202,4 +202,12 @@ public class GolemLoader {
     public ImageResource[] getIsolsi() {
         return isolsi;
     }
+
+    //Level 6 trial golems
+
+    private final ImageResource[] oldGolem={new ImageResource("/CasualCaving/Entities/TrialGolems/OldGolem.png")};
+
+    public ImageResource[] getOldGolem() {
+        return oldGolem;
+    }
 }

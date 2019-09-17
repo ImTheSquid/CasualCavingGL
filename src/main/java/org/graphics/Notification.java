@@ -56,6 +56,7 @@ public class Notification implements Comparable{
 
     public void render(float y){
         Graphics.setFollowCamera(true);
+        Graphics.setIgnoreScale(true);
         Graphics.setDrawColor(0.15f,0.15f,0.15f,1);
         Graphics.fillRect(x,y,width,height);
         Graphics.setDrawColor(1,1,1,1);
@@ -65,6 +66,7 @@ public class Notification implements Comparable{
         Graphics.setFont(Graphics.SMALL);
         Graphics.drawText(message,x+6,y+2.5f,20);
         Graphics.setFollowCamera(false);
+        Graphics.setIgnoreScale(true);
     }
 
     public boolean isDone(){

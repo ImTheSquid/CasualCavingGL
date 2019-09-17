@@ -25,6 +25,7 @@ import static org.world.World.*;
 public class Title extends Level {
     private FadeIO logo = new FadeIO(0, 1, 0, 0.01f, 40);
     private SmartRectangle start=new SmartRectangle(Render.unitsWide/2,30,20,7,true);
+    private SmartRectangle restart=new SmartRectangle(Render.unitsWide/2,23,11,3,true);
     private SmartRectangle quit=new SmartRectangle(Render.unitsWide/2,3.5f,7,4,true);
     private SmartRectangle controls=new SmartRectangle(Render.unitsWide/2,8,12.5f,3,true);
     private SmartRectangle music=new SmartRectangle(0.5f,2,8,8);
@@ -85,9 +86,12 @@ public class Title extends Level {
 
     private void updateTitle(){
         start.setActive(!(controlsVisible||creditsVisible));
+        restart.setActive(!(controlsVisible||creditsVisible));
         if(getLatestCheckpoint()>CHECK_START){
             start.setWidth(30);
-        }else start.setWidth(20);
+        }else{
+            start.setWidth(20);
+        }
         if(getMaster().getCurrent()>0.25f&&(!quit.isActive()||!controls.isActive())){
             quit.setActive(true);
             controls.setActive(true);
@@ -98,14 +102,14 @@ public class Title extends Level {
         }
         start.update();
         if(start.isPressed()||Keyboard.keys.contains(VK_ENTER)){
-            ResourceHandler.getHaroldLoader().setState(HaroldLoader.NORMAL);
+            doStart();
+        }
+        restart.update();
+        if(restart.isPressed()){
             LevelController.resetAll();
             clearEntites();
-            Main.getHarold().reset();
-            setGame(true);
-            getMaster().setActive(false);
-            getMaster().setCurrent(1f);
-            startFromCheckpoint();
+            resetCheckpoints();
+            doStart();
         }
         controls.update();
         if(controls.isPressed()){
@@ -162,6 +166,17 @@ public class Title extends Level {
         }
     }
 
+    private void doStart(){
+        ResourceHandler.getHaroldLoader().setState(HaroldLoader.NORMAL);
+        LevelController.resetAll();
+        clearEntites();
+        Main.getHarold().reset();
+        setGame(true);
+        getMaster().setActive(false);
+        getMaster().setCurrent(1f);
+        startFromCheckpoint();
+    }
+
     @Override
     public void renderForeground(int subLevel) {
 
@@ -197,6 +212,8 @@ public class Title extends Level {
         drawImage(backgrounds[1],0,0);
         start.setColor(0,0.5f,0,1);
         start.render();
+        restart.setColor(0.8f, 0, 0,1);
+        restart.render();
         setDrawColor(1,1,1,1);
         setFont(TITLE);
         if(getLatestCheckpoint()==CHECK_START)drawTextCentered("Start",Render.unitsWide/2,30);
@@ -211,6 +228,7 @@ public class Title extends Level {
         setFont(NORMAL);
         drawTextCentered("Quit",Render.unitsWide/2,4f);
         drawTextCentered("Controls",Render.unitsWide/2,8.3f);
+        drawTextCentered("Restart",Render.unitsWide/2,23);
         drawText("Credits",89,2.4f);
         setFont(SMALL);
         drawText("Casual Caving 0.5.2",0.1f,0.7f);

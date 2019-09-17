@@ -19,7 +19,7 @@ import static com.jogamp.newt.event.KeyEvent.VK_Q;
 
 public class Boulder extends Autonomous {
     private float rotation=0;
-    private boolean isDone;
+    private boolean isDone, townOK;
     private FadeIO falterTimer=new FadeIO(0,1,0,1,1);
     private Animator haroldPuppet=new Animator(ResourceHandler.getHaroldLoader().getBoulder(),12);
     public Boulder() {
@@ -30,7 +30,10 @@ public class Boulder extends Autonomous {
     @Override
     public void update() {
         switch(state){
+            case -1:
+                vX=0;
             case 0:
+                vX=0;
                 if(Keyboard.keys.contains(VK_Q)){
                     state=1;
                 }else if(Keyboard.keys.contains(VK_E)){
@@ -41,13 +44,35 @@ public class Boulder extends Autonomous {
             break;
             case 2:
                 vX=.2f;
-                if(x>82)y-=0.1;
-                if(x>120)state=-1;
+                if(x>82){
+                    y-=0.09;
+                }
+                if(x>120){
+                    state=4;
+                }
                 break;
             case 3:
                 isDone=true;
                 Render.setCameraX(0);
                 Render.setCameraY(0);
+                state=-1;
+                break;
+            case 4:
+                World.getMaster().setDirection(false);
+                World.setMasterColor(1,1,1);
+                World.getMaster().setActive(true);
+                if(World.getMaster().getCurrent()==0){
+                    state=5;
+                    Main.getHarold().setX(45);
+                    isDone=true;
+                    townOK=false;
+                    vX=0;
+                    World.getMaster().setSecondDelay(1);
+                }
+                break;
+            case 5:
+                World.getMaster().setDirection(true);
+                if(World.getMaster().getCurrent()==1)state =-1;
                 break;
         }
         rotation+=vX*Math.PI;
@@ -57,9 +82,10 @@ public class Boulder extends Autonomous {
     private void doMinigame(){
         haroldPuppet.update();
         Main.getHarold().setFollowCamera(false);
+        falterTimer.setActive(true);
         falterTimer.update();
         if(falterTimer.getCurrent()==falterTimer.getMax()){
-            if(Math.random()<0.5){
+            if(Math.random()<0.33){
                 //do falter
                 System.out.println("FALTER!");
             }
@@ -70,23 +96,31 @@ public class Boulder extends Autonomous {
         if(Render.getCameraY()>-Graphics.convertToWorldHeight(700)){
             if(Render.getCameraX()>5){
                 Render.setCameraY(Render.getCameraY()-.09f);
-                y-=0.075;
+                y-=0.09;
             }
-            Main.getHarold().setMovement(false);
-            Main.getHarold().setHarold(haroldPuppet.getCurrentFrame());
-            Main.getHarold().setX(x);
-            Main.getHarold().setY(y-9);
             vX=.1f;
         }else {
-            Main.getHarold().setMovement(true);
-            ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
-            vX=0;
+            vX=0.05f;
         }
-        if(Render.getCameraX()>=width-100&&Render.getCameraY()<=-Graphics.convertToWorldHeight(700))state=3;
+        Main.getHarold().setMovement(false);
+        Main.getHarold().setHarold(haroldPuppet.getCurrentFrame());
+        Main.getHarold().setX(x);
+        Main.getHarold().setY(y-9);
+        if(Render.getCameraX()>=width-100&&Render.getCameraY()<=-Graphics.convertToWorldHeight(700)){
+            Main.getHarold().setMovement(true);
+            Main.getHarold().setX(50);
+            x=50;
+            y=16;
+            ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
+            ResourceHandler.getHaroldLoader().setDirection(true);
+            vX=0;
+            state=3;
+        }
     }
 
     @Override
     public void render() {
+        if(!townOK)return;
         if(state==1)Graphics.setFollowCamera(false);
         else Graphics.setFollowCamera(false);
         Graphics.setRotation(rotation);
@@ -103,6 +137,7 @@ public class Boulder extends Autonomous {
         y=16;
         state=0;
         isDone=false;
+        townOK=true;
     }
 
     @Override
@@ -110,5 +145,9 @@ public class Boulder extends Autonomous {
 
     public boolean isDone() {
         return isDone;
+    }
+
+    public boolean isTownOK() {
+        return townOK;
     }
 }

@@ -3,7 +3,7 @@ package org.loader.harold;
 import org.loader.ImageResource;
 
 public class HaroldLoader {
-    public static final int NORMAL=0,CHAINSAW=1,WOOD=2,LANTERN=3,ROPE=4,ATTACK=5,TURN=6,BOULDER=7;
+    public static final int NORMAL=0,CHAINSAW=1,WOOD=2,LANTERN=3,ROPE=4,ATTACK=5,TURN=6,GOLEM=7;
     private boolean direction=true,attackPause=false;
     private int state=0;
     public void setDirection(boolean dir){

@@ -14,6 +14,7 @@ import static org.world.World.CHECK_LARANO_FINISH;
 
 public class Level6 extends Level {
     private Boulder boulder=new Boulder();
+    private boolean golemPassedLava=false;
     public Level6(ImageResource[] backgrounds) {
         super(backgrounds, backgrounds.length);
     }
@@ -25,7 +26,7 @@ public class Level6 extends Level {
 
     @Override
     public ImageResource[] getAssets() {
-        return ResourceHandler.getLevelLoader().getLevel6();
+        return ResourceHandler.create1DLoadable(new ImageResource[][]{ResourceHandler.getLevelLoader().getLevel6(),ResourceHandler.getLevelLoader().getLevel6Town()});
     }
 
     @Override
@@ -47,10 +48,12 @@ public class Level6 extends Level {
     }
 
     private void setBounds(int subLevel){
-        if(subLevel==4)leftLimit=3;
+        if(subLevel==4)leftLimit=boulder.isDone()?40:3;
         else leftLimit=-1;
         switch(subLevel){
             case 0:
+            case 5:
+            case 6:
                 leftBound=0;
                 rightBound=100;
                 break;
@@ -67,19 +70,48 @@ public class Level6 extends Level {
                 rightBound=96;
                 break;
             case 4:
-                leftBound=2;
-                rightBound=250;
+                leftBound=boulder.isDone()?0:-1;
+                rightBound=boulder.isDone()&&boulder.getState()==-1?100:101;
                 break;
+            case 7:
+                leftBound=0;
+                rightBound=101;
         }
     }
 
     @Override
     public void render(int subLevel) {
         Graphics.setIgnoreScale(true);
+        Graphics.setFollowCamera(true);
+        Graphics.setDrawColor(.22f,.22f,.22f,1);
+        Graphics.fillRect(0,0,100,60);
+        Graphics.setDrawColor(1,1,1,1);
+        Graphics.setFollowCamera(false);
+        switch(subLevel){
+            case 1:Graphics.drawImage(ResourceHandler.getBossLoader().getEmerieForward(),41,25);
+            break;
+            case 2:Graphics.drawImage(ResourceHandler.getBossLoader().getEmerieForward(),50,25);
+            break;
+            case 3:Graphics.drawImage(ResourceHandler.getBossLoader().getEmerieForward(),61,25);
+            break;
+            case 4:Graphics.drawImage(ResourceHandler.getBossLoader().getEmerieForward(),30,25);
+                Graphics.drawImage(ResourceHandler.getBossLoader().getEmerieForward(),65,20);
+                Graphics.drawImage(ResourceHandler.getBossLoader().getEmerieForward(),165,-34.75f);
+                break;
+        }
         if(subLevel!=4)Graphics.drawImage(backgrounds[subLevel],0,0);
         else {
-            if(!boulder.isDone())Graphics.drawImage(backgrounds[subLevel],0,-Graphics.convertToWorldHeight(700));
-            else Graphics.drawImage(backgrounds[subLevel],0,0);
+            if(!boulder.isDone()){
+                Graphics.drawImage(backgrounds[subLevel],0,-Graphics.convertToWorldHeight(700));
+                Graphics.drawImage(ResourceHandler.getLevelLoader().getLevel6Town()[boulder.isTownOK()?1:0],10,-Graphics.convertToWorldHeight(700));
+            }else{
+                Graphics.drawImage(backgrounds[subLevel],-Graphics.convertToWorldWidth(1280),0);
+                Graphics.drawImage(ResourceHandler.getLevelLoader().getLevel6Town()[boulder.isTownOK()?1:0],-Graphics.convertToWorldWidth(1280)+10,0);
+            }
+        }
+        if(subLevel==3&&ResourceHandler.getHaroldLoader().getState()!=HaroldLoader.GOLEM){
+            if(!golemPassedLava)Graphics.drawImage(ResourceHandler.getGolemLoader().getOldGolem()[0],9,7);
+            else Graphics.drawImage(ResourceHandler.getGolemLoader().getOldGolem()[0],82,7);
         }
         Graphics.setIgnoreScale(false);
     }

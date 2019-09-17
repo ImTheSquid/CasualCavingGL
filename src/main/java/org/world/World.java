@@ -360,4 +360,6 @@ public class World {
     public static int getLatestCheckpoint() {
         return latestCheckpoint;
     }
+
+    public static void resetCheckpoints(){latestCheckpoint=-1;}
 }
