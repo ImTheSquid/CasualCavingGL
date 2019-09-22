@@ -5,9 +5,9 @@ import org.entities.Autonomous;
 import org.entities.Entity;
 import org.entities.SmartRectangle;
 import org.graphics.Animator;
-import org.graphics.FadeIO;
 import org.graphics.Graphics;
 import org.graphics.Render;
+import org.graphics.Timer;
 import org.input.Keyboard;
 import org.level.LevelController;
 import org.loader.ResourceHandler;
@@ -19,8 +19,12 @@ import static com.jogamp.newt.event.KeyEvent.VK_Q;
 
 public class Boulder extends Autonomous {
     private float rotation=0;
-    private boolean isDone, townOK;
-    private FadeIO falterTimer=new FadeIO(0,1,0,1,1);
+    private boolean isDone, townOK, isFaltering=false;
+    //Defines key that needs to be pressed during quick time events
+    private short quickKey=0;
+    private Timer falterTimer=new Timer(0,1,0,1,1);
+    private Timer deathTimer=new Timer(0,2,0,1,1);
+    //Animator that controls Harold during this minigame
     private Animator haroldPuppet=new Animator(ResourceHandler.getHaroldLoader().getBoulder(),12);
     public Boulder() {
         super(4,73,16);
@@ -84,27 +88,48 @@ public class Boulder extends Autonomous {
         Main.getHarold().setFollowCamera(false);
         falterTimer.setActive(true);
         falterTimer.update();
-        if(falterTimer.getCurrent()==falterTimer.getMax()){
+        deathTimer.setActive(isFaltering);
+        deathTimer.update();
+        if(falterTimer.getCurrent()==falterTimer.getMax()&&!isFaltering&&x>100){
             if(Math.random()<0.33){
-                //do falter
-                System.out.println("FALTER!");
+                //Do falter
+                isFaltering=true;
+                haroldPuppet.setFrames(ResourceHandler.getHaroldLoader().getFalter());
+                haroldPuppet.setFps(40);
+                quickKey=(short)(Math.random()*26);
             }
             falterTimer.setCurrent(0);
+        }else if(!isFaltering){
+            haroldPuppet.setFrames(ResourceHandler.getHaroldLoader().getBoulder());
+            haroldPuppet.setFps(12);
         }
         float width=Graphics.convertToWorldWidth(LevelController.getCurrentLevel().getBackgrounds()[World.getSubLevel()].getTexture().getWidth());
-        if(Render.getCameraX()<width-100)Render.setCameraX(Render.getCameraX()+.12f);
-        if(Render.getCameraY()>-Graphics.convertToWorldHeight(700)){
-            if(Render.getCameraX()>5){
-                Render.setCameraY(Render.getCameraY()-.09f);
-                y-=0.09;
+        if(!isFaltering) {
+            Main.getHarold().setMovement(false);
+            if (Render.getCameraX() < width - 100) Render.setCameraX(Render.getCameraX() + .12f);
+            if (Render.getCameraY() > -Graphics.convertToWorldHeight(700)) {
+                if (Render.getCameraX() > 5) {
+                    Render.setCameraY(Render.getCameraY() - .09f);
+                    y -= 0.09;
+                }
+                vX = .1f;
+            } else {
+                vX = 0.05f;
             }
-            vX=.1f;
-        }else {
-            vX=0.05f;
+        }else{
+            if(deathTimer.getCurrent()==deathTimer.getMax()){
+                Main.getHarold().setHealth(0);
+                Main.getHarold().setMovement(true);
+            }
+            if(Keyboard.keys.contains((short)(65+quickKey))){
+                isFaltering=false;
+                deathTimer.setCurrent(0);
+            }
+            vX=0;
         }
-        Main.getHarold().setMovement(false);
         Main.getHarold().setHarold(haroldPuppet.getCurrentFrame());
-        Main.getHarold().setX(x);
+        if(!isFaltering)Main.getHarold().setX(x);
+        else Main.getHarold().setX(x+offsetFumble(haroldPuppet.getCurrentFrameNum()));
         Main.getHarold().setY(y-9);
         if(Render.getCameraX()>=width-100&&Render.getCameraY()<=-Graphics.convertToWorldHeight(700)){
             Main.getHarold().setMovement(true);
@@ -118,6 +143,19 @@ public class Boulder extends Autonomous {
         }
     }
 
+    private float offsetFumble(int frame){
+        float val=0;
+        switch(frame){
+            case 0:val=2;
+                break;
+            case 1:val=8;
+                break;
+            case 2:val=16;
+                break;
+        }
+        return -Graphics.convertToWorldWidth(val);
+    }
+
     @Override
     public void render() {
         if(!townOK)return;
@@ -129,6 +167,18 @@ public class Boulder extends Autonomous {
         Graphics.setFollowCamera(false);
         Graphics.setFont(Graphics.SMALL);
         if(state==0&& Main.getHarold().getHitbox().intersects(new SmartRectangle(x-4.5f,y-4.5f,9,9)))Graphics.drawText("'Q' to guide downwards\\n'E' to push",x-10,30,30,true);
+        if(isFaltering){
+            quickTime();
+        }
+    }
+
+    private void quickTime(){
+        Graphics.drawTextWithBox(codeToKey(quickKey)+" to save!",x+6,y+12);
+    }
+
+    private char codeToKey(short in){
+        String alpha="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        return alpha.charAt(in);
     }
 
     @Override
@@ -138,6 +188,9 @@ public class Boulder extends Autonomous {
         state=0;
         isDone=false;
         townOK=true;
+        isFaltering=false;
+        falterTimer.setCurrent(0);
+        deathTimer.setCurrent(0);
     }
 
     @Override

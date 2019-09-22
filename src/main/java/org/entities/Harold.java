@@ -24,6 +24,7 @@ public class Harold extends Entity{
         displayName="Harold";
         reset();
     }
+
     public void update() {
         if(!movement){
             return;
@@ -116,6 +117,7 @@ public class Harold extends Entity{
         if(ResourceHandler.getHaroldLoader().getState()==HaroldLoader.ATTACK&&haroldAnimator.getCurrentFrameNum()==3) {
             Attack.melee(this, 1, 5);
             ResourceHandler.getHaroldLoader().disableAttackPause();
+            ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
         }
 
         Level currentLevel=LevelController.getCurrentLevel();

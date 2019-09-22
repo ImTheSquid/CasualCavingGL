@@ -40,7 +40,7 @@
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
-                    <finalName>Casual Caving Beta 0.5.2</finalName>
+                    <finalName>Casual Caving Beta 0.5.3</finalName>
                     <appendAssemblyId>false</appendAssemblyId>
                     <archive>
                         <manifest>

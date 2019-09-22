@@ -5,7 +5,7 @@ import org.loader.ImageResource;
 public class Notification implements Comparable{
     private String title,message;
     private ImageResource icon=null;
-    private FadeIO timer=new FadeIO(0,5,0,1,1);
+    private Timer timer=new Timer(0,5,0,1,1);
     private int status=0;//0=out,1=wait,2=in,3=done
     private float x=100;
     private static final float width=25,height=6;

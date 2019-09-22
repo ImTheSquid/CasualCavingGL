@@ -3,9 +3,9 @@ package org.level.levels;
 import org.engine.Main;
 import org.entities.Entity;
 import org.entities.aggressive.ShortGolem;
-import org.graphics.FadeIO;
 import org.graphics.Graphics;
 import org.graphics.Render;
+import org.graphics.Timer;
 import org.level.Level;
 import org.loader.ImageResource;
 import org.loader.ResourceHandler;
@@ -15,9 +15,9 @@ import org.world.HeightVal;
 import org.world.World;
 
 public class Level3 extends Level {
-    private FadeIO isolsi=new FadeIO(0,1,0,0.02f,35);
-    private FadeIO hematus=new FadeIO(0,1,0,0.02f,35);
-    private FadeIO igneox=new FadeIO(0,1,0,0.02f,35);
+    private Timer isolsi=new Timer(0,1,0,0.02f,35);
+    private Timer hematus=new Timer(0,1,0,0.02f,35);
+    private Timer igneox=new Timer(0,1,0,0.02f,35);
     private ImageResource[] sprites= ResourceHandler.getLevelLoader().getLevel3Sprites();
     private boolean fadeActive=false;
     private int switchFade=0;

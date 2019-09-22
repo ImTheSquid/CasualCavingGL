@@ -1,7 +1,9 @@
 package org.level.levels;
 
+import org.engine.Main;
 import org.entities.passive.Boulder;
 import org.graphics.Graphics;
+import org.input.Keyboard;
 import org.level.Level;
 import org.loader.ImageResource;
 import org.loader.ResourceHandler;
@@ -10,6 +12,7 @@ import org.world.HeightMap;
 import org.world.HeightVal;
 import org.world.World;
 
+import static com.jogamp.newt.event.KeyEvent.VK_E;
 import static org.world.World.CHECK_LARANO_FINISH;
 
 public class Level6 extends Level {
@@ -22,6 +25,7 @@ public class Level6 extends Level {
     @Override
     public void init() {
         if(World.getLatestCheckpoint()< CHECK_LARANO_FINISH)World.newCheckpoint(CHECK_LARANO_FINISH);
+        ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
     }
 
     @Override
@@ -32,7 +36,6 @@ public class Level6 extends Level {
     @Override
     public void update(int subLevel) {
         checkHealthVals();
-        ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
         setBounds(subLevel);
         if(subLevel!=3) {
             HeightMap.setHeights(new HeightVal(0,7,100,true));
@@ -43,7 +46,17 @@ public class Level6 extends Level {
             HeightMap.setHeights(new HeightVal(0,7,24,true),new HeightVal(36,7,46,true),new HeightVal(60,7,66,true),
                     new HeightVal(80,7,100,true));
             Graphics.setScaleFactor(.75f);
-            World.setGravity(.25f);
+            if(ResourceHandler.getHaroldLoader().getState()==HaroldLoader.GOLEM){
+                World.setGravity(.25f);
+                if(Main.getHarold().getX()>80){
+                    ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
+                    golemPassedLava=true;
+                }
+            }else{
+                World.setGravity(.2f);
+                if(Main.getHarold().getX()<20&& Keyboard.keys.contains(VK_E))ResourceHandler.getHaroldLoader().setState(HaroldLoader.GOLEM);
+            }
+
         }
     }
 
@@ -71,7 +84,7 @@ public class Level6 extends Level {
                 break;
             case 4:
                 leftBound=boulder.isDone()?0:-1;
-                rightBound=boulder.isDone()&&boulder.getState()==-1?100:101;
+                rightBound=101;
                 break;
             case 7:
                 leftBound=0;
@@ -110,8 +123,10 @@ public class Level6 extends Level {
             }
         }
         if(subLevel==3&&ResourceHandler.getHaroldLoader().getState()!=HaroldLoader.GOLEM){
-            if(!golemPassedLava)Graphics.drawImage(ResourceHandler.getGolemLoader().getOldGolem()[0],9,7);
-            else Graphics.drawImage(ResourceHandler.getGolemLoader().getOldGolem()[0],82,7);
+            if(!golemPassedLava){
+                Graphics.drawImage(ResourceHandler.getGolemLoader().getOldGolem()[0],16,19);
+                if(Main.getHarold().getX()<20)Graphics.drawTextWithBox("E to carry",16,25);
+            }else Graphics.drawImage(ResourceHandler.getGolemLoader().getOldGolem()[0],77,19);
         }
         Graphics.setIgnoreScale(false);
     }
@@ -131,5 +146,6 @@ public class Level6 extends Level {
         boulder.reset();
         clearEntityRegister();
         entityRegister.add(boulder);
+        golemPassedLava=false;
     }
 }

@@ -3,8 +3,8 @@ package org.level.levels;
 import org.engine.AudioManager;
 import org.engine.Main;
 import org.entities.SmartRectangle;
-import org.graphics.FadeIO;
 import org.graphics.Render;
+import org.graphics.Timer;
 import org.input.Keyboard;
 import org.level.Level;
 import org.level.LevelController;
@@ -23,7 +23,7 @@ import static org.world.World.*;
 
 
 public class Title extends Level {
-    private FadeIO logo = new FadeIO(0, 1, 0, 0.01f, 40);
+    private Timer logo = new Timer(0, 1, 0, 0.01f, 40);
     private SmartRectangle start=new SmartRectangle(Render.unitsWide/2,30,20,7,true);
     private SmartRectangle restart=new SmartRectangle(Render.unitsWide/2,23,11,3,true);
     private SmartRectangle quit=new SmartRectangle(Render.unitsWide/2,3.5f,7,4,true);
@@ -231,7 +231,7 @@ public class Title extends Level {
         drawTextCentered("Restart",Render.unitsWide/2,23);
         drawText("Credits",89,2.4f);
         setFont(SMALL);
-        drawText("Casual Caving 0.5.2",0.1f,0.7f);
+        drawText("Casual Caving 0.5.3",0.1f,0.7f);
         drawText("Lunan Productions",Render.unitsWide-convertToWorldWidth((float)getCurrentFont().getBounds("Lunan Productions").getWidth())-.1f,.7f);
         drawImage(ResourceHandler.getMiscLoader().getMusicButton(AudioManager.isMusicEnabled()),0.5f,2,5,5);
 

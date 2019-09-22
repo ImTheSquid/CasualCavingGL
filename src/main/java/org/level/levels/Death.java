@@ -2,9 +2,9 @@ package org.level.levels;
 
 import org.engine.AudioManager;
 import org.engine.Main;
-import org.graphics.FadeIO;
 import org.graphics.Graphics;
 import org.graphics.Render;
+import org.graphics.Timer;
 import org.input.Keyboard;
 import org.level.Level;
 import org.level.LevelController;
@@ -14,7 +14,7 @@ import org.world.World;
 import static com.jogamp.newt.event.KeyEvent.VK_SPACE;
 
 public class Death extends Level {
-    private FadeIO textHandler=new FadeIO(0,1,0,0.02f,35);
+    private Timer textHandler=new Timer(0,1,0,0.02f,35);
     private boolean fadeDir=true;
     public Death() {
         super(new ImageResource[]{null}, 1);

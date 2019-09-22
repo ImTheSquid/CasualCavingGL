@@ -1,13 +1,13 @@
 package org.graphics;
 
-public class FadeIO {
+public class Timer {
     private float min,max,increment;
     private float current;
     private int fps;
     private long lastFrameTime=0;
     private boolean direction=true,active=false;
     private long delay=0;
-    public FadeIO(float min,float max,float start,float inc,int fps){
+    public Timer(float min, float max, float start, float inc, int fps){
         this.min=min;
         this.max=max;
         current=start;

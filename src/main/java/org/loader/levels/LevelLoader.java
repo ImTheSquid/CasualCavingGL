@@ -64,6 +64,7 @@ public class LevelLoader {
             new ImageResource("/CasualCaving/Levels/Level6/Lv6Bg3.png"),
             new ImageResource("/CasualCaving/Levels/Level6/Lv6Bg4.png"),
             new ImageResource("/CasualCaving/Levels/Level6/Lv6Bg5.png"),
+            new ImageResource("/CasualCaving/Levels/Level6/Lv6Bg8.png"),
             new ImageResource("/CasualCaving/Levels/Level6/Lv6Bg6.png"),
             new ImageResource("/CasualCaving/Levels/Level6/Lv6Bg7.png"),
             new ImageResource("/CasualCaving/Levels/Level6/Lv6Bg8.png")};

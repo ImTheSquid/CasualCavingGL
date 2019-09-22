@@ -124,4 +124,8 @@ public abstract class Entity {
     public void setWidth(float width) {
         this.width = width;
     }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
 }

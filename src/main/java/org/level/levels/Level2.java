@@ -2,9 +2,9 @@ package org.level.levels;
 
 import org.engine.Main;
 import org.entities.SmartRectangle;
-import org.graphics.FadeIO;
 import org.graphics.Graphics;
 import org.graphics.Render;
+import org.graphics.Timer;
 import org.input.Keyboard;
 import org.level.Level;
 import org.loader.ImageResource;
@@ -18,8 +18,8 @@ import static com.jogamp.newt.event.KeyEvent.VK_E;
 import static com.jogamp.newt.event.KeyEvent.VK_Q;
 
 public class Level2 extends Level {
-    private FadeIO subBlink=new FadeIO(0,4,0,1,3);
-    private FadeIO choice=new FadeIO(0,1,0,0.02f,35);
+    private Timer subBlink=new Timer(0,4,0,1,3);
+    private Timer choice=new Timer(0,1,0,0.02f,35);
     private ImageResource[] sprites= ResourceHandler.getLevelLoader().getLevel2Sprites();
     private SmartRectangle cart=new SmartRectangle(33,21,23,19);
     private SmartRectangle edge=new SmartRectangle(70,0,30,Render.unitsTall);

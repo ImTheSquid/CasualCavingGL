@@ -4,10 +4,10 @@ import org.engine.AudioManager;
 import org.engine.Main;
 import org.entities.Entity;
 import org.entities.SmartRectangle;
-import org.graphics.FadeIO;
 import org.graphics.Graphics;
 import org.graphics.Notification;
 import org.graphics.Render;
+import org.graphics.Timer;
 import org.input.Keyboard;
 import org.level.LevelController;
 import org.loader.ResourceHandler;
@@ -22,8 +22,8 @@ import static org.engine.AudioManager.MUSIC_VOL;
 import static org.graphics.Graphics.*;
 
 public class World {
-    private static FadeIO master=new FadeIO(0,1,1,0.02f,35);
-    private static FadeIO tFade=new FadeIO(0,1,0,0.02f,35);//Fade controller for level transitions
+    private static Timer master=new Timer(0,1,1,0.02f,35);
+    private static Timer tFade=new Timer(0,1,0,0.02f,35);//Fade controller for level transitions
     private static int level=0,subLevel=0,assetLoaderCounter=0,latestCheckpoint=-1;
     public static final int CHECK_START=-1,CHECK_LARANO=0,CHECK_LARANO_FINISH=1;
     private static boolean game=false,pause=false,levelTransition=false, transitionDir =true;//Set whether in game or menu. Set pause status
@@ -319,7 +319,7 @@ public class World {
         return subLevel;
     }
 
-    public static FadeIO getMaster(){return master;}
+    public static Timer getMaster(){return master;}
 
     public static float getGravity() {
         return gravity;

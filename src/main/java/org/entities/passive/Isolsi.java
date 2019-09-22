@@ -2,8 +2,8 @@ package org.entities.passive;
 
 import org.engine.Main;
 import org.entities.Autonomous;
-import org.graphics.FadeIO;
 import org.graphics.Graphics;
+import org.graphics.Timer;
 import org.input.Keyboard;
 import org.loader.ImageResource;
 import org.loader.ResourceHandler;
@@ -14,7 +14,7 @@ import static com.jogamp.newt.event.KeyEvent.VK_SPACE;
 public class Isolsi extends Autonomous {
     private int convoState;
     private boolean crossfadeActive;
-    private FadeIO crossfade=new FadeIO(0,1,1,0.01f,60);
+    private Timer crossfade=new Timer(0,1,1,0.01f,60);
     private ImageResource[] isolsi= ResourceHandler.getGolemLoader().getIsolsi();
     private String[] conversation={"That orange golem certainly caused you a bit of trouble didn't he.",
             "Does he not know the importance of your mission?!",
