@@ -26,7 +26,7 @@ public class World {
     private static Timer tFade=new Timer(0,1,0,0.02f,35);//Fade controller for level transitions
     private static int level=0,subLevel=0,assetLoaderCounter=0,latestCheckpoint=-1;
     public static final int CHECK_START=-1,CHECK_LARANO=0,CHECK_LARANO_FINISH=1;
-    private static boolean game=false,pause=false,levelTransition=false, transitionDir =true;//Set whether in game or menu. Set pause status
+    private static boolean game=false,pause=false,levelTransition=false, transitionDir =true, isHaroldEvil=false;//Set whether in game or menu. Set pause status
     private static float masterRed=0,masterGreen=0,masterBlue=0;
     private static float gravity=0.15f;
     private static ConcurrentLinkedQueue<Entity> entities =new ConcurrentLinkedQueue<>();//Entity registry
@@ -362,4 +362,16 @@ public class World {
     }
 
     public static void resetCheckpoints(){latestCheckpoint=-1;}
+
+    public static void setIsHaroldEvil(boolean isHaroldEvil) {
+        World.isHaroldEvil = isHaroldEvil;
+    }
+
+    public static boolean isHaroldEvil() {
+        return isHaroldEvil;
+    }
+
+    public static void incrementSubLevel(){
+        subLevel++;
+    }
 }

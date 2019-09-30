@@ -17,7 +17,7 @@ import static org.world.World.CHECK_LARANO_FINISH;
 
 public class Level6 extends Level {
     private Boulder boulder=new Boulder();
-    private boolean golemPassedLava=false;
+    private boolean golemPassedLava=false,fadeDir=true;
     public Level6(ImageResource[] backgrounds) {
         super(backgrounds, backgrounds.length);
     }
@@ -62,11 +62,9 @@ public class Level6 extends Level {
 
     private void setBounds(int subLevel){
         if(subLevel==4)leftLimit=boulder.isDone()?40:3;
-        else leftLimit=-1;
+        else leftLimit=0;
         switch(subLevel){
             case 0:
-            case 5:
-            case 6:
                 leftBound=0;
                 rightBound=100;
                 break;
@@ -85,10 +83,28 @@ public class Level6 extends Level {
             case 4:
                 leftBound=boulder.isDone()?0:-1;
                 rightBound=101;
+                if(boulder.isDone())update4();
                 break;
+            case 5:
+                leftBound=-1;
+                rightBound=101;
+            case 6:
+                leftBound=-1;
+                rightBound=100;
             case 7:
                 leftBound=0;
                 rightBound=101;
+        }
+    }
+
+    private void update4(){
+        World.getMaster().setActive(true);
+        World.setMasterColor(1,1,1);
+        World.getMaster().setDirection(false);
+        if(World.getMaster().getCurrent()==0) {
+            World.getMaster().setSecondDelay((long) .5);
+            World.incrementSubLevel();
+            World.getMaster().setDirection(true);
         }
     }
 
@@ -147,5 +163,6 @@ public class Level6 extends Level {
         clearEntityRegister();
         entityRegister.add(boulder);
         golemPassedLava=false;
+        fadeDir=true;
     }
 }

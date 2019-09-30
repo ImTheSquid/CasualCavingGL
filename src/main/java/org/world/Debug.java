@@ -22,6 +22,8 @@ class Debug {
             while(Keyboard.keys.contains(VK_F3)){}
             Render.getGameLoop().overrideUpdateTime();
         }
+        //Except for when boulder minigame is playing
+        if(World.getLevel()==6&&World.getSubLevel()==4)return;
         if(Keyboard.keys.contains(VK_L)&&World.getLevel()>0){
             while(Keyboard.keys.contains(VK_L)){}
             if(!cheatsUsed)cheatsUsed=firstRunEvent();
