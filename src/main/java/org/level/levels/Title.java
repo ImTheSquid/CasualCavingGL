@@ -15,8 +15,7 @@ import org.loader.harold.HaroldLoader;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import static com.jogamp.newt.event.KeyEvent.VK_ENTER;
-import static com.jogamp.newt.event.KeyEvent.VK_SPACE;
+import static com.jogamp.newt.event.KeyEvent.*;
 import static org.engine.AudioManager.STOP;
 import static org.graphics.Graphics.*;
 import static org.world.World.*;
@@ -97,7 +96,7 @@ public class Title extends Level {
             controls.setActive(true);
         }
         quit.update();
-        if(quit.isPressed()){
+        if(quit.isPressed()||Keyboard.keys.contains(VK_ESCAPE)){
             Render.getGameLoop().setRunning(false);
         }
         start.update();

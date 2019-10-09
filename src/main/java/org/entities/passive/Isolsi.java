@@ -13,21 +13,41 @@ import static com.jogamp.newt.event.KeyEvent.VK_SPACE;
 
 public class Isolsi extends Autonomous {
     private int convoState;
-    private boolean crossfadeActive;
+    private boolean crossfadeActive,isAfterLarano;
     private Timer crossfade=new Timer(0,1,1,0.01f,60);
     private ImageResource[] isolsi= ResourceHandler.getGolemLoader().getIsolsi();
-    private String[] conversation={"That orange golem certainly caused you a bit of trouble didn't he.",
+    private String[] postLaranoConvo ={"That orange golem certainly caused you a bit of trouble didn't he.",
             "Does he not know the importance of your mission?!",
             "The nerve of those lesser golems!",
             "If anyone should try to stand in our way like that again...",
             "don't hold back."};
-    public Isolsi() {
-        super(3,64,60);
+    private String[] postBoulderConvo={"What are you doing?",
+            "You could have died doing that!",
+            "And for what?",
+            "The precious model town is safe...",
+            "It's not real!",
+            "It's not worth our time!",
+            "Now stop fooling around...",
+            "...and TAKE THINGS SERIOUSLY!"};
+    
+    public Isolsi(boolean isAfterLarano) {
+        super(3, 64, 60);
+        if(!isAfterLarano)subLevel=5;
+        this.isAfterLarano=isAfterLarano;
         reset();
     }
 
     @Override
     public void update() {
+        if(isAfterLarano)larano();
+        else boulder();
+        y+=vY;
+        vY-=vY-World.getGravity()>=0?World.getGravity():vY;
+        crossfade.setActive(crossfadeActive);
+        crossfade.update();
+    }
+
+    private void larano(){
         switch(state){
             case -1:
                 if(Main.getHarold().getX()>15){
@@ -54,17 +74,17 @@ public class Isolsi extends Autonomous {
                 }
                 break;
             default:
-                if(Keyboard.keys.contains(VK_SPACE)&&convoState+1<conversation.length){
+                if(Keyboard.keys.contains(VK_SPACE)&&convoState+1< postLaranoConvo.length){
                     convoState++;
                 }else if(Keyboard.keys.contains(VK_SPACE)){
                     World.setLevelTransition(true);
                 }
                 while(Keyboard.keys.contains(VK_SPACE)){}
         }
-        y+=vY;
-        vY-=vY-World.getGravity()>=0?World.getGravity():vY;
-        crossfade.setActive(crossfadeActive);
-        crossfade.update();
+    }
+
+    private void boulder(){
+
     }
 
     @Override
@@ -83,7 +103,7 @@ public class Isolsi extends Autonomous {
         Graphics.setDrawColor(1,1,1,1);
         Graphics.setFont(Graphics.SMALL);
         if(convoState>-1){
-            Graphics.drawText(conversation[convoState],45,45,20,true);
+            Graphics.drawText(postLaranoConvo[convoState],45,45,20,true);
         }
     }
 

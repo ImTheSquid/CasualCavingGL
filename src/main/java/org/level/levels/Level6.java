@@ -104,6 +104,7 @@ public class Level6 extends Level {
         if(World.getMaster().getCurrent()==0) {
             World.getMaster().setSecondDelay((long) .5);
             World.incrementSubLevel();
+            if(!boulder.isTownOK())World.incrementSubLevel();
             World.getMaster().setDirection(true);
         }
     }
@@ -127,6 +128,8 @@ public class Level6 extends Level {
                 Graphics.drawImage(ResourceHandler.getBossLoader().getEmerieForward(),65,20);
                 Graphics.drawImage(ResourceHandler.getBossLoader().getEmerieForward(),165,-34.75f);
                 break;
+            case 6:Graphics.drawImage(ResourceHandler.getBossLoader().getEmerieForward(),47,17);
+            break;
         }
         if(subLevel!=4)Graphics.drawImage(backgrounds[subLevel],0,0);
         else {

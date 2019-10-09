@@ -275,16 +275,16 @@ public class Graphics {
     public static void takeScreenshot(){
         GL2 gl=Render.getGL2();
         //Prepare an image object and read pixels from the currently bound texture
-        BufferedImage screenshot=new BufferedImage(Render.screenWidth,Render.screenHeight, BufferedImage.TYPE_INT_RGB);
+        BufferedImage screenshot=new BufferedImage(Render.virtual_width,Render.virtual_height, BufferedImage.TYPE_INT_RGB);
         java.awt.Graphics graphics=screenshot.getGraphics();
-        ByteBuffer buffer= GLBuffers.newDirectByteBuffer(Render.screenWidth*Render.screenHeight*4);//Creates byte buffer with a size of the screen with 4 color slots each (RGBA)
+        ByteBuffer buffer= GLBuffers.newDirectByteBuffer(Render.virtual_width *Render.virtual_height *4);//Creates byte buffer with a size of the screen with 4 color slots each (RGBA)
         gl.glReadBuffer(GL_BACK);
-        gl.glReadPixels(0,0,Render.screenWidth,Render.screenHeight,GL_RGBA,GL_UNSIGNED_BYTE,buffer);
-        for(int h=0;h<Render.screenHeight;h++){
-            for(int w=0;w<Render.screenWidth;w++){
+        gl.glReadPixels(0,0,Render.virtual_width,Render.virtual_height,GL_RGBA,GL_UNSIGNED_BYTE,buffer);
+        for(int h = 0; h<Render.virtual_height; h++){
+            for(int w = 0; w<Render.virtual_width; w++){
                 graphics.setColor(new Color((buffer.get()&0xff),(buffer.get()&0xff),(buffer.get()&0xff)));
                 buffer.get();//Discard alpha
-                graphics.drawRect(w,Render.screenHeight-h,1,1);//Fill one pixel of output image
+                graphics.drawRect(w,Render.virtual_height -h,1,1);//Fill one pixel of output image
             }
         }
         //Clear the buffer

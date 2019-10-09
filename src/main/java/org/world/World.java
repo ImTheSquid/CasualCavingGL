@@ -37,8 +37,8 @@ public class World {
 
     public static void update(){
         Debug.update();
-        if(Render.getWindow().getWidth()!=Render.screenWidth||Render.getWindow().getHeight()!=Render.screenHeight){
-            Render.getWindow().setSize(Render.screenWidth,Render.screenHeight);
+        if(Render.getWindow().getWidth()!=Render.virtual_width ||Render.getWindow().getHeight()!=Render.virtual_height){
+            Render.getWindow().setSize(Render.virtual_width,Render.virtual_height);
             Notification resWarn=new Notification("Resolution Warning","This game only supports a resolution of 1280x720",ResourceHandler.getMiscLoader().getResolutionWarning());
             if(!notificationPresent(resWarn))newNotification(resWarn);
             Render.getGameLoop().overrideUpdateTime();
@@ -141,7 +141,7 @@ public class World {
     }
 
     public static void render(){
-        if(Render.getWindow().getWidth()!=Render.screenWidth||Render.getWindow().getHeight()!=Render.screenHeight)return;
+        if(Render.getWindow().getWidth()!=Render.virtual_width ||Render.getWindow().getHeight()!=Render.virtual_height)return;
 
         LevelController.render(level,subLevel);
         //TODO implement render stages (pre-render,render,post-render)

@@ -11,7 +11,7 @@ import org.world.World;
 public class Render implements GLEventListener {
     private static GLWindow window;
     private static GLProfile profile;
-    public static final int screenWidth=1280,screenHeight=720;
+    public static final int virtual_width =1280, virtual_height =720;
     private static GL2 gl2;
     public static float unitsWide=100,unitsTall;
     private static float cameraX=0,cameraY=0;
@@ -21,7 +21,7 @@ public class Render implements GLEventListener {
         GLCapabilities capabilities=new GLCapabilities(profile);
         window=GLWindow.create(capabilities);
         window.addGLEventListener(this);
-        window.setSize(screenWidth,screenHeight);
+        window.setSize(virtual_width, virtual_height);
         window.setTitle("Casual Caving");
         window.setDefaultCloseOperation(WindowClosingProtocol.WindowClosingMode.DISPOSE_ON_CLOSE);
         window.addKeyListener(new Keyboard());
