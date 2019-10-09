@@ -103,7 +103,8 @@ public class Boulder extends Autonomous {
             haroldPuppet.setFrames(ResourceHandler.getHaroldLoader().getBoulder());
             haroldPuppet.setFps(12);
         }
-        float width=Graphics.convertToWorldWidth(LevelController.getCurrentLevel().getBackgrounds()[World.getSubLevel()].getTexture().getWidth());
+        float width=Graphics.convertToWorldWidth(LevelController.getCurrentLevel().getBackgrounds()
+                [World.getSubLevel()].getTexture().getWidth());
         if(!isFaltering) {
             Main.getHarold().setMovement(false);
             if (Render.getCameraX() < width - 100) Render.setCameraX(Render.getCameraX() + .12f);
@@ -166,7 +167,9 @@ public class Boulder extends Autonomous {
         Graphics.setRotation(0);
         Graphics.setFollowCamera(false);
         Graphics.setFont(Graphics.SMALL);
-        if(state==0&& Main.getHarold().getHitbox().intersects(new SmartRectangle(x-4.5f,y-4.5f,9,9)))Graphics.drawText("'Q' to guide downwards\\n'E' to push",x-10,30,30,true);
+        if(state==0&& Main.getHarold().getHitbox().intersects(
+                new SmartRectangle(x-4.5f,y-4.5f,9,9)))
+            Graphics.drawText("'Q' to guide downwards\\n'E' to push",x-10,30,30,true);
         if(isFaltering){
             quickTime();
         }

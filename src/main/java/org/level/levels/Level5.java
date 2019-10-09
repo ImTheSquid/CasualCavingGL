@@ -107,6 +107,6 @@ public class Level5 extends Level {
         entityRegister.add(cineLarano);
         entityRegister.add(larano);
         entityRegister.add(keyMaster);
-        entityRegister.add(new Isolsi(false));
+        entityRegister.add(new Isolsi(true));
     }
 }

@@ -197,7 +197,10 @@ public class GolemLoader {
             new ImageResource("/CasualCaving/Entities/Isolsi/Isolsi_Looking_Down.png"),
             new ImageResource("/CasualCaving/Entities/Isolsi/Isolsi_Gesturing.png"),
             new ImageResource("/CasualCaving/Entities/Isolsi/Isolsi_Slightly_Angry.png"),
-            new ImageResource("/CasualCaving/Entities/Isolsi/Isolsi_Clenching_Fist.png")};
+            new ImageResource("/CasualCaving/Entities/Isolsi/Isolsi_Clenching_Fist.png"),
+            new ImageResource("/CasualCaving/Entities/Isolsi/Isolsi_Pointing.png"),
+            new ImageResource("/CasualCaving/Entities/Isolsi/Isolsi_Angry.png"),
+            new ImageResource("/CasualCaving/Entities/Isolsi/Isolsi_Questioning.png")};
 
     public ImageResource[] getIsolsi() {
         return isolsi;

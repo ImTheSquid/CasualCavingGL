@@ -34,6 +34,7 @@ public class Harold extends Entity{
             World.clearEntites();
             World.setLevel(-1);
         }
+        //Get HeightMap info package
         HeightReturn h=HeightMap.onGround(hitbox);
         //Movement keys
         if(damageTakenFrame==0) {
@@ -59,8 +60,10 @@ public class Harold extends Entity{
                 vY=-.5f;
             }
         }
+
         //Attack key
-        if(!lockControls&&Keyboard.keys.contains(VK_W)&&ResourceHandler.getHaroldLoader().getState()==HaroldLoader.LANTERN&&attackCooldown<=0){
+        if(!lockControls&&Keyboard.keys.contains(VK_W)&&
+                ResourceHandler.getHaroldLoader().getState()==HaroldLoader.LANTERN&&attackCooldown<=0){
             haroldAnimator.setCurrentFrame(0);
             ResourceHandler.getHaroldLoader().setState(HaroldLoader.ATTACK);
             attackCooldown=45;
@@ -73,6 +76,7 @@ public class Harold extends Entity{
         //X-velocity stuff
         boolean doXCalc=true;
 
+        //Deals with colliding with objects above ground level
         if (HeightMap.checkRightCollision(hitbox)) {
             HeightVal hv=HeightMap.findApplicable(hitbox,true);
             if (hv!=null&&x + width + 0.5>= hv.getStartX()) {
@@ -114,6 +118,7 @@ public class Harold extends Entity{
             harold=haroldAnimator.getCurrentFrame();
         }
 
+        //If on final frame of attack animation, send attack signal to Attack class
         if(ResourceHandler.getHaroldLoader().getState()==HaroldLoader.ATTACK&&haroldAnimator.getCurrentFrameNum()==3) {
             Attack.melee(this, 1, 5);
             ResourceHandler.getHaroldLoader().disableAttackPause();
@@ -121,24 +126,28 @@ public class Harold extends Entity{
         }
 
         Level currentLevel=LevelController.getCurrentLevel();
-        //TODO cleanup usages
+        //Deals with going between sublevels
+        //Limit controls
         if (x < currentLevel.getLeftLimit()) x = currentLevel.getLeftLimit();
         if (x + width > currentLevel.getRightLimit()) x = currentLevel.getRightLimit() - width;
+        //Transferring between sublevels
         if(x<currentLevel.getLeftBound()){
             if(World.getSubLevel()>0){
                 World.setSubLevel(World.getSubLevel()-1);
-                x=currentLevel.getRightBound()-15;
+                x=currentLevel.getRightBound()-5-width;
             }
             else x=currentLevel.getLeftBound();
         }
         if(x+width> currentLevel.getRightBound()){
             if(World.getSubLevel()< currentLevel.getNumSublevels()-1){
-                World.setSubLevel(World.getSubLevel()+1);
+                World.incrementSubLevel();
                 x=5;
             }else{
                 x=currentLevel.getRightBound()-width;
             }
         }
+
+        //If doing the special turn animation, set it up properly
         if(ResourceHandler.getHaroldLoader().getState()!=HaroldLoader.TURN) {
             haroldAnimator.setFps(12);
             haroldAnimator.setFrames(ResourceHandler.getHaroldLoader().getHaroldWalk());
@@ -171,7 +180,8 @@ public class Harold extends Entity{
         if(!visible)return;
         if(ResourceHandler.getHaroldLoader().getState()==HaroldLoader.TURN){
             haroldAnimator.setFps(3);
-            if(haroldAnimator.getCurrentFrameNum()>0&&haroldAnimator.getFrames()!=ResourceHandler.getHaroldLoader().getTurn())haroldAnimator.setCurrentFrame(0);
+            if(haroldAnimator.getCurrentFrameNum()>0&&haroldAnimator.getFrames()!=
+                    ResourceHandler.getHaroldLoader().getTurn())haroldAnimator.setCurrentFrame(0);
             haroldAnimator.setFrames(ResourceHandler.getHaroldLoader().getTurn());
             harold=haroldAnimator.getCurrentFrame();
             if(haroldAnimator.getCurrentFrameNum()!=1)haroldAnimator.update();

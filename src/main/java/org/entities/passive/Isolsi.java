@@ -11,9 +11,11 @@ import org.world.World;
 
 import static com.jogamp.newt.event.KeyEvent.VK_SPACE;
 
+@SuppressWarnings("StatementWithEmptyBody")
 public class Isolsi extends Autonomous {
-    private int convoState;
-    private boolean crossfadeActive,isAfterLarano;
+    private static final int LOOK_DOWN=3, GESTURE=4, SLIGHT_ANGER=5, CLENCH_FIST=6, POINTING=7, ANGRY=8, QUESTION=9;
+    private int convoState=0;
+    private boolean crossfadeActive, inPostLaranoScene;
     private Timer crossfade=new Timer(0,1,1,0.01f,60);
     private ImageResource[] isolsi= ResourceHandler.getGolemLoader().getIsolsi();
     private String[] postLaranoConvo ={"That orange golem certainly caused you a bit of trouble didn't he.",
@@ -30,16 +32,19 @@ public class Isolsi extends Autonomous {
             "Now stop fooling around...",
             "...and TAKE THINGS SERIOUSLY!"};
     
-    public Isolsi(boolean isAfterLarano) {
+    public Isolsi(boolean inPostLaranoScene) {
         super(3, 64, 60);
-        if(!isAfterLarano)subLevel=5;
-        this.isAfterLarano=isAfterLarano;
+        if(!inPostLaranoScene){
+            y=7;
+            subLevel=5;
+        }
+        this.inPostLaranoScene =inPostLaranoScene;
         reset();
     }
 
     @Override
     public void update() {
-        if(isAfterLarano)larano();
+        if(inPostLaranoScene)larano();
         else boulder();
         y+=vY;
         vY-=vY-World.getGravity()>=0?World.getGravity():vY;
@@ -70,7 +75,6 @@ public class Isolsi extends Autonomous {
                     crossfadeActive=false;
                     crossfade.setCurrent(1);
                     state++;
-                    convoState=0;
                 }
                 break;
             default:
@@ -84,7 +88,15 @@ public class Isolsi extends Autonomous {
     }
 
     private void boulder(){
-
+        state=2;
+        Main.getHarold().setLockControls(true);
+        if(Keyboard.keys.contains(VK_SPACE)&&convoState+1< postBoulderConvo.length){
+            convoState++;
+        }else if(Keyboard.keys.contains(VK_SPACE)){
+            Main.getHarold().setLockControls(false);
+            World.incrementSubLevel();
+        }
+        while(Keyboard.keys.contains(VK_SPACE)){}
     }
 
     @Override
@@ -92,18 +104,24 @@ public class Isolsi extends Autonomous {
         if (state == -1) return;
         if (state < 2){
             Graphics.setDrawColor(1, 1, 1, crossfade.getCurrent());
-            Graphics.drawImage(isolsi[state], x - Graphics.convertToWorldWidth(calcXOffset(state)), y + Graphics.convertToWorldHeight(calcYOffset(state)));
+            Graphics.drawImage(isolsi[state], x - Graphics.convertToWorldWidth(calcXOffset(state)),
+                    y + Graphics.convertToWorldHeight(calcYOffset(state)));
             if (crossfadeActive && state + 1 < isolsi.length) {
                 Graphics.setDrawColor(1, 1, 1, 1 - crossfade.getCurrent());
-                Graphics.drawImage(isolsi[state + 1], x - Graphics.convertToWorldWidth(calcXOffset(state + 1)), y + Graphics.convertToWorldHeight(calcYOffset(state + 1)));
+                Graphics.drawImage(isolsi[state + 1],
+                        x - Graphics.convertToWorldWidth(calcXOffset(state + 1)),
+                        y + Graphics.convertToWorldHeight(calcYOffset(state + 1)));
             }
         }else{
-            Graphics.drawImage(isolsi[calcConvoSprite()], x - Graphics.convertToWorldWidth(calcXOffset(calcConvoSprite())), y + Graphics.convertToWorldHeight(calcYOffset(calcConvoSprite())));
+            Graphics.drawImage(isolsi[calcConvoSprite()],
+                    x - Graphics.convertToWorldWidth(calcXOffset(calcConvoSprite())),
+                    y + Graphics.convertToWorldHeight(calcYOffset(calcConvoSprite())));
         }
         Graphics.setDrawColor(1,1,1,1);
         Graphics.setFont(Graphics.SMALL);
         if(convoState>-1){
-            Graphics.drawText(postLaranoConvo[convoState],45,45,20,true);
+            if(inPostLaranoScene)Graphics.drawText(postLaranoConvo[convoState],45,45,20,true);
+            else Graphics.drawText(postBoulderConvo[convoState],45,45,20,true);
         }
     }
 
@@ -112,10 +130,13 @@ public class Isolsi extends Autonomous {
             case 0: return -26;
             case 1: return 91-37;
             case 2: //Collapse
-            case 3: return 54-37;
-            case 4: return 106-37;
-            case 5: return 139-37;
-            case 6: return 92-37;
+            case LOOK_DOWN: return 54-37;
+            case GESTURE: return 106-37;
+            case SLIGHT_ANGER: return 139-37;
+            case CLENCH_FIST: return 92-37;
+            case POINTING: return 75-37;
+            case ANGRY: return 59-37;
+            case QUESTION: return 52-37;
             default: return 0;
         }
     }
@@ -129,14 +150,27 @@ public class Isolsi extends Autonomous {
     }
 
     private int calcConvoSprite(){
-        switch(convoState){
-            case 4: return 6;
-            case 1: return 4;
-            case 2: return 5;
-            case 3:
-            case 0:
-            default:return 3;
-        }
+        if(inPostLaranoScene)
+            switch(convoState){
+                case 4: return CLENCH_FIST;
+                case 1: return GESTURE;
+                case 2: return SLIGHT_ANGER;
+                case 3:
+                case 0:
+                default:return LOOK_DOWN;
+            }
+        else
+            switch(convoState){
+                case 0: return QUESTION;
+                case 1: return SLIGHT_ANGER;
+                case 3: return GESTURE;
+                case 4:
+                case 5:
+                case 2: return ANGRY;
+                case 6:
+                case 7: return POINTING;
+                default: return LOOK_DOWN;
+            }
     }
 
     @Override

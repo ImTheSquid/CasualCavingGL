@@ -2,6 +2,7 @@ package org.level.levels;
 
 import org.engine.Main;
 import org.entities.passive.Boulder;
+import org.entities.passive.Isolsi;
 import org.graphics.Graphics;
 import org.input.Keyboard;
 import org.level.Level;
@@ -30,7 +31,8 @@ public class Level6 extends Level {
 
     @Override
     public ImageResource[] getAssets() {
-        return ResourceHandler.create1DLoadable(new ImageResource[][]{ResourceHandler.getLevelLoader().getLevel6(),ResourceHandler.getLevelLoader().getLevel6Town()});
+        return ResourceHandler.create1DLoadable(new ImageResource[][]
+                {ResourceHandler.getLevelLoader().getLevel6(),ResourceHandler.getLevelLoader().getLevel6Town()});
     }
 
     @Override
@@ -43,7 +45,9 @@ public class Level6 extends Level {
             World.setGravity(.15f);
         }
         else{
-            HeightMap.setHeights(new HeightVal(0,7,24,true),new HeightVal(36,7,46,true),new HeightVal(60,7,66,true),
+            HeightMap.setHeights(new HeightVal(0,7,24,true),
+                    new HeightVal(36,7,46,true),
+                    new HeightVal(60,7,66,true),
                     new HeightVal(80,7,100,true));
             Graphics.setScaleFactor(.75f);
             if(ResourceHandler.getHaroldLoader().getState()==HaroldLoader.GOLEM){
@@ -54,7 +58,8 @@ public class Level6 extends Level {
                 }
             }else{
                 World.setGravity(.2f);
-                if(Main.getHarold().getX()<20&& Keyboard.keys.contains(VK_E))ResourceHandler.getHaroldLoader().setState(HaroldLoader.GOLEM);
+                if(Main.getHarold().getX()<20&&
+                        Keyboard.keys.contains(VK_E))ResourceHandler.getHaroldLoader().setState(HaroldLoader.GOLEM);
             }
 
         }
@@ -62,10 +67,9 @@ public class Level6 extends Level {
 
     private void setBounds(int subLevel){
         if(subLevel==4)leftLimit=boulder.isDone()?40:3;
-        else leftLimit=0;
+        else leftLimit=-1;
         switch(subLevel){
             case 0:
-                leftBound=0;
                 rightBound=100;
                 break;
             case 1:
@@ -83,20 +87,28 @@ public class Level6 extends Level {
             case 4:
                 leftBound=boulder.isDone()?0:-1;
                 rightBound=101;
-                if(boulder.isDone())update4();
+                //Skip sun stone if player pushed boulder
+                if(boulder.isDone()&&Main.getHarold().getX()+Main.getHarold().getWidth()>=99){
+                    if(boulder.isTownOK())update4();
+                    else {
+                        World.setSubLevel(6);
+                        Main.getHarold().setX(5);
+                    }
+                }
                 break;
             case 5:
                 leftBound=-1;
                 rightBound=101;
             case 6:
                 leftBound=-1;
-                rightBound=100;
+                rightBound=92;
             case 7:
                 leftBound=0;
                 rightBound=101;
         }
     }
 
+    //Handles transition to next sublevel (5)
     private void update4(){
         World.getMaster().setActive(true);
         World.setMasterColor(1,1,1);
@@ -135,14 +147,17 @@ public class Level6 extends Level {
         else {
             if(!boulder.isDone()){
                 Graphics.drawImage(backgrounds[subLevel],0,-Graphics.convertToWorldHeight(700));
-                Graphics.drawImage(ResourceHandler.getLevelLoader().getLevel6Town()[boulder.isTownOK()?1:0],10,-Graphics.convertToWorldHeight(700));
+                Graphics.drawImage(ResourceHandler.getLevelLoader().getLevel6Town()[boulder.isTownOK()?1:0],
+                        10,-Graphics.convertToWorldHeight(700));
             }else{
                 Graphics.drawImage(backgrounds[subLevel],-Graphics.convertToWorldWidth(1280),0);
-                Graphics.drawImage(ResourceHandler.getLevelLoader().getLevel6Town()[boulder.isTownOK()?1:0],-Graphics.convertToWorldWidth(1280)+10,0);
+                Graphics.drawImage(ResourceHandler.getLevelLoader().getLevel6Town()[boulder.isTownOK()?1:0],
+                        -Graphics.convertToWorldWidth(1280)+10,0);
             }
         }
         if(subLevel==3&&ResourceHandler.getHaroldLoader().getState()!=HaroldLoader.GOLEM){
             if(!golemPassedLava){
+                Graphics.setFont(Graphics.SMALL);
                 Graphics.drawImage(ResourceHandler.getGolemLoader().getOldGolem()[0],16,19);
                 if(Main.getHarold().getX()<20)Graphics.drawTextWithBox("E to carry",16,25);
             }else Graphics.drawImage(ResourceHandler.getGolemLoader().getOldGolem()[0],77,19);
@@ -165,6 +180,7 @@ public class Level6 extends Level {
         boulder.reset();
         clearEntityRegister();
         entityRegister.add(boulder);
+        entityRegister.add(new Isolsi(false));
         golemPassedLava=false;
         fadeDir=true;
     }
