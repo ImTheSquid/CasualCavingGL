@@ -37,6 +37,7 @@ public class Isolsi extends Autonomous {
         if(!inPostLaranoScene){
             y=7;
             subLevel=5;
+            state=2;
         }
         this.inPostLaranoScene =inPostLaranoScene;
         reset();
@@ -88,15 +89,26 @@ public class Isolsi extends Autonomous {
     }
 
     private void boulder(){
-        state=2;
-        Main.getHarold().setLockControls(true);
-        if(Keyboard.keys.contains(VK_SPACE)&&convoState+1< postBoulderConvo.length){
-            convoState++;
-        }else if(Keyboard.keys.contains(VK_SPACE)){
-            Main.getHarold().setLockControls(false);
-            World.incrementSubLevel();
+        Main.getHarold().setX(10);
+        ResourceHandler.getHaroldLoader().setDirection(true);
+        if(state==2||convoState==0) {
+            Main.getHarold().setLockControls(true);
+            if (Keyboard.keys.contains(VK_SPACE) && convoState + 1 < postBoulderConvo.length) {
+                convoState++;
+            } else if (Keyboard.keys.contains(VK_SPACE)) {
+                state++;
+            }
+            while (Keyboard.keys.contains(VK_SPACE)) {
+            }
+        }else if(state==3){
+            World.setMasterColor(1,1,1);
+            World.getMaster().setDirection(false);
+            if(World.getMaster().getCurrent()==0){
+                World.incrementSubLevel();
+                World.getMaster().setDirection(true);
+                Main.getHarold().setLockControls(false);
+            }
         }
-        while(Keyboard.keys.contains(VK_SPACE)){}
     }
 
     @Override
@@ -134,9 +146,9 @@ public class Isolsi extends Autonomous {
             case GESTURE: return 106-37;
             case SLIGHT_ANGER: return 139-37;
             case CLENCH_FIST: return 92-37;
-            case POINTING: return 75-37;
-            case ANGRY: return 59-37;
-            case QUESTION: return 52-37;
+            case POINTING: return 129-37;
+            case ANGRY: return 113-37;
+            case QUESTION: return 106-37;
             default: return 0;
         }
     }
@@ -175,8 +187,9 @@ public class Isolsi extends Autonomous {
 
     @Override
     public void reset() {
-        state=-1;
-        convoState=-1;
+        if(inPostLaranoScene)state=-1;
+        else state=2;
+        convoState=0;
         crossfadeActive=false;
         crossfade.setActive(false);
         crossfade.setDirection(false);
