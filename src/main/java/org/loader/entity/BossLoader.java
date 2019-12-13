@@ -220,4 +220,17 @@ public class BossLoader {
     public ImageResource getEmerieForward() {
         return emerieForward;
     }
+
+    // Swolem
+
+    private static final ImageResource swolemCenterDown = new ImageResource("/CasualCaving/Entities/Swolem/Swolem_Falling.png");
+
+    private static final ImageResource[] swolemFace = {new ImageResource("/CasualCaving/Entities/Swolem/SwolemAggrodFL.png"),
+            new ImageResource("/CasualCaving/Entities/Swolem/SwolemAggrodFR.png")};
+
+    public ImageResource getSwolemCenterDown() {
+        return swolemCenterDown;
+    }
+
+    public ImageResource getSwolemFace(boolean direction) {return swolemFace[direction?1:0];}
 }

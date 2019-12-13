@@ -1,6 +1,7 @@
 package org.level.levels;
 
 import org.engine.Main;
+import org.entities.aggressive.Swolem;
 import org.entities.passive.Boulder;
 import org.entities.passive.Isolsi;
 import org.graphics.Graphics;
@@ -17,8 +18,11 @@ import static com.jogamp.newt.event.KeyEvent.VK_E;
 import static org.world.World.CHECK_LARANO_FINISH;
 
 public class Level6 extends Level {
+    /* Create objects for special entities (ones that have different member functions) */
     private Boulder boulder=new Boulder();
-    private boolean golemPassedLava=false,fadeDir=true;
+    private Swolem swolem = new Swolem();
+    /* Minigame variable */
+    private boolean golemPassedLava=false;
     public Level6(ImageResource[] backgrounds) {
         super(backgrounds, backgrounds.length);
     }
@@ -66,9 +70,9 @@ public class Level6 extends Level {
     }
 
     private void setBounds(int subLevel){
-        rightLimit=100;
+        rightLimit=101;
         if(subLevel==4)leftLimit=boulder.isDone()?40:3;
-        else leftLimit=0;
+        else leftLimit=-1;
         switch(subLevel){
             case 0:
                 rightBound=100;
@@ -144,6 +148,7 @@ public class Level6 extends Level {
             case 6:Graphics.drawImage(ResourceHandler.getBossLoader().getEmerieForward(),47,17);
             break;
         }
+        /* Special code for boulder minigame */
         if(subLevel!=4)Graphics.drawImage(backgrounds[subLevel],0,0);
         else {
             if(!boulder.isDone()){
@@ -156,6 +161,7 @@ public class Level6 extends Level {
                         -Graphics.convertToWorldWidth(1280)+10,0);
             }
         }
+        /* Special code for golem parkour */
         if(subLevel==3&&ResourceHandler.getHaroldLoader().getState()!=HaroldLoader.GOLEM){
             if(!golemPassedLava){
                 Graphics.setFont(Graphics.SMALL);
@@ -163,6 +169,9 @@ public class Level6 extends Level {
                 if(Main.getHarold().getX()<20)Graphics.drawTextWithBox("E to carry",16,25);
             }else Graphics.drawImage(ResourceHandler.getGolemLoader().getOldGolem()[0],77,19);
         }
+        /* Render Swolem boss bar */
+        if(subLevel == 6)swolem.getBossBar().render();
+
         Graphics.setIgnoreScale(false);
     }
 
@@ -179,10 +188,11 @@ public class Level6 extends Level {
     @Override
     public void reset() {
         boulder.reset();
+        swolem.reset();
         clearEntityRegister();
         entityRegister.add(boulder);
         entityRegister.add(new Isolsi(false));
+        entityRegister.add(swolem);
         golemPassedLava=false;
-        fadeDir=true;
     }
 }
