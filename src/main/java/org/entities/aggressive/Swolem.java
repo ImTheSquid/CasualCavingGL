@@ -7,6 +7,8 @@ import org.entities.SmartRectangle;
 import org.graphics.Animator;
 import org.graphics.BossBar;
 import org.graphics.Graphics;
+import org.level.Level;
+import org.level.LevelController;
 import org.loader.ImageResource;
 import org.loader.ResourceHandler;
 import org.world.HeightMap;
@@ -15,12 +17,12 @@ import org.world.World;
 
 public class Swolem extends Autonomous {
     // Sprite states
-    private static final int INTRO = 0, ACTIVE = 1;
+    private static final int INTRO = 0, LOOKING = 1, ACTIVE = 2;
     private boolean isActive = false;
     // Boss state
     private static SWOLEM_STATE swolem_state = SWOLEM_STATE.PUNCH;
     private BossBar bossBar = new BossBar(this);
-    private Animator animator = new Animator(new ImageResource[]{ResourceHandler.getBossLoader().getSwolemCenterDown()}, 12);
+    private Animator animator = new Animator(new ImageResource[]{ResourceHandler.getBossLoader().getSwolemCenterDown()}, 6);
     private ImageResource currentFrame = null;
     private SmartRectangle hitbox = new SmartRectangle(x, y, width, height);
     public Swolem() {
@@ -28,6 +30,7 @@ public class Swolem extends Autonomous {
         displayName="Swolem";
         maxHealth = 6;
         health = maxHealth;
+        animator.setWalkBack(false);
     }
 
     @Override
@@ -36,7 +39,7 @@ public class Swolem extends Autonomous {
         /* Update State */
         isActive = y==7;
         if (isActive){
-            state = ACTIVE;
+            state = LOOKING;
         }else state = INTRO;
 
         /* Physics and Bounds*/
@@ -51,6 +54,17 @@ public class Swolem extends Autonomous {
         }
 
         // X-calc
+        float playerX = Main.getHarold().getX();
+        boolean center = playerX > x && playerX < x + width;
+
+        if (center || state == INTRO) vX = 0;
+        else vX = direction ? .05f : -.05f;
+        Level currentLevel = LevelController.getCurrentLevel();
+        if(x < currentLevel.getLeftBound() || x + width > currentLevel.getRightBound()){
+            direction = !direction;
+        }
+
+        x += vX;
 
         /* Attack Coordination */
         switch (swolem_state) {
@@ -67,14 +81,12 @@ public class Swolem extends Autonomous {
         /* Animation */
         // Get the player position and set a target direction
         if (isActive) {
-            float playerX = Main.getHarold().getX();
-            boolean center = playerX > x && playerX < x + width;
             if(!center){
                 direction = playerX>x+width;
-                animator.setFrames(new ImageResource[]{ResourceHandler.getBossLoader().getSwolemFace(direction)});
+                animator.setFrames(ResourceHandler.getBossLoader().getSwolemWalk(direction));
             }
             else{
-                animator.setFrames(new ImageResource[]{ResourceHandler.getBossLoader().getSwolemCenterDown()});
+                animator.setFrames(ResourceHandler.getBossLoader().getSwolemCenterDown());
             }
         }
         currentFrame = animator.getCurrentFrame();
@@ -85,8 +97,9 @@ public class Swolem extends Autonomous {
     public void render() {
         width = Graphics.convertToWorldWidth(currentFrame.getTexture().getWidth());
         height = Graphics.convertToWorldHeight(currentFrame.getTexture().getHeight());
-        hitbox.updateBounds(x,y,width,height);
-        if(currentFrame!=null) Graphics.drawImage(currentFrame, x, y);
+        float offset = Graphics.convertToWorldWidth(get_X_offset());
+        hitbox.updateBounds(x + offset,y,width,height);
+        if(currentFrame!=null) Graphics.drawImage(currentFrame, x + offset, y);
     }
 
     @Override
@@ -114,15 +127,18 @@ public class Swolem extends Autonomous {
 
     /* Offset functions */
 
-    private static float get_X_offset(){
+    private float get_X_offset(){
+        // Static facing directions
+        float playerX = Main.getHarold().getX();
+        if (state == LOOKING && !(playerX > x && playerX < x + width))return 19;
         return 0;
     }
 
-    private static float get_walk_offset(){
+    private float get_walk_offset(){
         return 0;
     }
 
-    private static float get_punch_offset(){
+    private float get_punch_offset(){
         return 0;
     }
 

@@ -70,9 +70,9 @@ public class Level6 extends Level {
     }
 
     private void setBounds(int subLevel){
-        rightLimit=101;
+        rightLimit=100;
         if(subLevel==4)leftLimit=boulder.isDone()?40:3;
-        else leftLimit=-1;
+        else leftLimit=0;
         switch(subLevel){
             case 0:
                 rightBound=100;
@@ -106,7 +106,7 @@ public class Level6 extends Level {
                 rightBound=101;
             case 6:
                 leftBound=-1;
-                rightBound=92;
+                rightBound=101;
             case 7:
                 leftBound=0;
                 rightBound=101;

@@ -6,7 +6,8 @@ public class Animator {
     private ImageResource[] frames;
     private int fps,currentFrame=0;
     private long lastFrameTime=0,delay=0;
-    private boolean direction=true,active=true;
+    // Walk back: goes backward through frames after going forward
+    private boolean direction=true,active=true, walkBack = true;
     public Animator(ImageResource[] frames,int fps){
         this.frames=frames;
         this.fps=fps;
@@ -15,6 +16,11 @@ public class Animator {
     public void setFrames(ImageResource[] frames) {
         if(currentFrame>=frames.length)currentFrame=0;
         this.frames = frames;
+    }
+
+    public void setFrames(ImageResource frame){
+        currentFrame = 0;
+        this.frames = new ImageResource[]{frame};
     }
 
     public void setFps(int fps) {
@@ -37,6 +43,10 @@ public class Animator {
         this.delay = delay;
     }
 
+    public void setWalkBack(boolean walkBack) {
+        this.walkBack = walkBack;
+    }
+
     public void update(){
         long currentTime=System.nanoTime();
         if(!active)return;
@@ -48,7 +58,8 @@ public class Animator {
         if(currentTime>lastFrameTime+1000000000/fps){
             if(direction){
                 if(currentFrame==frames.length-1){
-                    direction=false;
+                    if (walkBack) direction=false;
+                    else currentFrame = 0;
                 }else{
                     currentFrame++;
                 }

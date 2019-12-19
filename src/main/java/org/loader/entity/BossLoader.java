@@ -233,4 +233,20 @@ public class BossLoader {
     }
 
     public ImageResource getSwolemFace(boolean direction) {return swolemFace[direction?1:0];}
+
+    private static final ImageResource[] swolemWalkLeft = {new ImageResource("/CasualCaving/Entities/Swolem/Walk/SwolemWalking1FL.png"),
+            new ImageResource("/CasualCaving/Entities/Swolem/Walk/SwolemWalking2FL.png"),
+            new ImageResource("/CasualCaving/Entities/Swolem/Walk/SwolemWalking3FL.png"),
+            new ImageResource("/CasualCaving/Entities/Swolem/Walk/SwolemWalking4FL.png"),
+            new ImageResource("/CasualCaving/Entities/Swolem/Walk/SwolemWalking5FL.png")};
+
+    private static final ImageResource[] swolemWalkRight = {new ImageResource("/CasualCaving/Entities/Swolem/Walk/SwolemWalking1FR.png"),
+            new ImageResource("/CasualCaving/Entities/Swolem/Walk/SwolemWalking2FR.png"),
+            new ImageResource("/CasualCaving/Entities/Swolem/Walk/SwolemWalking3FR.png"),
+            new ImageResource("/CasualCaving/Entities/Swolem/Walk/SwolemWalking4FR.png"),
+            new ImageResource("/CasualCaving/Entities/Swolem/Walk/SwolemWalking5FR.png")};
+
+    public ImageResource[] getSwolemWalk(boolean direction) {
+        return direction ? swolemWalkRight : swolemWalkLeft;
+    }
 }
