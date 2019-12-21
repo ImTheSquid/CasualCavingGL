@@ -3,10 +3,12 @@ package org.entities.aggressive;
 import org.engine.Main;
 import org.entities.Autonomous;
 import org.entities.Entity;
+import org.entities.Harold;
 import org.entities.SmartRectangle;
 import org.graphics.Animator;
 import org.graphics.BossBar;
 import org.graphics.Graphics;
+import org.graphics.Timer;
 import org.level.Level;
 import org.level.LevelController;
 import org.loader.ImageResource;
@@ -17,12 +19,13 @@ import org.world.World;
 
 public class Swolem extends Autonomous {
     // Sprite states
-    private static final int INTRO = 0, LOOKING = 1, ACTIVE = 2;
+    private static final int INTRO = 0, WALKING = 1;
     private boolean isActive = false;
     // Boss state
-    private static SWOLEM_STATE swolem_state = SWOLEM_STATE.PUNCH;
+    private static SWOLEM_STATE swolemState = SWOLEM_STATE.NONE;
     private BossBar bossBar = new BossBar(this);
     private Animator animator = new Animator(new ImageResource[]{ResourceHandler.getBossLoader().getSwolemCenterDown()}, 6);
+    private Timer groundTime = new Timer(0, 20, 0, 1, 1);
     private ImageResource currentFrame = null;
     private SmartRectangle hitbox = new SmartRectangle(x, y, width, height);
     public Swolem() {
@@ -35,12 +38,10 @@ public class Swolem extends Autonomous {
 
     @Override
     public void update() {
+        groundTime.update();
         bossBar.update();
         /* Update State */
         isActive = y==7;
-        if (isActive){
-            state = LOOKING;
-        }else state = INTRO;
 
         /* Physics and Bounds*/
         HeightReturn heightMap = HeightMap.onGround(hitbox);
@@ -57,7 +58,7 @@ public class Swolem extends Autonomous {
         float playerX = Main.getHarold().getX();
         boolean center = playerX > x && playerX < x + width;
 
-        if (center || state == INTRO) vX = 0;
+        if (center || !isActive || swolemState != SWOLEM_STATE.NONE) vX = 0;
         else vX = direction ? .05f : -.05f;
         Level currentLevel = LevelController.getCurrentLevel();
         if(x < currentLevel.getLeftBound() || x + width > currentLevel.getRightBound()){
@@ -67,7 +68,12 @@ public class Swolem extends Autonomous {
         x += vX;
 
         /* Attack Coordination */
-        switch (swolem_state) {
+        if (swolemState == SWOLEM_STATE.NONE){
+            Harold harold = Main.getHarold();
+            if ((harold.getX() + harold.getWidth() + 5 > x && harold.getX() - 5 < x + width) && !center) swolemState = SWOLEM_STATE.PUNCH;
+        }
+
+        switch (swolemState) {
             case PUNCH:
                 // If player in reach, then punch to side
                 break;
@@ -119,7 +125,7 @@ public class Swolem extends Autonomous {
 
     @Override
     public void doDamage(Entity attacker, int damage) {
-        if (swolem_state != SWOLEM_STATE.VULNERABLE) {
+        if (swolemState != SWOLEM_STATE.VULNERABLE) {
             return;
         }
         super.doDamage(attacker, damage);
@@ -130,7 +136,7 @@ public class Swolem extends Autonomous {
     private float get_X_offset(){
         // Static facing directions
         float playerX = Main.getHarold().getX();
-        if (state == LOOKING && !(playerX > x && playerX < x + width))return 19;
+        if (state == WALKING && !(playerX > x && playerX < x + width))return 19;
         return 0;
     }
 
@@ -146,6 +152,7 @@ public class Swolem extends Autonomous {
     private enum SWOLEM_STATE{
         PUNCH,
         GROUND,
-        VULNERABLE
+        VULNERABLE,
+        NONE
     }
 }
