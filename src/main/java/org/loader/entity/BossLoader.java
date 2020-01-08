@@ -258,5 +258,7 @@ public class BossLoader {
             new ImageResource("/CasualCaving/Entities/Swolem/Punch/SwolemPunch2FR.png"),
             new ImageResource("/CasualCaving/Entities/Swolem/Punch/SwolemPunch3FR.png")};
 
-    public ImageResource[] getSwolemPunch(boolean direction){return direction ? punchLeft : punchRight;}
+    public ImageResource[] getSwolemPunch(boolean direction) {
+        return direction ? punchRight : punchLeft;
+    }
 }

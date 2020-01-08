@@ -69,41 +69,42 @@ public class Larano extends Autonomous {
         if(h.isOnGround()&&vY<0){
             y=h.getGroundLevel();
             vY=0;
-            if(state==JUMP&& animator.getCurrentFrameNum()== animator.getFrames().length-1) {
+            if (state == JUMP && animator.onLastFrame()) {
                 state = NORMAL;
-                if(direction&&Main.getHarold().getX()+Main.getHarold().getWidth()<x||!direction&&Main.getHarold().getX()>x+width)direction=!direction;
+                if (direction && Main.getHarold().getX() + Main.getHarold().getWidth() < x || !direction && Main.getHarold().getX() > x + width)
+                    direction = !direction;
             }
         }
 
         doAttackCalc();
         doSpriteCalc();
-        if(damageTakenFrame>0)damageTakenFrame--;
+        if (damageTakenFrame > 0) damageTakenFrame--;
     }
 
-    private void doAttackCalc(){
-        if(!(state==NORMAL||state==ATTACK))return;
-        final int range=4;
-        if(state==ATTACK&& animator.getCurrentFrameNum()== animator.getFrames().length-1){
-            state=NORMAL;
-            Attack.melee(this,1,range);
+    private void doAttackCalc() {
+        if (!(state == NORMAL || state == ATTACK)) return;
+        final int range = 4;
+        if (state == ATTACK && animator.onLastFrame()) {
+            state = NORMAL;
+            Attack.melee(this, 1, range);
         }
-        if(attackCooldown>0){
+        if (attackCooldown > 0) {
             attackCooldown--;
             return;
         }
-        if(Main.getHarold().getY()>y+height||Main.getHarold().getY()+Main.getHarold().getWidth()<y){
-            if(checkJump())state=JUMP;
-            else state=NORMAL;
+        if (Main.getHarold().getY() > y + height || Main.getHarold().getY() + Main.getHarold().getWidth() < y) {
+            if (checkJump()) state = JUMP;
+            else state = NORMAL;
             return;
         }
-        if(direction){
-            if(Main.getHarold().getX()>=x&&Main.getHarold().getX()<=x+width+range){
-                state=ATTACK;
+        if (direction) {
+            if (Main.getHarold().getX() >= x && Main.getHarold().getX() <= x + width + range) {
+                state = ATTACK;
                 animator.setCurrentFrame(0);
-                attackCooldown=100;
-            }else if(Main.getHarold().getX()>=x)tryCharge();
-        }else{
-            if(Main.getHarold().getX()+Main.getHarold().getWidth()<=x+width&&Main.getHarold().getWidth()+Main.getHarold().getX()>=x-range){
+                attackCooldown = 100;
+            } else if (Main.getHarold().getX() >= x) tryCharge();
+        } else {
+            if (Main.getHarold().getX() + Main.getHarold().getWidth() <= x + width && Main.getHarold().getWidth() + Main.getHarold().getX() >= x - range) {
                 state=ATTACK;
                 animator.setCurrentFrame(0);
                 attackCooldown=100;
@@ -128,81 +129,82 @@ public class Larano extends Autonomous {
     private void doSpriteCalc(){
         if(state!=READY&&state!=JUMP) animator.setFps(10);
         else if(state==JUMP) animator.setFps(4);
-        switch(state){
+        switch (state) {
             case NORMAL:
                 animator.setFrames(ResourceHandler.getBossLoader().getLaranoWalk(direction));
-            break;
+                break;
             case READY:
                 animator.setFrames(ResourceHandler.getBossLoader().getLaranoReadying());
-                if(animator.getCurrentFrameNum()== animator.getFrames().length-1){
-                    state=NORMAL;
+                if (animator.onLastFrame()) {
+                    state = NORMAL;
                     animator.setFps(10);
-                    x=Graphics.convertToWorldWidth(541);
-                    y=5;
+                    x = Graphics.convertToWorldWidth(541);
+                    y = 5;
                     animator.setFrames(ResourceHandler.getBossLoader().getLaranoWalk(direction));
-                    attackCooldown=100;
+                    attackCooldown = 100;
                 }
-            break;
+                break;
             case ATTACK:
-                altAttack= !(Main.getHarold().getY() < y + width / 2);
-                if(altAttack){
+                altAttack = !(Main.getHarold().getY() < y + width / 2);
+                if (altAttack) {
                     animator.setFrames(ResourceHandler.getBossLoader().getLaranoAltAttack(direction));
-                }else{
+                } else {
                     animator.setFrames(ResourceHandler.getBossLoader().getLaranoAttack(direction));
                 }
-            break;
+                break;
             case CHARGERDY:
                 animator.setFrames(ResourceHandler.getBossLoader().getLaranoShimmer(direction));
-                if(animator.getCurrentFrameNum()== animator.getFrames().length-1)state=CHARGE;
-            break;
+                if (animator.onLastFrame()) state = CHARGE;
+                break;
             case CHARGE:
                 animator.setFrames(new ImageResource[]{ResourceHandler.getBossLoader().getLaranoDash(direction)});
-            break;
+                break;
             case DIZZY:
                 animator.setFrames(ResourceHandler.getBossLoader().getLaranoDizzy(direction));
-                if(animator.getCurrentFrameNum()== animator.getFrames().length-1){
+                if (animator.onLastFrame()) {
                     dizzyCount++;
                 }
-                if(dizzyCount==60){
-                    state=NORMAL;
-                    dizzyCount=0;
+                if (dizzyCount == 60) {
+                    state = NORMAL;
+                    dizzyCount = 0;
                 }
-            break;
+                break;
             case DAMAGE:
-                if(damageTakenFrame==0)state=NORMAL;
-                else animator.setFrames(new ImageResource[]{ResourceHandler.getBossLoader().getLaranoDamage(direction)});
-            break;
+                if (damageTakenFrame == 0) state = NORMAL;
+                else
+                    animator.setFrames(new ImageResource[]{ResourceHandler.getBossLoader().getLaranoDamage(direction)});
+                break;
             case JUMP:
                 animator.setFrames(ResourceHandler.getBossLoader().getLaranoJump(direction));
-            break;
+                break;
             case DEFEAT:
-                if(x<48||x>52) {
+                if (x < 48 || x > 52) {
                     direction = x < 50;
                     animator.setFrames(ResourceHandler.getBossLoader().getLaranoWalk(direction));
                     if (direction) vX = .2f;
                     else vX = -.2f;
-                }else{
-                    vX=0;
+                } else {
+                    vX = 0;
                     animator.setFrames(ResourceHandler.getBossLoader().getLaranoDefeat());
                 }
-            break;
+                break;
             case EXIT:
-                if(x>101)state++;
+                if (x > 101) state++;
                 animator.setActive(true);
                 animator.setFrames(ResourceHandler.getBossLoader().getLaranoWalk(direction));
                 animator.update();
-                sprite= animator.getCurrentFrame();
-                direction=true;
-            break;
+                sprite = animator.getCurrentFrame();
+                direction = true;
+                break;
             case DONE:
-                health=0;
-            break;
+                health = 0;
+                break;
         }
-        sprite= animator.getCurrentFrame();
-        boolean checkJump=state==JUMP&& animator.getCurrentFrameNum()== animator.getFrames().length-1;
-        boolean checkDefeat=state==DEFEAT&&(x>48&&x<52);
-        if(!(checkJump||checkDefeat)) animator.update();
-        else if(state==JUMP)if(vY==0)vY=3;
+        sprite = animator.getCurrentFrame();
+        boolean checkJump = state == JUMP && animator.onLastFrame();
+        boolean checkDefeat = state == DEFEAT && (x > 48 && x < 52);
+        if (!(checkJump || checkDefeat)) animator.update();
+        else if (state == JUMP) if (vY == 0) vY = 3;
     }
 
     @Override

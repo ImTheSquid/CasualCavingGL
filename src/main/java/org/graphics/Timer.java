@@ -66,14 +66,18 @@ public class Timer {
     }
 
     public void setActive(boolean active){
-        this.active=active;
+        this.active = active;
     }
 
-    public float getFrameDelay(){
+    public float getFrameDelay() {
         return delay;
     }
 
     public float getMax() {
         return max;
+    }
+
+    public float getMin() {
+        return min;
     }
 }

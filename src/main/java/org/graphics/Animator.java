@@ -14,13 +14,17 @@ public class Animator {
     }
 
     public void setFrames(ImageResource[] frames) {
-        if(currentFrame>=frames.length)currentFrame=0;
+        if (currentFrame >= frames.length) currentFrame = 0;
         this.frames = frames;
     }
 
-    public void setFrames(ImageResource frame){
+    public void setFrames(ImageResource frame) {
         currentFrame = 0;
         this.frames = new ImageResource[]{frame};
+    }
+
+    public boolean onLastFrame() {
+        return currentFrame == frames.length - 1;
     }
 
     public void setFps(int fps) {

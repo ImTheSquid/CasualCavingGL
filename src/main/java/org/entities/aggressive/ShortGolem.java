@@ -123,16 +123,16 @@ public class ShortGolem extends Autonomous {
                     golem = ResourceHandler.getGolemLoader().getRedGolem(direction);
                     break;
                 case PURPLE:
-                    golem=ResourceHandler.getGolemLoader().getPurpleGolem(direction);
+                    golem = ResourceHandler.getGolemLoader().getPurpleGolem(direction);
                     break;
             }
-        }else {
+        } else {
             doSpriteCalc();
         }
         golemAnimator.update();
-        if(state==1&&golemAnimator.getCurrentFrameNum()==golemAnimator.getFrames().length-1){
-            state=0;
-            Attack.melee(this,1,4);
+        if (state == 1 && golemAnimator.onLastFrame()) {
+            state = 0;
+            Attack.melee(this, 1, 4);
         }
     }
 

@@ -102,22 +102,22 @@ public class TallGolem extends Autonomous {
 
         //Y-velocity and ground calc
         if(h.isOnGround()&&vY<0){
-            y=h.getGroundLevel();
-            vY=0;
-            if(state==3&&golemAnimator.getCurrentFrameNum()==golemAnimator.getFrames().length-1)
-                state=0;
+            y = h.getGroundLevel();
+            vY = 0;
+            if (state == 3 && golemAnimator.onLastFrame())
+                state = 0;
         }
 
         doAttackCalc();
 
         //Update the frames
-        if(vX==0){
-            switch (golemType){
+        if (vX == 0) {
+            switch (golemType) {
                 case BLUE:
                     golemAnimator.setFrames(new ImageResource[]{ResourceHandler.getGolemLoader().getTallBlueGolem(direction)});
                     break;
             }
-        }else {
+        } else {
             doSpriteCalc();
         }
 
@@ -125,13 +125,13 @@ public class TallGolem extends Autonomous {
             golemAnimator.update();
         }
 
-        if(state==1&&golemAnimator.getCurrentFrameNum()==golemAnimator.getFrames().length-1){
-            state=0;
-            Attack.melee(this,1,4);
+        if (state == 1 && golemAnimator.onLastFrame()) {
+            state = 0;
+            Attack.melee(this, 1, 4);
         }
-        if(state==3&&golemAnimator.getCurrentFrameNum()==golemAnimator.getFrames().length-1){
-            if(vY==0){
-                vY=3f;
+        if (state == 3 && golemAnimator.onLastFrame()) {
+            if (vY == 0) {
+                vY = 3f;
             }
         }
     }

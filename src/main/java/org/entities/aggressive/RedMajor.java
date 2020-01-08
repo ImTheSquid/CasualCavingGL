@@ -81,10 +81,10 @@ public class RedMajor extends Autonomous {
         }
 
         doAttackCalc();
-        if(state==ATTACK&&redAnimator.getCurrentFrameNum()==redAnimator.getFrames().length-1){
+        if (state == ATTACK && redAnimator.onLastFrame()) {
             redAnimator.setDelay(7);
-            state=NORMAL;
-            Attack.melee(this,1,5);
+            state = NORMAL;
+            Attack.melee(this, 1, 5);
         }
 
         if(vX==0)redAnimator.setFrames(new ImageResource[]{ResourceHandler.getBossLoader().getRedMajorStill(direction)});
@@ -111,18 +111,18 @@ public class RedMajor extends Autonomous {
                 break;
         }
 
-        if(doStartReady&&redAnimator.getCurrentFrameNum()==redAnimator.getFrames().length-1){
-            redMajor=redAnimator.getCurrentFrame();
+        if (doStartReady && redAnimator.onLastFrame()) {
+            redMajor = redAnimator.getCurrentFrame();
             redAnimator.setDelay(60);
             redAnimator.setFps(7);
-            doStartReady=false;
-            state=NORMAL;
+            doStartReady = false;
+            state = NORMAL;
         }
 
-        if(state==READYING&&redAnimator.getCurrentFrameNum()==redAnimator.getFrames().length-1){
-            redMajor=redAnimator.getCurrentFrame();
+        if (state == READYING && redAnimator.onLastFrame()) {
+            redMajor = redAnimator.getCurrentFrame();
             redAnimator.setDelay(1);
-            state=ATTACK;
+            state = ATTACK;
             redAnimator.setCurrentFrame(0);
         }
         redMajor = redAnimator.getCurrentFrame();
