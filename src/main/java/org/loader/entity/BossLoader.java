@@ -261,4 +261,14 @@ public class BossLoader {
     public ImageResource[] getSwolemPunch(boolean direction) {
         return direction ? punchRight : punchLeft;
     }
+
+    private static final ImageResource[] swolemSmash = {new ImageResource("/CasualCaving/Entities/Swolem/Shock/SwolemLeftShock1.png"),
+            new ImageResource("/CasualCaving/Entities/Swolem/Shock/SwolemLeftShock2.png"),
+            new ImageResource("/CasualCaving/Entities/Swolem/Shock/SwolemNeutralShock.png"),
+            new ImageResource("/CasualCaving/Entities/Swolem/Shock/SwolemRightShock1.png"),
+            new ImageResource("/CasualCaving/Entities/Swolem/Shock/SwolemRightShock2.png")};
+
+    public ImageResource[] getSwolemSmash() {
+        return swolemSmash;
+    }
 }

@@ -107,8 +107,8 @@ public class KeyMasterL extends Autonomous {
 
     private float calcOffset(){
         if(state==TALK){
-            if(convoProgress==2)return -Graphics.convertToWorldWidth(82-16);
-            else return -Graphics.convertToWorldWidth(16);
+            if (convoProgress == 2) return -Graphics.toWorldWidth(82 - 16);
+            else return -Graphics.toWorldWidth(16);
         }
         return 0;
     }

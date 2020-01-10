@@ -106,42 +106,46 @@ public class Graphics {
         gl.glFlush();
     }
 
-    public static float convertToWorldHeight(float height){
-        return height/(Render.getWindow().getHeight()/ unitsTall);
+    public static float convertToWorldHeight(float height) {
+        return height / (Render.getWindow().getHeight() / unitsTall);
     }
 
-    public static float convertToWorldWidth(float width){
-        return width/(Render.getWindow().getWidth()/ unitsWide);
+    public static float toWorldWidth(float width) {
+        return width / (Render.getWindow().getWidth() / unitsWide);
     }
 
-    public static float convertFromWorldWidth(float width){return (Render.getWindow().getWidth()*width)/unitsWide;}
-
-    public static float convertFromWorldHeight(float height){return (Render.getWindow().getHeight()*height)/unitsTall;}
-
-    public static float convertToWorldY(float y){
-        return y/(Render.getWindow().getWidth()/ unitsWide);
+    public static float fromWorldWidth(float width) {
+        return (Render.getWindow().getWidth() * width) / unitsWide;
     }
 
-    public static float convertToWorldX(float x){
-        return x/(Render.getWindow().getWidth()/ unitsWide);
+    public static float fromWorldHeight(float height) {
+        return (Render.getWindow().getHeight() * height) / unitsTall;
     }
 
-    private static float convertFromWorldX(float x){
-        return (Render.getWindow().getWidth()*x)/unitsWide;
+    public static float toWorldY(float y) {
+        return y / (Render.getWindow().getWidth() / unitsWide);
     }
 
-    private static float convertFromWorldY(float y){
-        return (Render.getWindow().getHeight()*y)/unitsTall;
+    public static float toWorldX(float x) {
+        return x / (Render.getWindow().getWidth() / unitsWide);
+    }
+
+    private static float fromWorldX(float x) {
+        return (Render.getWindow().getWidth() * x) / unitsWide;
+    }
+
+    private static float fromWorldY(float y) {
+        return (Render.getWindow().getHeight() * y) / unitsTall;
     }
 
     //Draw an image with width and height of original image
-    public static void drawImage(ImageResource image,float x,float y){
-        drawImage(image,x,y, convertToWorldWidth(image.getTexture().getWidth()),convertToWorldHeight(image.getTexture().getHeight()));
+    public static void drawImage(ImageResource image, float x, float y) {
+        drawImage(image, x, y, toWorldWidth(image.getTexture().getWidth()), convertToWorldHeight(image.getTexture().getHeight()));
     }
 
     //Draw centered image
-    public static void drawImageCentered(ImageResource image,float x,float y){
-        drawImage(image,x- convertToWorldWidth(image.getTexture().getWidth())/2f,y-convertToWorldHeight(image.getTexture().getWidth())/2f);
+    public static void drawImageCentered(ImageResource image, float x, float y) {
+        drawImage(image, x - toWorldWidth(image.getTexture().getWidth()) / 2f, y - convertToWorldHeight(image.getTexture().getWidth()) / 2f);
     }
 
     //Draw centered image with preselected width and height
@@ -207,7 +211,7 @@ public class Graphics {
                     index++;
                 }
                 //TODO Fix bug with strings with no spaces not getting split properly
-                float widthTest=convertToWorldWidth((float)(fonts[textSelector].getBounds(testString.toString()).getWidth()+fonts[textSelector].getBounds(currentString.toString()).getWidth()));
+                float widthTest = toWorldWidth((float) (fonts[textSelector].getBounds(testString.toString()).getWidth() + fonts[textSelector].getBounds(currentString.toString()).getWidth()));
                 if(widthTest<wrapWidth){
                     currentString.append(" ").append(testString);
                 }else{
@@ -232,7 +236,7 @@ public class Graphics {
         if(box){
             float lengthMax=0;
             for(String s:strings){
-                float newL=convertToWorldWidth((float)fonts[textSelector].getBounds(s).getWidth());
+                float newL = toWorldWidth((float) fonts[textSelector].getBounds(s).getWidth());
                 lengthMax=Math.max(lengthMax,newL);
             }
             setIgnoreScale(true);
@@ -243,33 +247,33 @@ public class Graphics {
             setIgnoreScale(false);
         }
         for(String s:strings){
-            drawText(s,x,y-convertToWorldY(fonts[textSelector].getFont().getSize()*iteration));
+            drawText(s, x, y - toWorldY(fonts[textSelector].getFont().getSize() * iteration));
             iteration++;
         }
     }
 
     public static void drawTextCentered(String text,float x,float y){
-        drawText(text,x-(convertToWorldWidth((float)fonts[textSelector].getBounds(text).getWidth())/2f),y-convertToWorldHeight((float)fonts[textSelector].getBounds(text).getHeight())/2f);
+        drawText(text, x - (toWorldWidth((float) fonts[textSelector].getBounds(text).getWidth()) / 2f), y - convertToWorldHeight((float) fonts[textSelector].getBounds(text).getHeight()) / 2f);
     }
 
     //Draws text
-    public static void drawText(String text, float x, float y){
-        if(!followCamera){
-            x-=Render.getCameraX();
-            y-=Render.getCameraY();
+    public static void drawText(String text, float x, float y) {
+        if (!followCamera) {
+            x -= Render.getCameraX();
+            y -= Render.getCameraY();
         }
-        fonts[textSelector].beginRendering(Render.getWindow().getWidth(),Render.getWindow().getHeight());
-        fonts[textSelector].setColor(red,green,blue,alpha);
-        fonts[textSelector].draw(text,(int)convertFromWorldX(x),(int)convertFromWorldY(y));
+        fonts[textSelector].beginRendering(Render.getWindow().getWidth(), Render.getWindow().getHeight());
+        fonts[textSelector].setColor(red, green, blue, alpha);
+        fonts[textSelector].draw(text, (int) fromWorldX(x), (int) fromWorldY(y));
         fonts[textSelector].endRendering();
     }
 
-    public static void drawTextWithBox(String text, float x, float y){
-        Graphics.setDrawColor(0,0,0,0.5f);
-        Rectangle2D bounds=fonts[textSelector].getBounds(text);
-        Graphics.fillRect(x,y-0.1f,Graphics.convertToWorldWidth((float)bounds.getWidth()),Graphics.convertToWorldHeight((float)bounds.getHeight())+0.1f);
-        Graphics.setDrawColor(1,1,1,1);
-        drawText(text,x,y);
+    public static void drawTextWithBox(String text, float x, float y) {
+        Graphics.setDrawColor(0, 0, 0, 0.5f);
+        Rectangle2D bounds = fonts[textSelector].getBounds(text);
+        Graphics.fillRect(x, y - 0.1f, Graphics.toWorldWidth((float) bounds.getWidth()), Graphics.convertToWorldHeight((float) bounds.getHeight()) + 0.1f);
+        Graphics.setDrawColor(1, 1, 1, 1);
+        drawText(text, x, y);
     }
 
     public static void takeScreenshot(){
@@ -338,8 +342,6 @@ public class Graphics {
     }
 
     public static void setIgnoreScale(boolean ignore){ignoreScale=ignore;}
-
-    public static boolean getIgnoreScale(){return ignoreScale;}
 
     public static void setFollowCamera(boolean followCamera) {
         Graphics.followCamera = followCamera;

@@ -21,16 +21,23 @@ import org.world.World;
 public class Swolem extends Autonomous {
     // Activity states
     private static final int INTRO = 0, WALKING = 1;
-    // How many times ground has been pounded; how many waves have been created on the current punching round
-    private int poundCount = 0, wavesCreated = 0;
+    // Constant smash order
+    private static final int[] smashOrder = {0, 1, 2, 4, 3, 4, 2, 1, 0};
     private boolean isActive = false;
+    // How many times ground has been pounded
+    private int poundCount = 0;
     // Boss state
     private static SWOLEM_STATE swolemState = SWOLEM_STATE.NONE;
     private BossBar bossBar = new BossBar(this);
     private Animator animator = new Animator(new ImageResource[]{ResourceHandler.getBossLoader().getSwolemCenterDown()}, 6);
     // How much time the swolem must wait before attempting to ground pound
-    private Timer groundCooldown = new Timer(0, 15, 0, 1, 1);
+    private Timer smashCooldown = new Timer(0, 15, 0, 1, 1);
+    /* Since the game runs faster than the frame rate, it is possible to increment the smash counter
+     * multiple times while only being on one frame. */
+    private boolean smashAlt = true;
+    // Above comment, but for punching
     private Timer punchCooldown = new Timer(0, 7, 0, 1, 1);
+    private Timer smashAnimator = new Timer(0, smashOrder.length - 1, 0, 1, 6);
     private ImageResource currentFrame = null;
     private SmartRectangle hitbox = new SmartRectangle(x, y, width, height);
 
@@ -40,13 +47,15 @@ public class Swolem extends Autonomous {
         maxHealth = 6;
         health = maxHealth;
         animator.setWalkBack(false);
-        groundCooldown.setActive(true);
+        smashCooldown.setActive(true);
         punchCooldown.setActive(true);
+        smashAnimator.setLoop(true);
+        smashAnimator.setActive(true);
     }
 
     @Override
     public void update() {
-        groundCooldown.update();
+        smashCooldown.update();
         punchCooldown.update();
         bossBar.update();
         /* Update State */
@@ -81,6 +90,8 @@ public class Swolem extends Autonomous {
             Harold harold = Main.getHarold();
             if ((harold.getX() + harold.getWidth() + 2 > x && harold.getX() - 2 < x + width) && !center && punchCooldown.getCurrent() == punchCooldown.getMax())
                 swolemState = SWOLEM_STATE.PUNCH;
+            else if (((harold.getX() + harold.getWidth() + 2 < x && x + width < harold.getX() - 2) || center) && smashCooldown.getCurrent() == smashCooldown.getMax())
+                swolemState = SWOLEM_STATE.SMASH;
         }
 
         /* Animation */
@@ -96,23 +107,24 @@ public class Swolem extends Autonomous {
                         punchCooldown.setCurrent(punchCooldown.getMin());
                     }
                     break;
-                case GROUND:
+                case SMASH:
                     // Ground pound independent of player position
-                    if (animator.onLastFrame()) {
-                        if (wavesCreated == 3) {
-                            wavesCreated = 0;
-                            poundCount++;
-                            if (poundCount == 3) {
-                                swolemState = SWOLEM_STATE.VULNERABLE;
-                                poundCount = 0;
-                            }
-                        } else {
-                            wavesCreated++;
+                    smashAnimator.update();
+
+                    if (smashOrder[(int) smashAnimator.getCurrent()] == 2 && smashAlt) {
+                        // Don't let this execute again until next frame
+                        smashAlt = false;
+                        poundCount++;
+                        if (poundCount == 6) {
+                            swolemState = SWOLEM_STATE.VULNERABLE;
+                            smashCooldown.setCurrent(smashCooldown.getMin());
+                            poundCount = 0;
                         }
-                    }
+                    } else if (smashOrder[(int) smashAnimator.getCurrent()] != 2) smashAlt = true;
                     break;
                 case VULNERABLE:
                     // Allow for player to hit fist, lowering health
+                    swolemState = SWOLEM_STATE.NONE;
                     break;
                 case NONE:
                     if (!center) {
@@ -124,15 +136,17 @@ public class Swolem extends Autonomous {
                     break;
             }
         }
-        currentFrame = animator.getCurrentFrame();
+        if (swolemState != SWOLEM_STATE.SMASH) currentFrame = animator.getCurrentFrame();
+        else
+            currentFrame = ResourceHandler.getBossLoader().getSwolemSmash()[smashOrder[(int) smashAnimator.getCurrent()]];
         animator.update();
     }
 
     @Override
     public void render() {
-        width = Graphics.convertToWorldWidth(currentFrame.getTexture().getWidth());
+        width = Graphics.toWorldWidth(currentFrame.getTexture().getWidth());
         height = Graphics.convertToWorldHeight(currentFrame.getTexture().getHeight());
-        float offset = Graphics.convertToWorldWidth(get_X_offset());
+        float offset = Graphics.toWorldWidth(get_X_offset());
         hitbox.updateBounds(x + offset,y,width,height);
         if(currentFrame!=null) Graphics.drawImage(currentFrame, x + offset, y);
     }
@@ -181,9 +195,9 @@ public class Swolem extends Autonomous {
         return 0;
     }
 
-    private enum SWOLEM_STATE{
+    private enum SWOLEM_STATE {
         PUNCH,
-        GROUND,
+        SMASH,
         VULNERABLE,
         NONE
     }

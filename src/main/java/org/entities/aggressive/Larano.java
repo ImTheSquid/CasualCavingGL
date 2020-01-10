@@ -138,7 +138,7 @@ public class Larano extends Autonomous {
                 if (animator.onLastFrame()) {
                     state = NORMAL;
                     animator.setFps(10);
-                    x = Graphics.convertToWorldWidth(541);
+                    x = Graphics.toWorldWidth(541);
                     y = 5;
                     animator.setFrames(ResourceHandler.getBossLoader().getLaranoWalk(direction));
                     attackCooldown = 100;
@@ -209,20 +209,21 @@ public class Larano extends Autonomous {
 
     @Override
     public void render() {
-        if(sprite==null)return;
+        if (sprite == null) return;
         Graphics.setIgnoreScale(true);
-        width= Graphics.convertToWorldWidth(sprite.getTexture().getWidth());
-        height=Graphics.convertToWorldHeight(sprite.getTexture().getHeight());
-        hitbox.updateBounds(x,y,width,height);
-        if(damageTakenFrame>0)Graphics.setDrawColor(1,0,0,1);
-        else Graphics.setDrawColor(1,1,1,1);
-        if(state==READY)Graphics.drawImage(sprite,0,0);
-        else{
-            if(state==DEFEAT&&vX==0&& animator.getCurrentFrameNum()==3)Graphics.drawImage(sprite,x-doOffsetCalc(),y-1.5f);
-            else Graphics.drawImage(sprite,x-doOffsetCalc(),y);
+        width = Graphics.toWorldWidth(sprite.getTexture().getWidth());
+        height = Graphics.convertToWorldHeight(sprite.getTexture().getHeight());
+        hitbox.updateBounds(x, y, width, height);
+        if (damageTakenFrame > 0) Graphics.setDrawColor(1, 0, 0, 1);
+        else Graphics.setDrawColor(1, 1, 1, 1);
+        if (state == READY) Graphics.drawImage(sprite, 0, 0);
+        else {
+            if (state == DEFEAT && vX == 0 && animator.getCurrentFrameNum() == 3)
+                Graphics.drawImage(sprite, x - doOffsetCalc(), y - 1.5f);
+            else Graphics.drawImage(sprite, x - doOffsetCalc(), y);
         }
         Graphics.setIgnoreScale(false);
-        Graphics.setDrawColor(1,1,1,1);
+        Graphics.setDrawColor(1, 1, 1, 1);
     }
 
     private float doOffsetCalc(){
@@ -233,11 +234,11 @@ public class Larano extends Autonomous {
                     case 0:
                         return 0;
                     case 1:
-                        return Graphics.convertToWorldWidth(10);
+                        return Graphics.toWorldWidth(10);
                     case 2:
-                        return Graphics.convertToWorldWidth(99);
+                        return Graphics.toWorldWidth(99);
                     case 3:
-                        return Graphics.convertToWorldWidth(143);
+                        return Graphics.toWorldWidth(143);
                 }
             }
         }

@@ -98,7 +98,7 @@ public class CineLarano extends Autonomous {
         if(sprite==null)return;
         Graphics.setDrawColor(1,1,1,1);
         doSpeechDisplay();
-        Graphics.drawImage(sprite,x+Graphics.convertToWorldWidth(getOffset()),y);
+        Graphics.drawImage(sprite, x + Graphics.toWorldWidth(getOffset()), y);
     }
 
     private float getOffset(){

@@ -221,28 +221,28 @@ public class Title extends Level {
         quit.render();
         controls.setColor(0.8f,0.74f,0.03f,1);
         controls.render();
-        credits.setColor(0.8f,0.74f,0.03f,1);
+        credits.setColor(0.8f, 0.74f, 0.03f, 1);
         credits.render();
-        setDrawColor(1,1,1,1);
+        setDrawColor(1, 1, 1, 1);
         setFont(NORMAL);
-        drawTextCentered("Quit",Render.unitsWide/2,4f);
-        drawTextCentered("Controls",Render.unitsWide/2,8.3f);
-        drawTextCentered("Restart",Render.unitsWide/2,23);
-        drawText("Credits",89,2.4f);
+        drawTextCentered("Quit", Render.unitsWide / 2, 4f);
+        drawTextCentered("Controls", Render.unitsWide / 2, 8.3f);
+        drawTextCentered("Restart", Render.unitsWide / 2, 23);
+        drawText("Credits", 89, 2.4f);
         setFont(SMALL);
-        drawText("Casual Caving 0.5.3",0.1f,0.7f);
-        drawText("Lunan Productions",Render.unitsWide-convertToWorldWidth((float)getCurrentFont().getBounds("Lunan Productions").getWidth())-.1f,.7f);
-        drawImage(ResourceHandler.getMiscLoader().getMusicButton(AudioManager.isMusicEnabled()),0.5f,2,5,5);
+        drawText("Casual Caving 0.5.3", 0.1f, 0.7f);
+        drawText("Lunan Productions", Render.unitsWide - toWorldWidth((float) getCurrentFont().getBounds("Lunan Productions").getWidth()) - .1f, .7f);
+        drawImage(ResourceHandler.getMiscLoader().getMusicButton(AudioManager.isMusicEnabled()), 0.5f, 2, 5, 5);
 
-        if(controlsVisible){
-            setDrawColor(0.3f,0.3f,0.3f,.7f);
-            fillRectCentered(Render.unitsWide/2,Render.unitsTall/2,50,35);
-            setDrawColor(1,1,1,1);
+        if (controlsVisible) {
+            setDrawColor(0.3f, 0.3f, 0.3f, .7f);
+            fillRectCentered(Render.unitsWide / 2, Render.unitsTall / 2, 50, 35);
+            setDrawColor(1, 1, 1, 1);
             setFont(NORMAL);
-            drawTextCentered("Controls",Render.unitsWide/2, Render.unitsTall/2+15);
+            drawTextCentered("Controls", Render.unitsWide / 2, Render.unitsTall / 2 + 15);
             setFont(SMALL);
-            drawTextCentered("W: Attack (part 2 and above)",Render.unitsWide/2,Render.unitsTall/2+11);
-            drawTextCentered("A/D: Left/right",Render.unitsWide/2,Render.unitsTall/2+8);
+            drawTextCentered("W: Attack (part 2 and above)", Render.unitsWide / 2, Render.unitsTall / 2 + 11);
+            drawTextCentered("A/D: Left/right", Render.unitsWide / 2, Render.unitsTall / 2 + 8);
             drawTextCentered("Space: Jump",Render.unitsWide/2,Render.unitsTall/2+5);
         }
         if(creditsVisible){

@@ -103,7 +103,7 @@ public class Boulder extends Autonomous {
             haroldPuppet.setFrames(ResourceHandler.getHaroldLoader().getBoulder());
             haroldPuppet.setFps(12);
         }
-        float width=Graphics.convertToWorldWidth(LevelController.getCurrentLevel().getBackgrounds()
+        float width = Graphics.toWorldWidth(LevelController.getCurrentLevel().getBackgrounds()
                 [World.getSubLevel()].getTexture().getWidth());
         if(!isFaltering) {
             Main.getHarold().setMovement(false);
@@ -154,7 +154,7 @@ public class Boulder extends Autonomous {
             case 2:val=16;
                 break;
         }
-        return -Graphics.convertToWorldWidth(val);
+        return -Graphics.toWorldWidth(val);
     }
 
     @Override

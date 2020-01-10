@@ -204,19 +204,18 @@ public class TallGolem extends Autonomous {
 
     @Override
     public void render() {
-        if(golem==null)return;
+        if (golem == null) return;
         //Update hitbox info
-        width= Graphics.convertToWorldWidth(golem.getTexture().getWidth());
-        height=Graphics.convertToWorldHeight(golem.getTexture().getHeight());
-        hitbox.updateBounds(x,y,width,height);
+        width = Graphics.toWorldWidth(golem.getTexture().getWidth());
+        height = Graphics.convertToWorldHeight(golem.getTexture().getHeight());
+        hitbox.updateBounds(x, y, width, height);
 
         //Draw the golem
-        if(damageTakenFrame>0){
-            Graphics.setDrawColor(1,0,0,1);//Set damage color if needed
-        }
-        else Graphics.setDrawColor(1,1,1,1);
-        Graphics.drawImage(golem,x,y);
-        Graphics.setDrawColor(1,1,1,1);
+        if (damageTakenFrame > 0) {
+            Graphics.setDrawColor(1, 0, 0, 1);//Set damage color if needed
+        } else Graphics.setDrawColor(1, 1, 1, 1);
+        Graphics.drawImage(golem, x, y);
+        Graphics.setDrawColor(1, 1, 1, 1);
     }
 
     @Override

@@ -121,7 +121,7 @@ class Debug {
         if(Keyboard.keys.contains(VK_END)){
             if(!cheatsUsed)cheatsUsed=firstRunEvent();
             if(cheatsUsed){
-                Render.setCameraX(Graphics.convertToWorldWidth(LevelController.getCurrentLevel().getBackgrounds()[World.getSubLevel()].getTexture().getWidth())-100);
+                Render.setCameraX(Graphics.toWorldWidth(LevelController.getCurrentLevel().getBackgrounds()[World.getSubLevel()].getTexture().getWidth()) - 100);
             }
         }
         if(Keyboard.keys.contains(VK_PAGE_UP)){

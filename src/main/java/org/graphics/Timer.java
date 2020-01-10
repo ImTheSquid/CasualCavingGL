@@ -1,34 +1,36 @@
 package org.graphics;
 
 public class Timer {
-    private float min,max,increment;
+    private float min, max, increment;
     private float current;
     private int fps;
-    private long lastFrameTime=0;
-    private boolean direction=true,active=false;
-    private long delay=0;
-    public Timer(float min, float max, float start, float inc, int fps){
-        this.min=min;
-        this.max=max;
-        current=start;
-        increment=inc;
-        this.fps=fps;
+    private long lastFrameTime = 0;
+    // What direction to go in (true->forwards, false->backwards); whether to run loop; whether to loop to beginning
+    private boolean direction = true, active = false, loop = false;
+    private long delay = 0;
+
+    public Timer(float min, float max, float start, float inc, int fps) {
+        this.min = min;
+        this.max = max;
+        current = start;
+        increment = inc;
+        this.fps = fps;
     }
 
-    public void update(){
-        if(!active)return;
-        long currentTime=System.nanoTime();
-        if(currentTime>lastFrameTime+1000000000/fps) {
-            if(delay>0){
+    public void update() {
+        if (!active) return;
+        long currentTime = System.nanoTime();
+        if (currentTime > lastFrameTime + 1000000000 / fps) {
+            if (delay > 0) {
                 delay--;
-            }else {
-                if (direction){
+            } else {
+                if (direction) {
                     current += increment;
-                    if(current>max)current=max;
+                    if (current > max) current = loop ? min : max;
                 }
                 else{
                     current -= increment;
-                    if(current<min)current=min;
+                    if (current < min) current = loop ? max : min;
                 }
 
             }
@@ -79,5 +81,9 @@ public class Timer {
 
     public float getMin() {
         return min;
+    }
+
+    public void setLoop(boolean loop) {
+        this.loop = loop;
     }
 }

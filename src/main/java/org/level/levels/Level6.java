@@ -156,9 +156,9 @@ public class Level6 extends Level {
                 Graphics.drawImage(ResourceHandler.getLevelLoader().getLevel6Town()[boulder.isTownOK()?1:0],
                         10,-Graphics.convertToWorldHeight(700));
             }else{
-                Graphics.drawImage(backgrounds[subLevel],-Graphics.convertToWorldWidth(1280),0);
-                Graphics.drawImage(ResourceHandler.getLevelLoader().getLevel6Town()[boulder.isTownOK()?1:0],
-                        -Graphics.convertToWorldWidth(1280)+10,0);
+                Graphics.drawImage(backgrounds[subLevel], -Graphics.toWorldWidth(1280), 0);
+                Graphics.drawImage(ResourceHandler.getLevelLoader().getLevel6Town()[boulder.isTownOK() ? 1 : 0],
+                        -Graphics.toWorldWidth(1280) + 10, 0);
             }
         }
         /* Special code for golem parkour */

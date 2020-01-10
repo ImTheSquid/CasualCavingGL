@@ -174,17 +174,17 @@ public class Harold extends Entity{
 
     public void render() {
         Graphics.setFollowCamera(followCamera);
-        width=Graphics.convertToWorldWidth(harold.getTexture().getWidth())*Graphics.getScaleFactor();
-        height=Graphics.convertToWorldHeight(harold.getTexture().getHeight())*Graphics.getScaleFactor();
-        hitbox.updateBounds(x,y,width,height);
-        if(!visible)return;
-        if(ResourceHandler.getHaroldLoader().getState()==HaroldLoader.TURN){
+        width = Graphics.toWorldWidth(harold.getTexture().getWidth()) * Graphics.getScaleFactor();
+        height = Graphics.convertToWorldHeight(harold.getTexture().getHeight()) * Graphics.getScaleFactor();
+        hitbox.updateBounds(x, y, width, height);
+        if (!visible) return;
+        if (ResourceHandler.getHaroldLoader().getState() == HaroldLoader.TURN) {
             haroldAnimator.setFps(3);
-            if(haroldAnimator.getCurrentFrameNum()>0&&haroldAnimator.getFrames()!=
-                    ResourceHandler.getHaroldLoader().getTurn())haroldAnimator.setCurrentFrame(0);
+            if (haroldAnimator.getCurrentFrameNum() > 0 && haroldAnimator.getFrames() !=
+                    ResourceHandler.getHaroldLoader().getTurn()) haroldAnimator.setCurrentFrame(0);
             haroldAnimator.setFrames(ResourceHandler.getHaroldLoader().getTurn());
-            harold=haroldAnimator.getCurrentFrame();
-            if(haroldAnimator.getCurrentFrameNum()!=1)haroldAnimator.update();
+            harold = haroldAnimator.getCurrentFrame();
+            if (haroldAnimator.getCurrentFrameNum() != 1) haroldAnimator.update();
         }
         if(damageTakenFrame >0){
             Graphics.setDrawColor(1f,.0f,.0f,1);
