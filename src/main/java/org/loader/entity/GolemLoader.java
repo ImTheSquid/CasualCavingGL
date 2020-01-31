@@ -208,9 +208,33 @@ public class GolemLoader {
 
     //Level 6 trial golems
 
-    private final ImageResource[] oldGolem={new ImageResource("/CasualCaving/Entities/TrialGolems/OldGolem.png")};
+    private final ImageResource[] oldGolem = {new ImageResource("/CasualCaving/Entities/TrialGolems/OldGolem.png")};
 
     public ImageResource[] getOldGolem() {
         return oldGolem;
+    }
+
+    // Column
+
+    private static final ImageResource[] columnTremble = {new ImageResource("/CasualCaving/Entities/Column/ColumnTrembling1.png"),
+            new ImageResource("/CasualCaving/Entities/Column/ColumnTrembling2.png"),
+            new ImageResource("/CasualCaving/Entities/Column/ColumnTrembling3.png")};
+
+    private static final ImageResource[] columnWorried = {new ImageResource("/CasualCaving/Entities/Column/ColumnWorried1.png"),
+            new ImageResource("/CasualCaving/Entities/Column/ColumnWorried2.png"),
+            new ImageResource("/CasualCaving/Entities/Column/ColumnWorried3.png")};
+
+    private static final ImageResource columnCrushed = new ImageResource("/CasualCaving/Entities/Column/ColumnCrushed.png");
+
+    public ImageResource[] getColumnTremble() {
+        return columnTremble;
+    }
+
+    public ImageResource[] getColumnWorried() {
+        return columnWorried;
+    }
+
+    public ImageResource getColumnCrushed() {
+        return columnCrushed;
     }
 }
