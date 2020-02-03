@@ -5,6 +5,7 @@ import org.entities.Autonomous;
 import org.entities.Entity;
 import org.entities.Harold;
 import org.entities.SmartRectangle;
+import org.entities.passive.Column;
 import org.graphics.Animator;
 import org.graphics.BossBar;
 import org.graphics.Graphics;
@@ -40,6 +41,10 @@ public class Swolem extends Autonomous {
     private Timer smashAnimator = new Timer(0, smashOrder.length - 1, 0, 1, 6);
     private ImageResource currentFrame = null;
     private SmartRectangle hitbox = new SmartRectangle(x, y, width, height);
+    // Little golem that the swolem occasionally chases
+    private Column column = new Column(Math.random() > 0.5 ? 10f : 80f);
+    // Sets entity to track and target
+    private Entity target = Main.getHarold();
 
     public Swolem() {
         super(6, 60, 75);
@@ -55,6 +60,9 @@ public class Swolem extends Autonomous {
 
     @Override
     public void update() {
+        // Update timers, animators, etc
+        column.setSwolemAggressive(target instanceof Column);
+        column.update();
         smashCooldown.update();
         punchCooldown.update();
         bossBar.update();
@@ -73,7 +81,7 @@ public class Swolem extends Autonomous {
         }
 
         // X-calc
-        float playerX = Main.getHarold().getX();
+        float playerX = target.getX();
         boolean center = playerX > x && playerX < x + width;
 
         if (center || !isActive || swolemState != SWOLEM_STATE.NONE) vX = 0;
@@ -144,11 +152,13 @@ public class Swolem extends Autonomous {
 
     @Override
     public void render() {
+        column.render();
+
         width = Graphics.toWorldWidth(currentFrame.getTexture().getWidth());
         height = Graphics.convertToWorldHeight(currentFrame.getTexture().getHeight());
         float offset = Graphics.toWorldWidth(get_X_offset());
-        hitbox.updateBounds(x + offset,y,width,height);
-        if(currentFrame!=null) Graphics.drawImage(currentFrame, x + offset, y);
+        hitbox.updateBounds(x + offset, y, width, height);
+        if (currentFrame != null) Graphics.drawImage(currentFrame, x + offset, y);
     }
 
     @Override
@@ -159,6 +169,7 @@ public class Swolem extends Autonomous {
         health = 6;
         state = INTRO;
         isActive = false;
+        column.reset();
     }
 
     @Override

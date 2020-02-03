@@ -153,7 +153,7 @@ class Debug {
         Graphics.setIgnoreScale(true);
         Graphics.setFont(Graphics.DEBUG_SMALL);
         Graphics.setDrawColor(.1f, .1f, .1f, .3f);
-        Graphics.fillRect(0, Render.unitsTall - 9f, 15, 9f);
+        Graphics.fillRect(0, Render.unitsTall - 9f, 20f, 9f);
         String memory="Memory:"+ getInUseMemoryMB()+"/"+ getMaxMemoryMB()+"MB";
         float charHeight=Graphics.convertToWorldHeight((float)Graphics.getCurrentFont().getBounds("TEST").getHeight());
         float memWidth=Graphics.convertToWorldHeight((float)Graphics.getCurrentFont().getBounds(memory).getWidth())-.1f;
