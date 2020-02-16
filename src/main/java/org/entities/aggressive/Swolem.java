@@ -95,10 +95,9 @@ public class Swolem extends Autonomous {
 
         /* Attack Coordination */
         if (swolemState == SWOLEM_STATE.NONE && isActive) {
-            Harold harold = Main.getHarold();
-            if ((harold.getX() + harold.getWidth() + 2 > x && harold.getX() - 2 < x + width) && !center && punchCooldown.getCurrent() == punchCooldown.getMax())
+            if ((target.getX() + target.getWidth() + 2 > x && target.getX() - 2 < x + width) && !center && punchCooldown.getCurrent() == punchCooldown.getMax())
                 swolemState = SWOLEM_STATE.PUNCH;
-            else if (((harold.getX() + harold.getWidth() + 2 < x && x + width < harold.getX() - 2) || center) && smashCooldown.getCurrent() == smashCooldown.getMax())
+            else if (((target.getX() + target.getWidth() + 2 < x && x + width < target.getX() - 2) || center) && smashCooldown.getCurrent() == smashCooldown.getMax())
                 swolemState = SWOLEM_STATE.SMASH;
         }
 
@@ -108,11 +107,15 @@ public class Swolem extends Autonomous {
             switch (swolemState) {
                 case PUNCH:
                     // If player in reach, then punch to side
-                    animator.setFrames(ResourceHandler.getBossLoader().getSwolemPunch(direction));
+                    if (target instanceof Harold)
+                        animator.setFrames(ResourceHandler.getBossLoader().getSwolemPunch(direction));
+                    else animator.setFrames(ResourceHandler.getBossLoader().getSwolemCrush(direction));
                     if (animator.onLastFrame()) {
-                        Attack.melee(this, 1, 2);
+                        if (target instanceof Harold) Attack.melee(this, 1, 2);
+                        else column.doDamage(this, 1);
                         swolemState = SWOLEM_STATE.NONE;
                         punchCooldown.setCurrent(punchCooldown.getMin());
+                        target = Main.getHarold();
                     }
                     break;
                 case SMASH:
@@ -124,6 +127,8 @@ public class Swolem extends Autonomous {
                         smashAlt = false;
                         poundCount++;
                         if (poundCount == 6) {
+                            // Switch targets after smash attack
+                            target = column;
                             swolemState = SWOLEM_STATE.VULNERABLE;
                             smashCooldown.setCurrent(smashCooldown.getMin());
                             poundCount = 0;
@@ -169,6 +174,7 @@ public class Swolem extends Autonomous {
         health = 6;
         state = INTRO;
         isActive = false;
+        target = Main.getHarold();
         column.reset();
     }
 

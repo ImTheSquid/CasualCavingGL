@@ -271,4 +271,24 @@ public class BossLoader {
     public ImageResource[] getSwolemSmash() {
         return swolemSmash;
     }
+
+    private static final ImageResource[] swolemCrushLeft = {new ImageResource("/CasualCaving/Entities/Swolem/Crush/SwolemCrushFL1.png"),
+            new ImageResource("/CasualCaving/Entities/Swolem/Crush/SwolemCrushFL2.png"),
+            new ImageResource("/CasualCaving/Entities/Swolem/Crush/SwolemCrushFL3.png"),
+            new ImageResource("/CasualCaving/Entities/Swolem/Crush/SwolemCrushFL4.png"),
+            new ImageResource("/CasualCaving/Entities/Swolem/Crush/SwolemCrushFL5.png"),
+            new ImageResource("/CasualCaving/Entities/Swolem/Crush/SwolemCrushFL6.png"),
+            new ImageResource("/CasualCaving/Entities/Swolem/Crush/SwolemCrushFL7.png")};
+
+    private static final ImageResource[] swolemCrushRight = {new ImageResource("/CasualCaving/Entities/Swolem/Crush/SwolemCrushFR1.png"),
+            new ImageResource("/CasualCaving/Entities/Swolem/Crush/SwolemCrushFR2.png"),
+            new ImageResource("/CasualCaving/Entities/Swolem/Crush/SwolemCrushFR3.png"),
+            new ImageResource("/CasualCaving/Entities/Swolem/Crush/SwolemCrushFR4.png"),
+            new ImageResource("/CasualCaving/Entities/Swolem/Crush/SwolemCrushFR5.png"),
+            new ImageResource("/CasualCaving/Entities/Swolem/Crush/SwolemCrushFR6.png"),
+            new ImageResource("/CasualCaving/Entities/Swolem/Crush/SwolemCrushFR7.png"),};
+
+    public ImageResource[] getSwolemCrush(boolean direction) {
+        return direction ? swolemCrushRight : swolemCrushLeft;
+    }
 }
