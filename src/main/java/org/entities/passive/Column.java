@@ -41,7 +41,7 @@ public class Column extends Autonomous {
             World.setLevel(-1);
         }
         // State calculation
-        if (health == 1) {
+        if (health <= 1) {
             deathTimer.setActive(true);
             cState = COLUMN_STATE.CRUSHED;
         } else if (swolemAggressive) cState = COLUMN_STATE.TREMBLE;
@@ -62,6 +62,7 @@ public class Column extends Autonomous {
     @Override
     public void render() {
         if (texture != null) Graphics.drawImage(texture, x, y);
+        else System.out.println("TEX NULL");
     }
 
     @Override

@@ -291,4 +291,11 @@ public class BossLoader {
     public ImageResource[] getSwolemCrush(boolean direction) {
         return direction ? swolemCrushRight : swolemCrushLeft;
     }
+
+    private static final ImageResource[] swolemWave = {new ImageResource("/CasualCaving/Entities/Swolem/RockWaveLeft.png"),
+            new ImageResource("/CasualCaving/Entities/Swolem/RockWaveRight.png")};
+
+    public ImageResource getSwolemWave(boolean direction) {
+        return swolemWave[direction ? 1 : 0];
+    }
 }

@@ -24,6 +24,8 @@ public class Swolem extends Autonomous {
     private static final int INTRO = 0, WALKING = 1;
     // Constant smash order
     private static final int[] smashOrder = {0, 1, 2, 4, 3, 4, 2, 1, 0};
+    // Toggles to switch directions for rock waves
+    private boolean rockDir = false;
     private boolean isActive = false;
     // How many times ground has been pounded
     private int poundCount = 0;
@@ -124,6 +126,8 @@ public class Swolem extends Autonomous {
 
                     if (smashOrder[(int) smashAnimator.getCurrent()] == 2 && smashAlt) {
                         // Don't let this execute again until next frame
+                        LevelController.getCurrentLevel().getEntityRegister().add(new SwolemWave(rockDir ? x + width : x, rockDir, this));
+                        rockDir = !rockDir;
                         smashAlt = false;
                         poundCount++;
                         if (poundCount == 6) {
@@ -176,6 +180,7 @@ public class Swolem extends Autonomous {
         isActive = false;
         target = Main.getHarold();
         column.reset();
+        rockDir = false;
     }
 
     @Override
