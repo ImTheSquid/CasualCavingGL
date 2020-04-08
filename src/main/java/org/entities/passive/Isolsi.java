@@ -117,17 +117,17 @@ public class Isolsi extends Autonomous {
         if (state < 2){
             Graphics.setDrawColor(1, 1, 1, crossfade.getCurrent());
             Graphics.drawImage(isolsi[state], x - Graphics.toWorldWidth(calcXOffset(state)),
-                    y + Graphics.convertToWorldHeight(calcYOffset(state)));
+                    y + Graphics.toWorldHeight(calcYOffset(state)));
             if (crossfadeActive && state + 1 < isolsi.length) {
                 Graphics.setDrawColor(1, 1, 1, 1 - crossfade.getCurrent());
                 Graphics.drawImage(isolsi[state + 1],
                         x - Graphics.toWorldWidth(calcXOffset(state + 1)),
-                        y + Graphics.convertToWorldHeight(calcYOffset(state + 1)));
+                        y + Graphics.toWorldHeight(calcYOffset(state + 1)));
             }
         }else{
             Graphics.drawImage(isolsi[calcConvoSprite()],
                     x - Graphics.toWorldWidth(calcXOffset(calcConvoSprite())),
-                    y + Graphics.convertToWorldHeight(calcYOffset(calcConvoSprite())));
+                    y + Graphics.toWorldHeight(calcYOffset(calcConvoSprite())));
         }
         Graphics.setDrawColor(1,1,1,1);
         Graphics.setFont(Graphics.SMALL);

@@ -164,7 +164,7 @@ public class Swolem extends Autonomous {
         column.render();
 
         width = Graphics.toWorldWidth(currentFrame.getTexture().getWidth());
-        height = Graphics.convertToWorldHeight(currentFrame.getTexture().getHeight());
+        height = Graphics.toWorldHeight(currentFrame.getTexture().getHeight());
         float offset = Graphics.toWorldWidth(get_X_offset());
         hitbox.updateBounds(x + offset, y, width, height);
         if (currentFrame != null) Graphics.drawImage(currentFrame, x + offset, y);

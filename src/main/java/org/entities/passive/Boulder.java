@@ -108,7 +108,7 @@ public class Boulder extends Autonomous {
         if(!isFaltering) {
             Main.getHarold().setMovement(false);
             if (Render.getCameraX() < width - 100) Render.setCameraX(Render.getCameraX() + .12f);
-            if (Render.getCameraY() > -Graphics.convertToWorldHeight(700)) {
+            if (Render.getCameraY() > -Graphics.toWorldHeight(700)) {
                 if (Render.getCameraX() > 5) {
                     Render.setCameraY(Render.getCameraY() - .09f);
                     y -= 0.09;
@@ -132,15 +132,15 @@ public class Boulder extends Autonomous {
         if(!isFaltering)Main.getHarold().setX(x);
         else Main.getHarold().setX(x+offsetFumble(haroldPuppet.getCurrentFrameNum()));
         Main.getHarold().setY(y-9);
-        if(Render.getCameraX()>=width-100&&Render.getCameraY()<=-Graphics.convertToWorldHeight(700)){
+        if (Render.getCameraX() >= width - 100 && Render.getCameraY() <= -Graphics.toWorldHeight(700)) {
             Main.getHarold().setMovement(true);
             Main.getHarold().setX(50);
-            x=50;
-            y=16;
+            x = 50;
+            y = 16;
             ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
             ResourceHandler.getHaroldLoader().setDirection(true);
-            vX=0;
-            state=3;
+            vX = 0;
+            state = 3;
         }
     }
 

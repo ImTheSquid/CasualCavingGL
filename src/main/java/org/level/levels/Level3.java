@@ -3,6 +3,7 @@ package org.level.levels;
 import org.engine.Main;
 import org.entities.Entity;
 import org.entities.aggressive.ShortGolem;
+import org.entities.passive.RockParticle;
 import org.graphics.Graphics;
 import org.graphics.Render;
 import org.graphics.Timer;
@@ -43,18 +44,19 @@ public class Level3 extends Level {
         checkHealthVals();
         if(subLevel!=6)HeightMap.setHeights(new HeightVal(0,7, Render.unitsWide,true));//Set heights
         else HeightMap.setHeights(new HeightVal(0,7,87,true),new HeightVal(63,29,Render.unitsWide,false),new HeightVal(87,29,Render.unitsWide,true));
-        if(subLevel!=1)ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
-        if(subLevel!=2)leftLimit=-1;
-        else leftLimit=0;
-        switch (subLevel){
+        if (subLevel != 1) ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
+        if (subLevel != 2) leftLimit = -1;
+        else leftLimit = 70;
+        switch (subLevel) {
             case 1:
                 update1();
                 break;
             case 2:
-                update2();
+            case 3:
+                rockAnimation(subLevel);
                 break;
-            case 6:
-                update6();
+            case 7:
+                update7();
                 break;
         }
     }
@@ -95,9 +97,9 @@ public class Level3 extends Level {
                         World.getMaster().setActive(true);
                     }
             }
-        }else{
-            if(switchFade>0&&World.getMaster().getCurrent()==0) {
-                World.setSubLevel(World.getSubLevel() + 1);
+        } else {
+            if (switchFade > 0 && World.getMaster().getCurrent() == 0) {
+                World.setSubLevel(World.getSubLevel() + 2);
                 World.getMaster().setDirection(true);
                 Main.getHarold().setLockControls(false);
                 ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
@@ -105,14 +107,16 @@ public class Level3 extends Level {
         }
     }
 
-    private void update2(){
-        leftLimit=0;
+    private void rockAnimation(int subLevel) {
+        if ((int) (Math.random() * 1000) >= 25) return;
+        entityRegister.add(new RockParticle(subLevel, (int) (Math.random() * 90) + 5));
     }
 
-    private void update6(){
-        int count=0;
-        for(Entity e:entityRegister)if(e.getSubLevel()==6&&e.getDisplayName().equals("Green Golem"))count++;
-        if(count==0&&Main.getHarold().getWidth()+Main.getHarold().getX()==Render.unitsWide)World.setLevelTransition(true);
+    private void update7() {
+        int count = 0;
+        for (Entity e : entityRegister) if (e.getSubLevel() == 6 && e.getDisplayName().equals("Green Golem")) count++;
+        if (count == 0 && Main.getHarold().getWidth() + Main.getHarold().getX() == Render.unitsWide)
+            World.setLevelTransition(true);
     }
 
     @Override

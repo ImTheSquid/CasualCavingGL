@@ -24,7 +24,7 @@ public class LaranoStalactite extends Autonomous {
     @Override
     public void render() {
         width = Graphics.toWorldWidth(ResourceHandler.getMiscLoader().getLaranoStalactite().getTexture().getWidth());
-        height = Graphics.convertToWorldHeight(ResourceHandler.getMiscLoader().getLaranoStalactite().getTexture().getHeight());
+        height = Graphics.toWorldHeight(ResourceHandler.getMiscLoader().getLaranoStalactite().getTexture().getHeight());
         Graphics.setIgnoreScale(true);
         Graphics.drawImage(ResourceHandler.getMiscLoader().getLaranoStalactite(), x, y);
         Graphics.setIgnoreScale(false);

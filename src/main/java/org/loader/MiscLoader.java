@@ -40,9 +40,17 @@ public class MiscLoader {
         return resolutionWarning;
     }
 
-    private ImageResource boulder=new ImageResource("/CasualCaving/Entities/Boulder/Boulder.png");
+    private ImageResource boulder = new ImageResource("/CasualCaving/Entities/Boulder/Boulder.png");
 
     public ImageResource getBoulder() {
         return boulder;
+    }
+
+    private ImageResource[] rockParticles = {new ImageResource("/CasualCaving/Levels/Level3/FallingRockParticle1.png"),
+            new ImageResource("/CasualCaving/Levels/Level3/FallingRockParticle2.png")
+    };
+
+    public ImageResource[] getRockParticles() {
+        return rockParticles;
     }
 }

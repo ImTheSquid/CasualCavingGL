@@ -127,7 +127,7 @@ class Debug {
         if(Keyboard.keys.contains(VK_PAGE_UP)){
             if(!cheatsUsed)cheatsUsed=firstRunEvent();
             if(cheatsUsed){
-                Render.setCameraY(Graphics.convertToWorldHeight(LevelController.getCurrentLevel().getBackgrounds()[World.getSubLevel()].getTexture().getHeight())-Render.unitsTall);
+                Render.setCameraY(Graphics.toWorldHeight(LevelController.getCurrentLevel().getBackgrounds()[World.getSubLevel()].getTexture().getHeight()) - Render.unitsTall);
             }
         }
     }
@@ -148,22 +148,22 @@ class Debug {
                 World.resetAssetLoaderCounter();
             }
         }
-        if(!show)return;
+        if (!show) return;
         Graphics.setFollowCamera(true);
         Graphics.setIgnoreScale(true);
         Graphics.setFont(Graphics.DEBUG_SMALL);
         Graphics.setDrawColor(.1f, .1f, .1f, .3f);
         Graphics.fillRect(0, Render.unitsTall - 9f, 20f, 9f);
-        String memory="Memory:"+ getInUseMemoryMB()+"/"+ getMaxMemoryMB()+"MB";
-        float charHeight=Graphics.convertToWorldHeight((float)Graphics.getCurrentFont().getBounds("TEST").getHeight());
-        float memWidth=Graphics.convertToWorldHeight((float)Graphics.getCurrentFont().getBounds(memory).getWidth())-.1f;
-        Graphics.fillRect(99-memWidth, Render.unitsTall - charHeight-1, memWidth+1, charHeight+1);
-        Graphics.setDrawColor(1,1,1,1);
-        Graphics.drawText("FPS: "+Render.getGameLoop().getCurrentFPS(),.5f,Render.unitsTall-charHeight-.5f);
-        Graphics.drawText("X,Y: "+(Math.round(Main.getHarold().getX()*100)/100)+","+(Math.round(Main.getHarold().getY()*100)/100),.5f,Render.unitsTall-2*charHeight-1);
-        Graphics.drawText("Lvl,Sublvl: "+World.getLevel()+","+World.getSubLevel(),.5f,Render.unitsTall-3*charHeight-1.5f);
-        Graphics.drawText("Mouse X,Y: "+ Math.round(Mouse.getX())+","+Math.round(Mouse.getY()),.5f,Render.unitsTall-4*charHeight-2f);
-        Graphics.drawText(memory,99.5f-memWidth,Render.unitsTall-charHeight-.5f);
+        String memory = "Memory:" + getInUseMemoryMB() + "/" + getMaxMemoryMB() + "MB";
+        float charHeight = Graphics.toWorldHeight((float) Graphics.getCurrentFont().getBounds("TEST").getHeight());
+        float memWidth = Graphics.toWorldHeight((float) Graphics.getCurrentFont().getBounds(memory).getWidth()) - .1f;
+        Graphics.fillRect(99 - memWidth, Render.unitsTall - charHeight - 1, memWidth + 1, charHeight + 1);
+        Graphics.setDrawColor(1, 1, 1, 1);
+        Graphics.drawText("FPS: " + Render.getGameLoop().getCurrentFPS(), .5f, Render.unitsTall - charHeight - .5f);
+        Graphics.drawText("X,Y: " + (Math.round(Main.getHarold().getX() * 100) / 100) + "," + (Math.round(Main.getHarold().getY() * 100) / 100), .5f, Render.unitsTall - 2 * charHeight - 1);
+        Graphics.drawText("Lvl,Sublvl: " + World.getLevel() + "," + World.getSubLevel(), .5f, Render.unitsTall - 3 * charHeight - 1.5f);
+        Graphics.drawText("Mouse X,Y: " + Math.round(Mouse.getX()) + "," + Math.round(Mouse.getY()), .5f, Render.unitsTall - 4 * charHeight - 2f);
+        Graphics.drawText(memory, 99.5f - memWidth, Render.unitsTall - charHeight - .5f);
         Graphics.setIgnoreScale(false);
         Graphics.setFollowCamera(false);
     }

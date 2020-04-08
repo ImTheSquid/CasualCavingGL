@@ -4,7 +4,6 @@ import org.loader.entity.BossLoader;
 import org.loader.entity.CrowdLoader;
 import org.loader.entity.GolemLoader;
 import org.loader.harold.HaroldLoader;
-import org.loader.levels.LevelLoader;
 
 public class ResourceHandler {
     private static HaroldLoader haroldLoader =new HaroldLoader();

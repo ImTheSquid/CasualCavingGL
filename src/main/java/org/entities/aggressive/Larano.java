@@ -212,7 +212,7 @@ public class Larano extends Autonomous {
         if (sprite == null) return;
         Graphics.setIgnoreScale(true);
         width = Graphics.toWorldWidth(sprite.getTexture().getWidth());
-        height = Graphics.convertToWorldHeight(sprite.getTexture().getHeight());
+        height = Graphics.toWorldHeight(sprite.getTexture().getHeight());
         hitbox.updateBounds(x, y, width, height);
         if (damageTakenFrame > 0) Graphics.setDrawColor(1, 0, 0, 1);
         else Graphics.setDrawColor(1, 1, 1, 1);

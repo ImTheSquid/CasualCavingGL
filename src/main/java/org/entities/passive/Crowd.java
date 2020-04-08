@@ -71,7 +71,7 @@ public class Crowd extends Entity {
     @Override
     public void render() {
         cartWidth = Graphics.toWorldWidth(ResourceHandler.getCrowdLoader().getCart().getTexture().getWidth());
-        cartHeight = Graphics.convertToWorldHeight(ResourceHandler.getCrowdLoader().getCart().getTexture().getHeight());
+        cartHeight = Graphics.toWorldHeight(ResourceHandler.getCrowdLoader().getCart().getTexture().getHeight());
         if (World.getSubLevel() != subLevel) return;
         Graphics.setDrawColor(1, 1, 1, 1);
         if (crowd != null && ResourceHandler.getCrowdLoader().getCart() != null) {

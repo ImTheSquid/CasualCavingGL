@@ -207,7 +207,7 @@ public class TallGolem extends Autonomous {
         if (golem == null) return;
         //Update hitbox info
         width = Graphics.toWorldWidth(golem.getTexture().getWidth());
-        height = Graphics.convertToWorldHeight(golem.getTexture().getHeight());
+        height = Graphics.toWorldHeight(golem.getTexture().getHeight());
         hitbox.updateBounds(x, y, width, height);
 
         //Draw the golem

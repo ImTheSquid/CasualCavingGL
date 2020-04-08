@@ -75,11 +75,11 @@ public class Level6 extends Level {
         else leftLimit=0;
         switch(subLevel){
             case 0:
-                rightBound=100;
+                rightBound = 99;
                 break;
             case 1:
-                leftBound=0;
-                rightBound=90;
+                leftBound = 1;
+                rightBound = 90;
                 break;
             case 2:
                 leftBound=5;
@@ -152,9 +152,9 @@ public class Level6 extends Level {
         if(subLevel!=4)Graphics.drawImage(backgrounds[subLevel],0,0);
         else {
             if(!boulder.isDone()){
-                Graphics.drawImage(backgrounds[subLevel],0,-Graphics.convertToWorldHeight(700));
-                Graphics.drawImage(ResourceHandler.getLevelLoader().getLevel6Town()[boulder.isTownOK()?1:0],
-                        10,-Graphics.convertToWorldHeight(700));
+                Graphics.drawImage(backgrounds[subLevel], 0, -Graphics.toWorldHeight(700));
+                Graphics.drawImage(ResourceHandler.getLevelLoader().getLevel6Town()[boulder.isTownOK() ? 1 : 0],
+                        10, -Graphics.toWorldHeight(700));
             }else{
                 Graphics.drawImage(backgrounds[subLevel], -Graphics.toWorldWidth(1280), 0);
                 Graphics.drawImage(ResourceHandler.getLevelLoader().getLevel6Town()[boulder.isTownOK() ? 1 : 0],

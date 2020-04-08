@@ -6,7 +6,7 @@
 
     <groupId>org.casualcaving</groupId>
     <artifactId>casual-caving</artifactId>
-    <version>0.5.2</version>
+    <version>0.5.4</version>
 
     <repositories>
         <repository>
@@ -40,7 +40,7 @@
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
-                    <finalName>Casual Caving Beta 0.5.3</finalName>
+                    <finalName>Casual Caving Beta 0.5.4</finalName>
                     <appendAssemblyId>false</appendAssemblyId>
                     <archive>
                         <manifest>

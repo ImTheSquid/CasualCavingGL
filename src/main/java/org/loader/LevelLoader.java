@@ -1,6 +1,4 @@
-package org.loader.levels;
-
-import org.loader.ImageResource;
+package org.loader;
 
 public class LevelLoader {
     private final ImageResource[] title={new ImageResource("/CasualCaving/Levels/Title/LoadScreen.png"),
@@ -35,8 +33,9 @@ public class LevelLoader {
             new ImageResource("/CasualCaving/Levels/Level2/Sprites/Miners1.png"),
             new ImageResource("/CasualCaving/Levels/Level2/Sprites/Lavender Savior.png"),
             new ImageResource("/CasualCaving/Levels/Level2/Sprites/QESunStone.png")};
-    private final ImageResource[] level3={new ImageResource("/CasualCaving/Levels/Level3/Lv3Bg1.png"),
+    private final ImageResource[] level3= {new ImageResource("/CasualCaving/Levels/Level3/Lv3Bg1.png"),
             new ImageResource("/CasualCaving/Levels/Level3/Lv3Bg2.png"),
+            new ImageResource("/CasualCaving/Levels/Level3/Lv3Bg2-5CaveIn.png"),
             new ImageResource("/CasualCaving/Levels/Level3/Lv3Bg3.png"),
             new ImageResource("/CasualCaving/Levels/Level3/Lv3Bg4.png"),
             new ImageResource("/CasualCaving/Levels/Level3/Lv3Bg5.png"),

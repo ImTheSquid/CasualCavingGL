@@ -25,7 +25,7 @@ public class SwolemWave extends Entity {
         x += direction ? 1 : -1;
         Attack.melee(this, (int) scaleMultiplier, 1);
         float distance = Math.abs(x - swolem.getX());
-        scaleMultiplier = (float) Math.pow(0.5, 0.1 * distance - 1.5);
+        scaleMultiplier = 1;//(float) Math.pow(0.5, 0.1 * distance - 1.5);
         // Kill entity if offscreen
         if (x < -50 || x > 110) health = 0;
     }

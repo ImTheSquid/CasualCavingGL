@@ -220,7 +220,7 @@ public class ShortGolem extends Autonomous {
     public void render() {
         if (golem == null) return;
         width = Graphics.toWorldWidth(golem.getTexture().getWidth());
-        height = Graphics.convertToWorldHeight(golem.getTexture().getHeight());
+        height = Graphics.toWorldHeight(golem.getTexture().getHeight());
         hitbox.updateBounds(x, y, width, height);
         if (damageTakenFrame > 0) {
             Graphics.setDrawColor(1, 0, 0, 1);//Set damage color if needed

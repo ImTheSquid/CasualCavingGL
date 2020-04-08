@@ -13,20 +13,20 @@ import org.world.*;
 
 import static com.jogamp.newt.event.KeyEvent.VK_W;
 
-public class Harold extends Entity{
-    private Animator haroldAnimator=new Animator(ResourceHandler.getHaroldLoader().getHaroldWalk(),12);
+public class Harold extends Entity {
+    private Animator haroldAnimator = new Animator(ResourceHandler.getHaroldLoader().getHaroldWalk(), 12);
     private ImageResource harold;
-    private boolean jump=false,lockControls=false,followCamera=false;
-    private SmartRectangle hitbox=new SmartRectangle(x,y,width,height);
+    private boolean jump = false, lockControls = false, followCamera = false, isBlocking = false;
+    private SmartRectangle hitbox = new SmartRectangle(x, y, width, height);
 
-    public Harold(){
-        maxHealth=3;
-        displayName="Harold";
+    public Harold() {
+        maxHealth = 3;
+        displayName = "Harold";
         reset();
     }
 
     public void update() {
-        if(!movement){
+        if (!movement) {
             return;
         }
         if(health<=0||(y+height<-10&&(World.getSubLevel()!=4&&World.getLevel()==6))){//Am I dead?
@@ -38,12 +38,15 @@ public class Harold extends Entity{
         HeightReturn h=HeightMap.onGround(hitbox);
         //Movement keys
         if(damageTakenFrame==0) {
-            if (Keyboard.keys.contains(KeyEvent.VK_A)&&!lockControls) {
-                vX = -0.5f*Graphics.getScaleFactor();
+            if (Keyboard.keys.contains(KeyEvent.VK_A) && !lockControls) {
+                vX = -0.5f * Graphics.getScaleFactor();
             }
-            if (Keyboard.keys.contains(KeyEvent.VK_D)&&!lockControls) {
-                vX = 0.5f*Graphics.getScaleFactor();
+            if (Keyboard.keys.contains(KeyEvent.VK_D) && !lockControls) {
+                vX = 0.5f * Graphics.getScaleFactor();
             }
+            if (vX == 0 && ResourceHandler.getHaroldLoader().getState() == HaroldLoader.LANTERN) {
+                isBlocking = Keyboard.keys.contains(KeyEvent.VK_C);
+            } else isBlocking = false;
         }else{
             if((direction&&!attackerBehind)||(!direction&&attackerBehind))vX=-1f*Graphics.getScaleFactor();
             else vX=1f*Graphics.getScaleFactor();
@@ -102,24 +105,26 @@ public class Harold extends Entity{
         if(damageCooldown>0)damageCooldown--;
 
         if(h.isOnGround()&&vY<0){
-            y=h.getGroundLevel();
-            vY=0;
-            jump=false;
+            y = h.getGroundLevel();
+            vY = 0;
+            jump = false;
         }
 
-        if(attackCooldown>0)
+        if (attackCooldown > 0)
             attackCooldown--;
 
-        if(damageTakenFrame==0)ResourceHandler.getHaroldLoader().setDirection(direction);
+        if (damageTakenFrame == 0) ResourceHandler.getHaroldLoader().setDirection(direction);
 
-        if((vX==0||damageTakenFrame>0)&&ResourceHandler.getHaroldLoader().getState()!=HaroldLoader.ATTACK){
-            harold= ResourceHandler.getHaroldLoader().getHarold();
-        }else{
-            harold=haroldAnimator.getCurrentFrame();
+        if (isBlocking) ResourceHandler.getHaroldLoader().setState(HaroldLoader.BLOCK);
+
+        if ((vX == 0 || damageTakenFrame > 0) && ResourceHandler.getHaroldLoader().getState() != HaroldLoader.ATTACK) {
+            harold = ResourceHandler.getHaroldLoader().getHarold();
+        } else {
+            harold = haroldAnimator.getCurrentFrame();
         }
 
         //If on final frame of attack animation, send attack signal to Attack class
-        if(ResourceHandler.getHaroldLoader().getState()==HaroldLoader.ATTACK&&haroldAnimator.getCurrentFrameNum()==3) {
+        if (ResourceHandler.getHaroldLoader().getState() == HaroldLoader.ATTACK && haroldAnimator.getCurrentFrameNum() == 3) {
             Attack.melee(this, 1, 5);
             ResourceHandler.getHaroldLoader().disableAttackPause();
             ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
@@ -175,7 +180,7 @@ public class Harold extends Entity{
     public void render() {
         Graphics.setFollowCamera(followCamera);
         width = Graphics.toWorldWidth(harold.getTexture().getWidth()) * Graphics.getScaleFactor();
-        height = Graphics.convertToWorldHeight(harold.getTexture().getHeight()) * Graphics.getScaleFactor();
+        height = Graphics.toWorldHeight(harold.getTexture().getHeight()) * Graphics.getScaleFactor();
         hitbox.updateBounds(x, y, width, height);
         if (!visible) return;
         if (ResourceHandler.getHaroldLoader().getState() == HaroldLoader.TURN) {
@@ -244,5 +249,9 @@ public class Harold extends Entity{
 
     public void setFollowCamera(boolean followCamera) {
         this.followCamera = followCamera;
+    }
+
+    public boolean isBlocking() {
+        return isBlocking;
     }
 }

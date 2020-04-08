@@ -23,7 +23,7 @@ public class BossBar {
         if(width==0)return;
         Graphics.setDrawColor(1,1,1,1);
         Graphics.setFont(Graphics.NORMAL);
-        float y=Render.unitsTall-Graphics.convertToWorldHeight((float)Graphics.getCurrentFont().getBounds(track.getDisplayName()).getHeight());
+        float y = Render.unitsTall - Graphics.toWorldHeight((float) Graphics.getCurrentFont().getBounds(track.getDisplayName()).getHeight());
         Graphics.drawTextCentered(track.getDisplayName(),50,y+1f);
         Graphics.setDrawColor(0.63f,0.53f,0.02f,0.5f);
         Graphics.fillRectCentered(50,y-2,30,1);

@@ -106,7 +106,7 @@ public class Graphics {
         gl.glFlush();
     }
 
-    public static float convertToWorldHeight(float height) {
+    public static float toWorldHeight(float height) {
         return height / (Render.getWindow().getHeight() / unitsTall);
     }
 
@@ -140,12 +140,12 @@ public class Graphics {
 
     //Draw an image with width and height of original image
     public static void drawImage(ImageResource image, float x, float y) {
-        drawImage(image, x, y, toWorldWidth(image.getTexture().getWidth()), convertToWorldHeight(image.getTexture().getHeight()));
+        drawImage(image, x, y, toWorldWidth(image.getTexture().getWidth()), toWorldHeight(image.getTexture().getHeight()));
     }
 
     //Draw centered image
     public static void drawImageCentered(ImageResource image, float x, float y) {
-        drawImage(image, x - toWorldWidth(image.getTexture().getWidth()) / 2f, y - convertToWorldHeight(image.getTexture().getWidth()) / 2f);
+        drawImage(image, x - toWorldWidth(image.getTexture().getWidth()) / 2f, y - toWorldHeight(image.getTexture().getWidth()) / 2f);
     }
 
     //Draw centered image with preselected width and height
@@ -233,17 +233,17 @@ public class Graphics {
         }//Gets rid of space at beginning of first line
         int iteration=0;
         //Draw the text in the array
-        if(box){
-            float lengthMax=0;
-            for(String s:strings){
+        if(box) {
+            float lengthMax = 0;
+            for (String s : strings) {
                 float newL = toWorldWidth((float) fonts[textSelector].getBounds(s).getWidth());
-                lengthMax=Math.max(lengthMax,newL);
+                lengthMax = Math.max(lengthMax, newL);
             }
             setIgnoreScale(true);
-            Graphics.setDrawColor(0,0,0,0.5f);
-            float yAdjustment=convertToWorldHeight((float)fonts[textSelector].getBounds(text).getHeight()*(strings.size()-1));
-            Graphics.fillRect(x,y-yAdjustment,lengthMax,convertToWorldHeight((float)fonts[textSelector].getBounds(text).getHeight()*(strings.size())));
-            Graphics.setDrawColor(1,1,1,1);
+            Graphics.setDrawColor(0, 0, 0, 0.5f);
+            float yAdjustment = toWorldHeight((float) fonts[textSelector].getBounds(text).getHeight() * (strings.size() - 1));
+            Graphics.fillRect(x, y - yAdjustment, lengthMax, toWorldHeight((float) fonts[textSelector].getBounds(text).getHeight() * (strings.size())));
+            Graphics.setDrawColor(1, 1, 1, 1);
             setIgnoreScale(false);
         }
         for(String s:strings){
@@ -253,7 +253,7 @@ public class Graphics {
     }
 
     public static void drawTextCentered(String text,float x,float y){
-        drawText(text, x - (toWorldWidth((float) fonts[textSelector].getBounds(text).getWidth()) / 2f), y - convertToWorldHeight((float) fonts[textSelector].getBounds(text).getHeight()) / 2f);
+        drawText(text, x - (toWorldWidth((float) fonts[textSelector].getBounds(text).getWidth()) / 2f), y - toWorldHeight((float) fonts[textSelector].getBounds(text).getHeight()) / 2f);
     }
 
     //Draws text
@@ -271,7 +271,7 @@ public class Graphics {
     public static void drawTextWithBox(String text, float x, float y) {
         Graphics.setDrawColor(0, 0, 0, 0.5f);
         Rectangle2D bounds = fonts[textSelector].getBounds(text);
-        Graphics.fillRect(x, y - 0.1f, Graphics.toWorldWidth((float) bounds.getWidth()), Graphics.convertToWorldHeight((float) bounds.getHeight()) + 0.1f);
+        Graphics.fillRect(x, y - 0.1f, Graphics.toWorldWidth((float) bounds.getWidth()), Graphics.toWorldHeight((float) bounds.getHeight()) + 0.1f);
         Graphics.setDrawColor(1, 1, 1, 1);
         drawText(text, x, y);
     }
