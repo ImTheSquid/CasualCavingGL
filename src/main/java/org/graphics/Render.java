@@ -9,17 +9,20 @@ import org.input.Mouse;
 import org.world.World;
 
 public class Render implements GLEventListener {
+    public static final int virtual_width = 1280, virtual_height = 720;
     private static GLWindow window;
     private static GLProfile profile;
-    public static final int virtual_width =1280, virtual_height =720;
+    // Determines whether VSync is enabled
+    public static boolean enableVsync = true;
     private static GL2 gl2;
-    public static float unitsWide=100,unitsTall;
-    private static float cameraX=0,cameraY=0;
-    private static GameLoop gameLoop=new GameLoop();
-    public Render(){
-        profile=GLProfile.get(GLProfile.GL2);
-        GLCapabilities capabilities=new GLCapabilities(profile);
-        window=GLWindow.create(capabilities);
+    public static float unitsWide = 100, unitsTall;
+    private static float cameraX = 0, cameraY = 0;
+    private static GameLoop gameLoop = new GameLoop();
+
+    public Render() {
+        profile = GLProfile.get(GLProfile.GL2);
+        GLCapabilities capabilities = new GLCapabilities(profile);
+        window = GLWindow.create(capabilities);
         window.addGLEventListener(this);
         window.setSize(virtual_width, virtual_height);
         window.setTitle("Casual Caving");
@@ -47,11 +50,12 @@ public class Render implements GLEventListener {
     }
 
     public void init(GLAutoDrawable glAutoDrawable) {
-        GL2 gl=glAutoDrawable.getGL().getGL2();
-        gl.glClearColor(0f,0f,0f,1f);
+        GL2 gl = glAutoDrawable.getGL().getGL2();
+        gl.glClearColor(0f, 0f, 0f, 1f);
+        gl.setSwapInterval(enableVsync ? 1 : 0);
         gl.glEnable(GL2.GL_BLEND);
         gl.glEnable(GL2.GL_TEXTURE_2D);
-        gl.glBlendFunc(GL2.GL_SRC_ALPHA,GL2.GL_ONE_MINUS_SRC_ALPHA);
+        gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA);
     }
 
     public void dispose(GLAutoDrawable glAutoDrawable) {

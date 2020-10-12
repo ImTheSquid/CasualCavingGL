@@ -25,86 +25,86 @@ public class Harold extends Entity {
         reset();
     }
 
-    public void update() {
+    public void update(float deltaTime) {
         if (!movement) {
             return;
         }
-        if(health<=0||(y+height<-10&&(World.getSubLevel()!=4&&World.getLevel()==6))){//Am I dead?
-            if(y+height<-10)health=0;
+        if (health <= 0 || (y + height < -10 && (World.getSubLevel() != 4 && World.getLevel() == 6))) {//Am I dead?
+            if (y + height < -10) health = 0;
             World.clearEntites();
             World.setLevel(-1);
         }
         //Get HeightMap info package
-        HeightReturn h=HeightMap.onGround(hitbox);
+        HeightReturn h = HeightMap.onGround(hitbox);
         //Movement keys
-        if(damageTakenFrame==0) {
+        if (damageTakenFrame == 0) {
             if (Keyboard.keys.contains(KeyEvent.VK_A) && !lockControls) {
-                vX = -0.5f * Graphics.getScaleFactor();
+                vX = -40f * Graphics.getScaleFactor();
             }
             if (Keyboard.keys.contains(KeyEvent.VK_D) && !lockControls) {
-                vX = 0.5f * Graphics.getScaleFactor();
+                vX = 40f * Graphics.getScaleFactor();
             }
             if (vX == 0 && ResourceHandler.getHaroldLoader().getState() == HaroldLoader.LANTERN) {
                 isBlocking = Keyboard.keys.contains(KeyEvent.VK_C);
             } else isBlocking = false;
-        }else{
-            if((direction&&!attackerBehind)||(!direction&&attackerBehind))vX=-1f*Graphics.getScaleFactor();
-            else vX=1f*Graphics.getScaleFactor();
+        } else {
+            if ((direction && !attackerBehind) || (!direction && attackerBehind)) vX = -1f * Graphics.getScaleFactor();
+            else vX = 1f * Graphics.getScaleFactor();
             damageTakenFrame--;
         }
-        if(Keyboard.keys.contains(KeyEvent.VK_SPACE)&&!jump&&!lockControls) {
-            if(h.isOnGround()) {
-                vY = 2.5f;
-                jump=true;
+        if (Keyboard.keys.contains(KeyEvent.VK_SPACE) && !jump && !lockControls) {
+            if (h.isOnGround()) {
+                vY = 60;
+                jump = true;
             }
-        }else if(!Keyboard.keys.contains(KeyEvent.VK_SPACE)&&jump){
-            jump=false;
-            if(vY<-.5f){
-                vY=-.5f;
+        } else if (!Keyboard.keys.contains(KeyEvent.VK_SPACE) && jump) {
+            jump = false;
+            if (vY < -30f) {
+                vY = -30f;
             }
         }
 
         //Attack key
-        if(!lockControls&&Keyboard.keys.contains(VK_W)&&
-                ResourceHandler.getHaroldLoader().getState()==HaroldLoader.LANTERN&&attackCooldown<=0){
+        if (!lockControls && Keyboard.keys.contains(VK_W) &&
+                ResourceHandler.getHaroldLoader().getState() == HaroldLoader.LANTERN && attackCooldown <= 0) {
             haroldAnimator.setCurrentFrame(0);
             ResourceHandler.getHaroldLoader().setState(HaroldLoader.ATTACK);
-            attackCooldown=45;
+            attackCooldown = 45;
         }
         Keyboard.keys.remove(VK_W);//Fallback if key gets stuck
 
-        y+=vY;
-        vY-=World.getGravity();
+        y += vY * deltaTime;
+        vY -= World.getGravity() * deltaTime * 1.5;
 
         //X-velocity stuff
-        boolean doXCalc=true;
+        boolean doXCalc = true;
 
         //Deals with colliding with objects above ground level
         if (HeightMap.checkRightCollision(hitbox)) {
-            HeightVal hv=HeightMap.findApplicable(hitbox,true);
-            if (hv!=null&&x + width + 0.5>= hv.getStartX()) {
-                if (vX < 0) x += vX;
-                else vX=0;
-                doXCalc=false;
+            HeightVal hv = HeightMap.findApplicable(hitbox, true);
+            if (hv != null && x + width + 0.5 >= hv.getStartX()) {
+                if (vX < 0) x += vX * deltaTime;
+                else vX = 0;
+                doXCalc = false;
             }
         }
-        if(HeightMap.checkLeftCollision(hitbox)){
-            HeightVal hv=HeightMap.findApplicable(hitbox,false);
-            if(hv!=null&&x-0.5<=hv.getEndX()){
-                if(vX>0)x+=vX;
-                else vX=0;
-                doXCalc=false;
+        if (HeightMap.checkLeftCollision(hitbox)) {
+            HeightVal hv = HeightMap.findApplicable(hitbox, false);
+            if (hv != null && x - 0.5 <= hv.getEndX()) {
+                if (vX > 0) x += vX * deltaTime;
+                else vX = 0;
+                doXCalc = false;
             }
         }
 
-        if(doXCalc){
-            x+=vX;
-            doXCalc();
+        if (doXCalc) {
+            x += vX * deltaTime;
+            doXCalc(deltaTime);
         }
 
-        if(damageCooldown>0)damageCooldown--;
+        if (damageCooldown > 0) damageCooldown--;
 
-        if(h.isOnGround()&&vY<0){
+        if (h.isOnGround() && vY < 0) {
             y = h.getGroundLevel();
             vY = 0;
             jump = false;
@@ -153,27 +153,27 @@ public class Harold extends Entity {
         }
 
         //If doing the special turn animation, set it up properly
-        if(ResourceHandler.getHaroldLoader().getState()!=HaroldLoader.TURN) {
+        if (ResourceHandler.getHaroldLoader().getState() != HaroldLoader.TURN) {
             haroldAnimator.setFps(12);
             haroldAnimator.setFrames(ResourceHandler.getHaroldLoader().getHaroldWalk());
             haroldAnimator.update();
         }
     }
 
-    private void doXCalc(){
-        if(damageTakenFrame==0) {
+    private void doXCalc(float deltaTime) {
+        if (damageTakenFrame == 0) {
             if (vX > 0) {
                 direction = true;
-                if (vX - World.getGravity() < 0) vX = 0;
-                else vX -= World.getGravity();
+                if (vX - World.getGravity() * deltaTime < 0) vX = 0;
+                else vX -= World.getGravity() * deltaTime;
             } else if (vX < 0) {
                 direction = false;
-                if (vX + World.getGravity() > 0) vX = 0;
-                else vX += World.getGravity();
+                if (vX + World.getGravity() * deltaTime > 0) vX = 0;
+                else vX += World.getGravity() * deltaTime;
             }
-        }else{
-            if((direction&&!attackerBehind)||(!direction&&attackerBehind))vX+=World.getGravity();
-            else vX-=World.getGravity();
+        } else {
+            if ((direction && !attackerBehind) || (!direction && attackerBehind)) vX += World.getGravity() * deltaTime;
+            else vX -= World.getGravity() * deltaTime;
         }
     }
 

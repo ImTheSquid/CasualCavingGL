@@ -42,27 +42,26 @@ public class Level5 extends Level {
     }
 
     @Override
-    public void update(int subLevel) {
+    public void update(int subLevel, float deltaTime) {
         checkHealthVals();
-        if(World.getLatestCheckpoint()<World.CHECK_LARANO)World.newCheckpoint(World.CHECK_LARANO);
+        if (World.getLatestCheckpoint() < World.CHECK_LARANO) World.newCheckpoint(World.CHECK_LARANO);
         ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
-        if(subLevel<2) {
-            HeightMap.setHeights(new HeightVal(0,7, Render.unitsWide,true));
+        if (subLevel < 2) {
+            HeightMap.setHeights(new HeightVal(0, 7, Render.unitsWide, true));
             Graphics.setScaleFactor(1f);
-            leftLimit=-1;
-        }
-        else if(subLevel==2){
-            HeightMap.setHeights(new HeightVal(0,5,Render.unitsWide,true),
-                    new HeightVal(15,21,34, false),
-                    new HeightVal(64,21,84,false),
-                    new HeightVal(35,30,63,false),
-                    new HeightVal(15,41,35,false),
-                    new HeightVal(64,41,86,false));
+            leftLimit = -1;
+        } else if (subLevel == 2) {
+            HeightMap.setHeights(new HeightVal(0, 5, Render.unitsWide, true),
+                    new HeightVal(15, 21, 34, false),
+                    new HeightVal(64, 21, 84, false),
+                    new HeightVal(35, 30, 63, false),
+                    new HeightVal(15, 41, 35, false),
+                    new HeightVal(64, 41, 86, false));
             Graphics.setScaleFactor(0.75f);
-            leftLimit=0;
-            rightLimit=100;
-        }else{
-            leftLimit=0;
+            leftLimit = 0;
+            rightLimit = 100;
+        } else {
+            leftLimit = 0;
             rightLimit=101;
             Graphics.setScaleFactor(1);
             HeightMap.setHeights(new HeightVal(0,7, Render.unitsWide,true));

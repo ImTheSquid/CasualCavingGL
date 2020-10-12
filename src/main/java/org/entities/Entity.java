@@ -1,21 +1,25 @@
 package org.entities;
 
 public abstract class Entity {
-    protected float x=5,y=7,vX,vY,width,height;
-    float red=1,green=1,blue=1,alpha=1;
-    protected int health=1,maxHealth=-1,level=0,subLevel=0, damageTakenFrame =0,damageCooldown=0,attackCooldown=0;
-    private boolean nonGameUpdate=false,nonGameRender=false,pauseUpdate=false,pauseRender=true;
-    protected boolean movement=true,visible=true,direction=true,attackerBehind=false,invincible=false;
-    protected String displayName="Entity";
-    public abstract void update();
+    protected float x = 5, y = 7, vX, vY, width, height;
+    float red = 1, green = 1, blue = 1, alpha = 1;
+    protected int health = 1, maxHealth = -1, level = 0, subLevel = 0, damageTakenFrame = 0, damageCooldown = 0, attackCooldown = 0;
+    private boolean nonGameUpdate = false, nonGameRender = false, pauseUpdate = false, pauseRender = true;
+    protected boolean movement = true, visible = true, direction = true, attackerBehind = false, invincible = false;
+    protected String displayName = "Entity";
+
+    public abstract void update(float deltaTime);
+
     public abstract void render();
+
     public abstract void reset();
-    public String toString(){
-        return this.getClass().getSimpleName()+" @ "+x+","+y;
+
+    public String toString() {
+        return this.getClass().getSimpleName() + " @ " + x + "," + y;
     }
 
-    protected void setNonGameUpdate(boolean update){
-        nonGameUpdate=update;
+    protected void setNonGameUpdate(boolean update) {
+        nonGameUpdate = update;
     }
 
     protected void setNonGameRender(boolean render){

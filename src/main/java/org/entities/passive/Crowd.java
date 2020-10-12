@@ -26,46 +26,46 @@ public class Crowd extends Entity {
     }
 
     @Override
-    public void update() {
-        if(vX==0){
-            crowd=ResourceHandler.getCrowdLoader().getCrowd();
-        }else{
-            crowd=crowdAnimator.getCurrentFrame();
+    public void update(float deltaTime) {
+        if (vX == 0) {
+            crowd = ResourceHandler.getCrowdLoader().getCrowd();
+        } else {
+            crowd = crowdAnimator.getCurrentFrame();
         }
-        cartIntersect=cart.intersects(Main.getHarold().getHitbox());
-        switch(World.getSubLevel()){
+        cartIntersect = cart.intersects(Main.getHarold().getHitbox());
+        switch (World.getSubLevel()) {
             case 1:
-                if(Main.getHarold().getX()> Render.unitsWide/2)start=true;
-                if(x<5&&start)vX=0.6f;
+                if (Main.getHarold().getX() > Render.unitsWide / 2) start = true;
+                if (x < 5 && start) vX = 20f;
                 break;
             case 2:
-                if(x<5&&subLevel==2)vX=0.6f;
-                if(cartIntersect&& Keyboard.keys.contains(VK_E)&&!chainsaw){
+                if (x < 5 && subLevel == 2) vX = 20f;
+                if (cartIntersect && Keyboard.keys.contains(VK_E) && !chainsaw) {
                     ResourceHandler.getHaroldLoader().setState(HaroldLoader.CHAINSAW);
-                    chainsaw=true;
+                    chainsaw = true;
                 }
                 break;
             case 3:
-                if(x<5&&subLevel==3)vX=0.6f;
+                if (x < 5 && subLevel == 3) vX = 20f;
                 break;
             case 4:
-                if(x<5&&subLevel==4)vX=0.6f;
+                if (x < 5 && subLevel == 4) vX = 20f;
                 break;
             case 5:
-                if(x<5&&subLevel==5)vX=0.6f;
-                if(vX==0&&!fadeDelaySet){
-                    fadeDelaySet=true;
+                if (x < 5 && subLevel == 5) vX = 20f;
+                if (vX == 0 && !fadeDelaySet) {
+                    fadeDelaySet = true;
                     World.getMaster().setSecondDelay(4);
                     World.getMaster().setDirection(false);
                     World.getMaster().setActive(true);
                 }
                 break;
         }
-        x+=vX;
-        if(vX-World.getGravity()<0)vX=0;
-        else vX-=World.getGravity();
+        x += vX * deltaTime;
+        if (vX - World.getGravity() * deltaTime < 0) vX = 0;
+        else vX -= World.getGravity() * deltaTime;
         crowdAnimator.update();
-        cart.updateBounds(x+24,y, cartWidth, cartHeight);
+        cart.updateBounds(x + 24, y, cartWidth, cartHeight);
     }
 
     @Override

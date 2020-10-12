@@ -21,7 +21,7 @@ public class SwolemWave extends Entity {
     }
 
     @Override
-    public void update() {
+    public void update(float deltaTime) {
         x += direction ? 1 : -1;
         Attack.melee(this, (int) scaleMultiplier, 1);
         float distance = Math.abs(x - swolem.getX());

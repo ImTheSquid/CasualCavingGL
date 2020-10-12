@@ -12,8 +12,8 @@ public class LifeCrystal extends Autonomous {
     }
 
     @Override
-    public void update() {
-        if(damageTakenFrame>0)damageTakenFrame--;
+    public void update(float deltaTime) {
+        if (damageTakenFrame > 0) damageTakenFrame--;
     }
 
     @Override

@@ -48,19 +48,19 @@ public class ShortGolem extends Autonomous {
     }
 
     @Override
-    public void update() {
-        HeightReturn h= HeightMap.onGround(hitbox);
+    public void update(float deltaTime) {
+        HeightReturn h = HeightMap.onGround(hitbox);
 
         //Action input
-        if(damageTakenFrame==0) {
+        if (damageTakenFrame == 0) {
             if (direction) {
-                vX = .25f;
+                vX = 60;
             } else {
-                vX = -.25f;
+                vX = -60;
             }
-        }else{
-            if((direction&&!attackerBehind)||(!direction&&attackerBehind))vX=-.7f;
-            else vX=.7f;
+        } else {
+            if ((direction && !attackerBehind) || (!direction && attackerBehind)) vX = -.7f;
+            else vX = .7f;
             damageTakenFrame--;
         }
 
@@ -74,26 +74,26 @@ public class ShortGolem extends Autonomous {
         if (HeightMap.checkRightCollision(hitbox)) {
             HeightVal hv=HeightMap.findApplicable(hitbox,true);
             if (hv!=null&&x + width + 0.5>= hv.getStartX()) {
-                if (vX < 0) x += vX;
-                else vX=0;
-                doXCalc=false;
-                direction=!direction;
-                x-=.25f;
+                if (vX < 0) x += vX * deltaTime;
+                else vX = 0;
+                doXCalc = false;
+                direction = !direction;
+                x -= .25f;
             }
         }
         if(HeightMap.checkLeftCollision(hitbox)){
             HeightVal hv=HeightMap.findApplicable(hitbox,false);
-            if(hv!=null&&x-0.5<=hv.getEndX()){
-                if(vX>0)x+=vX;
-                else vX=0;
-                doXCalc=false;
-                direction=!direction;
-                x+=.25f;
+            if(hv!=null&&x-0.5<=hv.getEndX()) {
+                if (vX > 0) x += vX * deltaTime;
+                else vX = 0;
+                doXCalc = false;
+                direction = !direction;
+                x += .25f;
             }
         }
 
         if(doXCalc){
-            x+=vX;
+            x += vX * deltaTime;
             doXCalc();
         }
 

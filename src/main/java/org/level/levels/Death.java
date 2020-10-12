@@ -44,8 +44,8 @@ public class Death extends Level {
     }
 
     @Override
-    public void update(int subLevel) {
-        if(fadeDir){
+    public void update(int subLevel, float deltaTime) {
+        if (fadeDir) {
             if (textHandler.getCurrent() == 1) {
                 fadeDir = false;
                 textHandler.setSecondDelay(2);
@@ -54,10 +54,10 @@ public class Death extends Level {
                 textHandler.setDirection(true);
                 textHandler.setActive(true);
             }
-        }else if(textHandler.getCurrent()==0){
+        } else if (textHandler.getCurrent() == 0) {
             finish();
         }
-        if(Keyboard.keys.contains(VK_SPACE)&&textHandler.getCurrent()>0.25f)finish();
+        if (Keyboard.keys.contains(VK_SPACE) && textHandler.getCurrent() > 0.25f) finish();
         textHandler.update();
     }
 

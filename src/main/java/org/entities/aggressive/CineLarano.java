@@ -23,18 +23,19 @@ public class CineLarano extends Autonomous {
     }
 
     @Override
-    public void update() {
-        if(Main.getHarold().getX()<20&&speechState==0)return;
-        if(Keyboard.keys.contains(VK_SPACE)&&state==1&&Main.getHarold().areControlsLocked()){
-            while (Keyboard.keys.contains(VK_SPACE)){}
+    public void update(float deltaTime) {
+        if (Main.getHarold().getX() < 20 && speechState == 0) return;
+        if (Keyboard.keys.contains(VK_SPACE) && state == 1 && Main.getHarold().areControlsLocked()) {
+            while (Keyboard.keys.contains(VK_SPACE)) {
+            }
             speechState++;
         }
-        if(!speechDone&&speechState!=5){
+        if (!speechDone && speechState != 5) {
             Main.getHarold().setHarold(ResourceHandler.getHaroldLoader().getHarold());
             Main.getHarold().setLockControls(true);
-        }else Main.getHarold().setLockControls(false);
-        if(speechState==5&&Main.getHarold().getX()>30)speechState=6;
-        switch(state) {
+        } else Main.getHarold().setLockControls(false);
+        if (speechState == 5 && Main.getHarold().getX() > 30) speechState = 6;
+        switch (state) {
             case 0:
                 vX = -0.1f;
                 x += vX;

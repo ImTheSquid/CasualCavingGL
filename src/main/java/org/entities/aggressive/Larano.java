@@ -28,26 +28,26 @@ public class Larano extends Autonomous {
     }
 
     @Override
-    public void update() {
-        HeightReturn h= HeightMap.onGround(hitbox);
+    public void update(float deltaTime) {
+        HeightReturn h = HeightMap.onGround(hitbox);
         bossBar.update();
-        if(Main.getHarold().getX()>10&&state==-1)state=READY;
-        if(state==-1)return;
-        if(health==1&&state<8){
-            invincible=true;
-            state=DEFEAT;
+        if (Main.getHarold().getX() > 10 && state == -1) state = READY;
+        if (state == -1) return;
+        if (health == 1 && state < 8) {
+            invincible = true;
+            state = DEFEAT;
         }
-        if(state==NORMAL||state==EXIT){
-            if(direction)vX=.2f;
-            else vX=-.2f;
-        }else if(state==CHARGE){
-            if(direction)vX=2;
-            else vX=-2;
-            if(attackCooldown==0&&Attack.melee(this,1,0.5f)){
-                attackCooldown=20;
+        if (state == NORMAL || state == EXIT) {
+            if (direction) vX = .2f;
+            else vX = -.2f;
+        } else if (state == CHARGE) {
+            if (direction) vX = 2;
+            else vX = -2;
+            if (attackCooldown == 0 && Attack.melee(this, 1, 0.5f)) {
+                attackCooldown = 20;
             }
-        }else if(state!=DEFEAT){
-            vX=0;
+        } else if (state != DEFEAT) {
+            vX = 0;
         }
         x+=vX;
         Level l= LevelController.getCurrentLevel();

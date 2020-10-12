@@ -40,27 +40,26 @@ public class Level6 extends Level {
     }
 
     @Override
-    public void update(int subLevel) {
+    public void update(int subLevel, float deltaTime) {
         checkHealthVals();
         setBounds(subLevel);
-        if(subLevel!=3) {
-            HeightMap.setHeights(new HeightVal(0,7,100,true));
+        if (subLevel != 3) {
+            HeightMap.setHeights(new HeightVal(0, 7, 100, true));
             Graphics.setScaleFactor(1);
             World.setGravity(.15f);
-        }
-        else{
-            HeightMap.setHeights(new HeightVal(0,7,24,true),
-                    new HeightVal(36,7,46,true),
-                    new HeightVal(60,7,66,true),
-                    new HeightVal(80,7,100,true));
+        } else {
+            HeightMap.setHeights(new HeightVal(0, 7, 24, true),
+                    new HeightVal(36, 7, 46, true),
+                    new HeightVal(60, 7, 66, true),
+                    new HeightVal(80, 7, 100, true));
             Graphics.setScaleFactor(.75f);
-            if(ResourceHandler.getHaroldLoader().getState()==HaroldLoader.GOLEM){
+            if (ResourceHandler.getHaroldLoader().getState() == HaroldLoader.GOLEM) {
                 World.setGravity(.25f);
-                if(Main.getHarold().getX()>80){
+                if (Main.getHarold().getX() > 80) {
                     ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
-                    golemPassedLava=true;
+                    golemPassedLava = true;
                 }
-            }else{
+            } else {
                 World.setGravity(.2f);
                 if(Main.getHarold().getX()<20&&
                         Keyboard.keys.contains(VK_E))ResourceHandler.getHaroldLoader().setState(HaroldLoader.GOLEM);

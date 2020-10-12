@@ -50,16 +50,16 @@ public class Title extends Level {
         return null;
     }
 
-    public void update(int subLevel) {
+    public void update(int subLevel, float deltaTime) {
         AudioManager.setMusicPlayback(STOP);
         if (subLevel == 0) {
-            updateLoad();
+            updateLoad(deltaTime);
         } else {
-            updateTitle();
+            updateTitle(deltaTime);
         }
     }
 
-    private void updateLoad(){
+    private void updateLoad(float deltaTime) {
         if (logo.getDirection() || (logo.getCurrent() > 0)) {
             logo.update();
         } else {
@@ -68,12 +68,12 @@ public class Title extends Level {
             setSubLevel(1);
         }
         if (logo.getCurrent() == 1) {
-            if(logo.getFrameDelay()==0&&logo.getDirection()){
+            if (logo.getFrameDelay() == 0 && logo.getDirection()) {
                 logo.setFrameDelay(60);
                 logo.setDirection(false);
             }
         }
-        if(Keyboard.keys.contains(VK_SPACE)){
+        if (Keyboard.keys.contains(VK_SPACE)) {
             logo.setActive(false);
             logo.setCurrent(0);
             logo.setDirection(true);
@@ -83,70 +83,70 @@ public class Title extends Level {
         }
     }
 
-    private void updateTitle(){
-        start.setActive(!(controlsVisible||creditsVisible));
-        restart.setActive(!(controlsVisible||creditsVisible));
-        if(getLatestCheckpoint()>CHECK_START){
+    private void updateTitle(float deltaTime) {
+        start.setActive(!(controlsVisible || creditsVisible));
+        restart.setActive(!(controlsVisible || creditsVisible));
+        if (getLatestCheckpoint() > CHECK_START) {
             start.setWidth(30);
-        }else{
+        } else {
             start.setWidth(20);
         }
-        if(getMaster().getCurrent()>0.25f&&(!quit.isActive()||!controls.isActive())){
+        if (getMaster().getCurrent() > 0.25f && (!quit.isActive() || !controls.isActive())) {
             quit.setActive(true);
             controls.setActive(true);
         }
-        quit.update();
-        if(quit.isPressed()||Keyboard.keys.contains(VK_ESCAPE)){
+        quit.update(deltaTime);
+        if (quit.isPressed() || Keyboard.keys.contains(VK_ESCAPE)) {
             Render.getGameLoop().setRunning(false);
         }
-        start.update();
+        start.update(deltaTime);
         if(start.isPressed()||Keyboard.keys.contains(VK_ENTER)){
             doStart();
         }
-        restart.update();
+        restart.update(deltaTime);
         if(restart.isPressed()){
             LevelController.resetAll();
             clearEntites();
             resetCheckpoints();
             doStart();
         }
-        controls.update();
+        controls.update(deltaTime);
         if(controls.isPressed()){
             creditsVisible=false;
             controlsVisible=!controlsVisible;
-            while(controls.isPressed())controls.update();
+            while (controls.isPressed()) controls.update(deltaTime);
         }
-        music.update();
+        music.update(deltaTime);
         if(music.isPressed()){
             AudioManager.setMusicEnabled(!AudioManager.isMusicEnabled());
-            while(music.isPressed())music.update();
+            while (music.isPressed()) music.update(deltaTime);
         }
-        credits.update();
+        credits.update(deltaTime);
         if(credits.isPressed()){
             controlsVisible=false;
             creditsVisible=!creditsVisible;
-            while(credits.isPressed())credits.update();
+            while (credits.isPressed()) credits.update(deltaTime);
         }
         if(creditsVisible){
             creditFontA.setActive(true);
             creditFontB.setActive(true);
-            creditFontA.update();
+            creditFontA.update(deltaTime);
             if(creditFontA.isPressed()){
                 try {
                     Main.openURL(new URL("https://levien.com/type/myfonts/inconsolata.html"));
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
-                while(creditFontA.isPressed())creditFontA.update();
+                while (creditFontA.isPressed()) creditFontA.update(deltaTime);
             }
-            creditFontB.update();
+            creditFontB.update(deltaTime);
             if(creditFontB.isPressed()){
                 try {
                     Main.openURL(new URL("https://fonts.google.com/specimen/Merriweather"));
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
-                while(creditFontB.isPressed())creditFontB.update();
+                while (creditFontB.isPressed()) creditFontB.update(deltaTime);
             }
         }else{
             creditFontA.setActive(false);

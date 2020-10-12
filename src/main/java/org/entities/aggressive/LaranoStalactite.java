@@ -15,10 +15,10 @@ public class LaranoStalactite extends Autonomous {
     }
 
     @Override
-    public void update() {
-        if(y+height<0)health=0;
-        y-= World.getGravity()*4;
-        Attack.melee(this,1,2f);
+    public void update(float deltaTime) {
+        if (y + height < 0) health = 0;
+        y -= World.getGravity() * 4;
+        Attack.melee(this, 1, 2f);
     }
 
     @Override

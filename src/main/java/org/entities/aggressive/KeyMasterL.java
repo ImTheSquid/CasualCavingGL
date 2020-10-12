@@ -33,16 +33,16 @@ public class KeyMasterL extends Autonomous {
     }
 
     @Override
-    public void update() {
-        if(larano.getHealth()==1&&larano.getvX()==0&&state==-1)state++;
-        switch(state){
+    public void update(float deltaTime) {
+        if (larano.getHealth() == 1 && larano.getvX() == 0 && state == -1) state++;
+        switch (state) {
             case WALK_IN:
-                vX=-0.15f;
+                vX = -0.15f;
                 animator.update();
-                emerie=animator.getCurrentFrame();
+                emerie = animator.getCurrentFrame();
                 larano.getAnimator().setActive(false);
                 larano.getAnimator().setCurrentFrame(0);
-                if(x<80){
+                if (x < 80) {
                     state++;
                 }
                 break;

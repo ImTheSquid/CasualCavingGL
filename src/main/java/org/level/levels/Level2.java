@@ -36,18 +36,18 @@ public class Level2 extends Level {
 
     @Override
     public ImageResource[] getAssets() {
-        ImageResource[] backgrounds=ResourceHandler.create2DLoadable(ResourceHandler.getLevelLoader().getLevel2());
-        ImageResource[] sprites=ResourceHandler.getLevelLoader().getLevel2Sprites();
-        return ResourceHandler.create1DLoadable(new ImageResource[][]{backgrounds,sprites});
+        ImageResource[] backgrounds = ResourceHandler.create2DLoadable(ResourceHandler.getLevelLoader().getLevel2());
+        ImageResource[] sprites = ResourceHandler.getLevelLoader().getLevel2Sprites();
+        return ResourceHandler.create1DLoadable(new ImageResource[][]{backgrounds, sprites});
     }
 
-    public void update(int subLevel) {
-        if(subLevel!=7){
+    public void update(int subLevel, float deltaTime) {
+        if (subLevel != 7) {
             Main.getHarold().setVisible(true);
             Main.getHarold().setMovement(true);
         }
         updateBounds(subLevel);
-        switch(subLevel){
+        switch (subLevel) {
             case 0:
                 update0();
                 break;

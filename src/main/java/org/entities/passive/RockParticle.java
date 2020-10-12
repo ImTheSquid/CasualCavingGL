@@ -15,7 +15,7 @@ public class RockParticle extends Autonomous {
     }
 
     @Override
-    public void update() {
+    public void update(float deltaTime) {
         if (y + height < 0) health = 0;
         y -= World.getGravity() * 4;
     }

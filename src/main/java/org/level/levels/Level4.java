@@ -36,25 +36,25 @@ public class Level4 extends Level {
     }
 
     @Override
-    public void update(int subLevel) {
+    public void update(int subLevel, float deltaTime) {
         checkHealthVals();
         ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
-        if(subLevel!=4){
-            rightBound=Render.unitsWide;
-            rightLimit=Render.unitsWide+1;
+        if (subLevel != 4) {
+            rightBound = Render.unitsWide;
+            rightLimit = Render.unitsWide + 1;
         }
-        if(subLevel!=5)leftLimit=-1;
-        switch(subLevel){
+        if (subLevel != 5) leftLimit = -1;
+        switch (subLevel) {
             case 0:
-                HeightMap.setHeights(new HeightVal(0,7, Render.unitsWide,true));
+                HeightMap.setHeights(new HeightVal(0, 7, Render.unitsWide, true));
                 break;
             case 1:
-                HeightMap.setHeights(new HeightVal(0,7,30,true),new HeightVal(34,29,72,false),new HeightVal(74,7,Render.unitsWide,true));
+                HeightMap.setHeights(new HeightVal(0, 7, 30, true), new HeightVal(34, 29, 72, false), new HeightVal(74, 7, Render.unitsWide, true));
                 break;
             case 2:
-                HeightMap.setHeights(new HeightVal(0,7,78,true),
-                        new HeightVal(20,30,58,false),
-                        new HeightVal(78,12,81,true),
+                HeightMap.setHeights(new HeightVal(0, 7, 78, true),
+                        new HeightVal(20, 30, 58, false),
+                        new HeightVal(78, 12, 81, true),
                         new HeightVal(81,17,86,true),
                         new HeightVal(86,25,89,true),
                         new HeightVal(89,30,94,true),

@@ -30,20 +30,20 @@ public class TallGolem extends Autonomous {
     }
 
     @Override
-    public void update() {
+    public void update(float deltaTime) {
         //Get HeightMap information
-        HeightReturn h= HeightMap.onGround(hitbox);
+        HeightReturn h = HeightMap.onGround(hitbox);
 
         //Movement input
-        if(damageTakenFrame==0) {
+        if (damageTakenFrame == 0) {
             if (direction) {
                 vX = .3f;
             } else {
                 vX = -.3f;
             }
-        }else{
-            if((direction&&!attackerBehind)||(!direction&&attackerBehind))vX=-.8f;
-            else vX=.8f;
+        } else {
+            if ((direction && !attackerBehind) || (!direction && attackerBehind)) vX = -.8f;
+            else vX = .8f;
             damageTakenFrame--;
         }
 

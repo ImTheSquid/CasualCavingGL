@@ -36,23 +36,23 @@ public class Level1 extends Level {
         return null;
     }
 
-    public void update(int subLevel) {
-        leftLimit=-1;
-        if(!World.getEntities().contains(crowd)&&crowd.getSubLevel()<6)World.addEntity(crowd);
-        else if(crowd.getSubLevel()==6)World.removeEntity(crowd);
-        if(subLevel==0){
-            leftBound=65;
-        }else{
-            leftBound=0;
+    public void update(int subLevel, float deltaTime) {
+        leftLimit = -1;
+        if (!World.getEntities().contains(crowd) && crowd.getSubLevel() < 6) World.addEntity(crowd);
+        else if (crowd.getSubLevel() == 6) World.removeEntity(crowd);
+        if (subLevel == 0) {
+            leftBound = 65;
+        } else {
+            leftBound = 0;
         }
-        if(subLevel!=3&&!(subLevel>=5)){
-            rightLimit= Render.unitsWide+1;
+        if (subLevel != 3 && !(subLevel >= 5)) {
+            rightLimit = Render.unitsWide + 1;
             crowd.updateSublevel(World.getSubLevel());
-        }else if(subLevel>=5){
-            rightLimit=Render.unitsWide;
-            leftLimit=0;
+        } else if (subLevel >= 5) {
+            rightLimit = Render.unitsWide;
+            leftLimit = 0;
         }
-        switch(subLevel){
+        switch (subLevel) {
             case 0:
                 update0();
                 break;

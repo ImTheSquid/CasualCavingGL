@@ -44,11 +44,11 @@ public class Isolsi extends Autonomous {
     }
 
     @Override
-    public void update() {
-        if(inPostLaranoScene)larano();
+    public void update(float deltaTime) {
+        if (inPostLaranoScene) larano();
         else boulder();
-        y+=vY;
-        vY-=vY-World.getGravity()>=0?World.getGravity():vY;
+        y += vY;
+        vY -= vY - World.getGravity() >= 0 ? World.getGravity() : vY;
         crossfade.setActive(crossfadeActive);
         crossfade.update();
     }

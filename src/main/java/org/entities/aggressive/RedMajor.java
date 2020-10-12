@@ -34,24 +34,24 @@ public class RedMajor extends Autonomous {
     }
 
     @Override
-    public void update() {
+    public void update(float deltaTime) {
         bossBar.update();
-        if(state==4){
-            if(redAnimator.getDelay()>0)redAnimator.update();
-            else health=0;
+        if (state == 4) {
+            if (redAnimator.getDelay() > 0) redAnimator.update();
+            else health = 0;
         }
-        if(!startFight||state==4)return;
-        HeightReturn heightReturn= HeightMap.onGround(hitbox);
+        if (!startFight || state == 4) return;
+        HeightReturn heightReturn = HeightMap.onGround(hitbox);
         //Determines movement and knockback
-        if(damageTakenFrame==0) {
+        if (damageTakenFrame == 0) {
             if (direction) {
                 vX = .15f;
             } else {
                 vX = -.15f;
             }
-        }else{
-            if((direction&&!attackerBehind)||(!direction&&attackerBehind))vX=-.3f;
-            else vX=.3f;
+        } else {
+            if ((direction && !attackerBehind) || (!direction && attackerBehind)) vX = -.3f;
+            else vX = .3f;
             damageTakenFrame--;
         }
 

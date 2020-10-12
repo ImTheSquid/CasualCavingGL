@@ -32,26 +32,27 @@ public class Boulder extends Autonomous {
     }
 
     @Override
-    public void update() {
-        switch(state){
+    public void update(float deltaTime) {
+        switch (state) {
             case -1:
-                vX=0;
+                vX = 0;
             case 0:
-                vX=0;
-                if(Keyboard.keys.contains(VK_Q)){
-                    state=1;
-                }else if(Keyboard.keys.contains(VK_E)){
-                    state=2;
+                vX = 0;
+                if (Keyboard.keys.contains(VK_Q)) {
+                    state = 1;
+                } else if (Keyboard.keys.contains(VK_E)) {
+                    state = 2;
                 }
                 break;
-            case 1:doMinigame();
-            break;
+            case 1:
+                doMinigame();
+                break;
             case 2:
-                vX=.2f;
-                if(x>82){
-                    y-=0.09;
+                vX = .2f;
+                if (x > 82) {
+                    y -= 0.09;
                 }
-                if(x>120){
+                if (x > 120) {
                     state=4;
                 }
                 break;

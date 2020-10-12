@@ -22,58 +22,58 @@ import static org.engine.AudioManager.MUSIC_VOL;
 import static org.graphics.Graphics.*;
 
 public class World {
-    private static Timer master=new Timer(0,1,1,0.02f,35);
-    private static Timer tFade=new Timer(0,1,0,0.02f,35);//Fade controller for level transitions
-    private static int level=0,subLevel=0,assetLoaderCounter=0,latestCheckpoint=-1;
-    public static final int CHECK_START=-1,CHECK_LARANO=0,CHECK_LARANO_FINISH=1;
-    private static boolean game=false,pause=false,levelTransition=false, transitionDir =true, isHaroldEvil=false;//Set whether in game or menu. Set pause status
-    private static float masterRed=0,masterGreen=0,masterBlue=0;
-    private static float gravity=0.15f;
-    private static ConcurrentLinkedQueue<Entity> entities =new ConcurrentLinkedQueue<>();//Entity registry
-    private static ConcurrentLinkedQueue<Notification> notifications=new ConcurrentLinkedQueue<>();
-    private static SmartRectangle pauseReturn=new SmartRectangle(Render.unitsWide/2,30,20,5,true);//Button detectors
-    private static SmartRectangle pauseTitleReturn=new SmartRectangle(Render.unitsWide/2,6.6f,18,4,true);
-    private static SmartRectangle musicControl=new SmartRectangle(0.5f,0.5f,5,5);
+    private static Timer master = new Timer(0, 1, 1, 0.02f, 35);
+    private static Timer tFade = new Timer(0, 1, 0, 0.02f, 35);//Fade controller for level transitions
+    private static int level = 0, subLevel = 0, assetLoaderCounter = 0, latestCheckpoint = -1;
+    public static final int CHECK_START = -1, CHECK_LARANO = 0, CHECK_LARANO_FINISH = 1;
+    private static boolean game = false, pause = false, levelTransition = false, transitionDir = true, isHaroldEvil = false;//Set whether in game or menu. Set pause status
+    private static float masterRed = 0, masterGreen = 0, masterBlue = 0;
+    private static float gravity = 70f;
+    private static ConcurrentLinkedQueue<Entity> entities = new ConcurrentLinkedQueue<>();//Entity registry
+    private static ConcurrentLinkedQueue<Notification> notifications = new ConcurrentLinkedQueue<>();
+    private static SmartRectangle pauseReturn = new SmartRectangle(Render.unitsWide / 2, 30, 20, 5, true);//Button detectors
+    private static SmartRectangle pauseTitleReturn = new SmartRectangle(Render.unitsWide / 2, 6.6f, 18, 4, true);
+    private static SmartRectangle musicControl = new SmartRectangle(0.5f, 0.5f, 5, 5);
 
-    public static void update(){
+    public static void update(float deltaTime) {
         Debug.update();
-        if(Render.getWindow().getWidth()!=Render.virtual_width ||Render.getWindow().getHeight()!=Render.virtual_height){
-            Render.getWindow().setSize(Render.virtual_width,Render.virtual_height);
-            Notification resWarn=new Notification("Resolution Warning","This game only supports a resolution of 1280x720",ResourceHandler.getMiscLoader().getResolutionWarning());
-            if(!notificationPresent(resWarn))newNotification(resWarn);
-            Render.getGameLoop().overrideUpdateTime();
+        if (Render.getWindow().getWidth() != Render.virtual_width || Render.getWindow().getHeight() != Render.virtual_height) {
+            Render.getWindow().setSize(Render.virtual_width, Render.virtual_height);
+            Notification resWarn = new Notification("Resolution Warning", "This game only supports a resolution of 1280x720", ResourceHandler.getMiscLoader().getResolutionWarning());
+            if (!notificationPresent(resWarn)) newNotification(resWarn);
         }
 
-        if(Keyboard.keys.contains(VK_ESCAPE)&&game&&!levelTransition){
-            pause=!pause;
+        if (Keyboard.keys.contains(VK_ESCAPE) && game && !levelTransition) {
+            pause = !pause;
             AudioManager.handlePause(pause);
             //noinspection StatementWithEmptyBody
-            while(Keyboard.keys.contains(VK_ESCAPE)){}//Wait for key release
+            while (Keyboard.keys.contains(VK_ESCAPE)) {
+            }//Wait for key release
         }
 
-        if(level==0)game=false;
+        if (level == 0) game = false;
 
-        LevelController.update(level,subLevel);
+        LevelController.update(level, subLevel, deltaTime);
         //TODO implement render stages (pre-update,update,post-update)
-        entities.removeIf(n->n.getHealth()<=0);
+        entities.removeIf(n -> n.getHealth() <= 0);
         for(Entity e: entities){
             if(e.getSubLevel()!=subLevel)continue;
             if(pause){
-                if(e.getPauseUpdate())e.update();
+                if (e.getPauseUpdate()) e.update(deltaTime);
             }else if(!game){
-                if(e.getNonGameUpdate())e.update();
+                if (e.getNonGameUpdate()) e.update(deltaTime);
             }else{
-                e.update();
+                e.update(deltaTime);
             }
         }
 
-        if(level>0&&!pause)Main.getHarold().update();
+        if (level > 0 && !pause) Main.getHarold().update(deltaTime);
 
         if(pause){
             pauseReturn.setActive(true);
-            pauseReturn.update();
+            pauseReturn.update(deltaTime);
             pauseTitleReturn.setActive(true);
-            pauseTitleReturn.update();
+            pauseTitleReturn.update(deltaTime);
             if(pauseReturn.isPressed())pause=false;
             if(pauseTitleReturn.isPressed()){
                 setLevel(0);
@@ -82,10 +82,10 @@ public class World {
                 Main.getHarold().reset();
                 pause = false;
             }
-            musicControl.update();
+            musicControl.update(deltaTime);
             if(musicControl.isPressed()){
                 AudioManager.setMusicEnabled(!AudioManager.isMusicEnabled());
-                while(musicControl.isPressed())musicControl.update();
+                while (musicControl.isPressed()) musicControl.update(deltaTime);
             }
         }else{
             pauseReturn.setActive(false);

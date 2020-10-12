@@ -20,7 +20,6 @@ class Debug {
         if(Keyboard.keys.contains(VK_F3)){
             show=!show;
             while(Keyboard.keys.contains(VK_F3)){}
-            Render.getGameLoop().overrideUpdateTime();
         }
         //Except for when boulder minigame is playing
         if(World.getLevel()==6&&World.getSubLevel()==4)return;
@@ -43,7 +42,6 @@ class Debug {
                     if(LevelController.getCurrentLevel().getAssets()!=null&&LevelController.getCurrentLevel().getAssets().length>0)assetLoadFinished=false;
                     if(World.getLevel()>1)ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
                 }
-                Render.getGameLoop().overrideUpdateTime();
             }
         }
         if(Keyboard.keys.contains(VK_SEMICOLON)&&World.getLevel()>0){
@@ -60,7 +58,6 @@ class Debug {
                     World.setSubLevel(x);
                     Main.getHarold().setFollowCamera(false);
                 }
-                Render.getGameLoop().overrideUpdateTime();
             }
         }
         if(Keyboard.keys.contains(VK_H)&&World.getLevel()>0){
@@ -68,7 +65,6 @@ class Debug {
             if(!cheatsUsed)cheatsUsed=firstRunEvent();
             if(cheatsUsed){
                 Main.getHarold().setInvincible(!Main.getHarold().isInvincible());
-                Render.getGameLoop().overrideUpdateTime();
             }
         }
         checkCam();

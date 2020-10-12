@@ -61,10 +61,10 @@ public class Swolem extends Autonomous {
     }
 
     @Override
-    public void update() {
+    public void update(float deltaTime) {
         // Update timers, animators, etc
         column.setSwolemAggressive(target instanceof Column);
-        column.update();
+        column.update(deltaTime);
         smashCooldown.update();
         punchCooldown.update();
         bossBar.update();

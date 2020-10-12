@@ -26,32 +26,31 @@ public class SmartRectangle extends Entity{
         originX=x;
         originY=y;
         this.width=width;
-        this.height=height;
+        this.height = height;
     }
 
-    public void updateBounds(float x,float y,float width,float height){
-        this.x=x;
-        this.y=y;
-        this.width=width;
-        this.height=height;
+    public void updateBounds(float x, float y, float width, float height) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
     }
 
-    public void update() {
-        if(isActive){
-            isPressed=contains(Mouse.getX(),Mouse.getY())&&Mouse.isMousePressed();
-            isHovering=contains(Mouse.getX(),Mouse.getY());
+    public void update(float deltaTime) {
+        if (isActive) {
+            isPressed = contains(Mouse.getX(), Mouse.getY()) && Mouse.isMousePressed();
+            isHovering = contains(Mouse.getX(), Mouse.getY());
+        } else {
+            isPressed = false;
+            isHovering = false;
         }
-        else{
-            isPressed=false;
-            isHovering=false;
-        }
     }
 
-    public boolean contains(float x1,float y1){
-        return (y1 >= y && y1 <= y + height)&&(x1>=x&&x1<=x+width);
+    public boolean contains(float x1, float y1) {
+        return (y1 >= y && y1 <= y + height) && (x1 >= x && x1 <= x + width);
     }
 
-    public boolean intersects(SmartRectangle r){
+    public boolean intersects(SmartRectangle r) {
         return x < r.getX() + r.getWidth() && x + width > r.getX() && y < r.getY() + r.getHeight() && y + height > r.getY();
     }
 

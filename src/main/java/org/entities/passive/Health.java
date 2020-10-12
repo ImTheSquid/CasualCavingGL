@@ -23,23 +23,23 @@ public class Health extends Autonomous {
     }
 
     @Override
-    public void update() {
-        HeightReturn h=HeightMap.onGround(hitbox);
+    public void update(float deltaTime) {
+        HeightReturn h = HeightMap.onGround(hitbox);
         //Calculations
-        if(bounceWait==0){
-            vY=1;
-            bounceWait=60;
-        }else bounceWait--;
-        y+=vY;
-        vY-= World.getGravity();
+        if (bounceWait == 0) {
+            vY = 1;
+            bounceWait = 60;
+        } else bounceWait--;
+        y += vY;
+        vY -= World.getGravity();
         //Y-velocity and ground calc
-        if(h.isOnGround()&&vY<0){
-            y=h.getGroundLevel();
-            vY=0;
+        if (h.isOnGround() && vY < 0) {
+            y = h.getGroundLevel();
+            vY = 0;
         }
 
-        if(Main.getHarold().getHitbox().intersects(hitbox)&&Main.getHarold().getHealth()+1<=Main.getHarold().getMaxHealth()){
-            health=0;
+        if (Main.getHarold().getHitbox().intersects(hitbox) && Main.getHarold().getHealth() + 1 <= Main.getHarold().getMaxHealth()) {
+            health = 0;
             Main.getHarold().giveHealth(1);
         }
         hitbox.updateBounds(x,y,width,height);

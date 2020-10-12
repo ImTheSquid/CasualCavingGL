@@ -8,7 +8,7 @@ public class CineKeyMaster extends Autonomous {
     }
 
     @Override
-    public void update() {
+    public void update(float deltaTime) {
 
     }
 

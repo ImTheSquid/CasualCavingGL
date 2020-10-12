@@ -36,7 +36,7 @@ public abstract class Level {
 
     public abstract ImageResource[] getAssets();
 
-    public abstract void update(int subLevel);
+    public abstract void update(int subLevel, float deltaTime);
 
     public abstract void render(int subLevel);
 

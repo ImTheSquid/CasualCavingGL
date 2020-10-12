@@ -7,8 +7,8 @@ import org.loader.ResourceHandler;
 import org.world.World;
 
 public class LevelController {
-    private static Level[] levels={new Death(),
-            new Title(ResourceHandler.getLevelLoader().getTitle(),ResourceHandler.getLevelLoader().getTitleLogo()),
+    private static Level[] levels = {new Death(),
+            new Title(ResourceHandler.getLevelLoader().getTitle(), ResourceHandler.getLevelLoader().getTitleLogo()),
             new Level1(ResourceHandler.getLevelLoader().getLevel1()),
             new Level2(ResourceHandler.getLevelLoader().getLevel2()),
             new Level3(ResourceHandler.getLevelLoader().getLevel3()),
@@ -16,27 +16,39 @@ public class LevelController {
             new Level5(ResourceHandler.getLevelLoader().getLevel5()),
             new Level6(ResourceHandler.getLevelLoader().getLevel6())};
 
-    public static void update(int level,int subLevel){
-        levels[level+1].update(subLevel);
+    public static void update(int level, int subLevel, float deltaTime) {
+        levels[level + 1].update(subLevel, deltaTime);
     }
 
-    public static void render(int level,int subLevel){
-        levels[level+1].render(subLevel);
+    public static void render(int level, int subLevel) {
+        levels[level + 1].render(subLevel);
     }
 
-    public static void renderForeground(int level,int subLevel){levels[level+1].renderForeground(subLevel);}
+    public static void renderForeground(int level, int subLevel) {
+        levels[level + 1].renderForeground(subLevel);
+    }
 
-    public static void cleanup(int level){levels[level+1].cleanup();}
+    public static void cleanup(int level) {
+        levels[level + 1].cleanup();
+    }
 
-    public static void init(int level){levels[level+1].init();}
+    public static void init(int level) {
+        levels[level + 1].init();
+    }
 
-    public static void loadAssets(int level){levels[level+1].getAssets();}
+    public static void loadAssets(int level) {
+        levels[level + 1].getAssets();
+    }
 
-    public static Level[] getLevels(){return levels;}
+    public static Level[] getLevels() {
+        return levels;
+    }
 
-    public static Level getCurrentLevel(){return levels[World.getLevel()+1];}
+    public static Level getCurrentLevel() {
+        return levels[World.getLevel() + 1];
+    }
 
-    public static void resetAll(){
+    public static void resetAll() {
         Graphics.setScaleFactor(1);
         World.setMasterColor(0,0,0);
         AudioManager.resetGame();

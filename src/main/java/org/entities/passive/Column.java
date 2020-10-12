@@ -31,7 +31,7 @@ public class Column extends Autonomous {
     }
 
     @Override
-    public void update() {
+    public void update(float deltaTime) {
         // Update stuff
         animator.update();
         deathTimer.update();

@@ -19,7 +19,7 @@ public class HitDetector extends SmartRectangle {
     }
 
     @Override
-    public void update() {
+    public void update(float deltaTime) {
 
     }
 
