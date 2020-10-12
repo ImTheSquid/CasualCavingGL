@@ -16,6 +16,8 @@ public class Main {
         initFonts();
         AudioManager.setup();
         DiscordHandler.init();
+        // Register shutdown handler to prevent problems with Discord
+        Runtime.getRuntime().addShutdownHook(new Thread(DiscordHandler::shutdown));
         new Render();
     }
 
