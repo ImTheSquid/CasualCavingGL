@@ -49,7 +49,7 @@ public class Larano extends Autonomous {
         } else if (state != DEFEAT) {
             vX = 0;
         }
-        x+=vX;
+        x += vX * deltaTime;
         Level l= LevelController.getCurrentLevel();
         if((x<l.getLeftLimit()||x+width>l.getRightLimit())&&state<EXIT){
             if(state!=CHARGE&&state!=DIZZY)direction=!direction;
@@ -64,7 +64,7 @@ public class Larano extends Autonomous {
         }else if(!direction&&x+width>l.getRightLimit()&&state<EXIT){
             x=l.getRightLimit()-width-1;
         }
-        y+=vY;
+        y += vY * deltaTime;
         if(state!=CHARGE)vY-= World.getGravity();
         if(h.isOnGround()&&vY<0){
             y=h.getGroundLevel();

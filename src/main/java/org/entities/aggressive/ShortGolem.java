@@ -15,37 +15,38 @@ import org.world.*;
 //This class encompasses the blue, green, and red golems, as their classes are very similar
 
 public class ShortGolem extends Autonomous {
-    public static final int BLUE=0,GREEN=1,RED=2,PURPLE=3;
-    private int golemType;
-    private Animator golemAnimator;
-    private ImageResource golem;
-    private SmartRectangle hitbox=new SmartRectangle(x,y,width,height);
-    public ShortGolem(int golemType, int subLevel, float spawnX, float spawnY) {
+    private GolemColor golemType;
+
+    public ShortGolem(GolemColor golemType, int subLevel, float spawnX, float spawnY) {
         super(subLevel, spawnX, spawnY);
-        this.golemType=golemType;
-        switch(golemType){
+        this.golemType = golemType;
+        switch (golemType) {
             case BLUE:
-                health=2;
-                golemAnimator=new Animator(ResourceHandler.getGolemLoader().getBlueGolemWalk(direction),10);
-                displayName="Blue Golem";
+                health = 2;
+                golemAnimator = new Animator(ResourceHandler.getGolemLoader().getBlueGolemWalk(direction), 10);
+                displayName = "Blue Golem";
                 break;
             case GREEN:
-                health=2;
+                health = 2;
                 golemAnimator=new Animator(ResourceHandler.getGolemLoader().getGreenGolemWalk(direction),10);
                 displayName="Green Golem";
                 break;
             case RED:
                 health=3;
-                golemAnimator=new Animator(ResourceHandler.getGolemLoader().getRedGolemWalk(direction),10);
-                displayName="Red Golem";
+                golemAnimator = new Animator(ResourceHandler.getGolemLoader().getRedGolemWalk(direction), 10);
+                displayName = "Red Golem";
                 break;
             case PURPLE:
-                health=2;
-                golemAnimator=new Animator(ResourceHandler.getGolemLoader().getPurpleGolemWalk(direction),10);
-                displayName="Purple Golem";
+                health = 2;
+                golemAnimator = new Animator(ResourceHandler.getGolemLoader().getPurpleGolemWalk(direction), 10);
+                displayName = "Purple Golem";
                 break;
         }
     }
+
+    private Animator golemAnimator;
+    private ImageResource golem;
+    private SmartRectangle hitbox = new SmartRectangle(x, y, width, height);
 
     @Override
     public void update(float deltaTime) {
@@ -54,26 +55,26 @@ public class ShortGolem extends Autonomous {
         //Action input
         if (damageTakenFrame == 0) {
             if (direction) {
-                vX = 60;
+                vX = 20;
             } else {
-                vX = -60;
+                vX = -20;
             }
         } else {
-            if ((direction && !attackerBehind) || (!direction && attackerBehind)) vX = -.7f;
-            else vX = .7f;
-            damageTakenFrame--;
+            if ((direction && !attackerBehind) || (!direction && attackerBehind)) vX = -10f;
+            else vX = 10f;
+            damageTakenFrame -= 100 * deltaTime;
         }
 
         //Calculations
-        y+=vY;
-        vY-= World.getGravity();
+        y += vY * deltaTime;
+        vY -= World.getGravity() * deltaTime * 3;
 
         //X-velocity stuff
-        boolean doXCalc=true;
+        boolean doXCalc = true;
 
         if (HeightMap.checkRightCollision(hitbox)) {
-            HeightVal hv=HeightMap.findApplicable(hitbox,true);
-            if (hv!=null&&x + width + 0.5>= hv.getStartX()) {
+            HeightVal hv = HeightMap.findApplicable(hitbox, true);
+            if (hv != null && x + width + 0.5 >= hv.getStartX()) {
                 if (vX < 0) x += vX * deltaTime;
                 else vX = 0;
                 doXCalc = false;
@@ -98,8 +99,8 @@ public class ShortGolem extends Autonomous {
         }
 
         if(damageCooldown>0){
-            damageCooldown--;
-            state=2;
+            damageCooldown -= 100 * deltaTime;
+            state = 2;
         }else if(state==2){
             state=0;
         }
@@ -109,7 +110,7 @@ public class ShortGolem extends Autonomous {
             y=h.getGroundLevel();
             vY=0;
         }
-        doAttackCalc();
+        doAttackCalc(deltaTime);
 
         if(vX==0) {
             switch(golemType) {
@@ -136,7 +137,13 @@ public class ShortGolem extends Autonomous {
         }
     }
 
-    private void doSpriteCalc(){
+    private void doXCalc() {
+        Level l = LevelController.getCurrentLevel();
+        if (x < l.getLeftLimit() || x + width > l.getRightLimit()) direction = !direction;
+        if (golemType == GolemColor.GREEN && HeightMap.onEdge(hitbox, direction)) direction = !direction;
+    }
+
+    private void doSpriteCalc() {
         golem = golemAnimator.getCurrentFrame();
         if (state == 0) {
             switch (golemType) {
@@ -186,33 +193,38 @@ public class ShortGolem extends Autonomous {
         }
     }
 
-    private void doXCalc(){
-        Level l= LevelController.getCurrentLevel();
-        if(x<l.getLeftLimit()||x+width>l.getRightLimit())direction=!direction;
-        if(golemType==GREEN&&HeightMap.onEdge(hitbox,direction))direction=!direction;
+    private void doAttackCalc(float deltaTime) {
+        if (attackCooldown > 0) {
+            attackCooldown -= 100 * deltaTime;
+            return;
+        }
+        if (Main.getHarold().getY() > y + height || Main.getHarold().getY() + Main.getHarold().getWidth() < y) {
+            state = 0;
+            return;
+        }
+        if (direction) {
+            if (Main.getHarold().getX() >= x && Main.getHarold().getX() <= x + width + 4) {
+                state=1;
+                golemAnimator.setCurrentFrame(0);
+                attackCooldown = 80;
+            }
+        } else {
+            if (Main.getHarold().getX() + Main.getHarold().getWidth() <= x + width && Main.getHarold().getWidth() + Main.getHarold().getX() >= x - 4) {
+                state = 1;
+                golemAnimator.setCurrentFrame(0);
+                attackCooldown = 80;
+            }
+        }
     }
 
-    private void doAttackCalc(){
-        if(attackCooldown>0){
-            attackCooldown--;
-            return;
-        }
-        if(Main.getHarold().getY()>y+height||Main.getHarold().getY()+Main.getHarold().getWidth()<y){
-            state=0;
-            return;
-        }
-        if(direction){
-            if(Main.getHarold().getX()>=x&&Main.getHarold().getX()<=x+width+4){
-                state=1;
-                golemAnimator.setCurrentFrame(0);
-                attackCooldown=100;
-            }
-        }else{
-            if(Main.getHarold().getX()+Main.getHarold().getWidth()<=x+width&&Main.getHarold().getWidth()+Main.getHarold().getX()>=x-4){
-                state=1;
-                golemAnimator.setCurrentFrame(0);
-                attackCooldown=100;
-            }
+    @Override
+    public void doDamage(Entity attacker, int damage) {
+        if (golemType != GolemColor.PURPLE) super.doDamage(attacker, damage);
+        else {
+            if (direction) attackerBehind = attacker.getX() < x;
+            else attackerBehind = attacker.getX() > x;
+            if (attackerBehind) direction = !direction;
+            else if (!invincible) super.doDamage(attacker, damage);
         }
     }
 
@@ -244,20 +256,16 @@ public class ShortGolem extends Autonomous {
             case RED:
                 return "Red Golem @ " + x + "," + y;
             case PURPLE:
-                return "Purple Golem @ "+x+","+y;
+                return "Purple Golem @ " + x + "," + y;
             default:
                 return super.toString();
         }
     }
 
-    @Override
-    public void doDamage(Entity attacker, int damage) {
-        if(golemType!=PURPLE)super.doDamage(attacker, damage);
-        else{
-            if(direction)attackerBehind=attacker.getX()<x;
-            else attackerBehind=attacker.getX()>x;
-            if(attackerBehind)direction=!direction;
-            else if(!invincible)super.doDamage(attacker,damage);
-        }
+    public enum GolemColor {
+        BLUE,
+        GREEN,
+        RED,
+        PURPLE
     }
 }

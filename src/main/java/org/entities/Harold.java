@@ -54,7 +54,7 @@ public class Harold extends Entity {
         }
         if (Keyboard.keys.contains(KeyEvent.VK_SPACE) && !jump && !lockControls) {
             if (h.isOnGround()) {
-                vY = 60;
+                vY = 102;
                 jump = true;
             }
         } else if (!Keyboard.keys.contains(KeyEvent.VK_SPACE) && jump) {
@@ -69,12 +69,12 @@ public class Harold extends Entity {
                 ResourceHandler.getHaroldLoader().getState() == HaroldLoader.LANTERN && attackCooldown <= 0) {
             haroldAnimator.setCurrentFrame(0);
             ResourceHandler.getHaroldLoader().setState(HaroldLoader.ATTACK);
-            attackCooldown = 45;
+            attackCooldown = 100;
         }
         Keyboard.keys.remove(VK_W);//Fallback if key gets stuck
 
         y += vY * deltaTime;
-        vY -= World.getGravity() * deltaTime * 1.5;
+        vY -= World.getGravity() * deltaTime * 2;
 
         //X-velocity stuff
         boolean doXCalc = true;
@@ -111,7 +111,7 @@ public class Harold extends Entity {
         }
 
         if (attackCooldown > 0)
-            attackCooldown--;
+            attackCooldown -= 100 * deltaTime;
 
         if (damageTakenFrame == 0) ResourceHandler.getHaroldLoader().setDirection(direction);
 

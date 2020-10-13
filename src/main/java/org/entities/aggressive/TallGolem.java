@@ -37,53 +37,53 @@ public class TallGolem extends Autonomous {
         //Movement input
         if (damageTakenFrame == 0) {
             if (direction) {
-                vX = .3f;
+                vX = 18f;
             } else {
-                vX = -.3f;
+                vX = -18f;
             }
         } else {
             if ((direction && !attackerBehind) || (!direction && attackerBehind)) vX = -.8f;
-            else vX = .8f;
+            else vX = 12f;
             damageTakenFrame--;
         }
 
-        if(damageCooldown>0){
+        if (damageCooldown > 0) {
             damageCooldown--;
-            state=2;
-        }else if(state==2){
-            state=0;
+            state = 2;
+        } else if (state == 2) {
+            state = 0;
         }
 
         //Y-Velocity Calculations
-        y+=vY;
-        vY-= World.getGravity();
+        y += vY * deltaTime;
+        vY -= World.getGravity() * deltaTime * 2;
 
         //X-Velocity and Jumping Calculations
-        boolean doXCalc=true;
+        boolean doXCalc = true;
 
         if (HeightMap.checkRightCollision(hitbox)) {
-            HeightVal hv=HeightMap.findApplicable(hitbox,true);
-            if (hv!=null&&x + width + 0.5>= hv.getStartX()) {
-                if (vX < 0) x += vX;
-                else vX=0;
-                doXCalc=false;
+            HeightVal hv = HeightMap.findApplicable(hitbox, true);
+            if (hv != null && x + width + 0.5 >= hv.getStartX()) {
+                if (vX < 0) x += vX * deltaTime;
+                else vX = 0;
+                doXCalc = false;
                 direction=!direction;
                 x-=.25f;
             }
         }
         if(HeightMap.checkLeftCollision(hitbox)){
-            HeightVal hv=HeightMap.findApplicable(hitbox,false);
-            if(hv!=null&&x-0.5<=hv.getEndX()){
-                if(vX>0)x+=vX;
-                else vX=0;
-                doXCalc=false;
-                direction=!direction;
-                x+=.25f;
+            HeightVal hv = HeightMap.findApplicable(hitbox, false);
+            if (hv != null && x - 0.5 <= hv.getEndX()) {
+                if (vX > 0) x += vX * deltaTime;
+                else vX = 0;
+                doXCalc = false;
+                direction = !direction;
+                x += .25f;
             }
         }
-        HeightVal wall=HeightMap.findNextWall(hitbox,direction);
-        final int jumpDist=5;
-        if(wall !=null&&y+32>=wall.getHeight()) {
+        HeightVal wall = HeightMap.findNextWall(hitbox, direction);
+        final int jumpDist = 7;
+        if (wall != null && y + 32 >= wall.getHeight()) {
             if (direction) {
                 if (wall.getStartX() - x - width <= jumpDist) {
                     state = 3;
@@ -96,7 +96,7 @@ public class TallGolem extends Autonomous {
         }
         if(state==3&&golemAnimator.getCurrentFrameNum()<golemAnimator.getFrames().length-1)doXCalc=false;
         if(doXCalc){
-            x+=vX;
+            x += vX * deltaTime;
             doXCalc();
         }
 
@@ -131,7 +131,7 @@ public class TallGolem extends Autonomous {
         }
         if (state == 3 && golemAnimator.onLastFrame()) {
             if (vY == 0) {
-                vY = 3f;
+                vY = 110f;
             }
         }
     }

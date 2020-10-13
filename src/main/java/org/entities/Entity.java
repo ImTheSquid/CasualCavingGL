@@ -3,7 +3,8 @@ package org.entities;
 public abstract class Entity {
     protected float x = 5, y = 7, vX, vY, width, height;
     float red = 1, green = 1, blue = 1, alpha = 1;
-    protected int health = 1, maxHealth = -1, level = 0, subLevel = 0, damageTakenFrame = 0, damageCooldown = 0, attackCooldown = 0;
+    protected int health = 1, maxHealth = -1, level = 0, subLevel = 0, damageTakenFrame = 0, damageCooldown = 0;
+    protected float attackCooldown = 0;
     private boolean nonGameUpdate = false, nonGameRender = false, pauseUpdate = false, pauseRender = true;
     protected boolean movement = true, visible = true, direction = true, attackerBehind = false, invincible = false;
     protected String displayName = "Entity";
@@ -90,13 +91,13 @@ public abstract class Entity {
         this.invincible = invincible;
     }
 
-    public void doDamage(Entity attacker, int damage){
-        if(invincible||damageCooldown>0)return;
-        health-=damage;
-        damageTakenFrame =10;
-        damageCooldown=20;
-        if(direction)attackerBehind=attacker.getX()<x;
-        else attackerBehind=attacker.getX()>x;
+    public void doDamage(Entity attacker, int damage) {
+        if (invincible || damageCooldown > 0) return;
+        health -= damage;
+        damageTakenFrame = 35;
+        damageCooldown = 60;
+        if (direction) attackerBehind = attacker.getX() < x;
+        else attackerBehind = attacker.getX() > x;
     }
 
     public void giveHealth(int health){

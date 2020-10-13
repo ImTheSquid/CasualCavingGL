@@ -28,7 +28,7 @@ public class World {
     public static final int CHECK_START = -1, CHECK_LARANO = 0, CHECK_LARANO_FINISH = 1;
     private static boolean game = false, pause = false, levelTransition = false, transitionDir = true, isHaroldEvil = false;//Set whether in game or menu. Set pause status
     private static float masterRed = 0, masterGreen = 0, masterBlue = 0;
-    private static float gravity = 70f;
+    private static float gravity = 120f;
     private static ConcurrentLinkedQueue<Entity> entities = new ConcurrentLinkedQueue<>();//Entity registry
     private static ConcurrentLinkedQueue<Notification> notifications = new ConcurrentLinkedQueue<>();
     private static SmartRectangle pauseReturn = new SmartRectangle(Render.unitsWide / 2, 30, 20, 5, true);//Button detectors
