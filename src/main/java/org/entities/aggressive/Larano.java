@@ -14,16 +14,17 @@ import org.loader.ResourceHandler;
 import org.world.*;
 
 public class Larano extends Autonomous {
-    private final int NORMAL=0,READY=1,ATTACK=2,CHARGE=3,DIZZY=4,CHARGERDY=5,DAMAGE=6,JUMP=7,DEFEAT=8,EXIT=9,DONE=10;
-    private Animator animator =new Animator(ResourceHandler.getBossLoader().getLaranoReadying(),30);
-    private ImageResource sprite=null;
-    private SmartRectangle hitbox=new SmartRectangle(x,y,width,height);
-    private BossBar bossBar=new BossBar(this);
-    private boolean altAttack=false;
-    private int dizzyCount=0,chargeAttemptCooldown=0;
+    private final int NORMAL = 0, READY = 1, ATTACK = 2, CHARGE = 3, DIZZY = 4, CHARGERDY = 5, DAMAGE = 6, JUMP = 7, DEFEAT = 8, EXIT = 9, DONE = 10;
+    private final Animator animator = new Animator(ResourceHandler.getBossLoader().getLaranoReadying(), 30);
+    private ImageResource sprite = null;
+    private final SmartRectangle hitbox = new SmartRectangle(x, y, width, height);
+    private final BossBar bossBar = new BossBar(this);
+    private boolean altAttack = false;
+    private int dizzyCount = 0, chargeAttemptCooldown = 0;
+
     public Larano() {
         super(2, 0, 0);
-        displayName="Larano";
+        displayName = "Larano";
         reset();
     }
 
@@ -38,11 +39,11 @@ public class Larano extends Autonomous {
             state = DEFEAT;
         }
         if (state == NORMAL || state == EXIT) {
-            if (direction) vX = .2f;
-            else vX = -.2f;
+            if (direction) vX = 30f;
+            else vX = -30f;
         } else if (state == CHARGE) {
-            if (direction) vX = 2;
-            else vX = -2;
+            if (direction) vX = 75;
+            else vX = -75;
             if (attackCooldown == 0 && Attack.melee(this, 1, 0.5f)) {
                 attackCooldown = 20;
             }
@@ -65,10 +66,10 @@ public class Larano extends Autonomous {
             x=l.getRightLimit()-width-1;
         }
         y += vY * deltaTime;
-        if(state!=CHARGE)vY-= World.getGravity();
-        if(h.isOnGround()&&vY<0){
-            y=h.getGroundLevel();
-            vY=0;
+        if (state != CHARGE) vY -= World.getGravity() * deltaTime * 2;
+        if (h.isOnGround() && vY < 0) {
+            y = h.getGroundLevel();
+            vY = 0;
             if (state == JUMP && animator.onLastFrame()) {
                 state = NORMAL;
                 if (direction && Main.getHarold().getX() + Main.getHarold().getWidth() < x || !direction && Main.getHarold().getX() > x + width)
@@ -181,8 +182,8 @@ public class Larano extends Autonomous {
                 if (x < 48 || x > 52) {
                     direction = x < 50;
                     animator.setFrames(ResourceHandler.getBossLoader().getLaranoWalk(direction));
-                    if (direction) vX = .2f;
-                    else vX = -.2f;
+                    if (direction) vX = 10f;
+                    else vX = -10f;
                 } else {
                     vX = 0;
                     animator.setFrames(ResourceHandler.getBossLoader().getLaranoDefeat());
@@ -204,7 +205,7 @@ public class Larano extends Autonomous {
         boolean checkJump = state == JUMP && animator.onLastFrame();
         boolean checkDefeat = state == DEFEAT && (x > 48 && x < 52);
         if (!(checkJump || checkDefeat)) animator.update();
-        else if (state == JUMP) if (vY == 0) vY = 3;
+        else if (state == JUMP) if (vY == 0) vY = 102;
     }
 
     @Override

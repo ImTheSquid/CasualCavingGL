@@ -17,7 +17,7 @@ public class LaranoStalactite extends Autonomous {
     @Override
     public void update(float deltaTime) {
         if (y + height < 0) health = 0;
-        y -= World.getGravity() * 4;
+        y -= World.getGravity() * 0.5 * deltaTime;
         Attack.melee(this, 1, 2f);
     }
 

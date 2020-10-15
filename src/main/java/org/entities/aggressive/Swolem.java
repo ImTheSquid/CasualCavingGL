@@ -31,20 +31,20 @@ public class Swolem extends Autonomous {
     private int poundCount = 0;
     // Boss state
     private static SWOLEM_STATE swolemState = SWOLEM_STATE.NONE;
-    private BossBar bossBar = new BossBar(this);
-    private Animator animator = new Animator(new ImageResource[]{ResourceHandler.getBossLoader().getSwolemCenterDown()}, 6);
+    private final BossBar bossBar = new BossBar(this);
+    private final Animator animator = new Animator(new ImageResource[]{ResourceHandler.getBossLoader().getSwolemCenterDown()}, 6);
     // How much time the swolem must wait before attempting to ground pound
-    private Timer smashCooldown = new Timer(0, 15, 0, 1, 1);
+    private final Timer smashCooldown = new Timer(0, 15, 0, 1, 1);
     /* Since the game runs faster than the frame rate, it is possible to increment the smash counter
      * multiple times while only being on one frame. */
     private boolean smashAlt = true;
     // Above comment, but for punching
-    private Timer punchCooldown = new Timer(0, 7, 0, 1, 1);
-    private Timer smashAnimator = new Timer(0, smashOrder.length - 1, 0, 1, 6);
+    private final Timer punchCooldown = new Timer(0, 7, 0, 1, 1);
+    private final Timer smashAnimator = new Timer(0, smashOrder.length - 1, 0, 1, 6);
     private ImageResource currentFrame = null;
-    private SmartRectangle hitbox = new SmartRectangle(x, y, width, height);
+    private final SmartRectangle hitbox = new SmartRectangle(x, y, width, height);
     // Little golem that the swolem occasionally chases
-    private Column column = new Column(Math.random() > 0.5 ? 10f : 80f);
+    private final Column column = new Column(Math.random() > 0.5 ? 10f : 80f);
     // Sets entity to track and target
     private Entity target = Main.getHarold();
 
@@ -78,8 +78,8 @@ public class Swolem extends Autonomous {
             y = heightMap.getGroundLevel();
             vY = 0;
         } else {
-            vY = (state == INTRO ? 4 : 1) * World.getGravity();
-            y -= vY;
+            vY = (state == INTRO ? 15 : 1) * World.getGravity() * deltaTime;
+            y -= vY * deltaTime;
         }
 
         // X-calc
@@ -87,13 +87,13 @@ public class Swolem extends Autonomous {
         boolean center = playerX > x && playerX < x + width;
 
         if (center || !isActive || swolemState != SWOLEM_STATE.NONE) vX = 0;
-        else vX = direction ? .05f : -.05f;
+        else vX = direction ? 10f : -10f;
         Level currentLevel = LevelController.getCurrentLevel();
         if(x < currentLevel.getLeftBound() || x + width > currentLevel.getRightBound()){
             direction = !direction;
         }
 
-        x += vX;
+        x += vX * deltaTime;
 
         /* Attack Coordination */
         if (swolemState == SWOLEM_STATE.NONE && isActive) {

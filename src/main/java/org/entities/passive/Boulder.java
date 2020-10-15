@@ -18,17 +18,18 @@ import static com.jogamp.newt.event.KeyEvent.VK_E;
 import static com.jogamp.newt.event.KeyEvent.VK_Q;
 
 public class Boulder extends Autonomous {
-    private float rotation=0;
-    private boolean isDone, townOK, isFaltering=false;
+    private float rotation = 0;
+    private boolean isDone, townOK, isFaltering = false;
     //Defines key that needs to be pressed during quick time events
-    private short quickKey=0;
-    private Timer falterTimer=new Timer(0,1,0,1,1);
-    private Timer deathTimer=new Timer(0,2,0,1,1);
+    private short quickKey = 0;
+    private final Timer falterTimer = new Timer(0, 1, 0, 1, 1);
+    private final Timer deathTimer = new Timer(0, 2, 0, 1, 1);
     //Animator that controls Harold during this minigame
-    private Animator haroldPuppet=new Animator(ResourceHandler.getHaroldLoader().getBoulder(),12);
+    private final Animator haroldPuppet = new Animator(ResourceHandler.getHaroldLoader().getBoulder(), 12);
+
     public Boulder() {
-        super(4,73,16);
-        invincible=true;
+        super(4, 73, 16);
+        invincible = true;
     }
 
     @Override
@@ -45,7 +46,7 @@ public class Boulder extends Autonomous {
                 }
                 break;
             case 1:
-                doMinigame();
+                doMinigame(deltaTime);
                 break;
             case 2:
                 vX = .2f;
@@ -80,21 +81,21 @@ public class Boulder extends Autonomous {
                 if(World.getMaster().getCurrent()==1)state =-1;
                 break;
         }
-        rotation+=vX*Math.PI;
-        x+=vX;
+        rotation += vX * Math.PI;
+        x += vX * deltaTime;
     }
 
-    private void doMinigame(){
+    private void doMinigame(float deltaTime) {
         haroldPuppet.update();
         Main.getHarold().setFollowCamera(false);
         falterTimer.setActive(true);
         falterTimer.update();
         deathTimer.setActive(isFaltering);
         deathTimer.update();
-        if(falterTimer.getCurrent()==falterTimer.getMax()&&!isFaltering&&x>100){
-            if(Math.random()<0.33){
+        if (falterTimer.getCurrent() == falterTimer.getMax() && !isFaltering && x > 100) {
+            if (Math.random() < 0.33) {
                 //Do falter
-                isFaltering=true;
+                isFaltering = true;
                 haroldPuppet.setFrames(ResourceHandler.getHaroldLoader().getFalter());
                 haroldPuppet.setFps(40);
                 quickKey=(short)(Math.random()*26);
@@ -112,7 +113,7 @@ public class Boulder extends Autonomous {
             if (Render.getCameraY() > -Graphics.toWorldHeight(700)) {
                 if (Render.getCameraX() > 5) {
                     Render.setCameraY(Render.getCameraY() - .09f);
-                    y -= 0.09;
+                    y -= World.getGravity() * 0.25 * deltaTime;
                 }
                 vX = .1f;
             } else {

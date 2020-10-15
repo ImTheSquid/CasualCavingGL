@@ -22,19 +22,19 @@ import static org.world.World.*;
 
 
 public class Title extends Level {
-    private Timer logo = new Timer(0, 1, 0, 0.01f, 40);
-    private SmartRectangle start=new SmartRectangle(Render.unitsWide/2,30,20,7,true);
-    private SmartRectangle restart=new SmartRectangle(Render.unitsWide/2,23,11,3,true);
-    private SmartRectangle quit=new SmartRectangle(Render.unitsWide/2,3.5f,7,4,true);
-    private SmartRectangle controls=new SmartRectangle(Render.unitsWide/2,8,12.5f,3,true);
-    private SmartRectangle music=new SmartRectangle(0.5f,2,8,8);
-    private SmartRectangle credits=new SmartRectangle(89,2,10,3);
-    private SmartRectangle creditFontA=new SmartRectangle(44,30,8,1);
-    private SmartRectangle creditFontB=new SmartRectangle(55,30,10,1);
-    private boolean controlsVisible=false,creditsVisible=false;
+    private final Timer logo = new Timer(0, 1, 0, 0.01f, 40);
+    private final SmartRectangle start = new SmartRectangle(Render.unitsWide / 2, 30, 20, 7, true);
+    private final SmartRectangle restart = new SmartRectangle(Render.unitsWide / 2, 23, 11, 3, true);
+    private final SmartRectangle quit = new SmartRectangle(Render.unitsWide / 2, 3.5f, 7, 4, true);
+    private final SmartRectangle controls = new SmartRectangle(Render.unitsWide / 2, 8, 12.5f, 3, true);
+    private final SmartRectangle music = new SmartRectangle(0.5f, 2, 8, 8);
+    private final SmartRectangle credits = new SmartRectangle(89, 2, 10, 3);
+    private final SmartRectangle creditFontA = new SmartRectangle(44, 30, 8, 1);
+    private final SmartRectangle creditFontB = new SmartRectangle(55, 30, 10, 1);
+    private boolean controlsVisible = false, creditsVisible = false;
 
     public Title(ImageResource[] backgrounds, ImageResource[] foregrounds) {
-        super(backgrounds,backgrounds.length);
+        super(backgrounds, backgrounds.length);
         super.foregrounds = foregrounds;
         logo.setActive(true);
     }
@@ -243,7 +243,8 @@ public class Title extends Level {
             setFont(SMALL);
             drawTextCentered("W: Attack (part 2 and above)", Render.unitsWide / 2, Render.unitsTall / 2 + 11);
             drawTextCentered("A/D: Left/right", Render.unitsWide / 2, Render.unitsTall / 2 + 8);
-            drawTextCentered("Space: Jump",Render.unitsWide/2,Render.unitsTall/2+5);
+            drawTextCentered("Space: Jump", Render.unitsWide / 2, Render.unitsTall / 2 + 5);
+            drawTextCentered("V: Toggle VSync", Render.unitsWide / 2, Render.unitsTall / 2 + 2);
         }
         if(creditsVisible){
             setDrawColor(0.3f,0.3f,0.3f,.7f);

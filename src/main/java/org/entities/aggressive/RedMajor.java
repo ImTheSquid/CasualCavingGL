@@ -17,12 +17,13 @@ import org.world.HeightReturn;
 import org.world.World;
 
 public class RedMajor extends Autonomous {
-    private final int NORMAL=0,READYING=1,ATTACK=2, DAMAGE =3,DEATH=4;
+    private final int NORMAL = 0, READYING = 1, ATTACK = 2, DAMAGE = 3, DEATH = 4;
     private Animator redAnimator;
     private ImageResource redMajor;
-    private SmartRectangle hitbox=new SmartRectangle(x,y,width,height);
-    private BossBar bossBar=new BossBar(this);
-    private boolean doStartReady=true,startFight=false;
+    private final SmartRectangle hitbox = new SmartRectangle(x, y, width, height);
+    private final BossBar bossBar = new BossBar(this);
+    private boolean doStartReady = true, startFight = false;
+
     public RedMajor() {
         super(5, 75, 7);
         reset();
@@ -45,13 +46,13 @@ public class RedMajor extends Autonomous {
         //Determines movement and knockback
         if (damageTakenFrame == 0) {
             if (direction) {
-                vX = .15f;
+                vX = 10f;
             } else {
-                vX = -.15f;
+                vX = -10f;
             }
         } else {
-            if ((direction && !attackerBehind) || (!direction && attackerBehind)) vX = -.3f;
-            else vX = .3f;
+            if ((direction && !attackerBehind) || (!direction && attackerBehind)) vX = -2f;
+            else vX = 2f;
             damageTakenFrame--;
         }
 
@@ -65,7 +66,7 @@ public class RedMajor extends Autonomous {
 
         //Calculates the x-value and velocity
         if(state!=READYING&&redAnimator.getDelay()==0) {
-            x += vX;
+            x += vX * deltaTime;
             Level l = LevelController.getCurrentLevel();
             if (x < l.getLeftLimit() || x + width > l.getRightLimit()) direction = !direction;
         }
@@ -74,13 +75,13 @@ public class RedMajor extends Autonomous {
 
         //Current sprite calculations
         if(damageCooldown>0){
-            damageCooldown--;
-            state=DAMAGE;
+            damageCooldown -= 100 * deltaTime;
+            state = DAMAGE;
         }else if(state==DAMAGE){
             state=0;
         }
 
-        doAttackCalc();
+        doAttackCalc(deltaTime);
         if (state == ATTACK && redAnimator.onLastFrame()) {
             redAnimator.setDelay(7);
             state = NORMAL;
@@ -128,17 +129,17 @@ public class RedMajor extends Autonomous {
         redMajor = redAnimator.getCurrentFrame();
     }
 
-    private void doAttackCalc(){
-        if(attackCooldown>0){
-            attackCooldown--;
+    private void doAttackCalc(float deltaTime) {
+        if (attackCooldown > 0) {
+            attackCooldown -= 100 * deltaTime;
             return;
         }
-        if(Main.getHarold().getY()>y+height||Main.getHarold().getY()+Main.getHarold().getWidth()<y){
-            state=NORMAL;
+        if (Main.getHarold().getY() > y + height || Main.getHarold().getY() + Main.getHarold().getWidth() < y) {
+            state = NORMAL;
             return;
         }
-        if(direction){
-            if(Main.getHarold().getX()>=x&&Main.getHarold().getX()<=x+width+5){
+        if (direction) {
+            if (Main.getHarold().getX() >= x && Main.getHarold().getX() <= x + width + 5) {
                 state=READYING;
                 redAnimator.setCurrentFrame(0);
                 attackCooldown=100;

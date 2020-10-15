@@ -102,8 +102,8 @@ public class HaroldLoader {
     private final ImageResource[] block = {new ImageResource("/CasualCaving/Entities/Harold/Block/HaroldBlock.png"),
             new ImageResource("/CasualCaving/Entities/Harold/Block/HaroldBlockFL.png")};
 
-    private ImageResource health = new ImageResource("/CasualCaving/Entities/Harold/Health_Heart.png");
-    private ImageResource infiniteHealth = new ImageResource("/CasualCaving/Entities/Harold/Health_Heart_Infinite.png");
+    private final ImageResource health = new ImageResource("/CasualCaving/Entities/Harold/Health_Heart.png");
+    private final ImageResource infiniteHealth = new ImageResource("/CasualCaving/Entities/Harold/Health_Heart_Infinite.png");
 
     public ImageResource getHarold() {
         int dir = direction ? 0 : 1;
@@ -160,10 +160,6 @@ public class HaroldLoader {
 
     public ImageResource[] getTurn() {
         return turn;
-    }
-
-    public boolean isFacingRight() {
-        return direction;
     }
 
     public int getState() {

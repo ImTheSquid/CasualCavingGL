@@ -6,10 +6,10 @@ import org.loader.ResourceHandler;
 import org.world.Attack;
 
 public class SwolemWave extends Entity {
-    // Tracks scale of entity/damage
-    float scaleMultiplier = 3;
     // Swolem object to keep track of distance
-    private Swolem swolem;
+    private final Swolem swolem;
+    // Tracks scale of entity/damage
+    float scaleMultiplier = 1;
 
     SwolemWave(float spawnX, boolean direction, Swolem swolem) {
         this.swolem = swolem;
@@ -22,8 +22,9 @@ public class SwolemWave extends Entity {
 
     @Override
     public void update(float deltaTime) {
-        x += direction ? 1 : -1;
-        Attack.melee(this, (int) scaleMultiplier, 1);
+        x += direction ? 50 * deltaTime : -50 * deltaTime;
+        if (Attack.melee(this, (int) scaleMultiplier, 1))
+            health = 0;
         float distance = Math.abs(x - swolem.getX());
         scaleMultiplier = 1;//(float) Math.pow(0.5, 0.1 * distance - 1.5);
         // Kill entity if offscreen

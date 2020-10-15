@@ -17,20 +17,28 @@ import static com.jogamp.newt.event.KeyEvent.*;
 class Debug {
     private static boolean show=false,cheatsUsed=false,assetLoadFinished=true;
     static void update(){
-        if(Keyboard.keys.contains(VK_F3)){
-            show=!show;
-            while(Keyboard.keys.contains(VK_F3)){}
+        if (Keyboard.keys.contains(VK_F3)) {
+            show = !show;
+            while (Keyboard.keys.contains(VK_F3)) {
+            }
+        }
+        if (Keyboard.keys.contains(VK_V)) {
+            Render.enableVsync = !Render.enableVsync;
+            while (Keyboard.keys.contains(VK_V)) {
+            }
         }
         //Except for when boulder minigame is playing
-        if(World.getLevel()==6&&World.getSubLevel()==4)return;
-        if(Keyboard.keys.contains(VK_L)&&World.getLevel()>0){
-            while(Keyboard.keys.contains(VK_L)){}
-            if(!cheatsUsed)cheatsUsed=firstRunEvent();
-            if(cheatsUsed) {
+        if (World.getLevel() == 6 && World.getSubLevel() == 4) return;
+        if (Keyboard.keys.contains(VK_L) && World.getLevel() > 0) {
+            while (Keyboard.keys.contains(VK_L)) {
+            }
+            if (!cheatsUsed) cheatsUsed = firstRunEvent();
+            if (cheatsUsed) {
                 Integer[] levels = new Integer[World.getNumLevels() - 2];
                 for (int i = 0; i < levels.length; i++) {
-                    levels[i] = i+1;
+                    levels[i] = i + 1;
                 }
+                Render.getWindow().setTitle("Casual Caving - Dialog Open");
                 Integer x=(Integer) JOptionPane.showInputDialog(null, "Select Level", "Level Selector", JOptionPane.QUESTION_MESSAGE, null, levels, World.getLevel());
                 if(x!=null){
                     Graphics.setScaleFactor(1);
@@ -42,6 +50,7 @@ class Debug {
                     if(LevelController.getCurrentLevel().getAssets()!=null&&LevelController.getCurrentLevel().getAssets().length>0)assetLoadFinished=false;
                     if(World.getLevel()>1)ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
                 }
+                Render.getWindow().setTitle("Casual Caving");
             }
         }
         if(Keyboard.keys.contains(VK_SEMICOLON)&&World.getLevel()>0){
@@ -52,12 +61,14 @@ class Debug {
                 for(int i=0;i<sublevels.length;i++){
                     sublevels[i]=i;
                 }
+                Render.getWindow().setTitle("Casual Caving - Dialog Open");
                 Integer x=(Integer) JOptionPane.showInputDialog(null,"Select Sublevel","Level Selector",JOptionPane.QUESTION_MESSAGE,null,sublevels,World.getSubLevel());
                 if(x!=null){
                     Graphics.setScaleFactor(1);
                     World.setSubLevel(x);
                     Main.getHarold().setFollowCamera(false);
                 }
+                Render.getWindow().setTitle("Casual Caving");
             }
         }
         if(Keyboard.keys.contains(VK_H)&&World.getLevel()>0){
@@ -129,7 +140,9 @@ class Debug {
     }
     //Returns true if going ahead with cheats, returns false to exit
     private static boolean firstRunEvent(){
+        Render.getWindow().setTitle("Casual Caving - Dialog Open");
         int x=JOptionPane.showConfirmDialog(null,"Are you sure you want to enable cheats?\nThe game may become unstable.","Are you sure?",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+        Render.getWindow().setTitle("Casual Caving");
         return x != JOptionPane.NO_OPTION;
     }
 
@@ -149,7 +162,7 @@ class Debug {
         Graphics.setIgnoreScale(true);
         Graphics.setFont(Graphics.DEBUG_SMALL);
         Graphics.setDrawColor(.1f, .1f, .1f, .3f);
-        Graphics.fillRect(0, Render.unitsTall - 9f, 20f, 9f);
+        Graphics.fillRect(0, Render.unitsTall - 10f, 20f, 11f);
         String memory = "Memory:" + getInUseMemoryMB() + "/" + getMaxMemoryMB() + "MB";
         float charHeight = Graphics.toWorldHeight((float) Graphics.getCurrentFont().getBounds("TEST").getHeight());
         float memWidth = Graphics.toWorldHeight((float) Graphics.getCurrentFont().getBounds(memory).getWidth()) - .1f;
@@ -159,6 +172,7 @@ class Debug {
         Graphics.drawText("X,Y: " + (Math.round(Main.getHarold().getX() * 100) / 100) + "," + (Math.round(Main.getHarold().getY() * 100) / 100), .5f, Render.unitsTall - 2 * charHeight - 1);
         Graphics.drawText("Lvl,Sublvl: " + World.getLevel() + "," + World.getSubLevel(), .5f, Render.unitsTall - 3 * charHeight - 1.5f);
         Graphics.drawText("Mouse X,Y: " + Math.round(Mouse.getX()) + "," + Math.round(Mouse.getY()), .5f, Render.unitsTall - 4 * charHeight - 2f);
+        Graphics.drawText("VSync: " + (Render.enableVsync ? "ENABLED" : "DISABLED"), .5f, Render.unitsTall - 5 * charHeight - 2.5f);
         Graphics.drawText(memory, 99.5f - memWidth, Render.unitsTall - charHeight - .5f);
         Graphics.setIgnoreScale(false);
         Graphics.setFollowCamera(false);

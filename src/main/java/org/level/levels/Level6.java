@@ -19,17 +19,18 @@ import static org.world.World.CHECK_LARANO_FINISH;
 
 public class Level6 extends Level {
     /* Create objects for special entities (ones that have different member functions) */
-    private Boulder boulder=new Boulder();
-    private Swolem swolem = new Swolem();
+    private final Boulder boulder = new Boulder();
+    private final Swolem swolem = new Swolem();
     /* Minigame variable */
-    private boolean golemPassedLava=false;
+    private boolean golemPassedLava = false;
+
     public Level6(ImageResource[] backgrounds) {
         super(backgrounds, backgrounds.length);
     }
 
     @Override
     public void init() {
-        if(World.getLatestCheckpoint()< CHECK_LARANO_FINISH)World.newCheckpoint(CHECK_LARANO_FINISH);
+        if (World.getLatestCheckpoint() < CHECK_LARANO_FINISH) World.newCheckpoint(CHECK_LARANO_FINISH);
         ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
     }
 
@@ -46,7 +47,7 @@ public class Level6 extends Level {
         if (subLevel != 3) {
             HeightMap.setHeights(new HeightVal(0, 7, 100, true));
             Graphics.setScaleFactor(1);
-            World.setGravity(.15f);
+            World.setGravity(120);
         } else {
             HeightMap.setHeights(new HeightVal(0, 7, 24, true),
                     new HeightVal(36, 7, 46, true),
@@ -54,13 +55,13 @@ public class Level6 extends Level {
                     new HeightVal(80, 7, 100, true));
             Graphics.setScaleFactor(.75f);
             if (ResourceHandler.getHaroldLoader().getState() == HaroldLoader.GOLEM) {
-                World.setGravity(.25f);
+                World.setGravity(200);
                 if (Main.getHarold().getX() > 80) {
                     ResourceHandler.getHaroldLoader().setState(HaroldLoader.LANTERN);
                     golemPassedLava = true;
                 }
             } else {
-                World.setGravity(.2f);
+                World.setGravity(160);
                 if(Main.getHarold().getX()<20&&
                         Keyboard.keys.contains(VK_E))ResourceHandler.getHaroldLoader().setState(HaroldLoader.GOLEM);
             }
