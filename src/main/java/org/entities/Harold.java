@@ -14,10 +14,10 @@ import org.world.*;
 import static com.jogamp.newt.event.KeyEvent.VK_W;
 
 public class Harold extends Entity {
-    private Animator haroldAnimator = new Animator(ResourceHandler.getHaroldLoader().getHaroldWalk(), 12);
+    private final Animator haroldAnimator = new Animator(ResourceHandler.getHaroldLoader().getHaroldWalk(), 12);
     private ImageResource harold;
     private boolean jump = false, lockControls = false, followCamera = false, isBlocking = false;
-    private SmartRectangle hitbox = new SmartRectangle(x, y, width, height);
+    private final SmartRectangle hitbox = new SmartRectangle(x, y, width, height);
 
     public Harold() {
         maxHealth = 3;
@@ -102,7 +102,7 @@ public class Harold extends Entity {
             doXCalc(deltaTime);
         }
 
-        if (damageCooldown > 0) damageCooldown--;
+        if (damageCooldown > 0) damageCooldown -= 100 * deltaTime;
 
         if (h.isOnGround() && vY < 0) {
             y = h.getGroundLevel();

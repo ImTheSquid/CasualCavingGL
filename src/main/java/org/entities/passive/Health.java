@@ -10,15 +10,15 @@ import org.world.HeightReturn;
 import org.world.World;
 
 public class Health extends Autonomous {
-    private SmartRectangle hitbox;
-    private int bounceWait=60;
+    private final SmartRectangle hitbox;
+    private int bounceWait = 60;
     Health(int subLevel, float spawnX, float spawnY) {
         super(subLevel, spawnX, spawnY);
         width=6;
         height=6;
-        health=1;
-        vY=1;
-        invincible=true;
+        health = 1;
+        vY = 50;
+        invincible = true;
         hitbox=new SmartRectangle(x,y,width,height);
     }
 
@@ -27,11 +27,11 @@ public class Health extends Autonomous {
         HeightReturn h = HeightMap.onGround(hitbox);
         //Calculations
         if (bounceWait == 0) {
-            vY = 1;
-            bounceWait = 60;
-        } else bounceWait--;
-        y += vY;
-        vY -= World.getGravity();
+            vY = 50;
+            bounceWait = 220;
+        } else bounceWait -= 100 * deltaTime;
+        y += vY * deltaTime;
+        vY -= World.getGravity() * deltaTime * 2;
         //Y-velocity and ground calc
         if (h.isOnGround() && vY < 0) {
             y = h.getGroundLevel();
