@@ -56,7 +56,7 @@ public class HeightMap {
     private static ArrayList<HeightVal> findBounds(SmartRectangle r) {
         ArrayList<HeightVal> temp = new ArrayList<>();
         for (HeightVal h : heights)
-            if (new SmartRectangle(h.getStartX(), h.getHeight(), h.getEndX() - h.getStartX(), 1).intersects(r))
+            if (new SmartRectangle(h.getStartX(), h.getHeight(), h.getEndX() - h.getStartX(), 1, false, null).intersects(r))
                 temp.add(h);
         return sort(temp);
     }

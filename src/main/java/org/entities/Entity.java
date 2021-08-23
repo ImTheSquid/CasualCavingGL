@@ -3,9 +3,13 @@ package org.entities;
 public abstract class Entity {
     protected float x = 5, y = 7, vX, vY, width, height;
     float red = 1, green = 1, blue = 1, alpha = 1;
-    protected int health = 1, maxHealth = -1, level = 0, subLevel = 0, damageTakenFrame = 0, damageCooldown = 0;
+    private final boolean pauseUpdate = false;
+    private final boolean pauseRender = true;
     protected float attackCooldown = 0;
-    private boolean nonGameUpdate = false, nonGameRender = false, pauseUpdate = false, pauseRender = true;
+    protected int health = 1, maxHealth = -1, level = 0, subLevel = 0;
+    protected float damageTakenFrame = 0, damageCooldown = 0;
+    private boolean nonGameUpdate = false;
+    private boolean nonGameRender = false;
     protected boolean movement = true, visible = true, direction = true, attackerBehind = false, invincible = false;
     protected String displayName = "Entity";
 

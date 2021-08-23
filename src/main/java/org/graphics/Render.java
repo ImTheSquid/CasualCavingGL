@@ -65,9 +65,9 @@ public class Render implements GLEventListener {
         gl2 = glAutoDrawable.getGL().getGL2();
         gl2.setSwapInterval(enableVsync ? 1 : 0);
         gl2.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        gl2.glTranslatef(-cameraX,-cameraY,0);
-        World.render();
-        gl2.glTranslatef(cameraX,cameraY,0);
+        gl2.glTranslatef(-cameraX, -cameraY, 0);
+        World.INSTANCE.render();
+        gl2.glTranslatef(cameraX, cameraY, 0);
     }
 
     public void reshape(GLAutoDrawable glAutoDrawable, int i, int i1, int i2, int i3) {
